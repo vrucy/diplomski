@@ -12,7 +12,9 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
-import { MaterialModule} from './material.module'
+import { MaterialModule} from './material.module';
+import { PocetnaStranicaKorisnikComponent } from './korisnik/pocetna-stranica-korisnik/pocetna-stranica-korisnik.component';
+import { PocetnaStranicaAdvokatComponent } from './advokat/pocetna-stranica-advokat/pocetna-stranica-advokat.component'
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { MaterialModule} from './material.module'
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    LoginComponent
+    LoginComponent,
+    PocetnaStranicaKorisnikComponent,
+    PocetnaStranicaAdvokatComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

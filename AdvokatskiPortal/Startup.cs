@@ -82,16 +82,14 @@ namespace AdvokatskiPortal
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
+            app.UseCors("Cors");
+           // app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
+            //app.UseSpaStaticFiles();
+            app.UseMvcWithDefaultRoute();
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller}/{action}/{id?}");
             });
 
             app.UseSpa(spa =>
