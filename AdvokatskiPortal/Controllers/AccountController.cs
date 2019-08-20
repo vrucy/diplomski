@@ -67,7 +67,7 @@ namespace AdvokatskiPortal.Controllers
         {
             return Ok();
         }
-        [HttpPost, Route("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginUser)
         {
             var result = await signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, false, false);

@@ -9,6 +9,9 @@ const router: Routes = [
   { 
     path: 'login', component: LoginComponent
   },
+  // {
+  //   // path: 'register', component: RegisterC
+  // },
   {
     path: 'pocetnaAdvokat', component: PocetnaStranicaAdvokatComponent 
   },
