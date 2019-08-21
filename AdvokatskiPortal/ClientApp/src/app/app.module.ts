@@ -18,6 +18,10 @@ import { PocetnaStranicaKorisnikComponent } from './korisnik/pocetna-stranica-ko
 import { PocetnaStranicaAdvokatComponent } from './advokat/pocetna-stranica-advokat/pocetna-stranica-advokat.component'
 import { AuthInterceptor } from './service/authInterceptor';
 import { AuthService } from './service/auth.service';
+import { RegistarKorisnikComponent } from './register/registar-korisnik/registar-korisnik.component';
+import { LayoutKorisnikComponent } from './korisnik/layout-korisnik/layout-korisnik.component';
+import { FooterComponent } from './footer/footer.component';
+import { KorisnikHeaderComponent } from './layput/korisnik-header/korisnik-header.component';
 
 
 @NgModule({
@@ -29,7 +33,11 @@ import { AuthService } from './service/auth.service';
     FetchDataComponent,
     LoginComponent,
     PocetnaStranicaKorisnikComponent,
-    PocetnaStranicaAdvokatComponent
+    PocetnaStranicaAdvokatComponent,
+    RegistarKorisnikComponent,
+    LayoutKorisnikComponent,
+    FooterComponent,
+    KorisnikHeaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -14,5 +14,11 @@ namespace AdvokatskiPortal.Data
         public PortalAdvokataDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Advokat> Advokats { get; set; }
         public DbSet<Korisnik> Korisniks { get; set; }
+        public DbSet<Slucaj> Slucajs{ get; set; }
+
+        public DbSet<Cenovnik> Cenovniks{ get; set; }
+        public DbSet<SlucajAdvokat> SlucajAdvokats{ get; set; }
+        public DbSet<Status> Statuses{ get; set; }
+        public DbSet<Ugovor> Ugovors{ get; set; }
     }
 }

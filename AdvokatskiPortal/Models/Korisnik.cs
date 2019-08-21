@@ -16,5 +16,7 @@ namespace AdvokatskiPortal.Models
         public string Email { get; set; }
         public string Mesto { get; set; }
         public string Ulica { get; set; }
+        public ICollection<Slucaj>Slucajs { get; set; }
+
     }
 }

@@ -27,7 +27,7 @@ namespace AdvokatskiPortal.Controllers
             this._context = context;
         }
 
-        [HttpPost("registar")]
+        [HttpPost("registration")]
         public async Task<IActionResult> Registar([FromBody] Korisnik korisnik)
         {
 

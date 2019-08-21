@@ -1,0 +1,34 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <mat-card fxLayout="row" fxLayoutAlign="center center">
+  
+      <form [formGroup]="form" (ngSubmit)="authService.registration(form.value)">
+  
+        <mat-form-field>
+          <input matInput type="text" placeholder="Ime" formControlName="Ime">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Prezime" formControlName="Prezime">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="user name" formControlName="UserName">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="password" placeholder="password" formControlName="Password">
+        </mat-form-field>
+  
+        <mat-form-field>
+          <input matInput type="text" placeholder="Email" formControlName="Email">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Mesto" formControlName="Mesto">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Ulica i broj" formControlName="Ulica">
+        </mat-form-field>
+  
+        <button mat-button color="primary">Register</button>
+  
+      </form>
+    </mat-card>
+  </div>
+  
