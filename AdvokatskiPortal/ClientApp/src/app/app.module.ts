@@ -1,3 +1,4 @@
+import { RegistracijaAdvokataComponent } from './advokat/registracija-advokata/registracija-advokata.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { KorisnikHeaderComponent } from './layout/korisnik-header/korisnik-header.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,6 +22,8 @@ import { PocetnaStranicaAdvokatComponent } from './advokat/pocetna-stranica-advo
 import { AuthInterceptor } from './service/authInterceptor';
 import { AuthService } from './service/auth.service';
 import { RegistarKorisnikComponent } from './register/registar-korisnik/registar-korisnik.component';
+import { TabelaAdvokataComponent } from './korisnik/tabela-advokata/tabela-advokata.component';
+import { AdvokatHeaderComponent } from './layout/advokat-header/advokat-header.component';
 
 
 @NgModule({
@@ -35,7 +38,10 @@ import { RegistarKorisnikComponent } from './register/registar-korisnik/registar
     PocetnaStranicaAdvokatComponent,
     RegistarKorisnikComponent,
     KorisnikHeaderComponent,
-    FooterComponent
+    FooterComponent,
+    TabelaAdvokataComponent,
+    RegistracijaAdvokataComponent,
+    AdvokatHeaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

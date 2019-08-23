@@ -26,7 +26,43 @@ namespace AdvokatskiPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
+        [HttpPost("registrationAdvokat")]
+        public async Task<IActionResult> RegistarAdvokat([FromBody] Advokat advokat)
+        {
 
+            var appUser = new ApplicationUser { UserName = advokat.UserName, Email = advokat.Email };
+
+            var result = await userManager.CreateAsync(appUser, advokat.Password);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            await signInManager.SignInAsync(appUser, isPersistent: false);
+            advokat.Idenity = appUser;
+
+            var user = await userManager.FindByNameAsync(advokat.UserName);
+
+            await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
+            //await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
+            
+
+            _context.Advokats.Add(advokat);
+
+            await _context.SaveChangesAsync();
+
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+            var jwt = new JwtSecurityToken(signingCredentials: signinCredentials);
+
+            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var claim = await userManager.GetClaimsAsync(user);
+
+            string i = claim.First().Type;
+
+            return Ok(new { Token = token, typeOfClaim = i });
+        }
         [HttpPost("registration")]
         public async Task<IActionResult> Registar([FromBody] Korisnik korisnik)
         {
@@ -62,11 +98,7 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok(new { Token = token, typeOfClaim = i });
         }
-        [HttpGet("test")]
-        public IActionResult test()
-        {
-            return Ok();
-        }
+        
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginUser)
         {

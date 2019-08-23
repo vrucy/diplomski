@@ -4,17 +4,21 @@ import { LoginComponent } from './login/login.component';
 import { PocetnaStranicaKorisnikComponent } from './korisnik/pocetna-stranica-korisnik/pocetna-stranica-korisnik.component';
 import { PocetnaStranicaAdvokatComponent } from './advokat/pocetna-stranica-advokat/pocetna-stranica-advokat.component';
 import { RegistarKorisnikComponent } from './register/registar-korisnik/registar-korisnik.component';
+import { RegistracijaAdvokataComponent } from './advokat/registracija-advokata/registracija-advokata.component';
 
 
 const router: Routes = [
-  { 
+  {
     path: 'login', component: LoginComponent
   },
   {
-    path: 'registration', component: RegistarKorisnikComponent 
+    path: 'registration', component: RegistarKorisnikComponent
+ },
+ {
+    path: 'registracijaAdvokata', component: RegistracijaAdvokataComponent
  },
   {
-    path: 'pocetnaAdvokat', component: PocetnaStranicaAdvokatComponent 
+    path: 'pocetnaAdvokat', component: PocetnaStranicaAdvokatComponent
   },
   {
     path: 'pocetnaKorisnik', component: PocetnaStranicaKorisnikComponent

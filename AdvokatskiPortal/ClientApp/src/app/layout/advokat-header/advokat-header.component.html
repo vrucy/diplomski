@@ -1,0 +1,25 @@
+<div fxFlex fxLayout fxLayoutAlign="center center">
+  <!-- <a mat-button> Registracija Advokata </a> -->
+  <button routerLink="/registracijaAdvokata" mat-button> Registracija Advokata</button>
+
+  <!--  -->
+
+  <!-- <button mat-icon-button (click)="clearCount()">
+    <mat-icon class="material-icons" >add_alert</mat-icon>
+    <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+  </button>
+</div>
+<div fxFlex fxLayout fxLayoutAlign="end">
+  <span>Korisnik</span>
+  <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
+    (mouseenter)="menuTrigger.openMenu()"> Profile</button>
+
+  <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
+    <button mat-menu-item>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="auth.logout()">
+      <span>Logout</span>
+    </button></mat-menu>
+  <button mat-button (click)="auth.logout()"></button>-->
+</div>

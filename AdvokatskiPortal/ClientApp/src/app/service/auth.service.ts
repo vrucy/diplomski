@@ -15,7 +15,7 @@ export class AuthService {
   registration(korisnik) {
 
     return this.http.post<any>('http://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
-      localStorage.setItem('token',res);
+      localStorage.setItem('token', res);
       this.authenticate(res)
     });
 }
@@ -30,7 +30,6 @@ authenticate(res) {
   let tokenValue = res['token'];
   console.log(tokenValue);
   localStorage.setItem('token', tokenValue);
-  //treba route navesti na home page. posebno na advokata posebno za korisnika
   this.typeUserValue = res["typeOfClaim"]
   localStorage.setItem('typeUser', this.typeUserValue);
   this.isLogin = true;
@@ -44,18 +43,13 @@ authenticate(res) {
           return true;
       }
       case "RegularAdvokat": {
-          console.log("regular work")
-          //home page admin
-          this.router.navigate(['/tabelaSaAdvokatima'])
+          this.router.navigate(['/pocetnaAdvokat']);
           return true;
       } case "RegularUser": {
           console.log("User")
-          // home page regular user
-          this.router.navigate(['/pocetnaKorisnik'])
+          this.router.navigate(['/pocetnaKorisnik']);
           return true;
       } default: {
-          // never happened
-          console.log("Invalid choice");
           break;
       }
   }

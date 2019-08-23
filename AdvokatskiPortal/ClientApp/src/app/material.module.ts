@@ -7,6 +7,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatMenuModule} from '@angular/material/menu';
 import 'material-design-icons/iconfont/material-icons.css';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTableModule} from '@angular/material/table'
+
 
 @NgModule({
   exports: [
@@ -18,7 +20,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule
     ]
 })
 export class MaterialModule {}
