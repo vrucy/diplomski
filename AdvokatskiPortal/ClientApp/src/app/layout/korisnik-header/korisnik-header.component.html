@@ -1,48 +1,26 @@
+<div fxFlex fxLayout fxLayoutAlign="center center">
+  <a mat-button> Pregled Tuzbi </a>
+  <mat-menu></mat-menu>
+  <a routerLink="/tabelaSaAdvokatima" [matMenuTriggerFor]="pretraga" mat-button> Pretraga Advokata</a>
 
-<div *ngIf="_type == 'RegularAdvokat'">
-    <div fxFlex fxLayout fxLayoutAlign="center center">
-        <a mat-button> Pregled Tuzbi </a>asdf
-        <mat-menu></mat-menu>
-        <a routerLink="/tabelaSaAdvokatima" [matMenuTriggerFor]="pretraga" mat-button> Pretraga Advokata</a>
+  <mat-menu #pretraga="matMenu"></mat-menu>
 
-        <mat-menu #pretraga="matMenu"></mat-menu>
-    </div>
-    <div fxFlex fxLayout fxLayoutAlign="end">
-        <span></span>
-        <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
-            (mouseenter)="menuTrigger.openMenu()"> Profile</button>
-
-        <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-            <button mat-menu-item>
-                <span>Edit</span>
-            </button>
-            <button mat-menu-item (click)="auth.logout()">
-                <span>Logout</span>
-            </button></mat-menu>
-        <button mat-button (click)="auth.logout()"></button>
-    </div>
+  <button mat-icon-button (click)="clearCount()">
+    <mat-icon class="material-icons" >add_alert</mat-icon>
+    <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+  </button>
 </div>
+<div fxFlex fxLayout fxLayoutAlign="end">
+  <span>Korisnik</span>
+  <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
+    (mouseenter)="menuTrigger.openMenu()"> Profile</button>
 
-<div *ngIf="!! regular">
-    <div fxFlex fxLayout fxLayoutAlign="center center">
-        <a mat-button> Pregled Tuzbi REGULARNOG </a>
-        <mat-menu></mat-menu>
-        <a routerLink="/tabelaSaAdvokatima" [matMenuTriggerFor]="pretraga" mat-button> Pretraga Advokata</a>
-
-        <mat-menu #pretraga="matMenu"></mat-menu>
-    </div>
-    <div fxFlex fxLayout fxLayoutAlign="end">
-        <span></span>
-        <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
-            (mouseenter)="menuTrigger.openMenu()"> Profile</button>
-
-        <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-            <button mat-menu-item>
-                <span>Edit</span>
-            </button>
-            <button mat-menu-item (click)="auth.logout()">
-                <span>Logout</span>
-            </button></mat-menu>
-        <button mat-button (click)="auth.logout()"></button>
-    </div>
+  <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
+    <button mat-menu-item>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="auth.logout()">
+      <span>Logout</span>
+    </button></mat-menu>
+  <button mat-button (click)="auth.logout()"></button>
 </div>

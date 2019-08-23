@@ -1,10 +1,12 @@
+import { FooterComponent } from './layout/footer/footer.component';
+import { KorisnikHeaderComponent } from './layout/korisnik-header/korisnik-header.component';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { RoutingModule} from './routing.module'
+import { RoutingModule} from './routing.module';
 
 import { AuthGuard } from './service/authGuard';
 import { AppComponent } from './app.component';
@@ -19,9 +21,6 @@ import { PocetnaStranicaAdvokatComponent } from './advokat/pocetna-stranica-advo
 import { AuthInterceptor } from './service/authInterceptor';
 import { AuthService } from './service/auth.service';
 import { RegistarKorisnikComponent } from './register/registar-korisnik/registar-korisnik.component';
-import { LayoutKorisnikComponent } from './korisnik/layout-korisnik/layout-korisnik.component';
-import { FooterComponent } from './footer/footer.component';
-import { KorisnikHeaderComponent } from './layput/korisnik-header/korisnik-header.component';
 
 
 @NgModule({
@@ -35,9 +34,8 @@ import { KorisnikHeaderComponent } from './layput/korisnik-header/korisnik-heade
     PocetnaStranicaKorisnikComponent,
     PocetnaStranicaAdvokatComponent,
     RegistarKorisnikComponent,
-    LayoutKorisnikComponent,
-    FooterComponent,
-    KorisnikHeaderComponent
+    KorisnikHeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

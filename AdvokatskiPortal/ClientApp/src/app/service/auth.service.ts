@@ -14,13 +14,13 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
   registration(korisnik) {
 
-    return this.http.post<any>('https://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
+    return this.http.post<any>('http://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
       localStorage.setItem('token',res);
       this.authenticate(res)
     });
 }
   login(korisnik) {
-    return this.http.post<any>("https://localhost:44345/api/Account/login", korisnik).subscribe(res => {
+    return this.http.post<any>('http://localhost:44345/api/Account/login', korisnik).subscribe(res => {
       localStorage.setItem('token', res);
       this.router.navigate(['/pocetnaKorisnik'])
       this.authenticate(res)
@@ -51,7 +51,7 @@ authenticate(res) {
       } case "RegularUser": {
           console.log("User")
           // home page regular user
-          this.router.navigate(['/homePageKorisnik'])
+          this.router.navigate(['/pocetnaKorisnik'])
           return true;
       } default: {
           // never happened

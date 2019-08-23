@@ -1,4 +1,5 @@
-<!-- <app-nav-menu></app-nav-menu> -->
-<div>
+  <div *ngIf="_type ==='RegularUser'">
+  <app-korisnik-header></app-korisnik-header>
+  </div>
   <router-outlet></router-outlet>
-</div>
+  <app-footer></app-footer>

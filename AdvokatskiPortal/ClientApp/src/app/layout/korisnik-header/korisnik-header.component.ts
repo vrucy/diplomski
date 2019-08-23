@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/service/auth.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-korisnik-header',
@@ -9,26 +9,26 @@ import { AuthService } from 'src/app/service/auth.service';
 export class KorisnikHeaderComponent implements OnInit {
 
   specjalnost;
-  
-  dataType:string; 
 
-  regular:string;
+  dataType: string;
+
+  regular: string;
   _type: string;
-  
 
-  constructor( private auth :AuthService) {
-    this._type = this.auth.typeUserValue 
+
+  constructor( private auth: AuthService) {
+    this._type = this.auth.typeUserValue
     console.log(this.dataType)
   }
-  
- 
+
+
     private change(mytype : string) :void{
       this.dataType= mytype;
     }
-    
-  ngOnInit() {    
-      //console.log(this.type)
+
+  ngOnInit() {
+      // console.log(this.type)
   }
-  
+
 
 }
