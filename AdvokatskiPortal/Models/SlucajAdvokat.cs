@@ -8,8 +8,7 @@ namespace AdvokatskiPortal.Models
     public class SlucajAdvokat
     {
         public int Id { get; set; }
-        //advokatId
-        //caseid
+        
         public DateTime datumKreiranja { get; set; }
         public bool prihvacno { get; set; }
         public string Odgovor { get; set; }

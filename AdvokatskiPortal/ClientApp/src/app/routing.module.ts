@@ -5,6 +5,8 @@ import { PocetnaStranicaKorisnikComponent } from './korisnik/pocetna-stranica-ko
 import { PocetnaStranicaAdvokatComponent } from './advokat/pocetna-stranica-advokat/pocetna-stranica-advokat.component';
 import { RegistarKorisnikComponent } from './register/registar-korisnik/registar-korisnik.component';
 import { RegistracijaAdvokataComponent } from './advokat/registracija-advokata/registracija-advokata.component';
+import { TabelaAdvokataComponent } from './korisnik/tabela-advokata/tabela-advokata.component';
+import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
 
 
 const router: Routes = [
@@ -22,6 +24,12 @@ const router: Routes = [
   },
   {
     path: 'pocetnaKorisnik', component: PocetnaStranicaKorisnikComponent
+  },
+  {
+    path: 'tabelaSaAdvokatima', component: TabelaAdvokataComponent
+  },
+  {
+    path: 'kreiranjeSlucaja', component: KreiranjeSlucajaComponent
   }
 ];
 

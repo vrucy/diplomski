@@ -82,6 +82,7 @@ namespace AdvokatskiPortal
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.UseAuthentication();
             app.UseCors("Cors");
            // app.UseHttpsRedirection();
             app.UseStaticFiles();

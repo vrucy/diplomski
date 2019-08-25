@@ -26,6 +26,12 @@ export class AuthService {
       this.authenticate(res)
     });
 }
+registrationAdvokat(advokat){
+  return this.http.post<any>('http://localhost:44345/api/Account/registrationAdvokat', advokat).subscribe(res => {
+    localStorage.setItem('token', res);
+    this.authenticate(res);
+  })
+}
 authenticate(res) {
   let tokenValue = res['token'];
   console.log(tokenValue);
@@ -39,7 +45,7 @@ authenticate(res) {
       case "AdminAdvokat": {
           console.log("admin work")
           // home page admin
-          this.router.navigate(['/homePageAdvokat'])
+          this.router.navigate(['/pocetnaAdvokat'])
           return true;
       }
       case "RegularAdvokat": {

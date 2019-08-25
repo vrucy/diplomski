@@ -41,7 +41,7 @@ namespace AdvokatskiPortal.Controllers
             advokat.Idenity = appUser;
 
             var user = await userManager.FindByNameAsync(advokat.UserName);
-
+            
             await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
             //await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
             
@@ -98,7 +98,12 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok(new { Token = token, typeOfClaim = i });
         }
-        
+        [HttpPost("postRequestAdvokats")]
+        public async Task<IActionResult> PostRequestAdvokats([FromBody]LoginModel loginUser)
+        {
+
+            return Ok();
+        }
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginUser)
         {
@@ -113,7 +118,7 @@ namespace AdvokatskiPortal.Controllers
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var claim = await userManager.GetClaimsAsync(user);
-
+            
             var tokeOptions = new JwtSecurityToken(
                 claims: claim,
                 expires: DateTime.Now.AddMinutes(60),

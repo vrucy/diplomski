@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   _type: string = localStorage.getItem('typeUser');
-  console.log(_type);
+  
   title = 'app';
 }
