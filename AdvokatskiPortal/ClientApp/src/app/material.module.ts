@@ -10,6 +10,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatStepperModule
     ]
 })
 export class MaterialModule {}

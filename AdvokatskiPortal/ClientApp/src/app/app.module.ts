@@ -25,6 +25,7 @@ import { RegistarKorisnikComponent } from './register/registar-korisnik/registar
 import { TabelaAdvokataComponent } from './korisnik/tabela-advokata/tabela-advokata.component';
 import { AdvokatHeaderComponent } from './layout/advokat-header/advokat-header.component';
 import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
+import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranj
     TabelaAdvokataComponent,
     RegistracijaAdvokataComponent,
     AdvokatHeaderComponent,
-    KreiranjeSlucajaComponent
+    KreiranjeSlucajaComponent,
+    SlanjeSlucajaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

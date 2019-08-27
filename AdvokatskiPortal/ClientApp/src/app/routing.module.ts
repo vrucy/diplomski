@@ -7,6 +7,7 @@ import { RegistarKorisnikComponent } from './register/registar-korisnik/registar
 import { RegistracijaAdvokataComponent } from './advokat/registracija-advokata/registracija-advokata.component';
 import { TabelaAdvokataComponent } from './korisnik/tabela-advokata/tabela-advokata.component';
 import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
+import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 
 
 const router: Routes = [
@@ -30,6 +31,9 @@ const router: Routes = [
   },
   {
     path: 'kreiranjeSlucaja', component: KreiranjeSlucajaComponent
+  },
+  {
+    path: 'slanjeSlucaja', component: SlanjeSlucajaComponent
   }
 ];
 
