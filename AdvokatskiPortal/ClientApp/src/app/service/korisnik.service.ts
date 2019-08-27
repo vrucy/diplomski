@@ -16,10 +16,15 @@ export class KorisnikService {
   getAllSlucajForKorisnik(): Observable<Slucaj[]>{
     return this.http.get<Slucaj[]>('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
   }
-  postSlucaj(slucaj){
-    return this.http.post('http://localhost:44345/api/Korisnik/PostSlucaj', slucaj).subscribe(rez => {
+  kreiranjeSlucaja(slucaj){
+    return this.http.post('http://localhost:44345/api/Korisnik/kreiranjeSlucaja', slucaj).subscribe(rez => {
       console.log(rez)
     });
+  }
+  postSlucajaSaAdvokatimaSaCenovnikom(slucaj){
+    return this.http.post('http://localhost:44345/api/Korisnik/postSlucajaSaAdvokatimaSaCenovnikom', slucaj).subscribe(res => {
+      console.log(res)
+    }) 
   }
   postSlucajAdvokatima(slucaj){
     return this.http.post('http://localhost:44345/api/Korisnik/postSlucajAdvokatima', slucaj).subscribe(rez => {
@@ -28,4 +33,5 @@ export class KorisnikService {
   postRequestAdvokats(advokati){
     return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats',advokati).subscribe();
   }
+  
 }

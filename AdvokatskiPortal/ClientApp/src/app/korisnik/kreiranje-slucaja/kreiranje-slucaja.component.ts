@@ -13,7 +13,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
   ngOnInit() {
   }
   kreiranjeSlucaja(){
-    this.korisnikService.postSlucaj(this.slucaj);
+    this.korisnikService.kreiranjeSlucaja(this.slucaj);
     console.log(this.slucaj)
   }
   snimiSlucaj(){

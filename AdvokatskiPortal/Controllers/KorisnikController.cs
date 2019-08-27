@@ -35,9 +35,18 @@ namespace AdvokatskiPortal.Controllers
         [HttpGet("getAllSlucajForKorisnik")]
         public IEnumerable<Slucaj> getAllSlucajForKorisnik()
         {
-            var x = User.Claims.FirstOrDefault().Value;
-            var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x);
-            return korsinikSlucajevi;
+            try
+            {
+                var x = User.Claims.FirstOrDefault().Value;
+                var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x);
+                return korsinikSlucajevi;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            
         }
         // GET: api/Korisnik/5
         [HttpGet("{id}")]
@@ -108,8 +117,8 @@ namespace AdvokatskiPortal.Controllers
             return CreatedAtAction("GetKorisnik", new { id = korisnik.Id }, korisnik);
         }
 
-        [HttpPost("PostSlucaj")]
-        public async Task<IActionResult> PostSlucaj([FromBody] Slucaj slucaj)
+        [HttpPost("kreiranjeSlucaja")]
+        public async Task<IActionResult> kreiranjeSlucaja([FromBody] Slucaj slucaj)
         {
             if (!ModelState.IsValid)
             {
@@ -118,6 +127,23 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var y = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
             slucaj.Korisnik = y ;
+            slucaj.KorisnikId = y.Id;
+            _context.Slucajs.Add(slucaj);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetSlucaj", new { id = slucaj.Id }, slucaj);
+        }
+        //ovo bi trebalo put biti jer udetujem vec postojeci slucaj dakle
+        //
+        [HttpPost("postSlucajaSaAdvokatimaSaCenovnikom")]
+        public async Task<IActionResult> postSlucajaSaAdvokatimaSaCenovnikom([FromBody] Slucaj slucaj)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var cliems = User.Claims.First();
+            var y = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            slucaj.Korisnik = y;
             slucaj.KorisnikId = y.Id;
             _context.Slucajs.Add(slucaj);
             await _context.SaveChangesAsync();
