@@ -15,7 +15,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thridFormGroup: FormGroup;
-  Cenovniks = { vrstaPlacanja: '', kolicina: ''} 
+  cenovnik = { vrstaPlacanja: '', kolicina: ''}
   vrstaPlacanja
   displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
   selection = new SelectionModel<Advokat>(true, []);
@@ -68,10 +68,10 @@ export class SlanjeSlucajaComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
   save(){
-  const slucajZaSlanje = { slucaj: this.odabraniSlucaj, odabraniAdvokati: this.selection.selected, Cenovniks: this.Cenovniks}
-    
+  const slucajZaSlanje = { slucaj: this.odabraniSlucaj, odabraniAdvokati: this.selection.selected, cenovnik: this.cenovnik}
+
     console.log(slucajZaSlanje);
-    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(slucajZaSlanje);
+    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.slucaj);
   }
 
 }

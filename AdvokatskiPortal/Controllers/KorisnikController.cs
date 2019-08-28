@@ -135,7 +135,7 @@ namespace AdvokatskiPortal.Controllers
         //ovo bi trebalo put biti jer udetujem vec postojeci slucaj dakle
         //
         [HttpPost("postSlucajaSaAdvokatimaSaCenovnikom")]
-        public async Task<IActionResult> postSlucajaSaAdvokatimaSaCenovnikom([FromBody] Slucaj slucaj)
+        public async Task<IActionResult> postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
         {
             if (!ModelState.IsValid)
             {
@@ -143,11 +143,12 @@ namespace AdvokatskiPortal.Controllers
             }
             var cliems = User.Claims.First();
             var y = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-            slucaj.Korisnik = y;
-            slucaj.KorisnikId = y.Id;
-            _context.Slucajs.Add(slucaj);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetSlucaj", new { id = slucaj.Id }, slucaj);
+            //slucaj.Korisnik = y;
+            //slucaj.KorisnikId = y.Id;
+            //_context.Slucajs.Add(slucaj);
+            //await _context.SaveChangesAsync();
+            //return CreatedAtAction("GetSlucaj", new { id = slucaj.Id }, slucaj);
+            return Ok();
         }
         [HttpPost("postSlucajAdvokatima")]
         public async Task<IActionResult> PostSlucajAdvokatima([FromBody] postSlucajViewModel slucajVm)
