@@ -26,7 +26,7 @@ import { TabelaAdvokataComponent } from './korisnik/tabela-advokata/tabela-advok
 import { AdvokatHeaderComponent } from './layout/advokat-header/advokat-header.component';
 import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,8 @@ import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja
     RouterModule,
     RoutingModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FlexLayoutModule
   ],
   providers: [AuthGuard,AuthService , {
     provide : HTTP_INTERCEPTORS,

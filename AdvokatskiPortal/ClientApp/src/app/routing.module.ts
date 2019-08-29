@@ -1,3 +1,4 @@
+import { AuthGuard } from './service/authGuard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -21,19 +22,22 @@ const router: Routes = [
     path: 'registracijaAdvokata', component: RegistracijaAdvokataComponent
  },
   {
-    path: 'pocetnaAdvokat', component: PocetnaStranicaAdvokatComponent
+    path: 'pocetnaAdvokat', component: PocetnaStranicaAdvokatComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'pocetnaKorisnik', component: PocetnaStranicaKorisnikComponent
+    path: 'pocetnaKorisnik', component: PocetnaStranicaKorisnikComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'tabelaSaAdvokatima', component: TabelaAdvokataComponent
+    path: 'tabelaSaAdvokatima', component: TabelaAdvokataComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'kreiranjeSlucaja', component: KreiranjeSlucajaComponent
+    path: 'kreiranjeSlucaja', component: KreiranjeSlucajaComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'slanjeSlucaja', component: SlanjeSlucajaComponent
+    path: 'slanjeSlucaja', component: SlanjeSlucajaComponent, canActivate: [AuthGuard]
+  },
+  {
+     path: '', redirectTo: '/pocetnaKorisnik', pathMatch: 'full'
   }
 ];
 

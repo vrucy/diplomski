@@ -26,6 +26,14 @@ export class AuthService {
       this.authenticate(res)
     });
 }
+isLogged(): boolean {
+  const user = localStorage.getItem('token');
+  if (user != null) {
+    return true;
+  } else {
+    return false;
+  }
+}
 registrationAdvokat(advokat){
   return this.http.post<any>('http://localhost:44345/api/Account/registrationAdvokat', advokat).subscribe(res => {
     localStorage.setItem('token', res);

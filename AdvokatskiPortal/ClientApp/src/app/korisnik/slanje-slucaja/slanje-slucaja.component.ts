@@ -30,6 +30,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   slucajevi;
 
   SlucajVM: SlucajSlanjeVM = {};
+  filterTxt: string;
   odabraniSlucaj = { opis: ''};
   odabraniAdvokati;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService) { }
@@ -55,6 +56,9 @@ export class SlanjeSlucajaComponent implements OnInit {
       console.log (this.slucajevi);
     });
   }
+  doFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -75,12 +79,12 @@ export class SlanjeSlucajaComponent implements OnInit {
   }
   save() {
     console.log(this.cenovnik);
-    const x =
+
     this.SlucajVM.Advokats = this.selection.selected;
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
-    this.SlucajVM.Cenovniks.push(this.cenovnik.kolicina, this.cenovnik.vrstaPlacanja);
+    // this.SlucajVM.Cenovniks.push(<Cenovnik>{kolicina: this.cenovnik.kolicina, vrstaPlacanja: this.cenovnik.vrstaPlacanja}).;
     console.log(this.SlucajVM.Cenovniks);
-    // this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 
 }
