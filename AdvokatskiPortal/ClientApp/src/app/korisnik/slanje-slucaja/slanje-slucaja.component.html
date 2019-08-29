@@ -7,7 +7,7 @@
             <p>opis</p>
             <mat-form-field>
               <mat-label>Vrsta placanja</mat-label>
-              <mat-select [(ngModel)]="odabraniSlucaj" formControlName="firstCtrl" required>
+              <mat-select [(ngModel)]="odabraniSlucaj.opis" formControlName="firstCtrl" required>
                 <mat-option *ngFor="let slucaj of slucajevi" [value]= "slucaj.opis">{{slucaj.opis}}</mat-option>
               </mat-select>
             </mat-form-field>

@@ -3,14 +3,13 @@ import { HttpInterceptor} from '@angular/common/http'
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor{
-    constructor() {     
-    }    
+    constructor() {
+    }
     intercept (req , next){
         var token = localStorage.getItem('token')
         var authRequest = req.clone({
             headers : req.headers.set('Authorization' , `Bearer ${token}` )
         })
-        console.log(token)
-        return next.handle(authRequest); 
+        return next.handle(authRequest);
     }
-} 
+}

@@ -1,3 +1,5 @@
+import { Cenovnik } from './../../model/Cenovnik';
+import { SlucajSlanjeVM } from './../../model/SlucajSlanjeVM';
 import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -15,8 +17,11 @@ export class SlanjeSlucajaComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thridFormGroup: FormGroup;
-  cenovnik = { vrstaPlacanja: '', kolicina: ''}
-  vrstaPlacanja
+  // cenovnik: Cenovnik [] = [{vrstaPlacanja: '', kolicina: ''}];
+
+  cenovnik = {vrstaPlacanja: '', kolicina: ''};
+  // cenovnik: Cenovnik = {id: '', vrstaPlacanja: '', kolicina: '', slucajId: '', slucaj: '', statusId: '', status: ''};
+  vrstaPlacanja;
   displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
   selection = new SelectionModel<Advokat>(true, []);
   public dataSource = new MatTableDataSource<Advokat>();
@@ -24,7 +29,8 @@ export class SlanjeSlucajaComponent implements OnInit {
   advokati;
   slucajevi;
 
-  odabraniSlucaj;
+  SlucajVM: SlucajSlanjeVM = {};
+  odabraniSlucaj = { opis: ''};
   odabraniAdvokati;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService) { }
 
@@ -46,7 +52,7 @@ export class SlanjeSlucajaComponent implements OnInit {
     });
     this.korsinikService.getAllSlucajForKorisnik().subscribe(res => {
       this.slucajevi = res;
-      console.log(this.slucajevi)
+      console.log (this.slucajevi);
     });
   }
   isAllSelected() {
@@ -67,11 +73,14 @@ export class SlanjeSlucajaComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
-  save(){
-  const slucajZaSlanje = { slucaj: this.odabraniSlucaj, odabraniAdvokati: this.selection.selected, cenovnik: this.cenovnik}
-
-    console.log(slucajZaSlanje);
-    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.slucaj);
+  save() {
+    console.log(this.cenovnik);
+    const x =
+    this.SlucajVM.Advokats = this.selection.selected;
+    this.SlucajVM.Slucaj = this.odabraniSlucaj;
+    this.SlucajVM.Cenovniks.push(this.cenovnik.kolicina, this.cenovnik.vrstaPlacanja);
+    console.log(this.SlucajVM.Cenovniks);
+    // this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 
 }
