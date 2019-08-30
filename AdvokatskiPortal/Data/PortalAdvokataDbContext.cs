@@ -11,7 +11,21 @@ namespace AdvokatskiPortal.Data
 {
     public class PortalAdvokataDbContext : IdentityDbContext<IdentityUser>
     {
-        public PortalAdvokataDbContext(DbContextOptions options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<SlucajAdvokat>()
+                .HasKey(bc => new { bc.SlucajId, bc.AdvokatId});
+            modelBuilder.Entity<SlucajAdvokat>()
+             .HasOne(bc => bc.Advokat)
+             .WithMany(b => b.SlucajAdvokats)
+                 .HasForeignKey(bc => bc.AdvokatId);
+            modelBuilder.Entity<SlucajAdvokat>()
+                .HasOne(bc => bc.Slucaj)
+                .WithMany(c => c.SlucajAdvokats)
+                .HasForeignKey(bc => bc.SlucajId);
+        }
+            public PortalAdvokataDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Advokat> Advokats { get; set; }
         public DbSet<Korisnik> Korisniks { get; set; }
         public DbSet<Slucaj> Slucajs{ get; set; }

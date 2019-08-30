@@ -82,9 +82,12 @@ export class SlanjeSlucajaComponent implements OnInit {
 
     this.SlucajVM.Advokats = this.selection.selected;
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
-    // this.SlucajVM.Cenovniks.push(<Cenovnik>{kolicina: this.cenovnik.kolicina, vrstaPlacanja: this.cenovnik.vrstaPlacanja}).;
-    console.log(this.SlucajVM.Cenovniks);
-    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+
+    const c = {kolicina: this.cenovnik.kolicina, vrstaPlacanja: this.cenovnik.vrstaPlacanja}
+    this.SlucajVM.Cenovniks =  [c];
+    console.log(this.SlucajVM.Slucaj);
+    // this.SlucajVM.Cenovniks.push(<Cenovnik> {kolicina: this.cenovnik.kolicina, vrstaPlacanja: this.cenovnik.vrstaPlacanja});
+     this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 
 }

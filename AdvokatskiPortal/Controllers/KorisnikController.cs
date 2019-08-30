@@ -125,25 +125,65 @@ namespace AdvokatskiPortal.Controllers
                 return BadRequest(ModelState);
             }
             var cliems = User.Claims.First();
-            var y = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-            slucaj.Korisnik = y ;
-            slucaj.KorisnikId = y.Id;
+            var q = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            slucaj.Korisnik = q ;
+            slucaj.KorisnikId = q.Id;
+            //_context.Slucajs.Include(y => y.Korisnik.Id == q.Id);
             _context.Slucajs.Add(slucaj);
+            var c = _context.Slucajs.Find(slucaj.Id);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetSlucaj", new { id = slucaj.Id }, slucaj);
         }
         //ovo bi trebalo put biti jer udetujem vec postojeci slucaj dakle
         //
         [HttpPost("postSlucajaSaAdvokatimaSaCenovnikom")]
-        public async Task<IActionResult> postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
+        public IActionResult postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
         {
             if (!ModelState.IsValid)
             {
+                
                 return BadRequest(ModelState);
             }
+            //foreach (var item in slucajVM.Cenovniks)
+            //{
+            //    _context.Cenovniks.Add(item);
+            //    _context.SaveChangesAsync();
+            //}
+            
             var cliems = User.Claims.First();
-            var y = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-            //slucaj.Korisnik = y;
+            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            _context.SlucajAdvokats.Include(q => q.Slucaj.Korisnik == ulogovaniKorisnik);
+            
+            slucajVM.Korisnik = ulogovaniKorisnik;
+            slucajVM.KorisnikId = ulogovaniKorisnik.Id;
+            slucajVM.Slucaj.Cenovniks = slucajVM.Cenovniks;
+            slucajVM.Slucaj.Korisnik = slucajVM.Korisnik;
+            
+            try
+            {
+                foreach (Advokat advokat in slucajVM.Advokats)
+                {
+                    var newSlucajAdvokat = new SlucajAdvokat
+                    {
+                        AdvokatId = advokat.Id,
+                        datumKreiranja = DateTime.UtcNow,
+                        SlucajId = slucajVM.Slucaj.Id,
+                        
+                        //Slucaj = slucajVM.Slucaj,
+                        //Advokat = advokat
+                    };
+                    _context.SlucajAdvokats.Add(newSlucajAdvokat);
+                    //_context.SaveChanges();
+                }
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+            var b = 2;
             //slucaj.KorisnikId = y.Id;
             //_context.Slucajs.Add(slucaj);
             //await _context.SaveChangesAsync();
