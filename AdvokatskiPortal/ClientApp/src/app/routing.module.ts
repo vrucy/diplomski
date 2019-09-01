@@ -26,7 +26,7 @@ const router: Routes = [
   },
   {
     path: 'pocetnaKorisnik', component: PocetnaStranicaKorisnikComponent, canActivate: [AuthGuard]
-  },
+  }, 
   {
     path: 'tabelaSaAdvokatima', component: TabelaAdvokataComponent, canActivate: [AuthGuard]
   },
@@ -37,7 +37,7 @@ const router: Routes = [
     path: 'slanjeSlucaja', component: SlanjeSlucajaComponent, canActivate: [AuthGuard]
   },
   {
-     path: '', redirectTo: '/pocetnaKorisnik', pathMatch: 'full'
+     path: '', redirectTo: '/login', pathMatch: 'full'
   }
 ];
 

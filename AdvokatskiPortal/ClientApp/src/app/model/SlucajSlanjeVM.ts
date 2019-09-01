@@ -4,7 +4,7 @@ import { Ugovor } from './Ugovor';
 import { Cenovnik } from './Cenovnik';
 export class SlucajSlanjeVM{
 id;
-Slucaj: Slucaj = {};
+Slucaj: Slucaj;
 Ugovor: Ugovor;
 Advokats: Advokat [] = [];
 Cenovniks: Cenovnik [] = [];
