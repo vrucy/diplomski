@@ -9,6 +9,7 @@ import { RegistracijaAdvokataComponent } from './advokat/registracija-advokata/r
 import { TabelaAdvokataComponent } from './korisnik/tabela-advokata/tabela-advokata.component';
 import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
+import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
 
 
 const router: Routes = [
@@ -26,7 +27,7 @@ const router: Routes = [
   },
   {
     path: 'pocetnaKorisnik', component: PocetnaStranicaKorisnikComponent, canActivate: [AuthGuard]
-  }, 
+  },
   {
     path: 'tabelaSaAdvokatima', component: TabelaAdvokataComponent, canActivate: [AuthGuard]
   },
@@ -38,6 +39,9 @@ const router: Routes = [
   },
   {
      path: '', redirectTo: '/login', pathMatch: 'full'
+  },
+  {
+    path: 'pregledUgovora', component: PregledUgovoraComponent
   }
 ];
 

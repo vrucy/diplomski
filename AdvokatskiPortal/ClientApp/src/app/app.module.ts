@@ -27,6 +27,7 @@ import { AdvokatHeaderComponent } from './layout/advokat-header/advokat-header.c
 import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     RegistracijaAdvokataComponent,
     AdvokatHeaderComponent,
     KreiranjeSlucajaComponent,
-    SlanjeSlucajaComponent
+    SlanjeSlucajaComponent,
+    PregledUgovoraComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

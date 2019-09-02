@@ -153,7 +153,7 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
             _context.SlucajAdvokats.Include(q => q.Slucaj.Korisnik == ulogovaniKorisnik);
-            
+           
             slucajVM.Korisnik = ulogovaniKorisnik;
             slucajVM.KorisnikId = ulogovaniKorisnik.Id;
             slucajVM.Slucaj.Cenovniks = slucajVM.Cenovniks;
@@ -173,7 +173,18 @@ namespace AdvokatskiPortal.Controllers
                         //Advokat = advokat
                     };
                     _context.SlucajAdvokats.Add(newSlucajAdvokat);
-                    //_context.SaveChanges();
+                    
+                }
+                foreach (var item in slucajVM.Cenovniks)
+                {
+                    var newCenovnik = new Cenovnik
+                    {
+                        vrstaPlacanja = item.vrstaPlacanja,
+                        kolicina = item.kolicina,
+                        StatusId = 3,
+                        SlucajId = slucajVM.Slucaj.Id
+                    };
+                    _context.Cenovniks.Add(newCenovnik);
                 }
                 _context.SaveChanges();
             }

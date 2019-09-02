@@ -1,7 +1,10 @@
 <div fxFlex fxLayout fxLayoutAlign="center center">
   <!-- <a mat-button> Registracija Advokata </a> -->
   <button routerLink="/registracijaAdvokata" mat-button> Registracija Advokata</button>
-
+  <button mat-icon-button (click)="clearCount()">
+    <mat-icon class="material-icons" routerLink="/pregledUgovora">add_alert</mat-icon>
+    <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+  </button>
   <!--  -->
 
   <!-- <button mat-icon-button (click)="clearCount()">
