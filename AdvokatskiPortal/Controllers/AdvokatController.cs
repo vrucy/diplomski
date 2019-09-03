@@ -8,6 +8,7 @@ using AdvokatskiPortal.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdvokatskiPortal.Controllers
 {
@@ -45,12 +46,15 @@ namespace AdvokatskiPortal.Controllers
             return y;
         }
         [HttpGet("getUgovorsForAdvokat")]
-        public async Task<IEnumerable<Cenovnik>> getUgovorsForAdvokatAsync()
+        public IEnumerable<Cenovnik> getUgovorsForAdvokatAsync()
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
 
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id);
+            //var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id);
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(s=>s.Slucaj).ThenInclude(c=>c.Cenovniks);
+            
+
             List<Cenovnik> cenovniks = new List<Cenovnik>();
             foreach (var item in sviSlucajiAdvokata)
             {
@@ -81,7 +85,7 @@ namespace AdvokatskiPortal.Controllers
 
             //    }
             //}
-            await _context.SaveChangesAsync();
+           //_context.SaveChanges();
 
             return cenovniks;
         }

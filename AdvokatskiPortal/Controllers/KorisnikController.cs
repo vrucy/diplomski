@@ -144,12 +144,8 @@ namespace AdvokatskiPortal.Controllers
                 
                 return BadRequest(ModelState);
             }
-            //foreach (var item in slucajVM.Cenovniks)
-            //{
-            //    _context.Cenovniks.Add(item);
-            //    _context.SaveChangesAsync();
-            //}
-            
+            // IZBACUJE EXEPTION POTREBNO JE OMOGUCITI UNIQ ID NA INTERNETU SAM NASAO [Index(IsUnique = true)]
+
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
             _context.SlucajAdvokats.Include(q => q.Slucaj.Korisnik == ulogovaniKorisnik);
