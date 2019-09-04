@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190904075924_deleteCenovnikForeignKey")]
+    partial class deleteCenovnikForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,8 @@ namespace AdvokatskiPortal.Migrations
 
                     b.HasIndex("SlucajId");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("StatusId")
+                        .IsUnique();
 
                     b.ToTable("Cenovniks");
                 });
@@ -392,8 +395,8 @@ namespace AdvokatskiPortal.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AdvokatskiPortal.Models.Status", "Status")
-                        .WithMany("Cenovniks")
-                        .HasForeignKey("StatusId")
+                        .WithOne("Cenovnik")
+                        .HasForeignKey("AdvokatskiPortal.Models.Cenovnik", "StatusId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

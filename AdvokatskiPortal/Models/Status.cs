@@ -9,6 +9,6 @@ namespace AdvokatskiPortal.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Cenovnik Cenovnik { get; set; }
+        public ICollection<Cenovnik> Cenovniks { get; set; }
     }
 }

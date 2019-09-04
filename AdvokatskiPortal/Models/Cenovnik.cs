@@ -17,7 +17,6 @@ namespace AdvokatskiPortal.Models
         public int SlucajId { get; set; }
         public Slucaj Slucaj { get; set; }
 
-        [ForeignKey("Status")]
         public int StatusId{ get; set; }
         public Status Status { get; set; }
         //statusId

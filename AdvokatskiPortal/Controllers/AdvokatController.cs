@@ -46,48 +46,17 @@ namespace AdvokatskiPortal.Controllers
             return y;
         }
         [HttpGet("getUgovorsForAdvokat")]
-        public IEnumerable<Cenovnik> getUgovorsForAdvokatAsync()
+        public IEnumerable<SlucajAdvokat> getUgovorsForAdvokatAsync()
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
 
             //var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id);
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(s=>s.Slucaj).ThenInclude(c=>c.Cenovniks);
             
-
-            List<Cenovnik> cenovniks = new List<Cenovnik>();
-            foreach (var item in sviSlucajiAdvokata)
-            {
-                var oneItem = _context.Cenovniks.Single(c => c.SlucajId == item.SlucajId);
-                cenovniks.Add(oneItem);
-            }
-            //var test = _context.Cenovniks.Where(x => x.SlucajId == sviSlucajiAdvokata);
-            //var c = IQueryable<Cenovnik>();
-            //foreach (var item in sviSlucajiAdvokata)
-            //{
-            //    c = _context.Cenovniks.Where(ce => ce.SlucajId == item.AdvokatId);
-            //}
-
-            //var test = _context.Cenovniks.Where(u => u.);
-
-
-
-            //sviSlucajiAdvokata.ForEach(_context.Cenovniks.Where(u => u.SlucajId == .SlucajId);
-
-           // var ugovori = _context.Ugovors.Where(u => u.Advokat_Id == y.Id).Include(x => x.korisnik);
-
-            //foreach (var ugovor in ugovori)
-            //{
-
-            //    if (ugovor.isRead == false)
-            //    {
-            //        ugovor.isRead = true;
-
-            //    }
-            //}
-           //_context.SaveChanges();
-
-            return cenovniks;
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(s=>s.Slucaj).ThenInclude( c => c.Korisnik);
+                                   
+            
+            return sviSlucajiAdvokata;
         }
     }
 }

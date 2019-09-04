@@ -1,1 +1,47 @@
-<p>pregled-ugovora works!</p>
+<mat-tab-group>
+  <mat-tab label="Svi Ugovori">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="ime">
+              <th mat-header-cell *matHeaderCellDef> Ime:  </th>
+              <td mat-cell *matCellDef="let element"> {{element.slucaj.korisnik.ime}} </td>
+            </ng-container>
+            <ng-container matColumnDef="prezime">
+                <th mat-header-cell *matHeaderCellDef> Prezime </th>
+                <td mat-cell *matCellDef="let element"> {{element.slucaj.korisnik.prezime}} </td>
+              </ng-container>
+          <ng-container matColumnDef="tekst_Zahteva">
+              <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>
+              <td mat-cell *matCellDef="let element"> {{element.tekst_Zahteva}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cena">
+                <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
+                <td mat-cell *matCellDef="let element"> {{element.slucaj.cenovniks[0].kolicina}} </td>
+              </ng-container>
+              <ng-container matColumnDef="opis">
+                <th mat-header-cell *matHeaderCellDef> Opis Slucaja </th>
+                <td mat-cell *matCellDef="let element"> {{element.slucaj.opis}} </td>
+              </ng-container>
+              <ng-container matColumnDef="button">
+                  <th mat-header-cell *matHeaderCellDef> </th>
+                  <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button (click)="redirectToAccept(element)">
+                      <mat-icon class="material-icons">done </mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="redirectToAccept()">
+                        <mat-icon class="material-icons">edit</mat-icon>
+                      </button>
+
+                      <button mat-icon-button (click)="redirectToReject(element)">
+                          <mat-icon class="material-icons">delete</mat-icon>
+                        </button>
+                  </td>
+                </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+  </mat-tab>
+  <mat-tab label="Ugovori na cekanju" (click)="test()"> Ugovori na cekanju </mat-tab>
+  <mat-tab label="Prihvaceni Ugovori"> Prihvaceni Ugovori </mat-tab>
+</mat-tab-group>

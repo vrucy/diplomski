@@ -128,7 +128,7 @@ namespace AdvokatskiPortal.Controllers
             var q = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
             slucaj.Korisnik = q ;
             slucaj.KorisnikId = q.Id;
-            //_context.Slucajs.Include(y => y.Korisnik.Id == q.Id);
+            _context.Slucajs.Include(y => y.Korisnik.Id == q.Id);
             _context.Slucajs.Add(slucaj);
             var c = _context.Slucajs.Find(slucaj.Id);
             await _context.SaveChangesAsync();
@@ -144,8 +144,7 @@ namespace AdvokatskiPortal.Controllers
                 
                 return BadRequest(ModelState);
             }
-            // IZBACUJE EXEPTION POTREBNO JE OMOGUCITI UNIQ ID NA INTERNETU SAM NASAO [Index(IsUnique = true)]
-
+            
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
             _context.SlucajAdvokats.Include(q => q.Slucaj.Korisnik == ulogovaniKorisnik);
