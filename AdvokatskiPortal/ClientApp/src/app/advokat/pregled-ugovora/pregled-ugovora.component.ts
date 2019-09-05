@@ -13,7 +13,7 @@ export class PregledUgovoraComponent implements OnInit {
 
   constructor(private advokatService: AdvokatService) { }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
       this.dataSource = res;
       console.log(res);
