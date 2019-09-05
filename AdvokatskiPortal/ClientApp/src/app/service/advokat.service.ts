@@ -12,6 +12,12 @@ export class AdvokatService {
     return this.http.get( " http://localhost:44345/api/Advokat/getNewNostifiation");
   }
   getUgovorsForAdvokat(){
-    return this.http.get( " http://localhost:44345/api/Advokat/getUgovorsForAdvokat");
+    return this.http.get(" http://localhost:44345/api/Advokat/getUgovorsForAdvokat");
+  }
+  getSlucajiNaCekanju() {
+    return this.http.get(" http://localhost:44345/api/Advokat/getSlucajNaCekanju");
+  }
+  getSlucajiPrihvaceni(){
+    return this.http.get(" http://localhost:44345/api/Advokat/getSlucajiPrihvaceni" );
   }
 }

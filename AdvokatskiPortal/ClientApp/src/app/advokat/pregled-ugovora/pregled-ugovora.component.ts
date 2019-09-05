@@ -1,6 +1,6 @@
 import { AdvokatService } from './../../service/advokat.service';
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatTabChangeEvent } from '@angular/material';
 
 @Component({
   selector: 'app-pregled-ugovora',
@@ -19,7 +19,16 @@ export class PregledUgovoraComponent implements OnInit {
       console.log(res);
     });
   }
-  test() {
-    console.log("work test")
+  test = (tabChangeEvent): void => {
+    if(tabChangeEvent.index == 0){
+      console.log("prvi tab");
+    } else if (tabChangeEvent.index == 1) {
+      this.advokatService.getSlucajiPrihvaceni().subscribe(res => {
+        console.log(res);
+      })
+    }else{
+      console.log('treci tab');
+    }
+
   }
 }

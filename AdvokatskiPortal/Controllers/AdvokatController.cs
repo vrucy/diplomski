@@ -58,5 +58,31 @@ namespace AdvokatskiPortal.Controllers
             
             return sviSlucajiAdvokata;
         }
+        [HttpGet("getSlucajNaCekanju")]
+        public IEnumerable<SlucajAdvokat> getSlucajNaCekanju()
+        {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik);
+            
+            return sviSlucajiAdvokata;
+        }
+        [HttpGet("getSlucajiPrihvaceni")]
+        public IEnumerable<SlucajAdvokat> getSlucajiPrihvaceni()
+        {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik);
+            // treba uzeti iz cenovnika trenutno stanje ugovora
+            foreach (var item in sviSlucajiAdvokata)
+            {
+                //potrebno uporediti stanje
+                var cenovnik = _context.Cenovniks.Where(x => x.SlucajId == item.SlucajId);
+            }
+           
+            return sviSlucajiAdvokata;
+        }
     }
 }
