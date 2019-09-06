@@ -13,7 +13,7 @@ namespace AdvokatskiPortal.Models
         //userId
         public string vrstaPlacanja { get; set; }
         public string kolicina { get; set; }
-        //public ICollection<Slucaj> Slucajs { get; set; }
+        
         public int SlucajId { get; set; }
         public Slucaj Slucaj { get; set; }
 

@@ -79,10 +79,26 @@ namespace AdvokatskiPortal.Controllers
             foreach (var item in sviSlucajiAdvokata)
             {
                 //potrebno uporediti stanje
-                var cenovnik = _context.Cenovniks.Where(x => x.SlucajId == item.SlucajId);
+               // var cenovnik = _context.Cenovniks.Where(x => x.StatusId == item.Slucaj.Cenovniks.);
             }
-           
+            foreach (var item in sviSlucajiAdvokata)
+            {
+
+            }
             return sviSlucajiAdvokata;
+        }
+        [HttpPut("prihvacenSlucajAdvokat/{id}")]
+        public async Task<IActionResult> prihvacenSlucajAdvokat([FromRoute] int id, [FromBody] SlucajAdvokat slucajAdvokat)
+        {
+
+            slucajAdvokat.SlucajStatusId = 2;
+            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            //var ugovorx = _context.Ugovors.Include(x => x.UgovorStanje).Single(x => x.Id == idUgovor);
+
+            //ugovor.UgovorStanje.stanje.3;
+            return Ok();
         }
     }
 }

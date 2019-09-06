@@ -163,7 +163,7 @@ namespace AdvokatskiPortal.Controllers
                         AdvokatId = advokat.Id,
                         datumKreiranja = DateTime.UtcNow,
                         SlucajId = slucajVM.Slucaj.Id,
-                        
+                        SlucajStatusId = 1
                         //Slucaj = slucajVM.Slucaj,
                         //Advokat = advokat
                     };
@@ -176,7 +176,7 @@ namespace AdvokatskiPortal.Controllers
                     {
                         vrstaPlacanja = item.vrstaPlacanja,
                         kolicina = item.kolicina,
-                        StatusId = 3,
+                        StatusId = 1,
                         SlucajId = slucajVM.Slucaj.Id
                     };
                     _context.Cenovniks.Add(newCenovnik);

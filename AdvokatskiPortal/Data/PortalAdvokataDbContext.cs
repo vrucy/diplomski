@@ -34,5 +34,6 @@ namespace AdvokatskiPortal.Data
         public DbSet<SlucajAdvokat> SlucajAdvokats{ get; set; }
         public DbSet<Status> Statuses{ get; set; }
         public DbSet<Ugovor> Ugovors{ get; set; }
+        public DbSet<SlucajStatus> SlucajStatuses { get; set; }
     }
 }
