@@ -1,0 +1,11 @@
+
+<div mat-dialog-content>
+  <p>Vas odgovor ?</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.odgovor">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.odgovor" cdkFocusInitial>Ok</button>
+</div>

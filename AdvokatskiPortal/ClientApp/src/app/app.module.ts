@@ -28,6 +28,8 @@ import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranj
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
+import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
+import { AcceptComponent } from './advokat/dialog/accept/accept.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovo
     AdvokatHeaderComponent,
     KreiranjeSlucajaComponent,
     SlanjeSlucajaComponent,
-    PregledUgovoraComponent
+    PregledUgovoraComponent,
+    PrihvacenOdgovorComponent,
+    AcceptComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -59,7 +63,7 @@ import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovo
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FlexLayoutModule
-  ],
+  ],entryComponents:[ AcceptComponent  ],
   providers: [AuthGuard,AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,

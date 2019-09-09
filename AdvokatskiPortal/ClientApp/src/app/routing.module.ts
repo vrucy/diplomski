@@ -10,6 +10,7 @@ import { TabelaAdvokataComponent } from './korisnik/tabela-advokata/tabela-advok
 import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
+import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
 
 
 const router: Routes = [
@@ -42,6 +43,9 @@ const router: Routes = [
   },
   {
     path: 'pregledUgovora', component: PregledUgovoraComponent
+  },
+  {
+    path: 'prihvacenUgovor' , component: PrihvacenOdgovorComponent
   }
 ];
 

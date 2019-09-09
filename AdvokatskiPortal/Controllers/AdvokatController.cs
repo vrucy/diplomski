@@ -87,17 +87,24 @@ namespace AdvokatskiPortal.Controllers
             }
             return sviSlucajiAdvokata;
         }
-        [HttpPut("prihvacenSlucajAdvokat/{id}")]
-        public async Task<IActionResult> prihvacenSlucajAdvokat([FromRoute] int id, [FromBody] SlucajAdvokat slucajAdvokat)
+        [HttpPut("prihvacenSlucajAdvokat")]
+        public async Task<IActionResult> prihvacenSlucajAdvokat(/*[FromRoute] int id,*/ [FromBody] SlucajAdvokat slucajAdvokat)
         {
 
             slucajAdvokat.SlucajStatusId = 2;
             _context.Entry(slucajAdvokat).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            //var ugovorx = _context.Ugovors.Include(x => x.UgovorStanje).Single(x => x.Id == idUgovor);
+            return Ok();
+        }
+        [HttpPut("odbijenSlucajOdAdvokata")]
+        public async Task<IActionResult> odbijenSlucajOdAdvokata( [FromBody] SlucajAdvokat slucajAdvokat)
+        {
 
-            //ugovor.UgovorStanje.stanje.3;
+            slucajAdvokat.SlucajStatusId = 3;
+            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
             return Ok();
         }
     }
