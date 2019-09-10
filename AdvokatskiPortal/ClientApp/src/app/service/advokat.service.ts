@@ -20,10 +20,10 @@ export class AdvokatService {
   getSlucajiPrihvaceni(){
     return this.http.get(" http://localhost:44345/api/Advokat/getSlucajiPrihvaceni" );
   }
-  prihvacenSlucajOdAdvokata(slucajAdvokat) {
-    return this.http.put(` http://localhost:44345/api/Advokat/prihvacenSlucajAdvokat`, slucajAdvokat);
+  prihvatanjeSlucajaOdAdvokata(slucajAdvokat) {
+    return this.http.put(` http://localhost:44345/api/Advokat/prihvatanjeSlucajaAdvokata`, slucajAdvokat);
   }
-  odbijenSlucajOdAdvokata(slucajAdvokat) {
-    return this.http.put(` http://localhost:44345/api/Advokat/odbijenSlucajOdAdvokata`, slucajAdvokat);
+  odbijanjeSlucajaOdAdvokata(slucajAdvokat) {
+    return this.http.put(` http://localhost:44345/api/Advokat/odbijanjeSlucajaAdvokata`, slucajAdvokat);
   }
 }

@@ -1,3 +1,4 @@
+import { PregledSlucajaKorisnikComponent } from './korisnik/pregled-slucaja-korisnik/pregled-slucaja-korisnik.component';
 import { AuthGuard } from './service/authGuard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -11,7 +12,6 @@ import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranj
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
 import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
-
 
 const router: Routes = [
   {
@@ -46,6 +46,9 @@ const router: Routes = [
   },
   {
     path: 'prihvacenUgovor' , component: PrihvacenOdgovorComponent
+  },
+  {
+    path: 'pregledSlucajaKorisnik' , component: PregledSlucajaKorisnikComponent
   }
 ];
 

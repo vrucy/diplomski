@@ -26,27 +26,20 @@ export class PregledUgovoraComponent implements OnInit {
       console.log(element.odgovor);
       console.log('element ' + element.odgovor)
       this.odgovor = result;
-      this.advokatService.prihvacenSlucajOdAdvokata(element).subscribe(res => {
-      
+      this.advokatService.prihvatanjeSlucajaOdAdvokata(element).subscribe(res => {
+
     })
-    }); 
-  } 
+    });
+  }
   ngOnInit() {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
       this.dataSource = res;
       console.log(this.dataSource);
-    }); 
-  }
-
-  redirectToAccept(slucajAdvokat) {
-
-    // this.advokatService.prihvacenSlucajOdAdvokata(slucajAdvokat).subscribe(res => {
-    //   console.log(res)
-    // })
+    });
   }
 
   redirectToReject(slucajAdvokat) {
-    this.advokatService.odbijenSlucajOdAdvokata(slucajAdvokat).subscribe(res => {
+    this.advokatService.odbijanjeSlucajaOdAdvokata(slucajAdvokat).subscribe(res => {
       console.log(res)
     })
   }
@@ -63,8 +56,6 @@ export class PregledUgovoraComponent implements OnInit {
         if (a[i].slucajStatusId !== 1) {
           a.splice(i);
         }
-
-
       }
       this.dataSource = a;
       console.log(this.dataSource);

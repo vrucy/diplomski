@@ -30,6 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
 import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
 import { AcceptComponent } from './advokat/dialog/accept/accept.component';
+import { PregledSlucajaKorisnikComponent } from './korisnik/pregled-slucaja-korisnik/pregled-slucaja-korisnik.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { AcceptComponent } from './advokat/dialog/accept/accept.component';
     SlanjeSlucajaComponent,
     PregledUgovoraComponent,
     PrihvacenOdgovorComponent,
-    AcceptComponent
+    AcceptComponent,
+    PregledSlucajaKorisnikComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

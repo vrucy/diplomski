@@ -42,20 +42,16 @@ namespace AdvokatskiPortal.Controllers
 
             var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false);
             
-         var y = noviSlucajevi.Count();
-            return y;
+            return noviSlucajevi.Count();
         }
         [HttpGet("getUgovorsForAdvokat")]
         public IEnumerable<SlucajAdvokat> getUgovorsForAdvokatAsync()
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
-
-            //var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id);
             
             var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(s=>s.Slucaj).ThenInclude( c => c.Korisnik);
                                    
-            
             return sviSlucajiAdvokata;
         }
         [HttpGet("getSlucajNaCekanju")]
@@ -64,31 +60,31 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik);
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 1);
             
             return sviSlucajiAdvokata;
         }
+
         [HttpGet("getSlucajiPrihvaceni")]
         public IEnumerable<SlucajAdvokat> getSlucajiPrihvaceni()
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
-
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik);
+            //var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik);
             // treba uzeti iz cenovnika trenutno stanje ugovora
-            foreach (var item in sviSlucajiAdvokata)
-            {
-                //potrebno uporediti stanje
-               // var cenovnik = _context.Cenovniks.Where(x => x.StatusId == item.Slucaj.Cenovniks.);
-            }
-            foreach (var item in sviSlucajiAdvokata)
-            {
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 4);
 
-            }
             return sviSlucajiAdvokata;
         }
-        [HttpPut("prihvacenSlucajAdvokat")]
-        public async Task<IActionResult> prihvacenSlucajAdvokat(/*[FromRoute] int id,*/ [FromBody] SlucajAdvokat slucajAdvokat)
+
+        /// <summary>
+        /// odobrenje odbijanje i prihvatanje slucaja
+        /// </summary>
+        /// <param name="slucajAdvokat"></param>
+        /// <returns></returns>
+
+        [HttpPut("prihvatanjeSlucajaAdvokata")]
+        public async Task<IActionResult> prihvatanjeSlucajaAdvokata( [FromBody] SlucajAdvokat slucajAdvokat)
         {
 
             slucajAdvokat.SlucajStatusId = 2;
@@ -97,8 +93,8 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok();
         }
-        [HttpPut("odbijenSlucajOdAdvokata")]
-        public async Task<IActionResult> odbijenSlucajOdAdvokata( [FromBody] SlucajAdvokat slucajAdvokat)
+        [HttpPut("odbijanjeSlucajaAdvokata")]
+        public async Task<IActionResult> odbijanjeSlucajaAdvokata( [FromBody] SlucajAdvokat slucajAdvokat)
         {
 
             slucajAdvokat.SlucajStatusId = 3;

@@ -1,5 +1,5 @@
 <mat-tab-group (selectedTabChange)='test($event)'>
-  <mat-tab label="Svi Ugovori">
+  <mat-tab label="Svi Slucaji">
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="ime">
               <th mat-header-cell *matHeaderCellDef> Ime:  </th>
@@ -40,10 +40,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </mat-table>
-
   </mat-tab>
-3
-  <mat-tab selectedTabChange="test($event)" label="Ugovori na cekanju" >
+
+  <mat-tab selectedTabChange="test($event)" label="Slucaji na cekanju" >
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="ime">
               <th mat-header-cell *matHeaderCellDef> Ime:  </th>
@@ -73,7 +72,7 @@
                       <mat-icon class="material-icons">done </mat-icon>
                     </button>
                     <button mat-icon-button (click)="redirectToAccept()">
-                        <mat-icon class="material-icons">edit</mat-icon> 
+                        <mat-icon class="material-icons">edit</mat-icon>
                       </button>
 
                       <button mat-icon-button (click)="redirectToReject(element)">
@@ -83,10 +82,10 @@
                 </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            
+
         </table>
-        
+
 </mat-tab>
 
-  <mat-tab label="Prihvaceni Ugovori"> Prihvaceni Ugovori </mat-tab>
+  <mat-tab label="Prihvaceni Slucaji"> Prihvaceni Ugovori </mat-tab>
 </mat-tab-group>

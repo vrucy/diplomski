@@ -23,15 +23,8 @@ namespace AdvokatskiPortal.Controllers
         {
             _context = context;
             this.userManager = userManager;
-            //this._userManager = manager;
         }
 
-        // GET: api/Korisnik
-        [HttpGet]
-        public IEnumerable<Korisnik> GetKorisniks()
-        {
-            return _context.Korisniks;
-        }
         [HttpGet("getAllSlucajForKorisnik")]
         public IEnumerable<Slucaj> getAllSlucajForKorisnik()
         {
@@ -66,7 +59,20 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok(korisnik);
         }
+        [HttpGet("GetUgovorsForKorisnik")]
+        public async Task<IActionResult> GetUgovorsForKorisnik()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var x = User.Claims.FirstOrDefault().Value;
+            var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Select(i => i.Id);
+            var f = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
 
+            return Ok(f);
+
+        }
         // PUT: api/Korisnik/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutKorisnik([FromRoute] int id, [FromBody] Korisnik korisnik)
@@ -134,8 +140,7 @@ namespace AdvokatskiPortal.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetSlucaj", new { id = slucaj.Id }, slucaj);
         }
-        //ovo bi trebalo put biti jer udetujem vec postojeci slucaj dakle
-        //
+        
         [HttpPost("postSlucajaSaAdvokatimaSaCenovnikom")]
         public IActionResult postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
         {
@@ -153,7 +158,6 @@ namespace AdvokatskiPortal.Controllers
             slucajVM.KorisnikId = ulogovaniKorisnik.Id;
             slucajVM.Slucaj.Cenovniks = slucajVM.Cenovniks;
             slucajVM.Slucaj.Korisnik = slucajVM.Korisnik;
-            
             try
             {
                 foreach (Advokat advokat in slucajVM.Advokats)
@@ -164,8 +168,6 @@ namespace AdvokatskiPortal.Controllers
                         datumKreiranja = DateTime.UtcNow,
                         SlucajId = slucajVM.Slucaj.Id,
                         SlucajStatusId = 1
-                        //Slucaj = slucajVM.Slucaj,
-                        //Advokat = advokat
                     };
                     _context.SlucajAdvokats.Add(newSlucajAdvokat);
                     
@@ -188,12 +190,7 @@ namespace AdvokatskiPortal.Controllers
 
                 throw ex;
             }
-            
-            var b = 2;
-            //slucaj.KorisnikId = y.Id;
-            //_context.Slucajs.Add(slucaj);
-            //await _context.SaveChangesAsync();
-            //return CreatedAtAction("GetSlucaj", new { id = slucaj.Id }, slucaj);
+     
             return Ok();
         }
         [HttpPost("postSlucajAdvokatima")]
@@ -206,31 +203,56 @@ namespace AdvokatskiPortal.Controllers
             var x = slucajVm;
             return Ok();
         }
-
-        // DELETE: api/Korisnik/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteKorisnik([FromRoute] int id)
+        [HttpGet("getSlucajNaCekanju")]
+        public IEnumerable<SlucajAdvokat> getSlucajNaCekanju()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
 
-            var korisnik = await _context.Korisniks.FindAsync(id);
-            if (korisnik == null)
-            {
-                return NotFound();
-            }
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q => q.SlucajStatusId == 1);
 
-            _context.Korisniks.Remove(korisnik);
-            await _context.SaveChangesAsync();
-
-            return Ok(korisnik);
+            return sviSlucajiAdvokata;
         }
 
-        private bool KorisnikExists(int id)
+        [HttpGet("getSlucajiPrihvaceniKorisnik")]
+        public IEnumerable<SlucajAdvokat> getSlucajiPrihvaceni()
         {
-            return _context.Korisniks.Any(e => e.Id == id);
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            //  SVI SLUCAJEVI OD KORISNIKA
+            //var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q => q.SlucajStatusId == 4);
+
+            return sviSlucajiAdvokata;
+        }
+        [HttpPut("prihvacenSlucajKorisnik")]
+        public async Task<IActionResult> prihvacenSlucajAdvokat([FromBody] SlucajAdvokat slucajAdvokat)
+        {
+
+            slucajAdvokat.SlucajStatusId = 2;
+            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+        [HttpGet("getSlucajNaCekanjuKorisnik")]
+        public IEnumerable<SlucajAdvokat> getSlucajNaCekanjuKorisnik()
+        {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q => q.SlucajStatusId == 1);
+
+            return sviSlucajiAdvokata;
+        }
+        [HttpPut("odbijenSlucajOdKorisnika")]
+        public async Task<IActionResult> odbijenSlucajOdAdvokata([FromBody] SlucajAdvokat slucajAdvokat)
+        {
+
+            slucajAdvokat.SlucajStatusId = 3;
+            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
