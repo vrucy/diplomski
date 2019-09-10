@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
  
   ngOnInit() {
     this.role=this.readLocalvariable('typeUser');
-
+    localStorage.clear();
   }
  
   readLocalvariable(typeUser:string){ 

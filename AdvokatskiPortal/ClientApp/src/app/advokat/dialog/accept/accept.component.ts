@@ -13,8 +13,7 @@ export class AcceptComponent {
     public dialogRef: MatDialogRef<AcceptComponent>,
     @Inject(MAT_DIALOG_DATA) public data: dialogPrihcvacenPodaci) {}
 
-  onNoClick(): void {
+    onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

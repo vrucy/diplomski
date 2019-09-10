@@ -17,18 +17,17 @@ export class SlanjeSlucajaComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thridFormGroup: FormGroup;
-  // cenovnik: Cenovnik [] = [{vrstaPlacanja: '', kolicina: ''}];
 
   cenovnik = {vrstaPlacanja: '', kolicina: ''};
-  // cenovnik: Cenovnik = {id: '', vrstaPlacanja: '', kolicina: '', slucajId: '', slucaj: '', statusId: '', status: ''};
   vrstaPlacanja;
   displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
   selection = new SelectionModel<Advokat>(true, []);
   public dataSource = new MatTableDataSource<Advokat>();
   slucaj = { opis: '' };
+  noviSlucaj = { opis: ''}
   advokati;
   slucajevi;
-
+  panelStanje = false;
   SlucajVM: SlucajSlanjeVM = {};
   filterTxt: string;
   odabraniSlucaj = { opis: ''};
@@ -37,7 +36,8 @@ export class SlanjeSlucajaComponent implements OnInit {
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ['', Validators.required],
+      noviSlucajOpis: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
@@ -55,6 +55,10 @@ export class SlanjeSlucajaComponent implements OnInit {
       this.slucajevi = res;
       console.log (this.slucajevi);
     });
+  }
+  kreiranjeSlucaja(){
+    this.korsinikService.kreiranjeSlucaja(this.noviSlucaj);
+    console.log(this.noviSlucaj)
   }
   doFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -86,7 +90,6 @@ export class SlanjeSlucajaComponent implements OnInit {
     const c = {kolicina: this.cenovnik.kolicina, vrstaPlacanja: this.cenovnik.vrstaPlacanja}
     this.SlucajVM.Cenovniks =  [c];
     console.log(this.SlucajVM.Slucaj);
-    // this.SlucajVM.Cenovniks.push(<Cenovnik> {kolicina: this.cenovnik.kolicina, vrstaPlacanja: this.cenovnik.vrstaPlacanja});
      this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 

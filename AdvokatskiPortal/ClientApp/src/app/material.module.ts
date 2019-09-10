@@ -13,6 +13,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   exports: [
@@ -28,7 +29,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatSelectModule,
     MatStepperModule,
     MatTabsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule
     ]
 })
 export class MaterialModule {}

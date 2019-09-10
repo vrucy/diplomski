@@ -74,40 +74,7 @@ namespace AdvokatskiPortal.Controllers
 
         }
         // PUT: api/Korisnik/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutKorisnik([FromRoute] int id, [FromBody] Korisnik korisnik)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != korisnik.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(korisnik).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!KorisnikExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
+       
         // POST: api/Korisnik
         [HttpPost]
         public async Task<IActionResult> PostKorisnik([FromBody] Korisnik korisnik)
@@ -207,11 +174,12 @@ namespace AdvokatskiPortal.Controllers
         public IEnumerable<SlucajAdvokat> getSlucajNaCekanju()
         {
             var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
 
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q => q.SlucajStatusId == 1);
+            var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
+            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
 
-            return sviSlucajiAdvokata;
+            return sviSlucajiKorisnika;
         }
 
         [HttpGet("getSlucajiPrihvaceniKorisnik")]
@@ -219,10 +187,11 @@ namespace AdvokatskiPortal.Controllers
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-            //  SVI SLUCAJEVI OD KORISNIKA
-            //var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q => q.SlucajStatusId == 4);
-
-            return sviSlucajiAdvokata;
+            
+            var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
+            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+            
+            return sviSlucajiKorisnika;
         }
         [HttpPut("prihvacenSlucajKorisnik")]
         public async Task<IActionResult> prihvacenSlucajAdvokat([FromBody] SlucajAdvokat slucajAdvokat)
@@ -238,11 +207,13 @@ namespace AdvokatskiPortal.Controllers
         public IEnumerable<SlucajAdvokat> getSlucajNaCekanjuKorisnik()
         {
             var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
 
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q => q.SlucajStatusId == 1);
-
-            return sviSlucajiAdvokata;
+            var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
+            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+                       
+            return sviSlucajiKorisnika;
+            return sviSlucajiKorisnika;
         }
         [HttpPut("odbijenSlucajOdKorisnika")]
         public async Task<IActionResult> odbijenSlucajOdAdvokata([FromBody] SlucajAdvokat slucajAdvokat)

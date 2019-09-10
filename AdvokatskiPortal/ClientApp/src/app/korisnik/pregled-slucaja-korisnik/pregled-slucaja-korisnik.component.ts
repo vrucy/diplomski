@@ -26,7 +26,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         this.dataSource = res;
       });
 
-      const a = this.dataSource;
+      const a = {...this.dataSource};
 
       for (let i = 0; i < a.length; i++) {
         if (a[i].slucajStatusId !== 1) {
@@ -34,23 +34,21 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         }
       }
       this.dataSource = a;
-      console.log(this.dataSource);
+      console.log(a);
 
     } else if (tabChangeEvent.index === 1) {
       this.korisnikService.getSlucajNaCekanju().subscribe(res => {
         this.dataSource = res;
       });
 
-      const a = this.dataSource;
+      // const a = this.dataSource;
 
-      for (let i = 0; i < a.length; i++) {
-        if (a[i].slucajStatusId !== 2) {
-          a.splice(i);
-        }
-
-
-      }
-      this.dataSource = a;
+      // for (let i = 0; i < a.length; i++) {
+      //   if (a[i].slucajStatusId !== 2) {
+      //     a.splice(i);
+      //   }
+      //}
+     // this.dataSource = a;
       console.log(this.dataSource);
 
       } else if (tabChangeEvent.index === 2) {

@@ -1,7 +1,30 @@
+
+
+
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Odaberite slucaj</ng-template>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-description>
+              Unesite novi slucaj
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+      
+          <mat-form-field>
+            <input matInput [(ngModel)]="noviSlucaj.opis" formControlName="noviSlucajOpis" placeholder="Opis slucaja">
+          </mat-form-field>
+            <button mat-button (click)="kreiranjeSlucaja()"> Snimi </button>
+         
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelStanje = true"
+                             (closed)="panelStanje = false">
+          
+        </mat-expansion-panel>
+        
+      </mat-accordion>
       <mat-card>
         <div>
             <p>opis</p>
@@ -17,11 +40,13 @@
     </mat-card>
     </form>
   </mat-step>
+
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Odaberite cenovnik</ng-template>
+      
       <mat-form-field>
-        <mat-label>Vrsta placanja</mat-label>
+        <mat-label>Odaberite slucaj</mat-label>
         <mat-select [(ngModel)]="cenovnik.vrstaPlacanja" formControlName="secondCtrl" required>
           <mat-option value="procentualno">Procentualno</mat-option>
           <mat-option value="novcano">Novcano</mat-option>
