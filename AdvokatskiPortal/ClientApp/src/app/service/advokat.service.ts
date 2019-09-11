@@ -11,6 +11,9 @@ export class AdvokatService {
   getNewNostifiation() {
     return this.http.get( " http://localhost:44345/api/Advokat/getNewNostifiation");
   }
+  getNaciniPlacanja() {
+    return this.http.get(" http://localhost:44345/api/Advokat/getNacinPlacanja");
+  }
   getUgovorsForAdvokat(){
     return this.http.get<any[]>(" http://localhost:44345/api/Advokat/getUgovorsForAdvokat");
   }
@@ -19,6 +22,11 @@ export class AdvokatService {
   }
   getSlucajiPrihvaceni(){
     return this.http.get(" http://localhost:44345/api/Advokat/getSlucajiPrihvaceni" );
+  }
+  postavljanjeNoveCeneOdAdvokata(slucajAdvokat) {
+    return this.http.post(` http://localhost:44345/api/Advokat/postavljanjeNoveCeneOdAdvokata`, slucajAdvokat).subscribe(res =>{
+      console.log(res)
+    });
   }
   prihvatanjeSlucajaOdAdvokata(slucajAdvokat) {
     return this.http.put(` http://localhost:44345/api/Advokat/prihvatanjeSlucajaAdvokata`, slucajAdvokat);

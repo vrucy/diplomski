@@ -1,4 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { AdvokatService } from './../../../service/advokat.service';
+import { Cenovnik } from './../../../model/Cenovnik';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -6,13 +8,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './prepraviti-ponudu.component.html',
   styleUrls: ['./prepraviti-ponudu.component.css']
 })
-export class PrepravitiPonuduComponent {
+export class PrepravitiPonuduComponent implements OnInit{
+
 
   public test: any;
 
-  constructor(
+
+  constructor( private advokatService: AdvokatService,
     public dialogRef: MatDialogRef<PrepravitiPonuduComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any ) {}
+
+    ngOnInit() {
+
+    }
 
     onNoClick(): void {
     this.dialogRef.close();

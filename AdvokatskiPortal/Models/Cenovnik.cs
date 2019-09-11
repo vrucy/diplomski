@@ -13,12 +13,15 @@ namespace AdvokatskiPortal.Models
         //userId
         public string vrstaPlacanja { get; set; }
         public string kolicina { get; set; }
-        
+        public string komentar { get; set; }
         public int SlucajId { get; set; }
         public Slucaj Slucaj { get; set; }
 
         public int StatusId{ get; set; }
         public Status Status { get; set; }
+        public string IdenityId { get; set; }
+        public ApplicationUser Idenity { get; set; }
+
         //statusId
     }
 }

@@ -65,13 +65,12 @@ namespace AdvokatskiPortal.Controllers
             
             var x = User.Claims.FirstOrDefault().Value;
             var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Select(i => i.Id);
-            var f = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+            var f = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat.Idenity).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
 
             return f;
 
         }
-        // PUT: api/Korisnik/5
-       
+              
         // POST: api/Korisnik
         [HttpPost]
         public async Task<IActionResult> PostKorisnik([FromBody] Korisnik korisnik)

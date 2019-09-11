@@ -1,10 +1,25 @@
 <div mat-dialog-content>
-    <p>Vas odgovor ?</p>
+    <p>Odaberite vrstu placanja</p>
+
     <mat-form-field>
-        <input matInput [(ngModel)]="data.odgovor">
+        <mat-label>Odaberite vrstu placanja</mat-label>
+        <mat-select [(ngModel)]="data.cenovnik.vrstaPlacanja" required>
+            <mat-option value="procentualno">Procentualno</mat-option>
+            <mat-option value="novcano">Novcano</mat-option>
+          </mat-select>
+
+    </mat-form-field>
+    <p>Odaberite kolicinu</p>
+    <mat-form-field>
+    <input matInput [(ngModel)]="data.cenovnik.kolicina" />
+    </mat-form-field>
+
+    <p>Vas komentar ?</p>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.cenovnik.komentar">
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data.odgovor" cdkFocusInitial>Ok</button>
+    <button mat-button [mat-dialog-close]="data.cenovnik" cdkFocusInitial>Ok</button>
 </div>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdvokatskiPortal.Data;
 using AdvokatskiPortal.Models;
+using AdvokatskiPortal.Models.View;
 using AdvokatskiPortal.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -64,14 +65,13 @@ namespace AdvokatskiPortal.Controllers
             
             return sviSlucajiAdvokata;
         }
-
+       
         [HttpGet("getSlucajiPrihvaceni")]
         public IEnumerable<SlucajAdvokat> getSlucajiPrihvaceni()
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
-            //var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik);
-            // treba uzeti iz cenovnika trenutno stanje ugovora
+            
             var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 4);
 
             return sviSlucajiAdvokata;
@@ -82,6 +82,25 @@ namespace AdvokatskiPortal.Controllers
         /// </summary>
         /// <param name="slucajAdvokat"></param>
         /// <returns></returns>
+        [HttpPost("postavljanjeNoveCeneOdAdvokata")]
+        public async Task<IActionResult> postavljanjeNoveCeneOdAdvokata([FromBody] postNewCenovnikFromAdvokatVM noviCenovnikVM)
+        {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var cenovnik = new Cenovnik
+            {
+                IdenityId = cliems.Value,
+                SlucajId = noviCenovnikVM.SlucajId,
+                kolicina = noviCenovnikVM.Cenovnik.kolicina,
+                komentar = noviCenovnikVM.Cenovnik.komentar,
+                vrstaPlacanja = noviCenovnikVM.Cenovnik.vrstaPlacanja,
+                StatusId = 1
+            };
+            _context.Cenovniks.Add(cenovnik);
+            _context.SaveChangesAsync();
+
+            return Ok(cenovnik);
+        }
 
         [HttpPut("prihvatanjeSlucajaAdvokata")]
         public async Task<IActionResult> prihvatanjeSlucajaAdvokata( [FromBody] SlucajAdvokat slucajAdvokat)
