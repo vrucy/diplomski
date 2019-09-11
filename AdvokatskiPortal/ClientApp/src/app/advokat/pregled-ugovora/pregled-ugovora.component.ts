@@ -16,7 +16,7 @@ export class PregledUgovoraComponent implements OnInit {
   public dataSource = [];
   podatci;
   cenovnik = new Cenovnik() ;
-  odgovor: string;
+  odgovor: string; 
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) { }
 
   openDialog(element): void {
