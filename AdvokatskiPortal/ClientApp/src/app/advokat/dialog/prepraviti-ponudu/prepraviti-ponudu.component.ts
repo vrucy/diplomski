@@ -8,9 +8,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class PrepravitiPonuduComponent {
 
+  public test: any;
+
   constructor(
     public dialogRef: MatDialogRef<PrepravitiPonuduComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: dialogPrepravljeniPodaci) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
     onNoClick(): void {
     this.dialogRef.close();

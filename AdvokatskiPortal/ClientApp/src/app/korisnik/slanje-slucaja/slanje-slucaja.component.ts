@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Advokat } from '../../model/Advokat';
 import { MatTableDataSource } from '@angular/material/table';
+import { Slucaj } from '../../model/Slucaj';
 
 @Component({
   selector: 'app-slanje-slucaja',
@@ -24,13 +25,14 @@ export class SlanjeSlucajaComponent implements OnInit {
   selection = new SelectionModel<Advokat>(true, []);
   public dataSource = new MatTableDataSource<Advokat>();
   slucaj = { opis: '' };
-  noviSlucaj = { opis: ''}
+  noviSlucaj = { opis: ''};
   advokati;
   slucajevi;
   panelStanje = false;
-  SlucajVM: SlucajSlanjeVM = {};
+  SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
+
   filterTxt: string;
-  odabraniSlucaj = { opis: ''};
+  odabraniSlucaj: Slucaj;
   odabraniAdvokati;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService) { }
 
@@ -56,6 +58,7 @@ export class SlanjeSlucajaComponent implements OnInit {
       console.log (this.slucajevi);
     });
   }
+  // PROBLEM KAD SE KREIRA NE UPISE SE AUTUTOMATSKI  U SELECT PROBLEM JE U ngLifeCiCLES
   kreiranjeSlucaja(){
     this.korsinikService.kreiranjeSlucaja(this.noviSlucaj);
     console.log(this.noviSlucaj)
@@ -82,15 +85,16 @@ export class SlanjeSlucajaComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
   save() {
-    console.log(this.cenovnik);
 
-    this.SlucajVM.Advokats = this.selection.selected;
+    this.SlucajVM.Advokats =  this.selection.selected;
+
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
 
-    const c = {kolicina: this.cenovnik.kolicina, vrstaPlacanja: this.cenovnik.vrstaPlacanja}
+    const c: Cenovnik = new Cenovnik();
+    c.kolicina = this.cenovnik.kolicina;
+    c.vrstaPlacanja = this.cenovnik.vrstaPlacanja;
     this.SlucajVM.Cenovniks =  [c];
-    console.log(this.SlucajVM.Slucaj);
-     this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 
 }

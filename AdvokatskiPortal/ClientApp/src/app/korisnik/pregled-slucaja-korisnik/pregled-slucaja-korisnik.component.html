@@ -1,3 +1,4 @@
+
 <mat-tab-group (selectedTabChange)='test($event)'>
     <mat-tab label="Svi Ugovori">
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -46,7 +47,7 @@
       </mat-table>
     </mat-tab>
 
-    <mat-tab (selectedTabChange)="test($event)" label="Ugovori na cekanju">
+    <mat-tab (selectedTabChange)="test($event)" label="Ugovori na cekanju" *ngIf="isLoadead">
 
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="ime">
@@ -96,5 +97,5 @@
 
     </mat-tab>
 
-    <mat-tab label="Prihvaceni Ugovori"> Prihvaceni Ugovori </mat-tab> -->
+    <mat-tab label="Prihvaceni Ugovori"> Prihvaceni Ugovori </mat-tab>
   </mat-tab-group>

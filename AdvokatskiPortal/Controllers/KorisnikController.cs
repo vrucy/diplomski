@@ -60,17 +60,14 @@ namespace AdvokatskiPortal.Controllers
             return Ok(korisnik);
         }
         [HttpGet("GetUgovorsForKorisnik")]
-        public async Task<IActionResult> GetUgovorsForKorisnik()
+        public IEnumerable<SlucajAdvokat> GetUgovorsForKorisnik()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
             var x = User.Claims.FirstOrDefault().Value;
             var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Select(i => i.Id);
             var f = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
 
-            return Ok(f);
+            return f;
 
         }
         // PUT: api/Korisnik/5
@@ -177,7 +174,7 @@ namespace AdvokatskiPortal.Controllers
             var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
 
             var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
-            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajStatusId == 1).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
 
             return sviSlucajiKorisnika;
         }
@@ -189,7 +186,7 @@ namespace AdvokatskiPortal.Controllers
             var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
             
             var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
-            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajStatusId == 2).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
             
             return sviSlucajiKorisnika;
         }
@@ -209,10 +206,8 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
 
-            var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
-            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+            var sviSlucajiKorisnika = _context.SlucajAdvokats.Where(d => d.SlucajStatusId ==3).Include(a => a.Advokat).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
                        
-            return sviSlucajiKorisnika;
             return sviSlucajiKorisnika;
         }
         [HttpPut("odbijenSlucajOdKorisnika")]

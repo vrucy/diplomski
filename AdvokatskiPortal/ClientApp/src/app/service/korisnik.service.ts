@@ -33,7 +33,7 @@ export class KorisnikService {
   postRequestAdvokats(advokati){
     return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats', advokati).subscribe();
   }
-  GetUgovorsForKorisnik(){
+  GetUgovorsForKorisnik() {
     return this.http.get('http://localhost:44345/api/Korisnik/GetUgovorsForKorisnik');
   }
   getSlucajNaCekanju(){
