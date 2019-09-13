@@ -9,23 +9,25 @@ import { AuthService } from '../../service/auth.service';
 })
 export class AdvokatHeaderComponent implements OnInit {
   badgeCount;
-  constructor(private advokatService: AdvokatService, private auth: AuthService) {
-    this._type = this.auth.typeUserValue
-    console.log(this.dataType)
-
-   }
+  ulogovaniKorisnik;
   _type: string;
   dataType: string;
 
+  constructor(private advokatService: AdvokatService, private auth: AuthService) {
+    this._type = this.auth.typeUserValue;
+    console.log(this.dataType);
+   }
+
   ngOnInit() {
-    this._type = this.auth.typeUserValue
+    this.ulogovaniKorisnik = localStorage.getItem('userName');
+    this._type = this.auth.typeUserValue;
     this.advokatService.getNewNostifiation().subscribe( res => {
       console.log(res);
       this.badgeCount = res;
     });
   }
   private change(mytype : string) :void{
-    this.dataType= mytype;
+    this.dataType = mytype;
   }
   clearCount() {
     this.badgeCount = 0;

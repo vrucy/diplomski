@@ -14,6 +14,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   exports: [
@@ -30,7 +31,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatStepperModule,
     MatTabsModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSnackBarModule
     ]
 })
 export class MaterialModule {}

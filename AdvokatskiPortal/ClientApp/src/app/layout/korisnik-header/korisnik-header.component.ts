@@ -11,23 +11,25 @@ export class KorisnikHeaderComponent implements OnInit {
   specjalnost;
 
   dataType: string;
-
+  ulogovaniKorisnik = {};
   regular: string;
   _type: string;
 
 
   constructor( private auth: AuthService) {
-    this._type = this.auth.typeUserValue
-    console.log(this.dataType)
+    this._type = this.auth.typeUserValue;
+
+    console.log(localStorage.getItem('user'));
   }
 
 
-    private change(mytype : string) :void{
-      this.dataType= mytype;
+    private change(mytype: string): void {
+      this.dataType = mytype;
     }
 
   ngOnInit() {
-      // console.log(this.type)
+    this.ulogovaniKorisnik = localStorage.getItem('userName');
+
   }
 
 

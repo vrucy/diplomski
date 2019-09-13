@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RoutingModule} from './routing.module';
+import { HttpErrorInterceptor } from './service/http-error.interceptor';
 
 import { AuthGuard } from './service/authGuard';
 import { AppComponent } from './app.component';
@@ -32,6 +33,8 @@ import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-
 import { AcceptComponent } from './advokat/dialog/accept/accept.component';
 import { PregledSlucajaKorisnikComponent } from './korisnik/pregled-slucaja-korisnik/pregled-slucaja-korisnik.component';
 import { PrepravitiPonuduComponent } from './advokat/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
+import { UspesnoLogovanjeComponent } from './snackBar/uspesno-logovanje/uspesno-logovanje.component';
+import { NeUspesnoLogovanjeComponent } from './snackBar/ne-uspesno-logovanje/ne-uspesno-logovanje.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,9 @@ import { PrepravitiPonuduComponent } from './advokat/dialog/prepraviti-ponudu/pr
     PrihvacenOdgovorComponent,
     AcceptComponent,
     PregledSlucajaKorisnikComponent,
-    PrepravitiPonuduComponent
+    PrepravitiPonuduComponent,
+    UspesnoLogovanjeComponent,
+    NeUspesnoLogovanjeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -67,11 +72,16 @@ import { PrepravitiPonuduComponent } from './advokat/dialog/prepraviti-ponudu/pr
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FlexLayoutModule
-  ],entryComponents:[ AcceptComponent, PrepravitiPonuduComponent  ],
-  providers: [AuthGuard,AuthService , {
+  ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent ],
+    providers: [AuthGuard, AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,
     multi : true
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpErrorInterceptor,
+    multi: true
   }],
   bootstrap: [AppComponent]
 })

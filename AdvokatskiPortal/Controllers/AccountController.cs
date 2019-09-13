@@ -129,7 +129,7 @@ namespace AdvokatskiPortal.Controllers
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
-            return Ok(new { Token = token, typeOfClaim = i });
+            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
         }
     }
 }

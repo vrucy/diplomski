@@ -1,6 +1,6 @@
 <div class="login">
   <mat-card class="login-card">
-    <form [formGroup]="form" (ngSubmit)="auth.login(form.value)">
+    <form [formGroup]="form" (ngSubmit)="auth.login(form.value)" >
       <div>
       <mat-form-field>
         <input matInput type="text" placeholder="user name" formControlName="UserName">

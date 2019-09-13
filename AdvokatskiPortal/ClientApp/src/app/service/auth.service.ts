@@ -1,29 +1,34 @@
+import { UspesnoLogovanjeComponent } from './../snackBar/uspesno-logovanje/uspesno-logovanje.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   typeUserValue: string;
-  isLogin: Boolean;
+  isLogin: Boolean = false;
   type: string;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
   registration(korisnik) {
 
     return this.http.post<any>('http://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
       localStorage.setItem('token', res);
-      this.authenticate(res)
+      this.authenticate(res);
     });
 }
   login(korisnik) {
     return this.http.post<any>('http://localhost:44345/api/Account/login', korisnik).subscribe(res => {
+      this._snackBar.openFromComponent(UspesnoLogovanjeComponent, {
+        duration: 2000
+      });
       localStorage.setItem('token', res);
-      this.router.navigate(['/pocetnaKorisnik'])
-      this.authenticate(res)
+      this.router.navigate(['/pocetnaKorisnik']);
+      this.authenticate(res);
     });
 }
 isLogged(): boolean {
@@ -42,7 +47,8 @@ registrationAdvokat(advokat){
 }
 authenticate(res) {
   let tokenValue = res['token'];
-  console.log(tokenValue);
+  localStorage.setItem('userName', res['user']);
+
   localStorage.setItem('token', tokenValue);
   this.typeUserValue = res["typeOfClaim"]
   localStorage.setItem('typeUser', this.typeUserValue);
@@ -51,8 +57,6 @@ authenticate(res) {
 
   switch (this.type) {
       case "AdminAdvokat": {
-          console.log("admin work")
-          // home page admin
           this.router.navigate(['/pocetnaAdvokat'])
           return true;
       }
@@ -60,7 +64,6 @@ authenticate(res) {
           this.router.navigate(['/pocetnaAdvokat']);
           return true;
       } case "RegularUser": {
-          console.log("User")
           this.router.navigate(['/pocetnaKorisnik']);
           return true;
       } default: {

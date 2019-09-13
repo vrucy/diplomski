@@ -9,31 +9,31 @@ import { AuthService } from '../service/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
+
   form: FormGroup;
-  role : string;
-  
-  constructor(private fb: FormBuilder, public auth:AuthService ) {
+  role: string;
+
+  constructor(private fb: FormBuilder, public auth: AuthService ) {
     this.form = this.fb.group({
       UserName:['' , Validators.required ],
       Password:['' , Validators.required ]
-    })  
+    });
    }
-   
+
    private httpOptions = {
     headers: new HttpHeaders({
         'Accept': 'application/text'
     }),
     responseType: 'text'
 }
- 
+
   ngOnInit() {
     this.role=this.readLocalvariable('typeUser');
     localStorage.clear();
   }
- 
-  readLocalvariable(typeUser:string){ 
-    return localStorage.getItem(typeUser)   
+
+  readLocalvariable(typeUser: string){
+    return localStorage.getItem(typeUser);
   }
-  
+
 }
