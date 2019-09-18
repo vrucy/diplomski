@@ -82,6 +82,7 @@ namespace AdvokatskiPortal.Controllers
         /// </summary>
         /// <param name="slucajAdvokat"></param>
         /// <returns></returns>
+        /// POTREBNO JE NAPRAVITI U CLIJENTU 2 POZIVA NA KLIKOM EDIT 1 DA SE NAPRAVI NOVI CENOVNIK A DRUGI DA SE EDITUJE STANJE TOG SLUCAJA NA ODGOVOR ADVOKAT
         [HttpPost("postavljanjeNoveCeneOdAdvokata")]
         public async Task<IActionResult> postavljanjeNoveCeneOdAdvokata([FromBody] postNewCenovnikFromAdvokatVM noviCenovnikVM)
         {
@@ -97,9 +98,20 @@ namespace AdvokatskiPortal.Controllers
                 StatusId = 1
             };
             _context.Cenovniks.Add(cenovnik);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok(cenovnik);
+        }
+
+        [HttpPut("prepravkaSlucajaAdvokata")]
+        public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] SlucajAdvokat slucajAdvokat)
+        {
+
+            slucajAdvokat.SlucajStatusId = 2;
+            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpPut("prihvatanjeSlucajaAdvokata")]

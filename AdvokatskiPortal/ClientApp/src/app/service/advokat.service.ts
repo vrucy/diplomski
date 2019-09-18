@@ -28,6 +28,11 @@ export class AdvokatService {
       console.log(res)
     });
   }
+  prepravkaSlucajaAdvokata(slucajAdvokat) {
+    return this.http.put('http://localhost:44345/api/Advokat/prepravkaSlucajaAdvokata', slucajAdvokat).subscribe(res => {
+      console.log(res)
+    })
+  }
   prihvatanjeSlucajaOdAdvokata(slucajAdvokat) {
     return this.http.put(` http://localhost:44345/api/Advokat/prihvatanjeSlucajaAdvokata`, slucajAdvokat);
   }

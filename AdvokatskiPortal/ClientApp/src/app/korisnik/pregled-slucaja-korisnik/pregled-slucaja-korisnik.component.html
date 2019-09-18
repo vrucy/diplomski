@@ -1,5 +1,5 @@
 
-<mat-tab-group (selectedTabChange)='test($event)'>
+<mat-tab-group >
     <mat-tab label="Svi Ugovori">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="ime">
@@ -42,7 +42,7 @@
               <mat-icon class="material-icons">done </mat-icon>
             </button>
 
-            <button mat-icon-button (click)="redirectToReject(element)">
+            <button mat-icon-button (click)="odbijenSlucaj(element)">
               <mat-icon class="material-icons">delete</mat-icon>
             </button>
           </div>

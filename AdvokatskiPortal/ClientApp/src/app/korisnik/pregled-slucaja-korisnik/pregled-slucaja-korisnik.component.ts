@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material';
 export class PregledSlucajaKorisnikComponent implements OnInit {
 
   displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'opis', 'button'];
-  public dataSource = [];
+  public dataSource ;
   private data: any;
   public isLoadead = false;
 
@@ -20,20 +20,25 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     this.korisnikService.GetUgovorsForKorisnik().subscribe(res => {
       this.data = res;
       this.dataSource = res;
+      console.log(res)
       console.log(this.dataSource);
       this.isLoadead = true;
     });
   }
+  odbijenSlucaj(slucaj) {
 
-  test(tabChangeEvent): void {
-    // if (tabChangeEvent.index === 0) {
-      this.isLoadead = false;
-      setTimeout(() => {
-        const copy: any[] = [...this.data];
-        const tmpData = copy.filter(c => c.slucajStatusId === ++tabChangeEvent.index);
-        this.dataSource = tmpData;
-        console.log(this.dataSource);
-        this.isLoadead = true;
-      }, 100);
-    }
+    this.korisnikService.odbijenSlucajAdvokat(slucaj);
+  }
+    // SAMO ZBOG PROVERE BEZ TABOVA POSLE CU VARTITI
+  // test(tabChangeEvent): void {
+  //   // if (tabChangeEvent.index === 0) {
+  //     this.isLoadead = false;
+  //     setTimeout(() => {
+  //       const copy: any[] = [...this.data];
+  //       const tmpData = copy.filter(c => c.slucajStatusId === ++tabChangeEvent.index);
+  //       this.dataSource = tmpData;
+  //       console.log(this.dataSource);
+  //       this.isLoadead = true;
+  //     }, 100);
+  //   }
 }

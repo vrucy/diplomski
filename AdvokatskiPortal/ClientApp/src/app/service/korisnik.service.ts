@@ -13,8 +13,8 @@ export class KorisnikService {
   getAllAdvokati(): Observable<Advokat[]>{
     return this.http.get<Advokat[]>('http://localhost:44345/api/Advokat');
   }
-  getAllSlucajForKorisnik(): Observable<Slucaj[]>{
-    return this.http.get<Slucaj[]>('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
+  getAllSlucajForKorisnik() {
+    return this.http.get ('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
   }
   kreiranjeSlucaja(slucaj){
     return this.http.post('http://localhost:44345/api/Korisnik/kreiranjeSlucaja', slucaj).subscribe(rez => {
@@ -34,7 +34,7 @@ export class KorisnikService {
     return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats', advokati).subscribe();
   }
   GetUgovorsForKorisnik() {
-    return this.http.get('http://localhost:44345/api/Korisnik/GetUgovorsForKorisnik');
+    return this.http.get('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
   }
   getSlucajNaCekanju(){
     return this.http.get('http://localhost:44345/api/Korisnik/getSlucajNaCekanjuKorisnik');
@@ -42,7 +42,10 @@ export class KorisnikService {
   getSlucajPrihvaceni() {
     return this.http.get('http://localhost:44345/api/Korisnik/getSlucajiPrihvaceniKorisnik');
   }
-  getOdbijenSlucajAdvokat() {
-    return this.http.get('http://localhost:44345/api/Korisnik/odbijenSlucajOdAdvokata');
+  odbijenSlucajAdvokat(slucaj) {
+    return this.http.put('http://localhost:44345/api/Korisnik/odbijenSlucajOdKorisnika', slucaj).subscribe(res => {
+      console.log(res)
+    });
   }
+
 }

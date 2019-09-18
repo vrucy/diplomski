@@ -16,7 +16,7 @@ export class PregledUgovoraComponent implements OnInit {
   public dataSource = [];
   podatci;
   cenovnik = new Cenovnik() ;
-  odgovor: string; 
+  odgovor: string;
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) { }
 
   openDialog(element): void {
@@ -29,7 +29,8 @@ export class PregledUgovoraComponent implements OnInit {
       this.odgovor = result;
       console.log(result)
       this.advokatService.prihvatanjeSlucajaOdAdvokata(element).subscribe(res => {
-    })
+    });
+
     });
   }
   openDialogEdit(element): void {
@@ -42,8 +43,10 @@ export class PregledUgovoraComponent implements OnInit {
       element.cenovnik = result;
       this.cenovnik = result;
       console.log(element);
-
-      this.advokatService.postavljanjeNoveCeneOdAdvokata(element)
+      // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
+      // to cu postici tako sto cu staviti ngIf i proveriti status
+      this.advokatService.postavljanjeNoveCeneOdAdvokata(element);
+      this.advokatService.prepravkaSlucajaAdvokata(element);
     });
   }
   ngOnInit() {
@@ -55,9 +58,9 @@ export class PregledUgovoraComponent implements OnInit {
 
   redirectToAccept(slucajAdvokat) {
 
-    // this.advokatService.prihvacenSlucajOdAdvokata(slucajAdvokat).subscribe(res => {
-    //   console.log(res)
-    // })
+    this.advokatService.prihvatanjeSlucajaOdAdvokata(slucajAdvokat).subscribe(res => {
+      console.log(res)
+    })
   }
 
   redirectToReject(slucajAdvokat) {
@@ -70,11 +73,11 @@ export class PregledUgovoraComponent implements OnInit {
 
   test(tabChangeEvent): void {
     if (tabChangeEvent.index === 0) {
+      const a = {...this.dataSource};
       this.advokatService.getUgovorsForAdvokat().subscribe(res => {
         this.dataSource = res;
       });
 
-      const a = {...this.dataSource};
       console.log(a)
       for (let i = 0; i < a.length; i++) {
         if (a[i].slucajStatusId !== 2) {
