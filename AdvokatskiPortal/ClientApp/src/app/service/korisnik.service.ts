@@ -34,13 +34,18 @@ export class KorisnikService {
     return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats', advokati).subscribe();
   }
   GetUgovorsForKorisnik() {
-    return this.http.get('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
+    return this.http.get<any[]>('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
   }
-  getSlucajNaCekanju(){
-    return this.http.get('http://localhost:44345/api/Korisnik/getSlucajNaCekanjuKorisnik');
-  }
-  getSlucajPrihvaceni() {
-    return this.http.get('http://localhost:44345/api/Korisnik/getSlucajiPrihvaceniKorisnik');
+  // getSlucajNaCekanju(){
+  //   return this.http.get('http://localhost:44345/api/Korisnik/getSlucajNaCekanjuKorisnik');
+  // }
+  // getSlucajPrihvaceni() {
+  //   return this.http.get('http://localhost:44345/api/Korisnik/getSlucajiPrihvaceniKorisnik');
+  // }
+  prihvacenSlucajOdKorisnika (slucaj) {
+    return this.http.put ('http://localhost:44345/api/Korisnik/prihvacenSlucajKorisnik', slucaj).subscribe(res => {
+      console.log(res);
+    });
   }
   odbijenSlucajAdvokat(slucaj) {
     return this.http.put('http://localhost:44345/api/Korisnik/odbijenSlucajOdKorisnika', slucaj).subscribe(res => {

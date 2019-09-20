@@ -26,6 +26,7 @@ namespace AdvokatskiPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
+        [Authorize(Policy = "AdminAdvokat")]
         [HttpPost("registrationAdvokat")]
         public async Task<IActionResult> RegistarAdvokat([FromBody] Advokat advokat)
         {

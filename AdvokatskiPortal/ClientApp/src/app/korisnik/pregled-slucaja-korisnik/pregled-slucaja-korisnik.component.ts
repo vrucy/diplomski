@@ -1,6 +1,9 @@
 import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { filter } from 'rxjs/operators';
+import { SlucajSlanjeVM } from '../../model/SlucajSlanjeVM';
 
 @Component({
   selector: 'app-pregled-slucaja-korisnik',
@@ -10,35 +13,78 @@ import { MatTableDataSource } from '@angular/material';
 export class PregledSlucajaKorisnikComponent implements OnInit {
 
   displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'opis', 'button'];
-  public dataSource ;
-  private data: any;
-  public isLoadead = false;
+  public dataSource = new MatTableDataSource<SlucajSlanjeVM>();
 
-  constructor(private korisnikService: KorisnikService) { }
+  nameFilter = new FormControl('');
+  tabIndex = new FormControl('');
+
+  constructor(private korisnikService: KorisnikService) {
+    this.korisnikService.GetUgovorsForKorisnik().subscribe(res => {
+      this.dataSource.data = res;
+    });
+    this.dataSource.filterPredicate = this.tableFilter();
+  }
+
+
+  filterValues = {
+    name: '',
+    tabIndex: ''
+  };
 
   ngOnInit() {
-    this.korisnikService.GetUgovorsForKorisnik().subscribe(res => {
-      this.data = res;
-      this.dataSource = res;
-      console.log(res)
-      console.log(this.dataSource);
-      this.isLoadead = true;
-    });
+    this.nameFilter.valueChanges
+      .subscribe(
+        name => {
+          this.filterValues.name = name;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+        }
+      );
+    this.tabIndex.valueChanges
+      .subscribe(
+        id => {
+          this.filterValues.tabIndex = id;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+        }
+      );
+  }
+  tableFilter(): (data: any, filter: string) => boolean {
+    let filterFunction = function (data, filter): boolean {
+      let searchTerms = JSON.parse(filter);
+      return data.advokat.ime.toLowerCase().indexOf(searchTerms.name) !== -1 ||
+        data.slucajStatusId.toString().toLowerCase().indexOf(searchTerms.tabIndex) !== -1;
+    }
+    return filterFunction;
+  }
+
+  tabDirect(event) {
+    if (event.index === 0) {
+      this.resetFilter();
+      this.dataSource.filter = null;
+      this.tabIndex.setValue(1);
+      console.log('set 1');
+    } else if (event.index === 1) {
+      this.resetFilter();
+      this.tabIndex.setValue(2);
+      console.log('set 2');
+    } else if (event.index === 2) {
+      this.resetFilter();
+      this.tabIndex.setValue(3);
+      console.log('set 3');
+    }
+  }
+  chekerTab(event) {
+    const even = ++event.index;
+    this.tabIndex.setValue(even);
+    this.resetFilter();
+  }
+  resetFilter() {
+    this.nameFilter.reset();
+    this.tabIndex.reset();
+  }
+  prihvacenSlucaj(slucaj) {
+    this.korisnikService.prihvacenSlucajOdKorisnika(slucaj);
   }
   odbijenSlucaj(slucaj) {
-
     this.korisnikService.odbijenSlucajAdvokat(slucaj);
   }
-    // SAMO ZBOG PROVERE BEZ TABOVA POSLE CU VARTITI
-  // test(tabChangeEvent): void {
-  //   // if (tabChangeEvent.index === 0) {
-  //     this.isLoadead = false;
-  //     setTimeout(() => {
-  //       const copy: any[] = [...this.data];
-  //       const tmpData = copy.filter(c => c.slucajStatusId === ++tabChangeEvent.index);
-  //       this.dataSource = tmpData;
-  //       console.log(this.dataSource);
-  //       this.isLoadead = true;
-  //     }, 100);
-  //   }
 }

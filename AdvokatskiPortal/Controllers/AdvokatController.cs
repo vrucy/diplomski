@@ -6,6 +6,7 @@ using AdvokatskiPortal.Data;
 using AdvokatskiPortal.Models;
 using AdvokatskiPortal.Models.View;
 using AdvokatskiPortal.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace AdvokatskiPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "RegularAdvokat")]
     public class AdvokatController : ControllerBase
     {
         private readonly PortalAdvokataDbContext _context;
@@ -86,28 +88,36 @@ namespace AdvokatskiPortal.Controllers
         [HttpPost("postavljanjeNoveCeneOdAdvokata")]
         public async Task<IActionResult> postavljanjeNoveCeneOdAdvokata([FromBody] postNewCenovnikFromAdvokatVM noviCenovnikVM)
         {
-            var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
-            var cenovnik = new Cenovnik
+            if (noviCenovnikVM.SlucajStatusId == 1)
             {
-                IdenityId = cliems.Value,
-                SlucajId = noviCenovnikVM.SlucajId,
-                kolicina = noviCenovnikVM.Cenovnik.kolicina,
-                komentar = noviCenovnikVM.Cenovnik.komentar,
-                vrstaPlacanja = noviCenovnikVM.Cenovnik.vrstaPlacanja,
-                StatusId = 1
-            };
-            _context.Cenovniks.Add(cenovnik);
-            await _context.SaveChangesAsync();
+                var cliems = User.Claims.First();
+                var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
 
-            return Ok(cenovnik);
+                var cenovnik = new Cenovnik
+                {
+                    IdenityId = cliems.Value,
+                    SlucajId = noviCenovnikVM.SlucajId,
+                    kolicina = noviCenovnikVM.Cenovnik.kolicina,
+                    komentar = noviCenovnikVM.Cenovnik.komentar,
+                    vrstaPlacanja = noviCenovnikVM.Cenovnik.vrstaPlacanja,
+                    StatusId = 1
+                };
+                _context.Cenovniks.Add(cenovnik);
+
+                await _context.SaveChangesAsync();
+
+                return Ok(cenovnik);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
-
         [HttpPut("prepravkaSlucajaAdvokata")]
         public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] SlucajAdvokat slucajAdvokat)
         {
 
-            slucajAdvokat.SlucajStatusId = 2;
+            slucajAdvokat.SlucajStatusId = 6;
             _context.Entry(slucajAdvokat).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
