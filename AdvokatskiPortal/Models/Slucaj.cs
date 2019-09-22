@@ -8,6 +8,7 @@ namespace AdvokatskiPortal.Models
     public class Slucaj
     {
         public int Id { get; set; }
+        public string Naziv { get; set; }
         public string Opis { get; set; }
         public Ugovor Ugovor { get; set; }
         public int KorisnikId { get; set; }

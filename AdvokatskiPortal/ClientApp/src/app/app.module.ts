@@ -35,6 +35,8 @@ import { PregledSlucajaKorisnikComponent } from './korisnik/pregled-slucaja-kori
 import { PrepravitiPonuduComponent } from './advokat/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
 import { UspesnoLogovanjeComponent } from './snackBar/uspesno-logovanje/uspesno-logovanje.component';
 import { NeUspesnoLogovanjeComponent } from './snackBar/ne-uspesno-logovanje/ne-uspesno-logovanje.component';
+import { PrikazSlucajComponent } from './advokat/dialog/prikaz-slucaj/prikaz-slucaj.component';
+import { DodavanjeDuplogAdvokataComponent } from './snackBar/dodavanje-duplog-advokata/dodavanje-duplog-advokata.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { NeUspesnoLogovanjeComponent } from './snackBar/ne-uspesno-logovanje/ne-
     PregledSlucajaKorisnikComponent,
     PrepravitiPonuduComponent,
     UspesnoLogovanjeComponent,
-    NeUspesnoLogovanjeComponent
+    NeUspesnoLogovanjeComponent,
+    PrikazSlucajComponent,
+    DodavanjeDuplogAdvokataComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -72,7 +76,8 @@ import { NeUspesnoLogovanjeComponent } from './snackBar/ne-uspesno-logovanje/ne-
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FlexLayoutModule
-  ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent ],
+  ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
+                      PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent ],
     providers: [AuthGuard, AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,

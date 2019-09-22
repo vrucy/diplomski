@@ -16,7 +16,7 @@ namespace AdvokatskiPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "RegularAdvokat")]
+   
     public class AdvokatController : ControllerBase
     {
         private readonly PortalAdvokataDbContext _context;
@@ -42,7 +42,7 @@ namespace AdvokatskiPortal.Controllers
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
-
+            // potrebno prebaciti isRead na true;
             var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false);
             
             return noviSlucajevi.Count();

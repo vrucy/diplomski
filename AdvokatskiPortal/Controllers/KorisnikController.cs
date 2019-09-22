@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using AdvokatskiPortal.Data;
 using AdvokatskiPortal.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 using AdvokatskiPortal.Models.View;
+using System.Net.Http;
 
 namespace AdvokatskiPortal.Controllers
 {
@@ -26,22 +26,14 @@ namespace AdvokatskiPortal.Controllers
         }
 
         [HttpGet("getAllSlucajForKorisnik")]
-        public IEnumerable<SlucajAdvokat> getAllSlucajForKorisnik()
+        public IEnumerable<Slucaj> getAllSlucajForKorisnik()
         {
             try
             {
-                //var x = User.Claims.FirstOrDefault().Value;
-                //var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x);
-                //return korsinikSlucajevi;
                 var x = User.Claims.FirstOrDefault().Value;
-                var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Select(i => i.Id);
-                List<SlucajAdvokat> test = new List<SlucajAdvokat>();
-                foreach (var item in korsinikSlucajevi)
-                {
-                    test.AddRange(_context.SlucajAdvokats.Where(d => d.SlucajId == item).Include(a => a.Advokat.Idenity).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks));
-                }
-
-                return test;
+                var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x);
+             
+                return korsinikSlucajevi;
             }
             catch (Exception e)
             {
@@ -51,6 +43,18 @@ namespace AdvokatskiPortal.Controllers
             
         }
         // GET: api/Korisnik/5
+        [HttpGet("getAllSlucajAdvokatForKorisnik")]
+        public IEnumerable<SlucajAdvokat> getAllSlucajAdvokatForKorisnik()
+        {
+            var x = User.Claims.FirstOrDefault().Value;
+            var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(k => k.Korisnik).ThenInclude(i => i.Idenity);
+            var test = new List<SlucajAdvokat>();
+            foreach (var item in korsinikSlucajevi)
+            {
+                test.AddRange(_context.SlucajAdvokats.Where(d => d.SlucajId == item.Id).Include(a => a.Advokat.Idenity).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks));
+            }
+            return test;
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetKorisnik([FromRoute] int id)
         {
@@ -117,10 +121,21 @@ namespace AdvokatskiPortal.Controllers
         public IActionResult postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
         {
             if (!ModelState.IsValid)
-            {
-                
+            {  
                 return BadRequest(ModelState);
             }
+            foreach (var item in slucajVM.Advokats)
+            {
+                if (_context.SlucajAdvokats.Where(s => s.AdvokatId == item.Id && s.SlucajId == slucajVM.Slucaj.Id) != null)
+                {
+                    HttpResponseMessage mes;
+                    string mess = "Vec ste dodali za svoj slucaj advokata: " + item.Ime + " " + item.Prezime ;
+                    // naci kako vratiti poruku i napraviti svoj status kod ako moze
+                    return BadRequest(mess);
+                    //return StatusCode(405, mess);
+                }               
+            }
+            
             try
             {
             var cliems = User.Claims.First();

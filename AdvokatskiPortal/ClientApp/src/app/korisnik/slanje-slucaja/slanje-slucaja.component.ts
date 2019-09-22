@@ -25,20 +25,22 @@ export class SlanjeSlucajaComponent implements OnInit {
   selection = new SelectionModel<Advokat>(true, []);
   public dataSource = new MatTableDataSource<Advokat>();
   slucaj = { opis: '' };
-  noviSlucaj = { opis: ''};
+  // noviSlucaj = { opis: ''};
+  noviSlucaj : Slucaj = new Slucaj();
   advokati;
   slucajevi;
   panelStanje = false;
   SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
 
   filterTxt: string;
-  odabraniSlucaj: Slucaj;
+  odabraniSlucaj: Slucaj = new Slucaj();
   odabraniAdvokati;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService) { }
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required],
+      noviSlucajNaziv: [''],
       noviSlucajOpis: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
@@ -51,11 +53,10 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.korsinikService.getAllAdvokati().subscribe(res => {
       this.dataSource.data = res;
       this.advokati = res;
-      console.log(res);
     });
     this.korsinikService.getAllSlucajForKorisnik().subscribe(res => {
       this.slucajevi = res;
-      console.log (this.slucajevi);
+      console.log(this.slucajevi)
     });
   }
   // PROBLEM KAD SE KREIRA NE UPISE SE AUTUTOMATSKI  U SELECT PROBLEM JE U ngLifeCiCLES

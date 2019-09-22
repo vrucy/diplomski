@@ -13,7 +13,7 @@ namespace AdvokatskiPortal.Models
         public bool prihvacno { get; set; }
         public string Odgovor { get; set; }
         public bool isRead { get; set; }
-        public bool isActive { get; set; }
+        //public bool isActive { get; set; }
         public int AdvokatId { get; set; }
         public Advokat Advokat{ get; set; }
         public int SlucajId { get; set; }

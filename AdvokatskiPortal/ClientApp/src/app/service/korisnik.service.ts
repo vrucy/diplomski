@@ -33,8 +33,8 @@ export class KorisnikService {
   postRequestAdvokats(advokati){
     return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats', advokati).subscribe();
   }
-  GetUgovorsForKorisnik() {
-    return this.http.get<any[]>('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
+  GetAllSlucajAdvokatForKorisnik() {
+    return this.http.get<any[]>('http://localhost:44345/api/Korisnik/getAllSlucajAdvokatForKorisnik');
   }
   // getSlucajNaCekanju(){
   //   return this.http.get('http://localhost:44345/api/Korisnik/getSlucajNaCekanjuKorisnik');
@@ -47,7 +47,7 @@ export class KorisnikService {
       console.log(res);
     });
   }
-  odbijenSlucajAdvokat(slucaj) {
+  odbijenSlucajOdKorisnika(slucaj) {
     return this.http.put('http://localhost:44345/api/Korisnik/odbijenSlucajOdKorisnika', slucaj).subscribe(res => {
       console.log(res)
     });

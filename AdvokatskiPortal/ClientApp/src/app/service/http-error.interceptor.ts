@@ -10,6 +10,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
+import { DodavanjeDuplogAdvokataComponent } from '../snackBar/dodavanje-duplog-advokata/dodavanje-duplog-advokata.component';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(private _snackBar: MatSnackBar) { }
@@ -26,10 +27,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             // server-side error
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
           }
-          if (error.status === 400 ) {
+          if (error.status === 405 ) {
             this._snackBar.openFromComponent(NeUspesnoLogovanjeComponent, {
-              duration: 2000
+              duration: 3000
             });
+          }
+          if(error.status === 400){
+            console.log(error)
+            this._snackBar.openFromComponent(DodavanjeDuplogAdvokataComponent,{
+              data: error,
+              duration: 3000
+            })
           }
           return throwError(errorMessage);
         })

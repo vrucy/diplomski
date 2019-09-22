@@ -111,7 +111,7 @@ namespace AdvokatskiPortal.Controllers
             var result = await signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, false, false);
             if (!result.Succeeded)
             {
-                return BadRequest();
+                return StatusCode(405);
             }
             var user = await userManager.FindByNameAsync(loginUser.UserName);
 

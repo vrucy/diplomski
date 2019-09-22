@@ -56,10 +56,135 @@
   </mat-tab>
 
   <mat-tab label="Prihvacen Od Advokata">
-      <mat-form-field>
-          <mat-label>Search</mat-label>
-          <input matInput [formControl]="nameFilter">
-        </mat-form-field>
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="nameFilter">
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="ime">
+        <th mat-header-cell *matHeaderCellDef> Ime </th>
+        <td mat-cell *matCellDef="let element"> {{element.advokat.ime}} </td>
+      </ng-container>
+      <ng-container matColumnDef="prezime">
+        <th mat-header-cell *matHeaderCellDef> Prezime </th>
+        <td mat-cell *matCellDef="let element"> {{element.advokat.prezime}} </td>
+      </ng-container>
+      <ng-container matColumnDef="tekst_Zahteva">
+        <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>
+        <td mat-cell *matCellDef="let element"> {{element.tekst_Zahteva}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cena">
+        <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
+        <td mat-cell *matCellDef="let element">
+            <div *ngFor="let item of element.slucaj.cenovniks">
+                <div *ngIf="element.slucaj.korisnik.idenity.id === item.idenityId">
+                  {{item.kolicina}}
+                </div>
+              </div>
+           </td>
+      </ng-container>
+      <ng-container matColumnDef="vrstaPlacanja">
+        <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
+        <td mat-cell *matCellDef="let element">
+            <div *ngFor="let item of element.slucaj.cenovniks">
+                <div *ngIf="element.slucaj.korisnik.idenity.id == item.idenityId">
+                  {{item.vrstaPlacanja}}
+                </div>
+              </div> 
+            </td>
+      </ng-container>
+      <ng-container matColumnDef="opis">
+        <th mat-header-cell *matHeaderCellDef> Opis Slucaja </th>
+        <td mat-cell *matCellDef="let element"> {{element.slucaj.opis}} </td>
+      </ng-container>
+      <ng-container matColumnDef="button">
+        <th mat-header-cell *matHeaderCellDef>Prihvati/Odbaci </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.slucajStatusId === 2">
+          <button mat-icon-button (click)="prihvacenSlucaj(element)">
+            <mat-icon class="material-icons">done </mat-icon>
+          </button>
+
+          <button mat-icon-button (click)="odbijenSlucajOdAdvokata(element)">
+            <mat-icon class="material-icons">delete</mat-icon>
+          </button>
+        </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-tab>
+
+  <mat-tab label="Prepravljen Od Advokata">
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="nameFilter">
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="ime">
+        <th mat-header-cell *matHeaderCellDef> Ime </th>
+        <td mat-cell *matCellDef="let element"> {{element.advokat.ime}} </td>
+      </ng-container>
+      <ng-container matColumnDef="prezime">
+        <th mat-header-cell *matHeaderCellDef> Prezime </th>
+        <td mat-cell *matCellDef="let element"> {{element.advokat.prezime}} </td>
+      </ng-container>
+      <ng-container matColumnDef="tekst_Zahteva">
+        <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>
+        <td mat-cell *matCellDef="let element"> {{element.tekst_Zahteva}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cena">
+        <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let item of element.slucaj.cenovniks">
+            <div *ngIf="element.advokat.idenity.id == item.idenityId">
+              {{item.kolicina}}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="vrstaPlacanja">
+        <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let item of element.slucaj.cenovniks">
+            <div *ngIf="element.advokat.idenity.id == item.idenityId">
+              {{item.vrstaPlacanja}}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="opis">
+        <th mat-header-cell *matHeaderCellDef> Opis Slucaja </th>
+        <td mat-cell *matCellDef="let element"> {{element.slucaj.opis}} </td>
+      </ng-container>
+      <ng-container matColumnDef="button">
+        <th mat-header-cell *matHeaderCellDef> Prihvati/odbaci </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.slucajStatusId === 6">
+            <button mat-icon-button (click)="openDialog(element)">
+              <mat-icon class="material-icons">done </mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="odbijenSlucaj(element)">
+              <mat-icon class="material-icons">delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-tab>
+
+
+  <mat-tab label="Svi Prihvaceni Od Klijenta">
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="nameFilter">
+    </mat-form-field>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="ime">
         <th mat-header-cell *matHeaderCellDef> Ime </th>
@@ -89,13 +214,7 @@
       <ng-container matColumnDef="button">
         <th mat-header-cell *matHeaderCellDef> </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon class="material-icons">done </mat-icon>
-          </button>
-
-          <button mat-icon-button (click)="redirectToReject(element)">
-            <mat-icon class="material-icons">delete</mat-icon>
-          </button>
+          
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -103,51 +222,4 @@
     </table>
   </mat-tab>
 
-  <mat-tab label="Svi Prihvaceni Od Klijenta">
-      <mat-form-field>
-          <mat-label>Search</mat-label>
-          <input matInput [formControl]="nameFilter">
-        </mat-form-field>
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-          <ng-container matColumnDef="ime">
-            <th mat-header-cell *matHeaderCellDef> Ime </th>
-            <td mat-cell *matCellDef="let element"> {{element.advokat.ime}} </td>
-          </ng-container>
-          <ng-container matColumnDef="prezime">
-            <th mat-header-cell *matHeaderCellDef> Prezime </th>
-            <td mat-cell *matCellDef="let element"> {{element.advokat.prezime}} </td>
-          </ng-container>
-          <ng-container matColumnDef="tekst_Zahteva">
-            <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>
-            <td mat-cell *matCellDef="let element"> {{element.tekst_Zahteva}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="cena">
-            <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
-            <td mat-cell *matCellDef="let element"> {{element.slucaj.cenovniks[0].kolicina}} </td>
-          </ng-container>
-          <ng-container matColumnDef="vrstaPlacanja">
-            <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
-            <td mat-cell *matCellDef="let element"> {{element.slucaj.cenovniks[0].vrstaPlacanja}} </td>
-          </ng-container>
-          <ng-container matColumnDef="opis">
-            <th mat-header-cell *matHeaderCellDef> Opis Slucaja </th>
-            <td mat-cell *matCellDef="let element"> {{element.slucaj.opis}} </td>
-          </ng-container>
-          <ng-container matColumnDef="button">
-            <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button (click)="openDialog(element)">
-                <mat-icon class="material-icons">done </mat-icon>
-              </button>
-
-              <button mat-icon-button (click)="redirectToReject(element)">
-                <mat-icon class="material-icons">delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-  </mat-tab>
 </mat-tab-group>

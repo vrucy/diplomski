@@ -2,7 +2,6 @@ import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import { filter } from 'rxjs/operators';
 import { SlucajSlanjeVM } from '../../model/SlucajSlanjeVM';
 
 @Component({
@@ -19,8 +18,9 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   tabIndex = new FormControl('');
 
   constructor(private korisnikService: KorisnikService) {
-    this.korisnikService.GetUgovorsForKorisnik().subscribe(res => {
+    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe(res => {
       this.dataSource.data = res;
+      console.log(res)
     });
     this.dataSource.filterPredicate = this.tableFilter();
   }
@@ -59,18 +59,22 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   tabDirect(event) {
     if (event.index === 0) {
       this.resetFilter();
-      this.dataSource.filter = null;
+      
       this.tabIndex.setValue(1);
       console.log('set 1');
     } else if (event.index === 1) {
       this.resetFilter();
       this.tabIndex.setValue(2);
-      console.log('set 2');
+      
     } else if (event.index === 2) {
       this.resetFilter();
-      this.tabIndex.setValue(3);
+      this.tabIndex.setValue(6);
       console.log('set 3');
-    }
+    } else if (event.index === 3){
+      this.resetFilter();
+      this.tabIndex.setValue(4);
+      console.log('set 4');
+    } 
   }
   chekerTab(event) {
     const even = ++event.index;
@@ -85,6 +89,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     this.korisnikService.prihvacenSlucajOdKorisnika(slucaj);
   }
   odbijenSlucaj(slucaj) {
-    this.korisnikService.odbijenSlucajAdvokat(slucaj);
+    this.korisnikService.odbijenSlucajOdKorisnika(slucaj);
   }
 }

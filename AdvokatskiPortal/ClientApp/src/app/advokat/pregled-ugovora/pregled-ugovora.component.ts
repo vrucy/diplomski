@@ -7,6 +7,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { AcceptComponent } from '../dialog/accept/accept.component';
 import { PrepravitiPonuduComponent } from '../dialog/prepraviti-ponudu/prepraviti-ponudu.component';
 import { FormControl } from '@angular/forms';
+import { PrikazSlucajComponent } from '../dialog/prikaz-slucaj/prikaz-slucaj.component';
 
 @Component({
   selector: 'app-pregled-ugovora',
@@ -55,14 +56,27 @@ export class PregledUgovoraComponent implements OnInit {
       // napraviti svoj cenovnik ili prepraviti postojeci???
       data: { cenovnik: this.cenovnik }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       element.cenovnik = result;
       this.cenovnik = result;
       console.log(element);
       // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
       // to cu postici tako sto cu staviti ngIf i proveriti status
-      this.advokatService.postavljanjeNoveCeneOdAdvokata(element);
+      await this.advokatService.postavljanjeNoveCeneOdAdvokata(element);
       this.advokatService.prepravkaSlucajaAdvokata(element);
+    });
+  }
+  openDialogPrikazSlucaja(element): void {
+    const dialogRef = this.dialog.open(PrikazSlucajComponent, {
+      width: '250px',
+      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      element.odgovor = result;
+      this.odgovor = result;
+      console.log(result)
+      
+
     });
   }
   tableFilter(): (data: any, filter: string) => boolean {

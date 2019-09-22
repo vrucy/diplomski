@@ -9,8 +9,7 @@ namespace AdvokatskiPortal.Models
     public class Cenovnik
     {
         public int Id { get; set; }
-        //slucajId
-        //userId
+        
         public string vrstaPlacanja { get; set; }
         public string kolicina { get; set; }
         public string komentar { get; set; }
