@@ -14,7 +14,7 @@
 </div>
 <div >
 
-  <button mat-button [mat-menu-trigger-for]="profile"
+  <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
     (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
 
   <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">

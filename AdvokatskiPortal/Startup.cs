@@ -41,7 +41,13 @@ namespace AdvokatskiPortal
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RegularAdvokat", policy => policy.RequireClaim("RegularAdvokat"));
-                options.AddPolicy("AdminAdvokat", policy => policy.RequireClaim("AdminAdvokat","RegularAdvokat"));
+                //options.AddPolicy("AdminAdvokat", policy => policy.RequireClaim("AdminAdvokat","RegularAdvokat"));
+                options.AddPolicy("AdminAdvokat", policy => policy.RequireAssertion(context => (
+                    context.User.HasClaim(c => (
+                        c.Type == "AdminAdvokat" || c.Type == "ReqularAdvokat"
+                        )))));
+                
+
                 options.AddPolicy("RegularKorisnik", policy => policy.RequireClaim("RegularKorisnik"));
             });
 

@@ -47,7 +47,7 @@ namespace AdvokatskiPortal.Controllers
         public IEnumerable<SlucajAdvokat> getAllSlucajAdvokatForKorisnik()
         {
             var x = User.Claims.FirstOrDefault().Value;
-            var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(k => k.Korisnik).ThenInclude(i => i.Idenity);
+            var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(k => k.Korisnik).ThenInclude(i => i.Idenity).ToList();
             var test = new List<SlucajAdvokat>();
             foreach (var item in korsinikSlucajevi)
             {
@@ -71,6 +71,26 @@ namespace AdvokatskiPortal.Controllers
             }
 
             return Ok(korisnik);
+        }
+        [HttpGet("getNewNostifiation")]
+        public IEnumerable<SlucajAdvokat> getNewNostifiation()
+        {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            // potrebno prebaciti isRead na true;
+            var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false);
+
+            return noviSlucajevi;
+        }
+        [HttpPut("putNewNostifiationRead")]
+        public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajAdvokat nostification)
+        {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            // potrebno prebaciti isRead na true;
+            var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false);
+
+            return Ok(nostification);
         }
         [HttpGet("GetUgovorsForKorisnik")]
         public IEnumerable<SlucajAdvokat> GetUgovorsForKorisnik()
@@ -126,7 +146,8 @@ namespace AdvokatskiPortal.Controllers
             }
             foreach (var item in slucajVM.Advokats)
             {
-                if (_context.SlucajAdvokats.Where(s => s.AdvokatId == item.Id && s.SlucajId == slucajVM.Slucaj.Id) != null)
+                
+                if (_context.SlucajAdvokats.Where(s => s.AdvokatId == item.Id && s.SlucajId == slucajVM.Slucaj.Id).FirstOrDefault() != null)
                 {
                     HttpResponseMessage mes;
                     string mess = "Vec ste dodali za svoj slucaj advokata: " + item.Ime + " " + item.Prezime ;

@@ -15,6 +15,8 @@ namespace AdvokatskiPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   // [Authorize("AdminAdvokat")]
+
     public class AccountController : ControllerBase
     {
         readonly UserManager<IdentityUser> userManager;
@@ -26,7 +28,7 @@ namespace AdvokatskiPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
-        [Authorize(Policy = "AdminAdvokat")]
+        [Authorize( Policy = "AdminAdvokat")]
         [HttpPost("registrationAdvokat")]
         public async Task<IActionResult> RegistarAdvokat([FromBody] Advokat advokat)
         {
@@ -44,7 +46,7 @@ namespace AdvokatskiPortal.Controllers
             var user = await userManager.FindByNameAsync(advokat.UserName);
             
             await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
-            //await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
+           // await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
             
 
             _context.Advokats.Add(advokat);
@@ -99,15 +101,11 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok(new { Token = token, typeOfClaim = i });
         }
-        [HttpPost("postRequestAdvokats")]
-        public async Task<IActionResult> PostRequestAdvokats([FromBody]LoginModel loginUser)
-        {
-
-            return Ok();
-        }
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginUser)
         {
+            string i;
             var result = await signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, false, false);
             if (!result.Succeeded)
             {
@@ -125,8 +123,13 @@ namespace AdvokatskiPortal.Controllers
                 expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: signinCredentials
             );
-
-            string i = claim.First().Type;
+            if(claim.Where(c => c.Type == "AdminAdvokat").SingleOrDefault() != null)
+            {
+                i = claim.Where(c => c.Type == "AdminAdvokat").Single().Type;
+            } else
+            {
+                i = claim.First().Type;
+            }         
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 

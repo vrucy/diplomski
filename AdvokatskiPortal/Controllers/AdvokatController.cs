@@ -37,15 +37,32 @@ namespace AdvokatskiPortal.Controllers
 
             return advokati;
         }
+        
         [HttpGet("getNewNostifiation")]
-        public int getNewNostifiation()
+        public IEnumerable<SlucajAdvokat> getNewNostifiation()
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
             // potrebno prebaciti isRead na true;
             var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false);
-            
-            return noviSlucajevi.Count();
+
+            return noviSlucajevi;
+        }
+        [HttpPut("putNewNostifiationRead")]
+        public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajAdvokat[] nostification)
+        {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            // potrebno prebaciti isRead na true;
+            var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(s => s.Slucaj);
+            foreach (var item in noviSlucajevi)
+            {
+                item.isRead = true;
+                _context.Entry(item).State = EntityState.Modified;
+            };
+
+            await _context.SaveChangesAsync();
+            return Ok();
         }
         [HttpGet("getUgovorsForAdvokat")]
         public IEnumerable<SlucajAdvokat> getUgovorsForAdvokatAsync()
@@ -53,7 +70,7 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(s=>s.Slucaj).ThenInclude( c => c.Korisnik);
+            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(s=>s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
                                    
             return sviSlucajiAdvokata;
         }

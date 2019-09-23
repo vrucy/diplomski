@@ -48,10 +48,10 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       );
   }
   tableFilter(): (data: any, filter: string) => boolean {
-    let filterFunction = function (data, filter): boolean {
-      let searchTerms = JSON.parse(filter);
-      return data.advokat.ime.toLowerCase().indexOf(searchTerms.name) !== -1 ||
-        data.slucajStatusId.toString().toLowerCase().indexOf(searchTerms.tabIndex) !== -1;
+    const filterFunction = function (data, filter): boolean {
+      const searchTerms = JSON.parse(filter);
+      return (data.advokat.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
+        data.slucajStatusId === <number>searchTerms.tabIndex;
     }
     return filterFunction;
   }
@@ -59,22 +59,22 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   tabDirect(event) {
     if (event.index === 0) {
       this.resetFilter();
-      
+
       this.tabIndex.setValue(1);
       console.log('set 1');
     } else if (event.index === 1) {
       this.resetFilter();
       this.tabIndex.setValue(2);
-      
+
     } else if (event.index === 2) {
       this.resetFilter();
       this.tabIndex.setValue(6);
       console.log('set 3');
-    } else if (event.index === 3){
+    } else if (event.index === 3) {
       this.resetFilter();
       this.tabIndex.setValue(4);
       console.log('set 4');
-    } 
+    }
   }
   chekerTab(event) {
     const even = ++event.index;

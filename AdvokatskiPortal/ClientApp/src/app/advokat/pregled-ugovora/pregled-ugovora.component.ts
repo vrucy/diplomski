@@ -15,7 +15,7 @@ import { PrikazSlucajComponent } from '../dialog/prikaz-slucaj/prikaz-slucaj.com
   styleUrls: ['./pregled-ugovora.component.css']
 })
 export class PregledUgovoraComponent implements OnInit {
-  displayedColumns: string[] = ['ime', 'prezime', 'opis','cena', 'button'];
+  displayedColumns: string[] = ['ime', 'prezime', 'opis', 'cena', 'button'];
   public dataSource = new MatTableDataSource<SlucajSlanjeVM>();
   podatci;
   nameFilter = new FormControl('');
@@ -75,7 +75,7 @@ export class PregledUgovoraComponent implements OnInit {
       element.odgovor = result;
       this.odgovor = result;
       console.log(result)
-      
+
 
     });
   }

@@ -18,7 +18,7 @@
         <td mat-cell *matCellDef="let element">
           <div *ngIf="element.slucajStatusId === 1">
             <div *ngFor="let item of element.slucaj.cenovniks">
-              <div *ngIf="element.slucaj.korisnik.idenityId == item.idenityId">
+              <div *ngIf="element.slucaj.korisnik.idenity.Id == item.idenityId">
                 <!--staviti u else da se vidi inicijalna cena korisnika koju je postavio-->
                 {{item.kolicina}}
               </div>
@@ -32,7 +32,7 @@
                 </div>
               </div>
             </div>
-            
+
         </td>
       </ng-container>
       <ng-container matColumnDef="opis">

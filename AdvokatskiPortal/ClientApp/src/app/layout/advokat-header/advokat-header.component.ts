@@ -1,5 +1,5 @@
 import { AdvokatService } from './../../service/advokat.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
@@ -7,29 +7,35 @@ import { AuthService } from '../../service/auth.service';
   templateUrl: './advokat-header.component.html',
   styleUrls: ['./advokat-header.component.css']
 })
-export class AdvokatHeaderComponent implements OnInit {
+export class AdvokatHeaderComponent implements OnInit, AfterContentInit {
+
   badgeCount;
   ulogovaniKorisnik;
   _type: string;
-  dataType: string;
-
+  newNostifation;
   constructor(private advokatService: AdvokatService, private auth: AuthService) {
     this._type = this.auth.typeUserValue;
-    console.log(this.dataType);
    }
 
-  ngOnInit() {
-    this.ulogovaniKorisnik = localStorage.getItem('userName');
-    this._type = this.auth.typeUserValue;
+   ngAfterContentInit(): void {
     this.advokatService.getNewNostifiation().subscribe( res => {
       console.log(res);
-      this.badgeCount = res;
+      this.newNostifation = res;
+      this.badgeCount = res.length;
     });
   }
-  private change(mytype : string) :void{
-    this.dataType = mytype;
+  ngOnInit() {
+    this.ulogovaniKorisnik = localStorage.getItem('userName');
+    this._type = localStorage.getItem('typeUser')
+  }
+  putReadTrue() {
+
+    this.clearCount();
   }
   clearCount() {
-    this.badgeCount = 0;
+    if ( this.newNostifation.length !== 0) {
+      this.advokatService.putNostificationRead(this.newNostifation).subscribe();
+      this.badgeCount = 0;
+    }
   }
 }

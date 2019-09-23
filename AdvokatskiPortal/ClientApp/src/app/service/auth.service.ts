@@ -73,8 +73,8 @@ authenticate(res) {
 }
 
 logout() {
-  this.router.navigate(['login'])
-  localStorage.removeItem('token')
-  localStorage.removeItem('typeUser')
+  this.router.navigate(['login']);
+  localStorage.removeItem('token');
+  localStorage.removeItem('typeUser');
 }
 }

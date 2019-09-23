@@ -36,12 +36,6 @@ export class KorisnikService {
   GetAllSlucajAdvokatForKorisnik() {
     return this.http.get<any[]>('http://localhost:44345/api/Korisnik/getAllSlucajAdvokatForKorisnik');
   }
-  // getSlucajNaCekanju(){
-  //   return this.http.get('http://localhost:44345/api/Korisnik/getSlucajNaCekanjuKorisnik');
-  // }
-  // getSlucajPrihvaceni() {
-  //   return this.http.get('http://localhost:44345/api/Korisnik/getSlucajiPrihvaceniKorisnik');
-  // }
   prihvacenSlucajOdKorisnika (slucaj) {
     return this.http.put ('http://localhost:44345/api/Korisnik/prihvacenSlucajKorisnik', slucaj).subscribe(res => {
       console.log(res);
@@ -52,5 +46,7 @@ export class KorisnikService {
       console.log(res)
     });
   }
-
+  getNewNostifiation() {
+    return this.http.get("http://localhost:44345/api/Korisnik/getNewNostifiation");
+  }
 }

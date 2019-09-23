@@ -9,7 +9,10 @@ export class AdvokatService {
   constructor(private http: HttpClient) { }
 
   getNewNostifiation() {
-    return this.http.get( " http://localhost:44345/api/Advokat/getNewNostifiation");
+    return this.http.get( "http://localhost:44345/api/Advokat/getNewNostifiation");
+  }
+  putNostificationRead(nostifiation){
+    return this.http.put('http://localhost:44345/api/Advokat/putNewNostifiationRead', nostifiation);
   }
   getNaciniPlacanja() {
     return this.http.get(" http://localhost:44345/api/Advokat/getNacinPlacanja");
