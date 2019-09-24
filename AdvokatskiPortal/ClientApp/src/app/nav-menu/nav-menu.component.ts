@@ -11,8 +11,9 @@ export class NavMenuComponent {
   collapse() {
     this.isExpanded = false;
   }
-
+ 
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
 }
+ 

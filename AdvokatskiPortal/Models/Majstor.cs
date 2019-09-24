@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AdvokatskiPortal.Models
 {
-    public class Advokat
+    public class Majstor
     {
         public int Id { get; set; }
         public string Ime { get; set; }
@@ -16,9 +16,9 @@ namespace AdvokatskiPortal.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public ApplicationUser Idenity { get; set; }
-        public ICollection<SlucajAdvokat> SlucajAdvokats { get; set; }
+        public ICollection<SlucajMajstor> SlucajMajstors { get; set; }
 
-        public ICollection<SpecjalnostiAdvokat> specjalnostiAdvokats { get; set; }
+        
         //specjalnost n:n
     }
 }

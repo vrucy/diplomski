@@ -2,6 +2,7 @@
   <!-- <a mat-button> Registracija Advokata </a> -->
 
   <button routerLink="/registracijaAdvokata" mat-button *ngIf="_type === 'AdminAdvokat'"> Registracija Advokata</button>
+  <button routerLink="/dodajKategoriju" mat-button *ngIf="_type === 'AdminAdvokat'"> Dodaj Kategoriju</button>
   <button routerLink="/pregledUgovora" mat-button> Pregled Slucaja</button>
   <button mat-icon-button (click)="clearCount()">
     <mat-icon class="material-icons" routerLink="/pregledUgovora">add_alert</mat-icon>
@@ -16,7 +17,7 @@
       (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
 
     <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-      <button mat-menu-item>
+      <button mat-button routerLink="/editProfila">
         <span>Edit</span>
       </button>
       <button mat-menu-item (click)="auth.logout()">

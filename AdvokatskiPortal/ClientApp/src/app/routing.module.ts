@@ -12,6 +12,8 @@ import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranj
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
 import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
+import { EditProfilaComponent } from './edit-profila/edit-profila.component';
+import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
 
 const router: Routes = [
   {
@@ -49,6 +51,12 @@ const router: Routes = [
   },
   {
     path: 'pregledSlucajaKorisnik' , component: PregledSlucajaKorisnikComponent
+  },
+  {
+    path: 'editProfila', component: EditProfilaComponent
+  },
+  {
+    path: 'dodajKategoriju', component: DodajKategorijuComponent
   }
 ];
 

@@ -28,10 +28,7 @@ export class AdvokatHeaderComponent implements OnInit, AfterContentInit {
     this.ulogovaniKorisnik = localStorage.getItem('userName');
     this._type = localStorage.getItem('typeUser')
   }
-  putReadTrue() {
-
-    this.clearCount();
-  }
+  
   clearCount() {
     if ( this.newNostifation.length !== 0) {
       this.advokatService.putNostificationRead(this.newNostifation).subscribe();

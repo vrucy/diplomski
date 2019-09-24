@@ -22,7 +22,7 @@ namespace AdvokatskiPortal.Models
         public int KorisnikId { get; set; }
         public Korisnik Korisnik{ get; set; }
         public ICollection<Slika> Slike { get; set; }
-        public ICollection<SlucajAdvokat> SlucajAdvokats{ get; set; }
+        public ICollection<SlucajMajstor> SlucajMajstors{ get; set; }
         public ICollection<Cenovnik> Cenovniks { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 using AdvokatskiPortal.Data;
 using AdvokatskiPortal.Models;
-using AdvokatskiPortal.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,7 +34,7 @@ namespace AdvokatskiPortal
             }));
             services.AddDbContext<PortalAdvokataDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("PortalAdvokata")));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PortalAdvokataDbContext>();
-            services.AddScoped<IAdvokatRepo, AdvokatRepo>();
+            //services.AddScoped<IAdvokatRepo, AdvokatRepo>();
             services.AddScoped<IKorisnikRepo, KorisnikRepo>();
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
             services.AddAuthorization(options =>

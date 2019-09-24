@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AdvokatskiPortal.Data;
 using AdvokatskiPortal.Models;
 using AdvokatskiPortal.Models.View;
-using AdvokatskiPortal.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,39 +19,30 @@ namespace AdvokatskiPortal.Controllers
         private readonly PortalAdvokataDbContext _context;
         readonly UserManager<IdentityUser> userManager;
         readonly SignInManager<IdentityUser> signInManager;
-        private IAdvokatRepo advokatRepo;
         public AdvokatController(PortalAdvokataDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.advokatRepo = new AdvokatRepo(_context);
         }
-        [HttpGet]
-        public IEnumerable<Advokat> GetAdvokati()
-        {
-            var advokati = advokatRepo.GetAll();
-
-            return advokati;
-        }
-        
+                
         [HttpGet("getNewNostifiation")]
-        public IEnumerable<SlucajAdvokat> getNewNostifiation()
+        public IEnumerable<SlucajMajstor> getNewNostifiation()
         {
             var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             // potrebno prebaciti isRead na true;
-            var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false);
+            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false);
 
             return noviSlucajevi;
         }
         [HttpPut("putNewNostifiationRead")]
-        public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajAdvokat[] nostification)
+        public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor[] nostification)
         {
             var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             // potrebno prebaciti isRead na true;
-            var noviSlucajevi = _context.SlucajAdvokats.Where(s => s.Advokat.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(s => s.Slucaj);
+            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(s => s.Slucaj);
             foreach (var item in noviSlucajevi)
             {
                 item.isRead = true;
@@ -65,33 +53,33 @@ namespace AdvokatskiPortal.Controllers
             return Ok();
         }
         [HttpGet("getUgovorsForAdvokat")]
-        public IEnumerable<SlucajAdvokat> getUgovorsForAdvokatAsync()
+        public IEnumerable<SlucajMajstor> getUgovorsForAdvokatAsync()
         {
             var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(s=>s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(s=>s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
                                    
             return sviSlucajiAdvokata;
         }
         [HttpGet("getSlucajNaCekanju")]
-        public IEnumerable<SlucajAdvokat> getSlucajNaCekanju()
+        public IEnumerable<SlucajMajstor> getSlucajNaCekanju()
         {
             var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 1);
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 1);
             
             return sviSlucajiAdvokata;
         }
        
         [HttpGet("getSlucajiPrihvaceni")]
-        public IEnumerable<SlucajAdvokat> getSlucajiPrihvaceni()
+        public IEnumerable<SlucajMajstor> getSlucajiPrihvaceni()
         {
             var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+            var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajAdvokats.Where(a => a.Advokat.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 4);
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 4);
 
             return sviSlucajiAdvokata;
         }
@@ -108,7 +96,7 @@ namespace AdvokatskiPortal.Controllers
             if (noviCenovnikVM.SlucajStatusId == 1)
             {
                 var cliems = User.Claims.First();
-                var ulogovaniKorisnik = _context.Advokats.Single(x => x.Idenity.Id == cliems.Value);
+                var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
 
                 var cenovnik = new Cenovnik
                 {
@@ -131,35 +119,45 @@ namespace AdvokatskiPortal.Controllers
             }
         }
         [HttpPut("prepravkaSlucajaAdvokata")]
-        public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] SlucajAdvokat slucajAdvokat)
+        public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] SlucajMajstor slucajMajstor)
         {
 
-            slucajAdvokat.SlucajStatusId = 6;
-            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            slucajMajstor.SlucajStatusId = 6;
+            _context.Entry(slucajMajstor).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();
         }
 
         [HttpPut("prihvatanjeSlucajaAdvokata")]
-        public async Task<IActionResult> prihvatanjeSlucajaAdvokata( [FromBody] SlucajAdvokat slucajAdvokat)
+        public async Task<IActionResult> prihvatanjeSlucajaAdvokata( [FromBody] SlucajMajstor slucajMajstor)
         {
 
-            slucajAdvokat.SlucajStatusId = 2;
-            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            slucajMajstor.SlucajStatusId = 2;
+            _context.Entry(slucajMajstor).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();
         }
         [HttpPut("odbijanjeSlucajaAdvokata")]
-        public async Task<IActionResult> odbijanjeSlucajaAdvokata( [FromBody] SlucajAdvokat slucajAdvokat)
+        public async Task<IActionResult> odbijanjeSlucajaAdvokata( [FromBody] SlucajMajstor slucajMajstor)
         {
 
-            slucajAdvokat.SlucajStatusId = 3;
-            _context.Entry(slucajAdvokat).State = EntityState.Modified;
+            slucajMajstor.SlucajStatusId = 3;
+            _context.Entry(slucajMajstor).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();
         }
+        [Authorize(Policy = "AdminAdvokat")]
+        [HttpPost("postKategorija")]
+        public async Task<IActionResult> postKategorija([FromBody] Kategorija kategorija)
+        {
+            _context.Kategorijas.Add(kategorija);
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
     }
 }

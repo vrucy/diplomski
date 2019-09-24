@@ -58,7 +58,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
   tabDirect(event) {
     if (event.index === 0) {
-      this.resetFilter();
+      this.resetFilter(); 
 
       this.tabIndex.setValue(1);
       console.log('set 1');
@@ -81,7 +81,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     this.tabIndex.setValue(even);
     this.resetFilter();
   }
-  resetFilter() {
+  resetFilter() { 
     this.nameFilter.reset();
     this.tabIndex.reset();
   }

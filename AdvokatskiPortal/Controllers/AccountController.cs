@@ -28,28 +28,28 @@ namespace AdvokatskiPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
-        [Authorize( Policy = "AdminAdvokat")]
+        //[Authorize( Policy = "AdminAdvokat")]
         [HttpPost("registrationAdvokat")]
-        public async Task<IActionResult> RegistarAdvokat([FromBody] Advokat advokat)
+        public async Task<IActionResult> RegistarAdvokat([FromBody] Majstor majstor)
         {
 
-            var appUser = new ApplicationUser { UserName = advokat.UserName, Email = advokat.Email };
+            var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
 
-            var result = await userManager.CreateAsync(appUser, advokat.Password);
+            var result = await userManager.CreateAsync(appUser, majstor.Password);
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
             await signInManager.SignInAsync(appUser, isPersistent: false);
-            advokat.Idenity = appUser;
+            majstor.Idenity = appUser;
 
-            var user = await userManager.FindByNameAsync(advokat.UserName);
+            var user = await userManager.FindByNameAsync(majstor.UserName);
             
             await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
-           // await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
+            await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
             
 
-            _context.Advokats.Add(advokat);
+            _context.Majstors.Add(majstor);
 
             await _context.SaveChangesAsync();
 
@@ -101,6 +101,24 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok(new { Token = token, typeOfClaim = i });
         }
+
+        [HttpGet("getCurrentUser/{userName}")]
+        public async Task<IActionResult> getCurrentUser([FromRoute] string userName)
+        {
+            var korisnik = _context.Korisniks.Where(x => x.UserName == userName);
+            var advokat = _context.Majstors.Where(x => x.UserName == userName);
+            if (korisnik != null)
+            {
+                return Ok(korisnik);
+            }
+            else
+            {
+                return Ok(advokat);
+            }
+            
+            
+        }
+
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginUser)

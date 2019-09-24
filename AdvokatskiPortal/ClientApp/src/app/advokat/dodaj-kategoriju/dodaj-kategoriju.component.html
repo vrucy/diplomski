@@ -1,0 +1,18 @@
+<div class="kategorijaClass">
+      <mat-card class="kategorija-card">
+            <form [formGroup]="form" (ngSubmit)="advokatService.postKategorija(form.value)">
+                  <div>
+                        <mat-form-field>
+                              <input matInput type="text" placeholder="Unesite Naziv Kategorije"
+                                    formControlName="Naziv">
+                        </mat-form-field>
+                  </div>
+                  <div>
+                        <mat-form-field>
+                              <input matInput type="text" placeholder="Unesite Opis Kategorije" formControlName="Opis">
+                        </mat-form-field>
+                  </div>
+                  <button mat-button color="primary">Dodaj Kategoriju</button>
+            </form>
+      </mat-card>
+</div>

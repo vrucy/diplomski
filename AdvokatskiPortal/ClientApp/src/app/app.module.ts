@@ -37,6 +37,8 @@ import { UspesnoLogovanjeComponent } from './snackBar/uspesno-logovanje/uspesno-
 import { NeUspesnoLogovanjeComponent } from './snackBar/ne-uspesno-logovanje/ne-uspesno-logovanje.component';
 import { PrikazSlucajComponent } from './advokat/dialog/prikaz-slucaj/prikaz-slucaj.component';
 import { DodavanjeDuplogAdvokataComponent } from './snackBar/dodavanje-duplog-advokata/dodavanje-duplog-advokata.component';
+import { EditProfilaComponent } from './edit-profila/edit-profila.component';
+import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { DodavanjeDuplogAdvokataComponent } from './snackBar/dodavanje-duplog-ad
     UspesnoLogovanjeComponent,
     NeUspesnoLogovanjeComponent,
     PrikazSlucajComponent,
-    DodavanjeDuplogAdvokataComponent
+    DodavanjeDuplogAdvokataComponent,
+    EditProfilaComponent,
+    DodajKategorijuComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

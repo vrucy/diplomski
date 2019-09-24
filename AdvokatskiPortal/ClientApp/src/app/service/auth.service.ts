@@ -12,69 +12,77 @@ export class AuthService {
   typeUserValue: string;
   isLogin: Boolean = false;
   type: string;
+  trenutniKorisnikKorisnikoIme;
 
   constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
+
   registration(korisnik) {
 
     return this.http.post<any>('http://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
       localStorage.setItem('token', res);
       this.authenticate(res);
     });
-}
+  }
   login(korisnik) {
-    return this.http.post<any>('http://localhost:44345/api/Account/login', korisnik).subscribe(res => {
+    this.http.post<any>('http://localhost:44345/api/Account/login', korisnik).subscribe(res => {
       this._snackBar.openFromComponent(UspesnoLogovanjeComponent, {
         duration: 2000
       });
+      this.trenutniKorisnikKorisnikoIme = res.user;
+      this.http.get(`http://localhost:44345/api/Account/getCurrentUser/${this.trenutniKorisnikKorisnikoIme}`).subscribe(res => {
+        localStorage.setItem('trenutniKorisnik', JSON.stringify(res));
+        
+      })
       localStorage.setItem('token', res);
       this.router.navigate(['/pocetnaKorisnik']);
       this.authenticate(res);
     });
-}
-isLogged(): boolean {
-  const user = localStorage.getItem('token');
-  if (user != null) {
-    return true;
-  } else {
-    return false;
+
   }
-}
-registrationAdvokat(advokat){
-  return this.http.post<any>('http://localhost:44345/api/Account/registrationAdvokat', advokat).subscribe(res => {
-    localStorage.setItem('token', res);
-    this.authenticate(res);
-  })
-}
-authenticate(res) {
-  let tokenValue = res['token'];
-  localStorage.setItem('userName', res['user']);
+  isLogged(): boolean {
+    const user = localStorage.getItem('token');
+    if (user != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  registrationAdvokat(advokat) {
+    return this.http.post<any>('http://localhost:44345/api/Account/registrationAdvokat', advokat).subscribe(res => {
+      localStorage.setItem('token', res);
+      this.authenticate(res);
+    })
+  }
+  authenticate(res) {
+    let tokenValue = res['token'];
+    localStorage.setItem('userName', res['user']);
 
-  localStorage.setItem('token', tokenValue);
-  this.typeUserValue = res["typeOfClaim"]
-  localStorage.setItem('typeUser', this.typeUserValue);
-  this.isLogin = true;
-  this.type = localStorage.getItem('typeUser');
+    localStorage.setItem('token', tokenValue);
+    this.typeUserValue = res["typeOfClaim"]
+    localStorage.setItem('typeUser', this.typeUserValue);
+    this.isLogin = true;
+    this.type = localStorage.getItem('typeUser');
 
-  switch (this.type) {
+    switch (this.type) {
       case "AdminAdvokat": {
-          this.router.navigate(['/pocetnaAdvokat'])
-          return true;
+        this.router.navigate(['/pocetnaAdvokat'])
+        return true;
       }
       case "RegularAdvokat": {
-          this.router.navigate(['/pocetnaAdvokat']);
-          return true;
+        this.router.navigate(['/pocetnaAdvokat']);
+        return true;
       } case "RegularUser": {
-          this.router.navigate(['/pocetnaKorisnik']);
-          return true;
+        this.router.navigate(['/pocetnaKorisnik']);
+        return true;
       } default: {
-          break;
+        break;
       }
+    }
   }
-}
 
-logout() {
-  this.router.navigate(['login']);
-  localStorage.removeItem('token');
-  localStorage.removeItem('typeUser');
-}
+  logout() {
+    this.router.navigate(['login']);
+    localStorage.removeItem('token');
+    localStorage.removeItem('typeUser');
+  }
 }

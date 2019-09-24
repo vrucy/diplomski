@@ -42,4 +42,9 @@ export class AdvokatService {
   odbijanjeSlucajaOdAdvokata(slucajAdvokat) {
     return this.http.put(` http://localhost:44345/api/Advokat/odbijanjeSlucajaAdvokata`, slucajAdvokat);
   }
+  postKategorija(kategorija) {
+    return this.http.post('http://localhost:44345/api/Advokat/postKategorija', kategorija).subscribe(res => {
+      console.log(res)
+    })
+  }
 }

@@ -7,8 +7,7 @@ namespace AdvokatskiPortal.Models
         public int Id { get; set; }
         public string Naziv { get; set; }
         public string Opis { get; set; }
-        public int PodKategorijaId { get; set; }
-        public PodKategorija PodKategorija { get; set; }
+        public ICollection<PodKategorija> podKategorijas{ get; set; }
         public ICollection<Slucaj> Slucajs { get; set; }
     }
 }

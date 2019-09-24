@@ -8,6 +8,6 @@ namespace AdvokatskiPortal.Models.View
     public class postSlucajViewModel
     {
         public Slucaj Slucaj { get; set; }
-        public ICollection<Advokat> Advokats { get; set; }
+        public ICollection<Majstor> Advokats { get; set; }
     }
 }
