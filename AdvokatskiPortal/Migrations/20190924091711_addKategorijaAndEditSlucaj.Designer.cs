@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190924091711_addKategorijaAndEditSlucaj")]
+    partial class addKategorijaAndEditSlucaj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,13 +150,9 @@ namespace AdvokatskiPortal.Migrations
 
                     b.Property<string>("Naziv");
 
-                    b.Property<int>("SlucajId");
-
                     b.Property<byte[]>("slikaProp");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SlucajId");
 
                     b.ToTable("Slika");
                 });
@@ -177,17 +175,17 @@ namespace AdvokatskiPortal.Migrations
 
                     b.Property<string>("Opis");
 
-                    b.Property<int>("PocetakRada");
+                    b.Property<int>("SlikaId");
 
                     b.Property<string>("UlicaIBroj");
-
-                    b.Property<int>("ZavrsetakRada");
 
                     b.HasKey("Id");
 
                     b.HasIndex("KategorijaId");
 
                     b.HasIndex("KorisnikId");
+
+                    b.HasIndex("SlikaId");
 
                     b.ToTable("Slucajs");
                 });
@@ -506,14 +504,6 @@ namespace AdvokatskiPortal.Migrations
                         .HasForeignKey("IdenityId");
                 });
 
-            modelBuilder.Entity("AdvokatskiPortal.Models.Slika", b =>
-                {
-                    b.HasOne("AdvokatskiPortal.Models.Slucaj", "Slucaj")
-                        .WithMany("Slike")
-                        .HasForeignKey("SlucajId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("AdvokatskiPortal.Models.Slucaj", b =>
                 {
                     b.HasOne("AdvokatskiPortal.Models.Kategorija", "Kategorija")
@@ -524,6 +514,11 @@ namespace AdvokatskiPortal.Migrations
                     b.HasOne("AdvokatskiPortal.Models.Korisnik", "Korisnik")
                         .WithMany("Slucajs")
                         .HasForeignKey("KorisnikId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AdvokatskiPortal.Models.Slika", "Slika")
+                        .WithMany()
+                        .HasForeignKey("SlikaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
