@@ -28,6 +28,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190924155207_inital.cs" />
     <Compile Remove="Migrations\20190924155207_inital.Designer.cs" />
+    <Compile Remove="Migrations\20190925081922_addForeignKeyKategorija.cs" />
+    <Compile Remove="Migrations\20190925081922_addForeignKeyKategorija.Designer.cs" />
+    <Compile Remove="Migrations\20190925093655_addTableMajstorKategorija.cs" />
+    <Compile Remove="Migrations\20190925093655_addTableMajstorKategorija.Designer.cs" />
+    <Compile Remove="Migrations\20190927054847_addUnarn.cs" />
+    <Compile Remove="Migrations\20190927054847_addUnarn.Designer.cs" />
+    <Compile Remove="Migrations\20190927083050_initial.cs" />
+    <Compile Remove="Migrations\20190927083050_initial.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

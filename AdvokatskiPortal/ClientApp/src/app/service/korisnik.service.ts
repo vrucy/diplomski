@@ -1,4 +1,4 @@
-import { Advokat } from './../model/Advokat';
+import { Majstor } from './../model/Majstor';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -10,8 +10,8 @@ import { Slucaj } from '../model/Slucaj';
 export class KorisnikService {
 
   constructor(private http: HttpClient) { }
-  getAllAdvokati(): Observable<Advokat[]>{
-    return this.http.get<Advokat[]>('http://localhost:44345/api/Advokat');
+  getAllAdvokati(){
+    return this.http.get('http://localhost:44345/api/Korisnik/getAllMajstori');
   }
   getAllSlucajForKorisnik() {
     return this.http.get ('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');

@@ -3,6 +3,7 @@
 
   <button routerLink="/registracijaAdvokata" mat-button *ngIf="_type === 'AdminAdvokat'"> Registracija Advokata</button>
   <button routerLink="/dodajKategoriju" mat-button *ngIf="_type === 'AdminAdvokat'"> Dodaj Kategoriju</button>
+  <button routerLink="/dodajPodkategoriju" mat-button *ngIf="_type === 'AdminAdvokat'"> Dodaj Podkategoriju</button>
   <button routerLink="/pregledUgovora" mat-button> Pregled Slucaja</button>
   <button mat-icon-button (click)="clearCount()">
     <mat-icon class="material-icons" routerLink="/pregledUgovora">add_alert</mat-icon>

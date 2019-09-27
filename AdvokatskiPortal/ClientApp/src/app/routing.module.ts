@@ -1,3 +1,4 @@
+import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
 import { PregledSlucajaKorisnikComponent } from './korisnik/pregled-slucaja-korisnik/pregled-slucaja-korisnik.component';
 import { AuthGuard } from './service/authGuard';
 import { NgModule } from '@angular/core';
@@ -57,6 +58,9 @@ const router: Routes = [
   },
   {
     path: 'dodajKategoriju', component: DodajKategorijuComponent
+  },
+  {
+    path: 'dodajPodkategoriju', component: DodajPodKategorijuComponent
   }
 ];
 

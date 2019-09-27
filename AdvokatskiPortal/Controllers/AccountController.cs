@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using AdvokatskiPortal.Models.View;
 
 namespace AdvokatskiPortal.Controllers
 {
@@ -30,8 +31,40 @@ namespace AdvokatskiPortal.Controllers
         }
         //[Authorize( Policy = "AdminAdvokat")]
         [HttpPost("registrationAdvokat")]
-        public async Task<IActionResult> RegistarAdvokat([FromBody] Majstor majstor)
+        public async Task<IActionResult> RegistarAdvokat([FromBody] postMajstor majstor)
         {
+            
+                var newMajstor = new Majstor
+                {
+                    Email = majstor.Email,
+                    Ime = majstor.Ime,
+                    Mesto = majstor.Mesto,
+                    Password = majstor.Password,
+                    Prezime = majstor.Prezime,
+                    Ulica = majstor.Ulica,
+                    UserName = majstor.UserName,
+                    //KategorijaId = majstor.kategorijaId
+                };
+                _context.Majstors.Add(newMajstor);
+
+
+            try
+            {
+                foreach (var item in majstor.podKategorijaId)
+                {
+                    var newMajtorPodKategorije = new MajstorKategorije
+                    {
+                        KategorijaId = (int)item,
+                        MajstorId = newMajstor.Id,
+                    };
+                    _context.MajstorKategorijes.Add(newMajtorPodKategorije);
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
 
             var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
 
@@ -41,16 +74,13 @@ namespace AdvokatskiPortal.Controllers
                 return BadRequest(result.Errors);
 
             await signInManager.SignInAsync(appUser, isPersistent: false);
-            majstor.Idenity = appUser;
+            newMajstor.Idenity = appUser;
 
             var user = await userManager.FindByNameAsync(majstor.UserName);
             
             await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
             await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
             
-
-            _context.Majstors.Add(majstor);
-
             await _context.SaveChangesAsync();
 
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));

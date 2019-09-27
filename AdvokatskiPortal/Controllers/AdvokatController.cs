@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AdvokatskiPortal.Data;
@@ -25,7 +26,12 @@ namespace AdvokatskiPortal.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-                
+        [HttpGet("getAllMajstori")]
+        public IEnumerable<Majstor> getAllMajstori()
+        {
+            return _context.Majstors;
+        }
+
         [HttpGet("getNewNostifiation")]
         public IEnumerable<SlucajMajstor> getNewNostifiation()
         {
@@ -158,6 +164,24 @@ namespace AdvokatskiPortal.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+        [HttpPost("postPodKategorija")]
+        public async Task<IActionResult> PodKategorija([FromBody] Kategorija podkategorija)
+        {
+            _context.Kategorijas.Add(podkategorija);
+            await _context.SaveChangesAsync();
 
+            return Ok();
+        }
+        [HttpGet("getAllKategorija")]
+        public IEnumerable<Kategorija> GetKategorijas()
+        {
+            return _context.Kategorijas;
+        }
+
+        //[HttpGet("getAllPodKategorija")]
+        //public IEnumerable<PodKategorija> GetPodKategorijas()
+        //{
+        //    return _context.PodKategorijas;
+        //}
     }
 }

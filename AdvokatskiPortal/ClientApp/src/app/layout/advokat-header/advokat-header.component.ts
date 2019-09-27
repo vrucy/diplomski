@@ -18,7 +18,7 @@ export class AdvokatHeaderComponent implements OnInit, AfterContentInit {
    }
 
    ngAfterContentInit(): void {
-    this.advokatService.getNewNostifiation().subscribe( res => {
+    this.advokatService.getNewNostifiation().subscribe( (res: any[]) => {
       console.log(res);
       this.newNostifation = res;
       this.badgeCount = res.length;
@@ -28,7 +28,7 @@ export class AdvokatHeaderComponent implements OnInit, AfterContentInit {
     this.ulogovaniKorisnik = localStorage.getItem('userName');
     this._type = localStorage.getItem('typeUser')
   }
-  
+
   clearCount() {
     if ( this.newNostifation.length !== 0) {
       this.advokatService.putNostificationRead(this.newNostifation).subscribe();

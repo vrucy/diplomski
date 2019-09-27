@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AdvokatskiPortal.Models
+namespace AdvokatskiPortal.Models.View
 {
-    public class Majstor
+    public class postMajstor
     {
         public int Id { get; set; }
         public string Ime { get; set; }
@@ -15,13 +15,7 @@ namespace AdvokatskiPortal.Models
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        //public int KategorijaId { get; set; }
-        //public Kategorija Kategorija { get; set; }
-        public ICollection<MajstorKategorije> MajstorKategorijes { get; set; }
-        public ApplicationUser Idenity { get; set; }
-        public ICollection<SlucajMajstor> SlucajMajstors { get; set; }
-
-        
-        //specjalnost n:n
+        public int? kategorijaId { get; set; }
+        public int?[] podKategorijaId { get; set; }
     }
 }

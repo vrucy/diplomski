@@ -44,7 +44,16 @@ export class AdvokatService {
   }
   postKategorija(kategorija) {
     return this.http.post('http://localhost:44345/api/Advokat/postKategorija', kategorija).subscribe(res => {
-      console.log(res)
-    })
+      console.log(res);
+    });
   }
+  getAllKategorija() {
+    return this.http.get('http://localhost:44345/api/Advokat/getAllKategorija');
+  }
+  postPodKategorija(podKategorija) {
+    return this.http.post('http://localhost:44345/api/Advokat/postPodKategorija', podKategorija).subscribe(res => {
+      console.log(res);
+    });
+  }
+
 }

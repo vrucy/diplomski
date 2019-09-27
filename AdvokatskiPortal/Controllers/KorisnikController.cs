@@ -92,6 +92,20 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok(nostification);
         }
+        [HttpGet("getAllMajstori")]
+        public IActionResult getAllMajstori()
+        {
+
+            try
+            {
+                
+                return Ok(_context.Majstors.Include(k => k.MajstorKategorijes));
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
         [HttpGet("GetUgovorsForKorisnik")]
         public IEnumerable<SlucajMajstor> GetUgovorsForKorisnik()
         {
@@ -149,11 +163,9 @@ namespace AdvokatskiPortal.Controllers
                 
                 if (_context.SlucajMajstors.Where(s => s.MajstorId == item.Id && s.SlucajId == slucajVM.Slucaj.Id).FirstOrDefault() != null)
                 {
-                    HttpResponseMessage mes;
                     string mess = "Vec ste dodali za svoj slucaj advokata: " + item.Ime + " " + item.Prezime ;
-                    // naci kako vratiti poruku i napraviti svoj status kod ako moze
-                    return BadRequest(mess);
-                    //return StatusCode(405, mess);
+
+                    return StatusCode(404, new { message= mess, customStatusCode= 999 });
                 }               
             }
             

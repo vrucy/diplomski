@@ -49,17 +49,24 @@ namespace AdvokatskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PodKategorija",
+                name: "Kategorijas",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Naziv = table.Column<string>(nullable: true),
-                    Opis = table.Column<string>(nullable: true)
+                    Opis = table.Column<string>(nullable: true),
+                    ParentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PodKategorija", x => x.Id);
+                    table.PrimaryKey("PK_Kategorijas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Kategorijas_Kategorijas_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Kategorijas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -233,7 +240,8 @@ namespace AdvokatskiPortal.Migrations
                     UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    IdenityId = table.Column<string>(nullable: true)
+                    IdenityId = table.Column<string>(nullable: true),
+                    KategorijaId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -244,27 +252,12 @@ namespace AdvokatskiPortal.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Kategorija",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Naziv = table.Column<string>(nullable: true),
-                    Opis = table.Column<string>(nullable: true),
-                    PodKategorijaId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Kategorija", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Kategorija_PodKategorija_PodKategorijaId",
-                        column: x => x.PodKategorijaId,
-                        principalTable: "PodKategorija",
+                        name: "FK_Majstors_Kategorijas_KategorijaId",
+                        column: x => x.KategorijaId,
+                        principalTable: "Kategorijas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,8 +271,8 @@ namespace AdvokatskiPortal.Migrations
                     Lokacija = table.Column<string>(nullable: true),
                     Mesto = table.Column<string>(nullable: true),
                     UlicaIBroj = table.Column<string>(nullable: true),
-                    PocetakRada = table.Column<int>(nullable: false),
-                    ZavrsetakRada = table.Column<int>(nullable: false),
+                    PocetakRada = table.Column<DateTime>(nullable: true),
+                    ZavrsetakRada = table.Column<DateTime>(nullable: true),
                     KategorijaId = table.Column<int>(nullable: false),
                     KorisnikId = table.Column<int>(nullable: false)
                 },
@@ -287,15 +280,39 @@ namespace AdvokatskiPortal.Migrations
                 {
                     table.PrimaryKey("PK_Slucajs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Slucajs_Kategorija_KategorijaId",
+                        name: "FK_Slucajs_Kategorijas_KategorijaId",
                         column: x => x.KategorijaId,
-                        principalTable: "Kategorija",
+                        principalTable: "Kategorijas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Slucajs_Korisniks_KorisnikId",
                         column: x => x.KorisnikId,
                         principalTable: "Korisniks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MajstorKategorijes",
+                columns: table => new
+                {
+                    MajstorId = table.Column<int>(nullable: false),
+                    KategorijaId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MajstorKategorijes", x => new { x.MajstorId, x.KategorijaId });
+                    table.ForeignKey(
+                        name: "FK_MajstorKategorijes_Kategorijas_KategorijaId",
+                        column: x => x.KategorijaId,
+                        principalTable: "Kategorijas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MajstorKategorijes_Majstors_MajstorId",
+                        column: x => x.MajstorId,
+                        principalTable: "Majstors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -466,9 +483,9 @@ namespace AdvokatskiPortal.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Kategorija_PodKategorijaId",
-                table: "Kategorija",
-                column: "PodKategorijaId");
+                name: "IX_Kategorijas_ParentId",
+                table: "Kategorijas",
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Korisniks_IdenityId",
@@ -476,9 +493,19 @@ namespace AdvokatskiPortal.Migrations
                 column: "IdenityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MajstorKategorijes_KategorijaId",
+                table: "MajstorKategorijes",
+                column: "KategorijaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Majstors_IdenityId",
                 table: "Majstors",
                 column: "IdenityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Majstors_KategorijaId",
+                table: "Majstors",
+                column: "KategorijaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Slika_SlucajId",
@@ -533,6 +560,9 @@ namespace AdvokatskiPortal.Migrations
                 name: "Cenovniks");
 
             migrationBuilder.DropTable(
+                name: "MajstorKategorijes");
+
+            migrationBuilder.DropTable(
                 name: "Slika");
 
             migrationBuilder.DropTable(
@@ -557,13 +587,10 @@ namespace AdvokatskiPortal.Migrations
                 name: "Slucajs");
 
             migrationBuilder.DropTable(
-                name: "Kategorija");
+                name: "Kategorijas");
 
             migrationBuilder.DropTable(
                 name: "Korisniks");
-
-            migrationBuilder.DropTable(
-                name: "PodKategorija");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

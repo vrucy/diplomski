@@ -31,7 +31,7 @@ export class AuthService {
       this.trenutniKorisnikKorisnikoIme = res.user;
       this.http.get(`http://localhost:44345/api/Account/getCurrentUser/${this.trenutniKorisnikKorisnikoIme}`).subscribe(res => {
         localStorage.setItem('trenutniKorisnik', JSON.stringify(res));
-        
+
       })
       localStorage.setItem('token', res);
       this.router.navigate(['/pocetnaKorisnik']);
@@ -47,8 +47,8 @@ export class AuthService {
       return false;
     }
   }
-  registrationAdvokat(advokat) {
-    return this.http.post<any>('http://localhost:44345/api/Account/registrationAdvokat', advokat).subscribe(res => {
+  registrationAdvokat(majstor) {
+    return this.http.post<any>('http://localhost:44345/api/Account/registrationAdvokat', majstor).subscribe(res => {
       localStorage.setItem('token', res);
       this.authenticate(res);
     })

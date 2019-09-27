@@ -1,12 +1,12 @@
 import { Slucaj } from './Slucaj';
-import { Advokat } from './Advokat';
+import { Majstor } from './Majstor';
 import { Ugovor } from './Ugovor';
 import { Cenovnik } from './Cenovnik';
 export class SlucajSlanjeVM {
 id;
 Slucaj: Slucaj ;
 Ugovor: Ugovor;
-Advokats: Advokat [] = [];
+Advokats: Majstor [] = [];
 Cenovniks: Cenovnik [] = [];
 KorisnikId;
 Korisnik;

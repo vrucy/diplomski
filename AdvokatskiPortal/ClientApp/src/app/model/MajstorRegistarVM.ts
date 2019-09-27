@@ -1,5 +1,5 @@
-export class Advokat{
-  id
+export class MajstorRegistarVM {
+  id;
   Ime: string;
   Prezime: string;
   Email: string;
@@ -7,4 +7,6 @@ export class Advokat{
   Password: string;
   Mesto: string;
   Ulica: string;
-}
+  KategorijaId: number;
+  PodKategorijaId: number [];
+  }

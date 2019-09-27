@@ -32,9 +32,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               duration: 3000
             });
           }
-          if(error.status === 400){
-            console.log(error)
-            this._snackBar.openFromComponent(DodavanjeDuplogAdvokataComponent,{
+          if ( error.status === 404) {
+            console.log(error);
+            this._snackBar.openFromComponent(DodavanjeDuplogAdvokataComponent, {
               data: error,
               duration: 3000
             })

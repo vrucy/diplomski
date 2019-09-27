@@ -39,6 +39,7 @@ import { PrikazSlucajComponent } from './advokat/dialog/prikaz-slucaj/prikaz-slu
 import { DodavanjeDuplogAdvokataComponent } from './snackBar/dodavanje-duplog-advokata/dodavanje-duplog-advokata.component';
 import { EditProfilaComponent } from './edit-profila/edit-profila.component';
 import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
+import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kateg
     PrikazSlucajComponent,
     DodavanjeDuplogAdvokataComponent,
     EditProfilaComponent,
-    DodajKategorijuComponent
+    DodajKategorijuComponent,
+    DodajPodKategorijuComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

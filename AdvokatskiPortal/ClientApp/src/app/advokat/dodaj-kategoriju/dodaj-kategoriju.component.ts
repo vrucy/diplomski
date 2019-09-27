@@ -10,10 +10,10 @@ import { AdvokatService } from '../../service/advokat.service';
 export class DodajKategorijuComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder,private advokatService: AdvokatService) { 
+  constructor(private fb: FormBuilder, private advokatService: AdvokatService) {
     this.form = this.fb.group({
-      Naziv:['' , Validators.required ],
-      Opis:['' , Validators.required ]
+      Naziv: ['' , Validators.required ],
+      Opis: ['' , Validators.required ]
     });
   }
 

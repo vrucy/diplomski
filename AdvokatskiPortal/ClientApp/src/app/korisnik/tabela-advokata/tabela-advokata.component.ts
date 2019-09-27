@@ -1,4 +1,4 @@
-import { Advokat } from './../../model/Advokat';
+import { Majstor } from '../../model/Majstor';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { KorisnikService } from '../../service/korisnik.service';
@@ -14,8 +14,8 @@ export class TabelaAdvokataComponent implements OnInit {
   advokati;
   slucajeviKorisnika;
   slucaj;
-  selection = new SelectionModel<Advokat>(true, []);
-  public dataSource = new MatTableDataSource<Advokat>();
+  selection = new SelectionModel<Majstor>(true, []);
+  public dataSource = new MatTableDataSource<Majstor>();
 
   constructor(private korsinikService: KorisnikService) { }
   isAllSelected() {
@@ -30,7 +30,7 @@ export class TabelaAdvokataComponent implements OnInit {
         this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  checkboxLabel(row?: Advokat): string {
+  checkboxLabel(row?: Majstor): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -41,7 +41,7 @@ export class TabelaAdvokataComponent implements OnInit {
       this.slucajeviKorisnika = res;
       console.log(res)
     });
-    this.korsinikService.getAllAdvokati().subscribe(res => {
+    this.korsinikService.getAllAdvokati().subscribe((res: any) => {
       this.dataSource.data = res;
       this.advokati = res;
       console.log(res);
@@ -52,6 +52,6 @@ export class TabelaAdvokataComponent implements OnInit {
    // console.log(this.selection.selected);
    const x = { Slucaj: this.slucaj, Advokats: this.selection.selected }
     this.korsinikService.postSlucajAdvokatima(x);
-    
+
   }
 }

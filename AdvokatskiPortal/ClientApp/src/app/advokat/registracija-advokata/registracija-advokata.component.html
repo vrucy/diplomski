@@ -36,9 +36,23 @@
           <input matInput type="text" placeholder="Ulica i broj" formControlName="Ulica">
         </mat-form-field>
       </div>
+      <mat-form-field>
+        <mat-select formControlName="kategorijaId" placeholder="Unesite Kategoriju" (selectionChange)="onParentChanged($event)" >
+          <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija.id">
+            {{kategorija.naziv}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select formControlName="podKategorijaId" placeholder="Unesite pod Kategoriju" multiple>
+          <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija.id">
+            {{podKategorija.naziv}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <div class="button-registar">
-      <button mat-button color="primary">Register</button>
-    </div>
+        <button mat-button color="primary">Register</button>
+      </div>
     </form>
   </mat-card>
 </div>
