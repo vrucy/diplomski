@@ -9,6 +9,8 @@ using AdvokatskiPortal.Models;
 using Microsoft.AspNetCore.Identity;
 using AdvokatskiPortal.Models.View;
 using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace AdvokatskiPortal.Controllers
 {
@@ -98,7 +100,6 @@ namespace AdvokatskiPortal.Controllers
 
             try
             {
-                
                 return Ok(_context.Majstors.Include(k => k.MajstorKategorijes));
             }
             catch (Exception e)
@@ -106,6 +107,14 @@ namespace AdvokatskiPortal.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost("uploadFile")]
+        public async Task<IActionResult> uploadFile([FromBody] IFormFile file)
+        {
+            var fileName = Path.GetExtension(file.FileName);
+           // var filePath = Path.Combine(uploadFilesPath, fileName);
+            return Ok();
+        }
+
         [HttpGet("GetUgovorsForKorisnik")]
         public IEnumerable<SlucajMajstor> GetUgovorsForKorisnik()
         {

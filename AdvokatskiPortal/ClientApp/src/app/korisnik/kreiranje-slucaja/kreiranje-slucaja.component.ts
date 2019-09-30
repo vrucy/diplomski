@@ -1,5 +1,7 @@
+import { Slika } from './../../model/Slika';
 import { Component } from '@angular/core';
 import { KorisnikService } from '../../service/korisnik.service';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 @Component({
   selector: 'app-kreiranje-slucaja',
@@ -9,17 +11,44 @@ import { KorisnikService } from '../../service/korisnik.service';
 export class KreiranjeSlucajaComponent {
   slucaj = { opis: '' };
   fileData: File = null;
+  // slika: Slika <Slika>;
+  slika: Slika [] = [] ;
+  base64textString = [];
+  i = 0;
   constructor(private korisnikService: KorisnikService) { }
 
   kreiranjeSlucaja() {
     // this.korisnikService.kreiranjeSlucaja(this.slucaj);
-    console.log(this.fileData)
+    this.slika.forEach(e => {console.log(e)});
   }
 
-  fileProgress(fileInput) {
-    this.fileData = <File>fileInput;
-    const x = <File> fileInput.imageAsBase64;
-    console.log(fileInput.target.files[0]);
+  onUploadChange(evt: any) {
+    // let i = 0;
+    this.slika[this.i] = new Slika();
+    console.log(this.slika[this.i]);
+    const file = evt.target.files[0];
+    this.handlePictureName(file, this.slika[this.i]);
+    if (file) {
+      const reader = new FileReader();
+      this.handlePictureName(file, this.slika[this.i]);
+      reader.onload = this.handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(file);
+      this.i++;
+    }
+
   }
+  handlePictureName(file, i) {
+    this.slika[this.i].Naziv = file.name;
+
+  }
+  handleReaderLoaded(e, i) {
+    this.slika[this.i].base64textString = 'data:image/png;base64,' + btoa(e.target.result);
+    // i.base64textString = 'data:image/png;base64,' + btoa(e.target.result);
+    // this.slika[i].base64textString.push('data:image/png;base64,' + btoa(e.target.result));
+    console.log(this.slika[this.i].base64textString);
+
+    // this.base64textString.push('data:image/png;base64,' + btoa(e.target.result));
+  }
+
 
 }

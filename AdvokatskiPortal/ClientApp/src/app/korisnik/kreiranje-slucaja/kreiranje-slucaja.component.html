@@ -1,14 +1,28 @@
 <mat-card>
-    <div>
-        <mat-form-field>
-            <input matInput [(ngModel)]="slucaj.naziv" placeholder="Unesite naziv">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [(ngModel)]="slucaj.opis" placeholder="Unesite Opis">
-      </mat-form-field>
+  <div>
+    <mat-form-field>
+      <input matInput [(ngModel)]="slucaj.naziv" placeholder="Unesite naziv">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="slucaj.opis" placeholder="Unesite Opis">
+    </mat-form-field>
 
-        <input type="file" accept=".png, .jpg, .jpeg" (change)="fileProgress($event)" placeholder="Unesite Opis">
+    <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Unesite Opis" multiple>
 
-    </div>
-    <button mat-button (click)="kreiranjeSlucaja()">Snimi</button>
+    <mat-card>
+      <table>
+        <tr>
+          <th>
+            Slika
+          </th>
+        </tr>
+        <tr *ngFor="let item of slika">
+          <th width="90%">
+            {{item.naziv}}
+          </th>
+        </tr>
+      </table>
+    </mat-card>
+  </div>
+  <button mat-button (click)="kreiranjeSlucaja()">Snimi</button>
 </mat-card>

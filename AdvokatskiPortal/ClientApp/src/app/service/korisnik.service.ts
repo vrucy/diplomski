@@ -49,4 +49,7 @@ export class KorisnikService {
   getNewNostifiation() {
     return this.http.get("http://localhost:44345/api/Korisnik/getNewNostifiation");
   }
+  upload(file: any) {
+    return this.http.post("http://localhost:44345/api/Korisnik/uploadFile", file).subscribe();
+  }
 }

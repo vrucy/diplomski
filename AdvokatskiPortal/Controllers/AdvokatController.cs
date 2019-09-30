@@ -33,14 +33,22 @@ namespace AdvokatskiPortal.Controllers
         }
 
         [HttpGet("getNewNostifiation")]
-        public IEnumerable<SlucajMajstor> getNewNostifiation()
+        public async Task<IActionResult> getNewNostifiation()
         {
-            var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
-            // potrebno prebaciti isRead na true;
-            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false);
+            try
+            {
+                var cliems = User.Claims.First();
+                var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
+                var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false);
 
-            return noviSlucajevi;
+                return Ok(noviSlucajevi);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+                throw e;
+            }
+            
         }
         [HttpPut("putNewNostifiationRead")]
         public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor[] nostification)
