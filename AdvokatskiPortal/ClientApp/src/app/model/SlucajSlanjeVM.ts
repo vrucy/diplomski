@@ -6,8 +6,8 @@ export class SlucajSlanjeVM {
 id;
 Slucaj: Slucaj ;
 Ugovor: Ugovor;
-Advokats: Majstor [] = [];
-Cenovniks: Cenovnik [] = [];
+Majstors: Majstor [] = [];
+// Cenovniks: Cenovnik [] = [];
 KorisnikId;
 Korisnik;
 SlucajAdvokats;

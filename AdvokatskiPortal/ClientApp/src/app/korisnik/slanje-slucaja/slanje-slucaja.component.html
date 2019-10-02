@@ -29,7 +29,8 @@
           <p>opis</p>
           <mat-form-field>
             <mat-label>Odaberite slucaj</mat-label>
-            <mat-select [(ngModel)]="odabraniSlucaj" formControlName="firstCtrl" required>
+            <!-- <mat-select [(ngModel)]="odabraniSlucaj" [formControl]="kategorijaFilter" formControlName="firstCtrl" required> -->
+            <mat-select [(ngModel)]="odabraniSlucaj"  formControlName="firstCtrl" required>
               <mat-option *ngFor="let slucaj of slucajevi" [value]="slucaj">{{slucaj.naziv}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -40,7 +41,7 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup">
+  <!-- <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Odaberite cenovnik</ng-template>
 
@@ -60,7 +61,7 @@
         <button mat-button matStepperNext>Next</button>
       </div>
     </form>
-  </mat-step>
+  </mat-step> -->
 
   <mat-step [stepControl]="thridFormGroup">
     <form [formGroup]="thridFormGroup">

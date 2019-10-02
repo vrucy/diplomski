@@ -1,8 +1,12 @@
+import { PrepravitiPonuduComponent } from './../../advokat/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
+import { MatDialog } from '@angular/material/dialog';
+import { pregledSlucajaVM } from './../../model/pregledSlucajaVM';
 import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { SlucajSlanjeVM } from '../../model/SlucajSlanjeVM';
+import { Cenovnik } from '../../model/Cenovnik';
 
 @Component({
   selector: 'app-pregled-slucaja-korisnik',
@@ -12,24 +16,39 @@ import { SlucajSlanjeVM } from '../../model/SlucajSlanjeVM';
 export class PregledSlucajaKorisnikComponent implements OnInit {
 
   displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'opis', 'button'];
-  public dataSource = new MatTableDataSource<SlucajSlanjeVM>();
+  public dataSource = new MatTableDataSource<pregledSlucajaVM>();
 
   nameFilter = new FormControl('');
   tabIndex = new FormControl('');
-
-  constructor(private korisnikService: KorisnikService) {
-    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe(res => {
-      this.dataSource.data = res;
-      console.log(res)
-    });
-    this.dataSource.filterPredicate = this.tableFilter();
-  }
-
-
+  cenovnik = new Cenovnik();
   filterValues = {
     name: '',
     tabIndex: ''
   };
+  constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
+    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe(res => {
+      this.dataSource.data = res;
+      console.log(this.dataSource.data);
+    });
+    this.dataSource.filterPredicate = this.tableFilter();
+  }
+  openDialogEdit(element): void {
+    const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
+      width: '250px',
+      // napraviti svoj cenovnik ili prepraviti postojeci???
+      data: { cenovnik: this.cenovnik }
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      element.cenovnik = result;
+      this.cenovnik = result;
+      console.log(element);
+      // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
+      // to cu postici tako sto cu staviti ngIf i proveriti status
+
+      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(element);
+      this.korisnikService.prepravkaSlucajaKorisnika(element);
+    });
+  }
 
   ngOnInit() {
     this.nameFilter.valueChanges
@@ -50,7 +69,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);
-      return (data.advokat.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
+      return (data.majstor.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
         data.slucajStatusId === <number>searchTerms.tabIndex;
     };
     return filterFunction;
@@ -90,5 +109,15 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   }
   odbijenSlucaj(slucaj) {
     this.korisnikService.odbijenSlucajOdKorisnika(slucaj);
+  }
+
+  getLastOffer(element: any) {
+    let result = null;
+    if (element.slucaj.cenovniks.length > 0) {
+      result = element.slucaj.cenovniks[element.slucaj.cenovniks.length - 1];
+      // result = element[length - 1];
+    }
+   // console.log(element.slucaj.cenovniks);
+    return  element.slucaj.cenovniks[element.slucaj.cenovniks.length - 1];
   }
 }

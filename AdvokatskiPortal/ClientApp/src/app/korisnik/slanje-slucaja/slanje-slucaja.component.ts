@@ -27,7 +27,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   public dataSource = new MatTableDataSource<Majstor>();
   slucaj = { opis: '' };
   // noviSlucaj = { opis: ''};
-  noviSlucaj : Slucaj = new Slucaj();
+  noviSlucaj: Slucaj = new Slucaj();
   majstori;
   slucajevi;
   panelStanje = false;
@@ -88,7 +88,7 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
       this.dataSource.data = res;
       this.majstori = res;
-      console.log(this.majstori)
+      console.log(this.majstori);
     });
     this.korsinikService.getAllSlucajForKorisnik().subscribe(res => {
       this.slucajevi = res;
@@ -97,17 +97,20 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.advokatService.getAllKategorija().subscribe(res => {
       this.kategorije = res;
       console.log(this.kategorije);
-    })
+    });
   }
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);
-      return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
-        data.slucajStatusId === <number>searchTerms.kategorijaFilter &&
-        data.KategorijaId === <number>searchTerms.podKategorijaFilter;
+      console.log(data)
+       return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
+        data.majstorKategorijes.find(ca => ca.kategorijaId === <number>searchTerms.kategorijaFilter);
+        // data.majstorKategorijes.find(ca => ca.kategorijaId === <number>this.odabraniSlucaj.kategorijaId);
+
     }
     return filterFunction;
   }
+
   resetFilter() {
     this.nameFilter.reset();
     this.kategorijaFilter.reset();
@@ -140,14 +143,14 @@ export class SlanjeSlucajaComponent implements OnInit {
   }
   save() {
 
-    this.SlucajVM.Advokats =  this.selection.selected;
+    this.SlucajVM.Majstors =  this.selection.selected;
 
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
 
-    const c: Cenovnik = new Cenovnik();
-    c.kolicina = this.cenovnik.kolicina;
-    c.vrstaPlacanja = this.cenovnik.vrstaPlacanja;
-    this.SlucajVM.Cenovniks =  [c];
+    // const c: Cenovnik = new Cenovnik();
+    // c.kolicina = this.cenovnik.kolicina;
+    // c.vrstaPlacanja = this.cenovnik.vrstaPlacanja;
+    // this.SlucajVM.Cenovniks =  [c];
     this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 

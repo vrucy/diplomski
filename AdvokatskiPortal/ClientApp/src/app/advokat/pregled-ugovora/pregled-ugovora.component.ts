@@ -15,13 +15,15 @@ import { PrikazSlucajComponent } from '../dialog/prikaz-slucaj/prikaz-slucaj.com
   styleUrls: ['./pregled-ugovora.component.css']
 })
 export class PregledUgovoraComponent implements OnInit {
-  displayedColumns: string[] = ['ime', 'prezime', 'opis', 'cena', 'button'];
+  displayedColumns: string[] = ['ime', 'prezime', 'opis',  'button'];
   public dataSource = new MatTableDataSource<SlucajSlanjeVM>();
   podatci;
   nameFilter = new FormControl('');
   tabIndex = new FormControl('');
   cenovnik = new Cenovnik();
   odgovor: string;
+  imageurl;
+
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
       this.dataSource.data = res;
@@ -50,6 +52,7 @@ export class PregledUgovoraComponent implements OnInit {
 
     });
   }
+
   openDialogEdit(element): void {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
@@ -59,22 +62,22 @@ export class PregledUgovoraComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       element.cenovnik = result;
       this.cenovnik = result;
-      console.log(element);
+      console.log(element.slucaj.slike.slikaProp);
       // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
       // to cu postici tako sto cu staviti ngIf i proveriti status
-      await this.advokatService.postavljanjeNoveCeneOdAdvokata(element);
-      this.advokatService.prepravkaSlucajaAdvokata(element);
+      // await this.advokatService.postavljanjeNoveCeneOdAdvokata(element);
+      // this.advokatService.prepravkaSlucajaAdvokata(element);
     });
   }
   openDialogPrikazSlucaja(element): void {
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
       width: '250px',
-      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis }
+      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: element.slucaj.slike}
     });
     dialogRef.afterClosed().subscribe(result => {
       element.odgovor = result;
       this.odgovor = result;
-      console.log(result)
+      console.log(element.slucaj.slike);
 
 
     });
@@ -82,12 +85,13 @@ export class PregledUgovoraComponent implements OnInit {
   tableFilter(): (data: any, filter: string) => boolean {
     let filterFunction = function (data, filter): boolean {
       let searchTerms = JSON.parse(filter);
-      return data.advokat.ime.toLowerCase().indexOf(searchTerms.name) !== -1 ||
+      return data.majstor.ime.toLowerCase().indexOf(searchTerms.name) !== -1 ||
         data.slucajStatusId.toString().toLowerCase().indexOf(searchTerms.tabIndex) !== -1;
     }
     return filterFunction;
   }
   ngOnInit() {
+
     this.nameFilter.valueChanges
       .subscribe(
         name => {
@@ -102,6 +106,7 @@ export class PregledUgovoraComponent implements OnInit {
           this.dataSource.filter = JSON.stringify(this.filterValues);
         }
       );
+
   }
 
 

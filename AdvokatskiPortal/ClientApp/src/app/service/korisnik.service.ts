@@ -26,6 +26,19 @@ export class KorisnikService {
       console.log(res)
     })
   }
+  postavljanjeNoveCeneOdKorisnika(slucajAdvokat) {
+    return this.http.post(` http://localhost:44345/api/Korisnik/postavljanjeNoveCeneOdKorisnika`, slucajAdvokat).subscribe(res =>{
+      console.log(res);
+    });
+  }
+  prepravkaSlucajaKorisnika(slucajAdvokat) {
+    return this.http.put('http://localhost:44345/api/Korisnik/prepravkaSlucajaKorisnik', slucajAdvokat).subscribe(res => {
+      console.log(res);
+    })
+  }
+  getAllKategorije() {
+    return this.http.get('http://localhost:44345/api/Korisnik/getAllKategorije');
+  }
   postSlucajAdvokatima(slucaj){
     return this.http.post('http://localhost:44345/api/Korisnik/postSlucajAdvokatima', slucaj).subscribe(rez => {
     });

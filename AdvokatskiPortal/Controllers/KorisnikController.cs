@@ -100,6 +100,7 @@ namespace AdvokatskiPortal.Controllers
 
             try
             {
+                var x = _context.Majstors.Include(k => k.MajstorKategorijes);
                 return Ok(_context.Majstors.Include(k => k.MajstorKategorijes));
             }
             catch (Exception e)
@@ -149,17 +150,31 @@ namespace AdvokatskiPortal.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var cliems = User.Claims.First();
+            try
+            {
+
+                var cliems = User.Claims.First();
             var q = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-            slucaj.Korisnik = q ;
             slucaj.KorisnikId = q.Id;
-            _context.Slucajs.Include(y => y.Korisnik.Id == q.Id);
+           //  _context.Slucajs.Include(y => y.Korisnik.Id == q.Id);
             _context.Slucajs.Add(slucaj);
-            var c = _context.Slucajs.Find(slucaj.Id);
-            await _context.SaveChangesAsync();
+            
+           
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
             return CreatedAtAction("GetSlucaj", new { id = slucaj.Id }, slucaj);
         }
-        
+
+        [HttpGet("getAllKategorije")]
+        public IEnumerable<Kategorija> getAllKategorije()
+        {
+            return _context.Kategorijas;
+        }
         [HttpPost("postSlucajaSaAdvokatimaSaCenovnikom")]
         public IActionResult postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
         {
@@ -186,7 +201,7 @@ namespace AdvokatskiPortal.Controllers
            
             slucajVM.Korisnik = ulogovaniKorisnik;
             slucajVM.KorisnikId = ulogovaniKorisnik.Id;
-            slucajVM.Slucaj.Cenovniks = slucajVM.Cenovniks;
+           // slucajVM.Slucaj.Cenovniks = slucajVM.Cenovniks;
             slucajVM.Slucaj.Korisnik = slucajVM.Korisnik;
             
                 foreach (Majstor advokat in slucajVM.Majstors)
@@ -201,18 +216,18 @@ namespace AdvokatskiPortal.Controllers
                     _context.SlucajMajstors.Add(newSlucajAdvokat);
                     
                 }
-                foreach (var item in slucajVM.Cenovniks)
-                {
-                    var newCenovnik = new Cenovnik
-                    {
-                        vrstaPlacanja = item.vrstaPlacanja,
-                        kolicina = item.kolicina,
-                        StatusId = 1,
-                        SlucajId = slucajVM.Slucaj.Id,
-                        IdenityId = cliems.Value
-                    };
-                    _context.Cenovniks.Add(newCenovnik);
-                }
+                //foreach (var item in slucajVM.Cenovniks)
+                //{
+                //    var newCenovnik = new Cenovnik
+                //    {
+                //        vrstaPlacanja = item.vrstaPlacanja,
+                //        kolicina = item.kolicina,
+                //        StatusId = 1,
+                //        SlucajId = slucajVM.Slucaj.Id,
+                //        IdenityId = cliems.Value
+                //    };
+                //    _context.Cenovniks.Add(newCenovnik);
+                //}
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -221,6 +236,44 @@ namespace AdvokatskiPortal.Controllers
                 throw ex;
             }
      
+            return Ok();
+        }
+        [HttpPost("postavljanjeNoveCeneOdKorisnika")]
+        public async Task<IActionResult> postavljanjeNoveCeneOdKorisnika([FromBody] postNewCenovnikFromAdvokatVM noviCenovnikVM)
+        {
+            if (noviCenovnikVM.SlucajStatusId == 6)
+            {
+                var cliems = User.Claims.First();
+                var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+
+                var cenovnik = new Cenovnik
+                {
+                    IdenityId = cliems.Value,
+                    SlucajId = noviCenovnikVM.SlucajId,
+                    kolicina = noviCenovnikVM.Cenovnik.kolicina,
+                    komentar = noviCenovnikVM.Cenovnik.komentar,
+                    vrstaPlacanja = noviCenovnikVM.Cenovnik.vrstaPlacanja,
+                    StatusId = 1
+                };
+                _context.Cenovniks.Add(cenovnik);
+
+                await _context.SaveChangesAsync();
+
+                return Ok(cenovnik);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpPut("prepravkaSlucajaKorisnik")]
+        public async Task<IActionResult> prepravkaSlucajaKorisnik([FromBody] SlucajMajstor slucajMajstor)
+        {
+
+            slucajMajstor.SlucajStatusId = 7;
+            _context.Entry(slucajMajstor).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
             return Ok();
         }
         [HttpPost("postSlucajAdvokatima")]

@@ -11,9 +11,11 @@ namespace AdvokatskiPortal.Models
         public int Id { get; set; }
         public string Naziv { get; set; }
         public string Opis { get; set; }
-        public string Lokacija { get; set; }
+        public double GSirina { get; set; }
+        public double GDuzina { get; set; }
         public string Mesto { get; set; }
         public string UlicaIBroj { get; set; }
+        public DateTime KrajnjiRokZaOdgovor { get; set; }
         public DateTime? PocetakRada{ get; set; }
         public DateTime? ZavrsetakRada { get; set; }
         public Ugovor Ugovor { get; set; }

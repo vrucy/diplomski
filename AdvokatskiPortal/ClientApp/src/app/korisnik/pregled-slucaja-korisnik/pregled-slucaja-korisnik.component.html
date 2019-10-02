@@ -8,11 +8,11 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="ime">
         <th mat-header-cell *matHeaderCellDef> Ime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.ime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.ime}} </td>
       </ng-container>
       <ng-container matColumnDef="prezime">
         <th mat-header-cell *matHeaderCellDef> Prezime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.prezime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.prezime}} </td>
       </ng-container>
       <ng-container matColumnDef="tekst_Zahteva">
         <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>
@@ -22,16 +22,23 @@
         <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
         <td mat-cell *matCellDef="let element">
           <div *ngFor="let item of element.slucaj.cenovniks">
-            <div *ngIf="element.advokat.idenity.id == item.idenityId">
+            <div *ngIf="element.majstor.idenity.id == item.idenityId">
               <!--staviti u else da se vidi inicijalna cena korisnika koju je postavio-->
-              {{item.kolicina}}
+              {{getLastOffer(element).kolicina}}
             </div>
           </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="vrstaPlacanja">
         <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
-        <td mat-cell *matCellDef="let element"> {{element.slucaj.cenovniks[0].vrstaPlacanja}} </td>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let item of element.slucaj.cenovniks">
+            <div *ngIf="element.majstor.idenity.id == item.idenityId">
+              <!--staviti u else da se vidi inicijalna cena korisnika koju je postavio-->
+              {{getLastOffer(element).vrstaPlacanja}}
+            </div>
+          </div>
+        </td>
       </ng-container>
       <ng-container matColumnDef="opis">
         <th mat-header-cell *matHeaderCellDef> Opis Slucaja </th>
@@ -43,6 +50,9 @@
           <div *ngIf="element.slucajStatusId === 2 ">
             <button mat-icon-button (click)="prihvacenSlucaj(element)">
               <mat-icon class="material-icons">done </mat-icon>
+            </button>
+            <button mat-icon-button (click)="openDialogEdit(element)">
+              <mat-icon class="material-icons">edit</mat-icon>
             </button>
             <button mat-icon-button (click)="odbijenSlucaj(element)">
               <mat-icon class="material-icons">delete</mat-icon>
@@ -63,11 +73,11 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="ime">
         <th mat-header-cell *matHeaderCellDef> Ime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.ime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.ime}} </td>
       </ng-container>
       <ng-container matColumnDef="prezime">
         <th mat-header-cell *matHeaderCellDef> Prezime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.prezime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.prezime}} </td>
       </ng-container>
       <ng-container matColumnDef="tekst_Zahteva">
         <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>
@@ -77,22 +87,22 @@
       <ng-container matColumnDef="cena">
         <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
         <td mat-cell *matCellDef="let element">
-            <div *ngFor="let item of element.slucaj.cenovniks">
-                <div *ngIf="element.slucaj.korisnik.idenity.id === item.idenityId">
-                  {{item.kolicina}}
-                </div>
-              </div>
-           </td>
+          <div *ngFor="let item of element.slucaj.cenovniks">
+            <div *ngIf="element.slucaj.korisnik.idenity.id === item.idenityId">
+              {{item.kolicina}}
+            </div>
+          </div>
+        </td>
       </ng-container>
       <ng-container matColumnDef="vrstaPlacanja">
         <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
         <td mat-cell *matCellDef="let element">
-            <div *ngFor="let item of element.slucaj.cenovniks">
-                <div *ngIf="element.slucaj.korisnik.idenity.id == item.idenityId">
-                  {{item.vrstaPlacanja}}
-                </div>
-              </div>
-            </td>
+          <div *ngFor="let item of element.slucaj.cenovniks">
+            <div *ngIf="element.slucaj.korisnik.idenity.id == item.idenityId">
+              {{item.vrstaPlacanja}}
+            </div>
+          </div>
+        </td>
       </ng-container>
       <ng-container matColumnDef="opis">
         <th mat-header-cell *matHeaderCellDef> Opis Slucaja </th>
@@ -102,14 +112,14 @@
         <th mat-header-cell *matHeaderCellDef>Prihvati/Odbaci </th>
         <td mat-cell *matCellDef="let element">
           <div *ngIf="element.slucajStatusId === 2">
-          <button mat-icon-button (click)="prihvacenSlucaj(element)">
-            <mat-icon class="material-icons">done </mat-icon>
-          </button>
+            <button mat-icon-button (click)="prihvacenSlucaj(element)">
+              <mat-icon class="material-icons">done </mat-icon>
+            </button>
 
-          <button mat-icon-button (click)="odbijenSlucaj(element)">
-            <mat-icon class="material-icons">delete</mat-icon>
-          </button>
-        </div>
+            <button mat-icon-button (click)="odbijenSlucaj(element)">
+              <mat-icon class="material-icons">delete</mat-icon>
+            </button>
+          </div>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -125,11 +135,11 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="ime">
         <th mat-header-cell *matHeaderCellDef> Ime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.ime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.ime}} </td>
       </ng-container>
       <ng-container matColumnDef="prezime">
         <th mat-header-cell *matHeaderCellDef> Prezime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.prezime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.prezime}} </td>
       </ng-container>
       <ng-container matColumnDef="tekst_Zahteva">
         <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>
@@ -140,7 +150,7 @@
         <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
         <td mat-cell *matCellDef="let element">
           <div *ngFor="let item of element.slucaj.cenovniks">
-            <div *ngIf="element.advokat.idenity.id == item.idenityId">
+            <div *ngIf="element.majstor.idenity.id == item.idenityId">
               {{item.kolicina}}
             </div>
           </div>
@@ -150,7 +160,7 @@
         <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
         <td mat-cell *matCellDef="let element">
           <div *ngFor="let item of element.slucaj.cenovniks">
-            <div *ngIf="element.advokat.idenity.id == item.idenityId">
+            <div *ngIf="element.majstor.idenity.id == item.idenityId">
               {{item.vrstaPlacanja}}
             </div>
           </div>
@@ -167,7 +177,9 @@
             <button mat-icon-button (click)="prihvacenSlucaj(element)">
               <mat-icon class="material-icons">done </mat-icon>
             </button>
-
+            <button mat-icon-button (click)="openDialogEdit(element)">
+              <mat-icon class="material-icons">edit</mat-icon>
+            </button>
             <button mat-icon-button (click)="odbijenSlucaj(element)">
               <mat-icon class="material-icons">delete</mat-icon>
             </button>
@@ -188,11 +200,11 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="ime">
         <th mat-header-cell *matHeaderCellDef> Ime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.ime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.ime}} </td>
       </ng-container>
       <ng-container matColumnDef="prezime">
         <th mat-header-cell *matHeaderCellDef> Prezime </th>
-        <td mat-cell *matCellDef="let element"> {{element.advokat.prezime}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.majstor.prezime}} </td>
       </ng-container>
       <ng-container matColumnDef="tekst_Zahteva">
         <th mat-header-cell *matHeaderCellDef> Tekst Zahteva </th>

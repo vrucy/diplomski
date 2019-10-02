@@ -29,7 +29,8 @@ namespace AdvokatskiPortal.Controllers
         [HttpGet("getAllMajstori")]
         public IEnumerable<Majstor> getAllMajstori()
         {
-            return _context.Majstors;
+            var xo = _context.Majstors.Include(x => x.MajstorKategorijes);
+            return _context.Majstors.Include(x => x.MajstorKategorijes);
         }
 
         [HttpGet("getNewNostifiation")]
@@ -72,7 +73,7 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(s=>s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(sl=>sl.Slucaj.Slike).Include(s => s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
                                    
             return sviSlucajiAdvokata;
         }

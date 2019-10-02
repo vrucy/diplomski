@@ -14,7 +14,7 @@ namespace AdvokatskiPortal.Models.View
         public int KorisnikId { get; set; }
         public Korisnik Korisnik { get; set; }
         public ICollection<SlucajMajstor> SlucajMajstors { get; set; }
-        public ICollection<Cenovnik> Cenovniks { get; set; }
+        //public ICollection<Cenovnik> Cenovniks { get; set; }
 
     }
 }
