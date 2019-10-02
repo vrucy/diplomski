@@ -3,6 +3,7 @@ export class Cenovnik {
 id;
 vrstaPlacanja: string;
 kolicina: string;
+isFinal: boolean;
 SlucajId;
 Slucaj;
 StatudId;

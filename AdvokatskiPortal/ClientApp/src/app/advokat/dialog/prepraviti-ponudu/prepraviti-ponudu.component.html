@@ -1,6 +1,8 @@
 <div mat-dialog-content>
     <p>Odaberite vrstu placanja</p>
 
+
+
     <mat-form-field>
         <mat-label>Odaberite vrstu placanja</mat-label>
         <mat-select [(ngModel)]="data.cenovnik.vrstaPlacanja" required>
@@ -18,8 +20,18 @@
     <mat-form-field>
         <input matInput [(ngModel)]="data.cenovnik.komentar">
     </mat-form-field>
+    <div *ngIf="!data.cenovnik.isFinal">
+        
+        <mat-form-field>
+            <input matInput [(ngModel)]="data.zavrsetakRada" [matDatepicker]="picker" placeholder="Izaberite zavrsetak rada">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+    
+        <mat-checkbox [(ngModel)]="data.cenovnik.isFinal">Konacna cena</mat-checkbox> 
+    </div>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data.cenovnik" cdkFocusInitial>Ok</button>
+    <button mat-button  [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
 </div>

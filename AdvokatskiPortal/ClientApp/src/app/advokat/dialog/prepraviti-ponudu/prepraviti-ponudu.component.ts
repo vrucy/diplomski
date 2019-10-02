@@ -21,7 +21,9 @@ export class PrepravitiPonuduComponent implements OnInit{
     ngOnInit() {
 
     }
-
+    makeCenovnki() {
+      
+    }
     onNoClick(): void {
     this.dialogRef.close();
   }

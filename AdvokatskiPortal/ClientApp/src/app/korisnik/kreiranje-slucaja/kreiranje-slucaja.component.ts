@@ -59,7 +59,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
     const file = evt.target.files[0];
     if (file) {
       this.fileHandler = new FileHandler(file);
-      this.reader.readAsArrayBuffer(file);
+      this.reader.readAsBinaryString(file);
     }
 
   }

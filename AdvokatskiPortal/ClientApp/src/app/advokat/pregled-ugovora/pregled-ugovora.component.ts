@@ -8,6 +8,7 @@ import { AcceptComponent } from '../dialog/accept/accept.component';
 import { PrepravitiPonuduComponent } from '../dialog/prepraviti-ponudu/prepraviti-ponudu.component';
 import { FormControl } from '@angular/forms';
 import { PrikazSlucajComponent } from '../dialog/prikaz-slucaj/prikaz-slucaj.component';
+import { Slucaj } from '../../model/Slucaj';
 
 @Component({
   selector: 'app-pregled-ugovora',
@@ -21,8 +22,10 @@ export class PregledUgovoraComponent implements OnInit {
   nameFilter = new FormControl('');
   tabIndex = new FormControl('');
   cenovnik = new Cenovnik();
+  slucaj = new Slucaj();
   odgovor: string;
   imageurl;
+  isFinal: any;
 
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
@@ -54,13 +57,16 @@ export class PregledUgovoraComponent implements OnInit {
   }
 
   openDialogEdit(element): void {
+    cenovnik: new Cenovnik();
+    
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
-      // napraviti svoj cenovnik ili prepraviti postojeci???
-      data: { cenovnik: this.cenovnik }
+      
+      data: { cenovnik: this.cenovnik , zavrsetakRada: this.podatci}
     });
     dialogRef.afterClosed().subscribe(async result => {
       element.cenovnik = result;
+      element.slucaj.zavrsetakRada= result.zavrsetakRada;
       this.cenovnik = result;
       console.log(element.slucaj.slike.slikaProp);
       // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
