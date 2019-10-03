@@ -12,7 +12,6 @@ namespace AdvokatskiPortal.Models
         public byte [] slikaProp { get; set; }
         public int SlucajId { get; set; }
         public Slucaj Slucaj { get; set; }
-
     }
 
 }

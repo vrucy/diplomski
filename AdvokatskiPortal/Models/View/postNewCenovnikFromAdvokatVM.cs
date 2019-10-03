@@ -13,7 +13,7 @@ namespace AdvokatskiPortal.Models.View
         public bool isRead { get; set; }
         public bool isActive { get; set; }
         public int AdvokatId { get; set; }
-        public Majstor Advokat { get; set; }
+        public Majstor Majstor { get; set; }
         public int SlucajId { get; set; }
         public Slucaj Slucaj { get; set; }
         public int SlucajStatusId { get; set; }

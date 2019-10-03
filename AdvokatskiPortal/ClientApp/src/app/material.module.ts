@@ -18,7 +18,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule } from '@angular/material';
-
+import {SlideshowModule} from 'ng-simple-slideshow';
 
 
 @NgModule({
@@ -40,7 +40,8 @@ import {MatNativeDateModule } from '@angular/material';
     MatSnackBarModule,
     MatTooltipModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    SlideshowModule
     ]
 })
 export class MaterialModule {}

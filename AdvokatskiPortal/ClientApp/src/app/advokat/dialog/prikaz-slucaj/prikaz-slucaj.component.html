@@ -1,11 +1,19 @@
 <label></label>
 <mat-form-field>
-    <input matInput [(ngModel)]="data.naziv"/>
+  <input matInput [(ngModel)]="data.naziv" />
 </mat-form-field>
 <mat-form-field>
-    <input matInput [(ngModel)]="data.opis"/>
+  <input matInput [(ngModel)]="data.opis" />
 </mat-form-field>
-<!-- <img src='' height="200"> -->
+<slideshow [imageUrls]="data.slike.slikaProp">
+
+</slideshow>
+<!-- <div *ngFor="let slika of data.slike"> -->
+  <!-- {{slika.slikaProp}} -->
+   <!-- <img [src]='slika.slikaProp'> -->
+  <!-- <img [src]='data.slike[0].slikaProp'> -->
+
+<!-- </div> -->
 <div mat-dialog-actions>
-    <button mat-button (click)="close()">Zatvori</button>
-  </div>
+  <button mat-button (click)="close()">Zatvori</button>
+</div>

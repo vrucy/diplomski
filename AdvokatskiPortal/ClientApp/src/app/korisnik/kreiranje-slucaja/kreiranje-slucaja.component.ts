@@ -25,7 +25,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
   originalData;
   i = 0;
   reader = new FileReader();
-  private fileHandler: FileHandler;
+  private fileHandler: ImageHandler;
   constructor(private korisnikService: KorisnikService) { }
   ngOnInit(): void {
     this.korisnikService.getAllKategorije().subscribe((res: any) => {
@@ -58,16 +58,17 @@ export class KreiranjeSlucajaComponent implements OnInit {
 
     const file = evt.target.files[0];
     if (file) {
-      this.fileHandler = new FileHandler(file);
-      this.reader.readAsArrayBuffer(file);
+      this.fileHandler = new ImageHandler(file);
+      this.reader.readAsDataURL(file);
     }
 
   }
 
   handleReaderLoaded(e) {
-    const base64 = btoa(e.target.result);
-    console.log('data:image/png;base64,' + base64);
-    console.log(e.target.result);
+    // console.log(e.target.result)
+    const base64 = e.target.result.toString().split(',')[1]; // btoa(e.target.result);
+    // console.log('data:image/png;base64,' + base64);
+    // console.log(e.target.result);
     // this.handlePictureName(file, slika);
     const slika = this.fileHandler.ProcessFile(base64);
     this.slike.push(slika);
@@ -75,7 +76,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
   }
 }
 
-class FileHandler {
+class ImageHandler {
   private slika: Slika;
   constructor(private file: File) {
     this.slika = new Slika();

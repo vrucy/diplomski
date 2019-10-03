@@ -108,8 +108,7 @@ namespace AdvokatskiPortal.Controllers
         [HttpPost("postavljanjeNoveCeneOdAdvokata")]
         public async Task<IActionResult> postavljanjeNoveCeneOdAdvokata([FromBody] postNewCenovnikFromAdvokatVM noviCenovnikVM)
         {
-            if (noviCenovnikVM.SlucajStatusId == 1)
-            {
+            
                 var cliems = User.Claims.First();
                 var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
 
@@ -127,10 +126,41 @@ namespace AdvokatskiPortal.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok(cenovnik);
-            }
-            else
+           
+        }
+        [HttpPut("prepravkaCeneOdAdvokata")]
+        public async Task<IActionResult> prepravkaCeneOdAdvokata ([FromBody] Cenovnik noviCenovnikVM)
+        {
+            try
             {
-                return NotFound();
+                var x = User.Claims.FirstOrDefault().Value;
+
+                noviCenovnikVM.IdenityId = x;
+            _context.Entry(noviCenovnikVM).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return Ok();
+
+        }
+        [HttpPut("prihvatanjeSlucajaAdvokata")]
+        public async Task<IActionResult> prihvatanjeSlucajaAdvokata( [FromBody] SlucajMajstor slucajMajstor)
+        {
+            if (slucajMajstor.SlucajStatusId == 1 || slucajMajstor.SlucajStatusId == 3 || slucajMajstor.SlucajStatusId == 7)
+            {
+                slucajMajstor.SlucajStatusId = 2;
+                _context.Entry(slucajMajstor).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return Ok();
+            } else
+            {
+                return BadRequest();
             }
         }
         [HttpPut("prepravkaSlucajaAdvokata")]
@@ -144,16 +174,6 @@ namespace AdvokatskiPortal.Controllers
             return Ok();
         }
 
-        [HttpPut("prihvatanjeSlucajaAdvokata")]
-        public async Task<IActionResult> prihvatanjeSlucajaAdvokata( [FromBody] SlucajMajstor slucajMajstor)
-        {
-
-            slucajMajstor.SlucajStatusId = 2;
-            _context.Entry(slucajMajstor).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
         [HttpPut("odbijanjeSlucajaAdvokata")]
         public async Task<IActionResult> odbijanjeSlucajaAdvokata( [FromBody] SlucajMajstor slucajMajstor)
         {

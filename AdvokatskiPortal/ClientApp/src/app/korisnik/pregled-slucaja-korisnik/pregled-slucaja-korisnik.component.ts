@@ -45,7 +45,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
       // to cu postici tako sto cu staviti ngIf i proveriti status
 
-      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(element);
+      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(element.cenovnik);
       this.korisnikService.prepravkaSlucajaKorisnika(element);
     });
   }
