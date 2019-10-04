@@ -20,21 +20,23 @@
         <ng-container matColumnDef="cena">
           <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
           <td mat-cell *matCellDef="let element">
-            <div *ngFor="let item of element.slucaj.cenovniks">
+            {{element.slucaj.cenovniks[0].kolicina}}
+            <!-- <div *ngFor="let item of element.slucaj.cenovniks">
               <div *ngIf="element.majstor.idenity.id == item.idenityId">
                 {{item.kolicina}}
               </div>
-            </div>
+            </div> -->
           </td>
         </ng-container>
         <ng-container matColumnDef="vrstaPlacanja">
           <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
           <td mat-cell *matCellDef="let element">
-            <div *ngFor="let item of element.slucaj.cenovniks">
+              {{element.slucaj.cenovniks[0].vrstaPlacanja}}
+            <!-- <div *ngFor="let item of element.slucaj.cenovniks">
               <div *ngIf="element.majstor.idenity.id == item.idenityId">
                 {{item.vrstaPlacanja}}
               </div>
-            </div>
+            </div> -->
           </td>
         </ng-container>
         <ng-container matColumnDef="opis">
@@ -44,8 +46,8 @@
         <ng-container matColumnDef="button">
           <th mat-header-cell *matHeaderCellDef> Prihvati/odbaci </th>
           <td mat-cell *matCellDef="let element">
-            <div *ngIf="element.slucajStatusId === 6">
-              <button mat-icon-button (click)="prihvacenSlucaj(element)">
+            <div *ngIf="element.slucajStatusId === 7 || element.slucajStatusId === 4">
+              <button mat-icon-button (click)="prihvacenSlucaj(element)" *ngIf="element.slucajStatusId === 4">
                 <mat-icon class="material-icons">done </mat-icon>
               </button>
               <button mat-icon-button (click)="openDialogEdit(element)">

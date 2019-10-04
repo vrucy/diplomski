@@ -15,7 +15,7 @@ import { PrikazSlucajComponent } from '../dialog/prikaz-slucaj/prikaz-slucaj.com
   styleUrls: ['./pregled-ugovora.component.css']
 })
 export class PregledUgovoraComponent implements OnInit {
-  displayedColumns: string[] = ['ime', 'prezime', 'opis',  'button'];
+  displayedColumns: string[] = ['ime', 'prezime', 'opis', 'cena', 'button'];
   public dataSource = new MatTableDataSource<SlucajSlanjeVM>();
   podatci;
   nameFilter = new FormControl('');
@@ -27,9 +27,8 @@ export class PregledUgovoraComponent implements OnInit {
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
       this.dataSource.data = res;
-      console.log(res)
+      console.log(this.dataSource.data)
     });
-
     this.dataSource.filterPredicate = this.tableFilter();
   }
 
@@ -60,15 +59,18 @@ export class PregledUgovoraComponent implements OnInit {
       data: { cenovnik: this.cenovnik }
     });
     dialogRef.afterClosed().subscribe(async result => {
-
       element.cenovnik = result;
       this.cenovnik = result;
-      if(element.slucajStatusId === 1) {
+      this.cenovnik.SlucajId = element.slucajId;
+      this.cenovnik.StatudId = element.statusId;
+      if (element.slucajStatusId === 1) {
         await this.advokatService.postavljanjeNoveCeneOdAdvokata(element);
         this.advokatService.prepravkaSlucajaAdvokata(element);
+      } else {
+        this.cenovnik.id = element.slucaj.cenovniks[0].id;
+        await this.advokatService.prepravkaCeneOdAdvokata(this.cenovnik);
+        this.advokatService.prepravkaSlucajaAdvokata(element);
       }
-      await this.advokatService.prepravkaCeneOdAdvokata(element.cenovnik);
-      this.advokatService.prepravkaSlucajaAdvokata(element);
     });
   }
   openDialogPrikazSlucaja(element): void {
@@ -89,7 +91,7 @@ export class PregledUgovoraComponent implements OnInit {
         // var uints = new Uint8Array(el.slikaProp);
         // var base64 = btoa(String.fromCharCode(null, uints));
         // var url = 'data:image/jpeg;base64,' + base64;
-          console.log(el.slikaProp.toString());
+        console.log(el.slikaProp.toString());
       });
 
     });
@@ -146,10 +148,18 @@ export class PregledUgovoraComponent implements OnInit {
   resetFilter() {
     this.nameFilter.reset();
   }
+  removeAt(index: number) {
+    const data = this.dataSource.data;
+    // data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
+    data.splice(index, 1);
+
+    this.dataSource.data = data;
+  }
   redirectToAccept(slucajAdvokat) {
 
     this.advokatService.prihvatanjeSlucajaOdAdvokata(slucajAdvokat).subscribe(res => {
       console.log(res);
+      this.removeAt(slucajAdvokat);
     })
   }
 

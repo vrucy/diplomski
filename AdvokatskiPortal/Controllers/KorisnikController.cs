@@ -231,23 +231,40 @@ namespace AdvokatskiPortal.Controllers
         public async Task<IActionResult> postavljanjeNoveCeneOdKorisnika([FromBody] Cenovnik noviCenovnikVM)
         {
 
-            var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-            noviCenovnikVM.IdenityId = ulogovaniKorisnik.Idenity.Id;
-            _context.Entry(noviCenovnikVM).State = EntityState.Modified;
+            try
+            {
+                var cliems = User.Claims.First();
+                var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+                noviCenovnikVM.IdenityId = cliems.Value;
+                noviCenovnikVM.StatusId = 1;
+                _context.Entry(noviCenovnikVM).State = EntityState.Modified;
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
 
             return Ok();
-            
+
         }
         [HttpPut("prepravkaSlucajaKorisnik")]
         public async Task<IActionResult> prepravkaSlucajaKorisnik([FromBody] SlucajMajstor slucajMajstor)
         {
 
-            slucajMajstor.SlucajStatusId = 7;
-            _context.Entry(slucajMajstor).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            try
+            {
+                slucajMajstor.SlucajStatusId = 6;
+                _context.Entry(slucajMajstor).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
 
             return Ok();
         }
@@ -278,6 +295,7 @@ namespace AdvokatskiPortal.Controllers
         {
 
             slucajMajstor.SlucajStatusId = 4;
+            slucajMajstor.Slucaj.Cenovniks.FirstOrDefault().StatusId = 2;
             _context.Entry(slucajMajstor).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

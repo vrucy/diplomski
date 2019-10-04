@@ -48,23 +48,23 @@ namespace AdvokatskiPortal.Controllers
                 _context.Majstors.Add(newMajstor);
 
 
-            try
-            {
-                foreach (var item in majstor.podKategorijaId)
-                {
-                    var newMajtorPodKategorije = new MajstorKategorije
-                    {
-                        KategorijaId = (int)item,
-                        MajstorId = newMajstor.Id,
-                    };
-                    _context.MajstorKategorijes.Add(newMajtorPodKategorije);
-                }
-            }
-            catch (Exception e)
-            {
+            //try
+            //{
+            ////    foreach (var item in majstor.podKategorijaId)
+            ////    {
+            ////        var newMajtorPodKategorije = new MajstorKategorije
+            ////        {
+            ////            KategorijaId = (int)item,
+            ////            MajstorId = newMajstor.Id,
+            ////        };
+            ////        _context.MajstorKategorijes.Add(newMajtorPodKategorije);
+            ////    }
+            ////}
+            //catch (Exception e)
+            //{
 
-                throw;
-            }
+            //    throw;
+            //}
 
             var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
 

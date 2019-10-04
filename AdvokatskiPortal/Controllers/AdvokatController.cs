@@ -72,8 +72,8 @@ namespace AdvokatskiPortal.Controllers
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
-            
-            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t=>t.Slucaj.Cenovniks).Include(sl=>sl.Slucaj.Slike).Include(s => s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
+            // && a.Slucaj.cenovnik != 1 treba staviti kad se veza promeni cenovnik prema slucaju 1:1
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id ).Include(t=>t.Slucaj.Cenovniks).Include(sl=>sl.Slucaj.Slike).Include(s => s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
                                    
             return sviSlucajiAdvokata;
         }
@@ -131,14 +131,16 @@ namespace AdvokatskiPortal.Controllers
         [HttpPut("prepravkaCeneOdAdvokata")]
         public async Task<IActionResult> prepravkaCeneOdAdvokata ([FromBody] Cenovnik noviCenovnikVM)
         {
+            
+            await _context.SaveChangesAsync();
             try
             {
-                var x = User.Claims.FirstOrDefault().Value;
+                var cliems = User.Claims.First();
+                noviCenovnikVM.IdenityId = cliems.Value;
+                noviCenovnikVM.StatusId = 1;
+                _context.Entry(noviCenovnikVM).State = EntityState.Modified;
 
-                noviCenovnikVM.IdenityId = x;
-            _context.Entry(noviCenovnikVM).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -152,9 +154,9 @@ namespace AdvokatskiPortal.Controllers
         [HttpPut("prihvatanjeSlucajaAdvokata")]
         public async Task<IActionResult> prihvatanjeSlucajaAdvokata( [FromBody] SlucajMajstor slucajMajstor)
         {
-            if (slucajMajstor.SlucajStatusId == 1 || slucajMajstor.SlucajStatusId == 3 || slucajMajstor.SlucajStatusId == 7)
+            if (slucajMajstor.SlucajStatusId == 1 || slucajMajstor.SlucajStatusId == 3 || slucajMajstor.SlucajStatusId == 6)
             {
-                slucajMajstor.SlucajStatusId = 2;
+                slucajMajstor.SlucajStatusId = 4;
                 _context.Entry(slucajMajstor).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return Ok();
@@ -167,7 +169,7 @@ namespace AdvokatskiPortal.Controllers
         public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] SlucajMajstor slucajMajstor)
         {
 
-            slucajMajstor.SlucajStatusId = 6;
+            slucajMajstor.SlucajStatusId = 7;
             _context.Entry(slucajMajstor).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

@@ -118,7 +118,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   // PROBLEM KAD SE KREIRA NE UPISE SE AUTUTOMATSKI  U SELECT PROBLEM JE U ngLifeCiCLES
   kreiranjeSlucaja(){
     this.korsinikService.kreiranjeSlucaja(this.noviSlucaj);
-    console.log(this.noviSlucaj)
+    // this.slucajevi = this.noviSlucaj;
   }
   doFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -50,9 +50,7 @@ export class KorisnikService {
     return this.http.get<any[]>('http://localhost:44345/api/Korisnik/getAllSlucajAdvokatForKorisnik');
   }
   prihvacenSlucajOdKorisnika (slucaj) {
-    return this.http.put ('http://localhost:44345/api/Korisnik/prihvacenSlucajKorisnik', slucaj).subscribe(res => {
-      console.log(res);
-    });
+    return this.http.put ('http://localhost:44345/api/Korisnik/prihvacenSlucajKorisnik', slucaj);
   }
   odbijenSlucajOdKorisnika(slucaj) {
     return this.http.put('http://localhost:44345/api/Korisnik/odbijenSlucajOdKorisnika', slucaj).subscribe(res => {

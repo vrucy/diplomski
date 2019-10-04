@@ -41,11 +41,14 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       element.cenovnik = result;
       this.cenovnik = result;
+      this.cenovnik.id = element.slucaj.cenovniks[0].id;
+      this.cenovnik.SlucajId = element.slucajId;
+      this.cenovnik.StatudId = element.statusId;
       console.log(element);
       // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
       // to cu postici tako sto cu staviti ngIf i proveriti status
 
-      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(element.cenovnik);
+      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(this.cenovnik);
       this.korisnikService.prepravkaSlucajaKorisnika(element);
     });
   }
@@ -104,8 +107,17 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     this.nameFilter.reset();
     this.tabIndex.reset();
   }
+  removeAt(index: number) {
+    const data = this.dataSource.data;
+    // data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
+     data.splice(index, 1);
+
+    this.dataSource.data = data;
+  }
   prihvacenSlucaj(slucaj) {
-    this.korisnikService.prihvacenSlucajOdKorisnika(slucaj);
+    this.korisnikService.prihvacenSlucajOdKorisnika(slucaj).subscribe(res => {
+      this.removeAt(slucaj);
+    });
   }
   odbijenSlucaj(slucaj) {
     this.korisnikService.odbijenSlucajOdKorisnika(slucaj);
