@@ -20,7 +20,7 @@
         <ng-container matColumnDef="cena">
           <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
           <td mat-cell *matCellDef="let element">
-            {{element.slucaj.cenovniks[0].kolicina}}
+            {{element.slucaj.cenovnik.kolicina}}
             <!-- <div *ngFor="let item of element.slucaj.cenovniks">
               <div *ngIf="element.majstor.idenity.id == item.idenityId">
                 {{item.kolicina}}
@@ -31,7 +31,7 @@
         <ng-container matColumnDef="vrstaPlacanja">
           <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
           <td mat-cell *matCellDef="let element">
-              {{element.slucaj.cenovniks[0].vrstaPlacanja}}
+              {{element.slucaj.cenovnik.vrstaPlacanja}}
             <!-- <div *ngFor="let item of element.slucaj.cenovniks">
               <div *ngIf="element.majstor.idenity.id == item.idenityId">
                 {{item.vrstaPlacanja}}

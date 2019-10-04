@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191004120909_changeRelationSlucajCenovnik")]
+    partial class changeRelationSlucajCenovnik
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +42,6 @@ namespace AdvokatskiPortal.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdenityId");
-
-                    b.HasIndex("SlucajId")
-                        .IsUnique();
 
                     b.HasIndex("StatusId");
 
@@ -193,6 +192,9 @@ namespace AdvokatskiPortal.Migrations
                     b.Property<DateTime?>("ZavrsetakRada");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CenovnikId")
+                        .IsUnique();
 
                     b.HasIndex("KategorijaId");
 
@@ -450,11 +452,6 @@ namespace AdvokatskiPortal.Migrations
                         .WithMany()
                         .HasForeignKey("IdenityId");
 
-                    b.HasOne("AdvokatskiPortal.Models.Slucaj", "Slucaj")
-                        .WithOne("Cenovnik")
-                        .HasForeignKey("AdvokatskiPortal.Models.Cenovnik", "SlucajId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("AdvokatskiPortal.Models.Status", "Status")
                         .WithMany("Cenovniks")
                         .HasForeignKey("StatusId")
@@ -510,6 +507,11 @@ namespace AdvokatskiPortal.Migrations
 
             modelBuilder.Entity("AdvokatskiPortal.Models.Slucaj", b =>
                 {
+                    b.HasOne("AdvokatskiPortal.Models.Cenovnik", "Cenovnik")
+                        .WithOne("Slucaj")
+                        .HasForeignKey("AdvokatskiPortal.Models.Slucaj", "CenovnikId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("AdvokatskiPortal.Models.Kategorija", "Kategorija")
                         .WithMany("Slucajs")
                         .HasForeignKey("KategorijaId")

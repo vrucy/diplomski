@@ -50,11 +50,11 @@ namespace AdvokatskiPortal.Controllers
         public IEnumerable<SlucajMajstor> getAllSlucajAdvokatForKorisnik()
         {
             var x = User.Claims.FirstOrDefault().Value;
-            var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(k => k.Korisnik).ThenInclude(i => i.Idenity).ToList();
+            var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(c => c.Cenovnik).Include(k => k.Korisnik).ThenInclude(i => i.Idenity).ToList();
             var test = new List<SlucajMajstor>();
             foreach (var item in korsinikSlucajevi)
             {
-                test.AddRange(_context.SlucajMajstors.Where(d => d.SlucajId == item.Id).Include(a => a.Majstor.Idenity).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks));
+                test.AddRange(_context.SlucajMajstors.Where(d => d.SlucajId == item.Id).Include(a => a.Majstor.Idenity).Include(s => s.Slucaj)/*.ThenInclude(c => c.Cenovnik)*/);
             }
             return test;
         }
@@ -116,7 +116,7 @@ namespace AdvokatskiPortal.Controllers
 
             var x = User.Claims.FirstOrDefault().Value;
             var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Select(i => i.Id);
-            var f = _context.SlucajMajstors.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Majstor.Idenity).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+            var f = _context.SlucajMajstors.Where(d => d.SlucajId == korsinikSlucajevi.FirstOrDefault()).Include(a => a.Majstor.Idenity).Include(s => s.Slucaj).ThenInclude(c => c.Cenovnik);
 
             return f;
 
@@ -205,18 +205,6 @@ namespace AdvokatskiPortal.Controllers
                     _context.SlucajMajstors.Add(newSlucajAdvokat);
 
                 }
-                //foreach (var item in slucajVM.Cenovniks)
-                //{
-                //    var newCenovnik = new Cenovnik
-                //    {
-                //        vrstaPlacanja = item.vrstaPlacanja,
-                //        kolicina = item.kolicina,
-                //        StatusId = 1,
-                //        SlucajId = slucajVM.Slucaj.Id,
-                //        IdenityId = cliems.Value
-                //    };
-                //    _context.Cenovniks.Add(newCenovnik);
-                //}
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -285,7 +273,7 @@ namespace AdvokatskiPortal.Controllers
             var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
 
             var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
-            var sviSlucajiKorisnika = _context.SlucajMajstors.Where(d => d.SlucajStatusId == 1).Include(a => a.Majstor).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
+            var sviSlucajiKorisnika = _context.SlucajMajstors.Where(d => d.SlucajStatusId == 1).Include(a => a.Majstor).Include(s => s.Slucaj).ThenInclude(c => c.Cenovnik);
 
             return sviSlucajiKorisnika;
         }
@@ -295,7 +283,7 @@ namespace AdvokatskiPortal.Controllers
         {
 
             slucajMajstor.SlucajStatusId = 4;
-            slucajMajstor.Slucaj.Cenovniks.FirstOrDefault().StatusId = 2;
+            slucajMajstor.Slucaj.Cenovnik.StatusId = 2;
             _context.Entry(slucajMajstor).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

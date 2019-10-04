@@ -73,7 +73,7 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             // && a.Slucaj.cenovnik != 1 treba staviti kad se veza promeni cenovnik prema slucaju 1:1
-            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id ).Include(t=>t.Slucaj.Cenovniks).Include(sl=>sl.Slucaj.Slike).Include(s => s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id ).Include(t=>t.Slucaj.Cenovnik).Include(sl=>sl.Slucaj.Slike).Include(s => s.Slucaj).ThenInclude( c => c.Korisnik).ThenInclude(i => i.Idenity);
                                    
             return sviSlucajiAdvokata;
         }
@@ -83,7 +83,7 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 1);
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovnik).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 1);
             
             return sviSlucajiAdvokata;
         }
@@ -94,7 +94,7 @@ namespace AdvokatskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             
-            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovniks).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 4);
+            var sviSlucajiAdvokata = _context.SlucajMajstors.Where(a => a.Majstor.Id == ulogovaniKorisnik.Id).Include(t => t.Slucaj.Cenovnik).Include(s => s.Slucaj).ThenInclude(c => c.Korisnik).Where(q=>q.SlucajStatusId == 4);
 
             return sviSlucajiAdvokata;
         }
@@ -209,10 +209,5 @@ namespace AdvokatskiPortal.Controllers
             return _context.Kategorijas;
         }
 
-        //[HttpGet("getAllPodKategorija")]
-        //public IEnumerable<PodKategorija> GetPodKategorijas()
-        //{
-        //    return _context.PodKategorijas;
-        //}
     }
 }

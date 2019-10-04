@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,8 +26,9 @@ namespace AdvokatskiPortal.Models
         public Korisnik Korisnik{ get; set; }
         public ICollection<Slika> Slike { get; set; }
         public ICollection<SlucajMajstor> SlucajMajstors{ get; set; }
-        //public int CenovnikId { get; set; }
-        //public Cenovnik Cenovnik{ get; set; }
-        public ICollection<Cenovnik> Cenovniks { get; set; }
+        // [ForeignKey("Cenovnik")]
+        public int CenovnikId { get; set; }
+        public Cenovnik Cenovnik { get; set; }
+        //public ICollection<Cenovnik> Cenovniks { get; set; }
     }
 }

@@ -50,16 +50,16 @@ namespace AdvokatskiPortal.Controllers
 
             //try
             //{
-            ////    foreach (var item in majstor.podKategorijaId)
-            ////    {
-            ////        var newMajtorPodKategorije = new MajstorKategorije
-            ////        {
-            ////            KategorijaId = (int)item,
-            ////            MajstorId = newMajstor.Id,
-            ////        };
-            ////        _context.MajstorKategorijes.Add(newMajtorPodKategorije);
-            ////    }
-            ////}
+            //    foreach (var item in majstor.podKategorijaId)
+            //    {
+            //        var newMajtorPodKategorije = new MajstorKategorije
+            //        {
+            //            KategorijaId = (int)item,
+            //            MajstorId = newMajstor.Id,
+            //        };
+            //        _context.MajstorKategorijes.Add(newMajtorPodKategorije);
+            //    }
+            //}
             //catch (Exception e)
             //{
 

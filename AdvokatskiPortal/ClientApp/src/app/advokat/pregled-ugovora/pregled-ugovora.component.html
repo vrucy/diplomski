@@ -13,11 +13,11 @@
       <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
       <td mat-cell *matCellDef="let element">
 
-        <div *ngIf="element.slucaj.cenovniks.length == 0 ;else content ">
-          ne
+        <div *ngIf="element.slucaj.cenovnik == null ;else content ">
+          Postavite cenu
         </div>
         <ng-template #content>
-          {{element.slucaj.cenovniks[0].kolicina}}
+          {{element.slucaj.cenovnik.kolicina}}
         </ng-template>
       </td>
     </ng-container>
