@@ -29,8 +29,7 @@ namespace AdvokatskiPortal.Controllers
         [HttpGet("getAllMajstori")]
         public IEnumerable<Majstor> getAllMajstori()
         {
-            var xo = _context.Majstors.Include(x => x.MajstorKategorijes);
-            return _context.Majstors.Include(x => x.MajstorKategorijes);
+            return _context.Majstors;
         }
 
         [HttpGet("getNewNostifiation")]
@@ -168,9 +167,10 @@ namespace AdvokatskiPortal.Controllers
         [HttpPut("prepravkaSlucajaAdvokata")]
         public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] SlucajMajstor slucajMajstor)
         {
-
+            //slucajMajstor.Slucaj.ZavrsetakRada = slucajMajstor.Slucaj.ZavrsetakRada;
             slucajMajstor.SlucajStatusId = 7;
             _context.Entry(slucajMajstor).State = EntityState.Modified;
+            //_context.Entry(slucajMajstor.Slucaj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();

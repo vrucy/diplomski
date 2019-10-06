@@ -7,6 +7,8 @@ namespace AdvokatskiPortal.Models
     {
         
         public DateTime datumKreiranja { get; set; }
+        public DateTime? ZavrsetakRada { get; set; }
+
         public bool prihvacno { get; set; }
         public string Odgovor { get; set; }
         public bool isRead { get; set; }

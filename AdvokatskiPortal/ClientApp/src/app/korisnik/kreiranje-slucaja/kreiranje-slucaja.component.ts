@@ -11,11 +11,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./kreiranje-slucaja.component.css']
 })
 export class KreiranjeSlucajaComponent implements OnInit {
-
-  // slucaj = { opis: '' };
   slucaj = new Slucaj();
   fileData: File = null;
-  // slika: Slika <Slika>;
   slike: Slika[] = [];
   base64textString = [];
   sirina;
@@ -45,7 +42,6 @@ export class KreiranjeSlucajaComponent implements OnInit {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setGPS(position.coords.latitude, position.coords.longitude);
     });
-    console.log(this.slucaj);
     this.slucaj.Slike = this.slike;
     this.korisnikService.kreiranjeSlucaja(this.slucaj);
   }

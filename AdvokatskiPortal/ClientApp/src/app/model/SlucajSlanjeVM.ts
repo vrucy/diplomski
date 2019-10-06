@@ -9,6 +9,7 @@ Majstors: Majstor [] = [];
  Cenovniks: Cenovnik [] = [];
 KorisnikId;
 Korisnik;
+ZavrsetakRada;
 SlucajAdvokats;
 
 }

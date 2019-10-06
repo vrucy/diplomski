@@ -40,6 +40,7 @@ import { DodavanjeDuplogAdvokataComponent } from './snackBar/dodavanje-duplog-ad
 import { EditProfilaComponent } from './edit-profila/edit-profila.component';
 import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
 import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
+import { PrikazSLucajaKorisnikComponent } from './korisnik/dialog/prikaz-slucaja-korisnik/prikaz-slucaja-korisnik.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/doda
     DodavanjeDuplogAdvokataComponent,
     EditProfilaComponent,
     DodajKategorijuComponent,
-    DodajPodKategorijuComponent
+    DodajPodKategorijuComponent,
+    PrikazSLucajaKorisnikComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -83,7 +85,7 @@ import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/doda
     BrowserAnimationsModule,
     FlexLayoutModule
   ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
-                      PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent ],
+                      PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent ],
     providers: [AuthGuard, AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,

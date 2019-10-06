@@ -18,7 +18,6 @@ namespace AdvokatskiPortal.Models
         public string UlicaIBroj { get; set; }
         public DateTime KrajnjiRokZaOdgovor { get; set; }
         public DateTime? PocetakRada{ get; set; }
-        public DateTime? ZavrsetakRada { get; set; }
         public Ugovor Ugovor { get; set; }
         public int KategorijaId { get; set; }
         public Kategorija Kategorija { get; set; }
@@ -26,9 +25,8 @@ namespace AdvokatskiPortal.Models
         public Korisnik Korisnik{ get; set; }
         public ICollection<Slika> Slike { get; set; }
         public ICollection<SlucajMajstor> SlucajMajstors{ get; set; }
-        // [ForeignKey("Cenovnik")]
+        
         public int CenovnikId { get; set; }
         public Cenovnik Cenovnik { get; set; }
-        //public ICollection<Cenovnik> Cenovniks { get; set; }
     }
 }

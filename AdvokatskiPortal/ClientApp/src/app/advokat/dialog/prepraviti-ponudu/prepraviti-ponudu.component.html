@@ -14,12 +14,19 @@
     <input matInput [(ngModel)]="data.cenovnik.kolicina" />
     </mat-form-field>
 
-    <p>Vas komentar ?</p>
+    <p>Vas komentar</p>
     <mat-form-field>
         <input matInput [(ngModel)]="data.cenovnik.komentar">
     </mat-form-field>
+    <mat-form-field>
+            <input matInput [(ngModel)]="data.zavrsetakRada" [matDatepicker]="picker" placeholder="Izaberite zavrsetak rada">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+    
+        <mat-checkbox [(ngModel)]="data.cenovnik.isFinal">Konacna cena</mat-checkbox> 
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data.cenovnik" cdkFocusInitial>Ok</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
 </div>

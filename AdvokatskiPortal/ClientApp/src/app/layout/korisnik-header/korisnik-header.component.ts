@@ -1,5 +1,5 @@
 import { KorisnikService } from './../../service/korisnik.service';
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit,  AfterViewInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { AuthService } from '../../service/auth.service';
   templateUrl: './korisnik-header.component.html',
   styleUrls: ['./korisnik-header.component.css']
 })
-export class KorisnikHeaderComponent implements OnInit, AfterContentInit {
+export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
   specjalnost;
 
   dataType: string;
@@ -20,7 +20,7 @@ export class KorisnikHeaderComponent implements OnInit, AfterContentInit {
     this._type = this.auth.typeUserValue;
   }
 
-  ngAfterContentInit(): void {
+  ngAfterViewInit(): void {
     this.korisnikService.getNewNostifiation().subscribe( res => {
       this.badgeCount = res;
     });

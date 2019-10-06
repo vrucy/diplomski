@@ -1,58 +1,56 @@
 <div class="registracijaAdvokata">
   <mat-card class="registracijaAdvokata-card">
-    <form [formGroup]="form" (ngSubmit)="authService.registrationAdvokat(form.value)">
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Ime" formControlName="Ime">
+          <input matInput type="text" placeholder="Ime" [(ngModel)]="majstor.ime">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Prezime" formControlName="Prezime">
+          <input matInput type="text" placeholder="Prezime"  [(ngModel)]="majstor.prezime">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="user name" formControlName="UserName">
+          <input matInput type="text" placeholder="user name"  [(ngModel)]="majstor.userName">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="password" placeholder="password" formControlName="Password">
+          <input matInput type="password" placeholder="password"  [(ngModel)]="majstor.password">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Email" formControlName="Email">
+          <input matInput type="text" placeholder="Email"  [(ngModel)]="majstor.email">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Mesto" formControlName="Mesto">
+          <input matInput type="text" placeholder="Mesto"  [(ngModel)]="majstor.mesto">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Ulica i broj" formControlName="Ulica">
+          <input matInput type="text" placeholder="Ulica i broj"  [(ngModel)]="majstor.ulica">
         </mat-form-field>
       </div>
       <mat-form-field>
-        <mat-select formControlName="kategorijaId" placeholder="Unesite Kategoriju" (selectionChange)="onParentChanged($event)" >
+        <mat-select placeholder="Unesite Kategoriju" (selectionChange)="onParentChanged($event)" >
           <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija.id">
             {{kategorija.naziv}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select formControlName="podKategorijaId" placeholder="Unesite pod Kategoriju" multiple>
+        <mat-select  [(ngModel)]="majstor.kategorije" placeholder="Unesite pod Kategoriju" multiple>k
           <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija.id">
             {{podKategorija.naziv}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <div class="button-registar">
-        <button mat-button color="primary">Register</button>
+        <button mat-button color="primary" (click)="save()">Register</button>
       </div>
-    </form>
   </mat-card>
 </div>

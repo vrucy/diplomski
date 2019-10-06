@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191005161215_fixMajstorKategorije")]
+    partial class fixMajstorKategorije
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,8 +59,6 @@ namespace AdvokatskiPortal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MajstorId");
-
                     b.Property<string>("Naziv");
 
                     b.Property<string>("Opis");
@@ -66,8 +66,6 @@ namespace AdvokatskiPortal.Migrations
                     b.Property<int?>("ParentId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MajstorId");
 
                     b.HasIndex("ParentId");
 
@@ -115,6 +113,8 @@ namespace AdvokatskiPortal.Migrations
 
                     b.Property<string>("Ime");
 
+                    b.Property<int>("KategorijaId");
+
                     b.Property<string>("Mesto");
 
                     b.Property<string>("Password");
@@ -128,6 +128,8 @@ namespace AdvokatskiPortal.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdenityId");
+
+                    b.HasIndex("KategorijaId");
 
                     b.ToTable("Majstors");
                 });
@@ -471,10 +473,6 @@ namespace AdvokatskiPortal.Migrations
 
             modelBuilder.Entity("AdvokatskiPortal.Models.Kategorija", b =>
                 {
-                    b.HasOne("AdvokatskiPortal.Models.Majstor", "Majstor")
-                        .WithMany("Kateogije")
-                        .HasForeignKey("MajstorId");
-
                     b.HasOne("AdvokatskiPortal.Models.Kategorija", "ParentKategorija")
                         .WithMany()
                         .HasForeignKey("ParentId")
@@ -493,6 +491,11 @@ namespace AdvokatskiPortal.Migrations
                     b.HasOne("AdvokatskiPortal.Models.ApplicationUser", "Idenity")
                         .WithMany()
                         .HasForeignKey("IdenityId");
+
+                    b.HasOne("AdvokatskiPortal.Models.Kategorija", "Kategorija")
+                        .WithMany("Majstors")
+                        .HasForeignKey("KategorijaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AdvokatskiPortal.Models.MajstorKategorije", b =>

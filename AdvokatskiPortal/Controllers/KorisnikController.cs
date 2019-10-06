@@ -54,7 +54,7 @@ namespace AdvokatskiPortal.Controllers
             var test = new List<SlucajMajstor>();
             foreach (var item in korsinikSlucajevi)
             {
-                test.AddRange(_context.SlucajMajstors.Where(d => d.SlucajId == item.Id).Include(a => a.Majstor.Idenity).Include(s => s.Slucaj)/*.ThenInclude(c => c.Cenovnik)*/);
+                test.AddRange(_context.SlucajMajstors.Where(d => d.SlucajId == item.Id).Include(a => a.Majstor.Idenity).Include(s => s.Slucaj).ThenInclude(sl => sl.Slike));
             }
             return test;
         }
@@ -78,18 +78,27 @@ namespace AdvokatskiPortal.Controllers
         [HttpGet("getNewNostifiation")]
         public IEnumerable<SlucajMajstor> getNewNostifiation()
         {
-            var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-            // potrebno prebaciti isRead na true;
-            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false);
+            try
+            {
+                var cliems = User.Claims.FirstOrDefault();
+                var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
+                var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false).ToList();
 
-            return noviSlucajevi;
+                return noviSlucajevi;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            // potrebno prebaciti isRead na true;
+            
         }
         [HttpPut("putNewNostifiationRead")]
         public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor nostification)
         {
-            var cliems = User.Claims.First();
-            var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            var cliems = User.Claims.FirstOrDefault();
+            var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
             // potrebno prebaciti isRead na true;
             var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false);
 
@@ -101,8 +110,7 @@ namespace AdvokatskiPortal.Controllers
 
             try
             {
-                var x = _context.Majstors.Include(k => k.MajstorKategorijes);
-                return Ok(_context.Majstors.Include(k => k.MajstorKategorijes));
+                return Ok(_context.Majstors);
             }
             catch (Exception e)
             {

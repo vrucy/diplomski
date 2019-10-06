@@ -7,6 +7,5 @@ export class MajstorRegistarVM {
   Password: string;
   Mesto: string;
   Ulica: string;
-  KategorijaId: number;
-  PodKategorijaId: number [];
+  Kategorije: number [];
   }

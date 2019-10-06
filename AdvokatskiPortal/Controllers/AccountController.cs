@@ -31,40 +31,40 @@ namespace AdvokatskiPortal.Controllers
         }
         //[Authorize( Policy = "AdminAdvokat")]
         [HttpPost("registrationAdvokat")]
-        public async Task<IActionResult> RegistarAdvokat([FromBody] postMajstor majstor)
+        public async Task<IActionResult> RegistarAdvokat([FromBody] Majstor majstor)
         {
-            
-                var newMajstor = new Majstor
-                {
-                    Email = majstor.Email,
-                    Ime = majstor.Ime,
-                    Mesto = majstor.Mesto,
-                    Password = majstor.Password,
-                    Prezime = majstor.Prezime,
-                    Ulica = majstor.Ulica,
-                    UserName = majstor.UserName,
-                    //KategorijaId = majstor.kategorijaId
-                };
+
+            var newMajstor = new Majstor
+            {
+                Email = majstor.Email,
+                Ime = majstor.Ime,
+                Mesto = majstor.Mesto,
+                Password = majstor.Password,
+                Prezime = majstor.Prezime,
+                Ulica = majstor.Ulica,
+                UserName = majstor.UserName,
+                Kateogije = majstor.Kateogije.ToArray()
+            };
                 _context.Majstors.Add(newMajstor);
 
 
-            //try
-            //{
-            //    foreach (var item in majstor.podKategorijaId)
-            //    {
+            try
+            {
+                //foreach (var item in majstor.Kateogije)
+                //{
             //        var newMajtorPodKategorije = new MajstorKategorije
             //        {
             //            KategorijaId = (int)item,
             //            MajstorId = newMajstor.Id,
             //        };
             //        _context.MajstorKategorijes.Add(newMajtorPodKategorije);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
+                //}
+            }
+            catch (Exception e)
+            {
 
-            //    throw;
-            //}
+                throw;
+            }
 
             var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
 
@@ -94,7 +94,7 @@ namespace AdvokatskiPortal.Controllers
 
             string i = claim.First().Type;
 
-            return Ok(new { Token = token, typeOfClaim = i });
+            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
         }
         [HttpPost("registration")]
         public async Task<IActionResult> Registar([FromBody] Korisnik korisnik)
@@ -129,7 +129,7 @@ namespace AdvokatskiPortal.Controllers
 
             string i = claim.First().Type;
 
-            return Ok(new { Token = token, typeOfClaim = i });
+            return Ok(new { Token = token, typeOfClaim = i , user = user.UserName });
         }
 
         [HttpGet("getCurrentUser/{userName}")]

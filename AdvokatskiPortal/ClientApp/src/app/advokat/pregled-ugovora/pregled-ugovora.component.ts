@@ -56,11 +56,12 @@ export class PregledUgovoraComponent implements OnInit {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
       // napraviti svoj cenovnik ili prepraviti postojeci???
-      data: { cenovnik: this.cenovnik }
+      data: { cenovnik: this.cenovnik , zavrsteakRada: this.podatci}
     });
     dialogRef.afterClosed().subscribe(async result => {
       element.cenovnik = result;
-      this.cenovnik = result;
+      element.zavrsetakRada= result.zavrsetakRada;
+      this.cenovnik = result.cenovnik;
       this.cenovnik.SlucajId = element.slucajId;
       this.cenovnik.StatudId = element.statusId;
       if (element.slucajStatusId === 1) {

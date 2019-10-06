@@ -9,7 +9,6 @@ export class Slucaj {
     Slike: Slika[];
     KrajnjiRokZaOdgovor;
     PocetakRada;
-    ZavrsetakRada;
     GSirina;
     GDuzina;
     KorisnikId;

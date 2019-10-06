@@ -17,11 +17,9 @@ namespace AdvokatskiPortal.Models
         public string Email { get; set; }
         //public int KategorijaId { get; set; }
         //public Kategorija Kategorija { get; set; }
-        public ICollection<MajstorKategorije> MajstorKategorijes { get; set; }
+        public ICollection<Kategorija> Kateogije { get; set; }
+        //public ICollection<MajstorKategorije> MajstorKategorijes { get; set; }
         public ApplicationUser Idenity { get; set; }
         public ICollection<SlucajMajstor> SlucajMajstors { get; set; }
-
-        
-        //specjalnost n:n
     }
 }

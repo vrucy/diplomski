@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { SlucajSlanjeVM } from '../../model/SlucajSlanjeVM';
 import { Cenovnik } from '../../model/Cenovnik';
+import { PrikazSLucajaKorisnikComponent } from '../dialog/prikaz-slucaja-korisnik/prikaz-slucaja-korisnik.component';
 
 @Component({
   selector: 'app-pregled-slucaja-korisnik',
@@ -15,7 +16,7 @@ import { Cenovnik } from '../../model/Cenovnik';
 })
 export class PregledSlucajaKorisnikComponent implements OnInit {
 
-  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'opis', 'button'];
+  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'zavrsetakRada','opis', 'button'];
   public dataSource = new MatTableDataSource<pregledSlucajaVM>();
 
   nameFilter = new FormControl('');
@@ -41,7 +42,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       element.cenovnik = result;
       this.cenovnik = result;
-      this.cenovnik.id = element.slucaj.cenovniks[0].id;
+      this.cenovnik.id = element.slucaj.cenovnik.id;
       this.cenovnik.SlucajId = element.slucajId;
       this.cenovnik.StatudId = element.statusId;
       console.log(element);
@@ -52,7 +53,19 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       this.korisnikService.prepravkaSlucajaKorisnika(element);
     });
   }
-
+  openDialogPrikazSlucaja(element): void {
+    const baseSlike = element.slucaj.slike.map(s => {
+      s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+      return s;
+    });
+    const dialogRef = this.dialog.open(PrikazSLucajaKorisnikComponent, {
+      width: '250px',
+      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: baseSlike }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      element.odgovor = result;
+    });
+  }
   ngOnInit() {
     this.nameFilter.valueChanges
       .subscribe(

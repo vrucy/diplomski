@@ -7,5 +7,5 @@ export class Majstor{
   Password: string;
   Mesto: string;
   Ulica: string;
-  idKategorija: number [] = [] ;
+  Kategorije: number [];
 }

@@ -15,7 +15,7 @@ namespace AdvokatskiPortal.Models.View
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public int? kategorijaId { get; set; }
-        public int?[] podKategorijaId { get; set; }
+        public ICollection<Kategorija> Kategorije { get; set; }
+        
     }
 }

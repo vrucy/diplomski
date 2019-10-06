@@ -14,28 +14,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistracijaAdvokataComponent implements OnInit {
   form: FormGroup;
+  majstor: Majstor = new Majstor() ;
   originalData;
   kategorije;
   podKategorije;
-  majstor: MajstorRegistarVM = new MajstorRegistarVM;
-  constructor(private fb: FormBuilder, private authService: AuthService, private advokatService: AdvokatService) {
-    this.form = this.fb.group({
-      Ime: ['', Validators.required],
-      Prezime: ['', Validators.required],
-      UserName: ['', Validators.required],
-      Password: ['', Validators.required],
-      Email: ['', Validators.required],
-      Mesto: ['', Validators.required],
-      Ulica: ['', Validators.required],
-      kategorijaId: ['', Validators.required],
-      podKategorijaId: ['', Validators.required ]
-    });
+  //majstor: MajstorRegistarVM = new MajstorRegistarVM;
+  constructor( private authService: AuthService, private advokatService: AdvokatService) {
+    
   }
 
   ngOnInit() {
    this.getAllCategories();
   }
-
+  save(){
+    this.authService.registrationAdvokat(this.majstor);
+    //console.log(this.majstor)
+  }
   private getAllCategories() {
     this.advokatService.getAllKategorija().subscribe((res: any) => {
       this.originalData = res;

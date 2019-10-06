@@ -13,6 +13,7 @@ namespace AdvokatskiPortal.Models
         public string vrstaPlacanja { get; set; }
         public string kolicina { get; set; }
         public string komentar { get; set; }
+        public bool isKonacan { get; set; }
         [ForeignKey("Slucaj")]
         public int SlucajId { get; set; }
         public Slucaj Slucaj { get; set; }
