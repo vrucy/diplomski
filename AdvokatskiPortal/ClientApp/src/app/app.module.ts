@@ -82,8 +82,8 @@ import { PrikazSLucajaKorisnikComponent } from './korisnik/dialog/prikaz-slucaja
     RouterModule,
     RoutingModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
-    FlexLayoutModule
+    BrowserAnimationsModule
+
   ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
                       PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent ],
     providers: [AuthGuard, AuthService , {

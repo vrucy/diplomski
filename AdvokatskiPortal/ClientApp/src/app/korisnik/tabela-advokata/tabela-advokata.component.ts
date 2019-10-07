@@ -1,6 +1,6 @@
 import { Majstor } from '../../model/Majstor';
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort } from '@angular/material';
 import { KorisnikService } from '../../service/korisnik.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormControl } from '@angular/forms';
@@ -21,17 +21,18 @@ export class TabelaAdvokataComponent implements OnInit {
   selectedId;
   kat = new FormControl('');
   podK = new FormControl('');
-  filter= new FormControl('');
-  constructor(private korisnikService: KorisnikService) { 
+  filterTxt = new FormControl('');
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  constructor(private korisnikService: KorisnikService) {
     this.dataSource.filterPredicate = this.tableFilter();
-
    }
   filterValues = {
     kat: '',
     podK: '',
-    filter:''
+    filterTxt: ''
   };
   ngOnInit() {
+    this.dataSource.sort = this.sort;
     this.korisnikService.getAllAdvokati().subscribe((res: any) => {
       this.dataSource.data = res;
       this.advokati = res;
@@ -55,13 +56,21 @@ export class TabelaAdvokataComponent implements OnInit {
           this.dataSource.filter = JSON.stringify(this.filterValues);
         }
       );
+      this.filterTxt.valueChanges
+      .subscribe(
+        filterTxt => {
+          this.filterValues.filterTxt = filterTxt;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+        }
+      );
   }
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);
-      return data.kat === <number>searchTerms.kat &&
-            data.slucajStatusId === <number>searchTerms.tabIndex; 
-      // return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) 
+      // && data.slucajStatusId === <number>searchTerms.tabIndex;
+      return (data.ime.toLowerCase().includes(searchTerms.filterTxt) ) &&
+              data.kategorije.kategorijaId === <number>searchTerms.podK;
+
       // && data.slucajStatusId === <number>searchTerms.tabIndex;
     };
     return filterFunction;

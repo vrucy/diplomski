@@ -1,7 +1,7 @@
 <mat-card>
   <mat-form-field>
     <mat-label>Search</mat-label>
-    <input matInput [formControl]="nameFilter">
+    <input matInput  [formControl]="nameFilter">
   </mat-form-field>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="ime">
@@ -36,9 +36,9 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="opis">
-      <th mat-header-cell *matHeaderCellDef> Naziv Slucaja </th>
+      <th mat-header-cell *matHeaderCellDef>Slucaj </th>
       <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.slucaj.opis != null"><a (click)="openDialogPrikazSlucaja(element)">
+        <div *ngIf="element.slucaj.naziv != null"><a (click)="openDialogPrikazSlucaja(element)">
             {{element.slucaj.naziv}}
           </a>
         </div>

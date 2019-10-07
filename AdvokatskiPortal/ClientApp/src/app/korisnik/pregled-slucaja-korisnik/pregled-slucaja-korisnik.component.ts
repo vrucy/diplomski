@@ -82,6 +82,9 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         }
       );
   }
+  filter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);

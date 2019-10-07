@@ -81,7 +81,8 @@ export class PregledUgovoraComponent implements OnInit {
       return s;
     });
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
-      width: '250px',
+      width: '750px',
+      height: '900px',
       data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: baseSlike }
     });
     dialogRef.afterClosed().subscribe(result => {

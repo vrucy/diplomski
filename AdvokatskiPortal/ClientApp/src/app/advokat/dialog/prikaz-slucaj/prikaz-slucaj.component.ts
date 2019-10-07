@@ -8,11 +8,18 @@ import { dialogPrikazSlucaja } from '../../../model/dialogPrikazSlucaja';
   styleUrls: ['./prikaz-slucaj.component.css']
 })
 export class PrikazSlucajComponent {
- 
+
+  images: any[] = [];
+
   constructor( public dialogRef: MatDialogRef<PrikazSlucajComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { console.log(data.slike.slikaProp)}
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log(data.slike);
+      this.images = data.slike.map((s) => s.slikaProp);
+      console.log(this.images);
+    }
 
     close(): void {
-    this.dialogRef.close();
-  }
+      this.dialogRef.close();
+    }
+
 }

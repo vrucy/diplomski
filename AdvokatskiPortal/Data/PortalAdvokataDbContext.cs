@@ -20,16 +20,16 @@ namespace AdvokatskiPortal.Data
                 .HasOne(bc => bc.Slucaj)
                 .WithMany(c => c.SlucajMajstors)
                 .HasForeignKey(bc => bc.SlucajId);
-            //modelBuilder.Entity<MajstorKategorije>()
-            //    .HasKey(sm => new { sm.MajstorId, sm.KategorijaId });
-            //modelBuilder.Entity<MajstorKategorije>()
-            //    .HasOne(mk => mk.Kategorija)
-            //    .WithMany(m => m.MajstorKategorijes)
-            //    .HasForeignKey(y => y.KategorijaId);
-            //modelBuilder.Entity<MajstorKategorije>()
-            //    .HasOne(bc => bc.Majstor)
-            //    .WithMany(m => m.MajstorKategorijes)
-            //    .HasForeignKey(y => y.MajstorId);
+            modelBuilder.Entity<MajstorKategorije>()
+                .HasKey(sm => new { sm.MajstorId, sm.KategorijaId });
+            modelBuilder.Entity<MajstorKategorije>()
+                .HasOne(mk => mk.Kategorija)
+                .WithMany(m => m.MajstorKategorijes)
+                .HasForeignKey(y => y.KategorijaId);
+            modelBuilder.Entity<MajstorKategorije>()
+                .HasOne(bc => bc.Majstor)
+                .WithMany(m => m.Kategorije)
+                .HasForeignKey(y => y.MajstorId);
             modelBuilder.Entity<Kategorija>().HasOne(x => x.ParentKategorija).WithMany().HasForeignKey(x => x.ParentId).OnDelete(DeleteBehavior.Restrict);
         }
         public PortalAdvokataDbContext(DbContextOptions options) : base(options) { }

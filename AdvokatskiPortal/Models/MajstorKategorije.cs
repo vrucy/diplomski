@@ -8,7 +8,7 @@ namespace AdvokatskiPortal.Models
 {
     public class MajstorKategorije
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         [ForeignKey("Majstor")]
         public int MajstorId { get; set; }
         public Majstor  Majstor { get; set; }

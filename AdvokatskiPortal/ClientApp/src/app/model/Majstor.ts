@@ -1,3 +1,4 @@
+import { Kategorija } from './Kategorija';
 export class Majstor{
   id
   Ime: string;
@@ -7,5 +8,5 @@ export class Majstor{
   Password: string;
   Mesto: string;
   Ulica: string;
-  Kategorije: number [];
+  Kategorije: Kategorija [];
 }

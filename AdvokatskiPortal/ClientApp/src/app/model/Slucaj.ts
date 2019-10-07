@@ -5,7 +5,7 @@ export class Slucaj {
     id
     Naziv: String;
     Opis: String;
-    Ugovor : Ugovor;
+    Ugovor: Ugovor;
     Slike: Slika[];
     KrajnjiRokZaOdgovor;
     PocetakRada;

@@ -16,7 +16,7 @@ namespace AdvokatskiPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize("AdminAdvokat")]
+    // [Authorize("AdminAdvokat")]
 
     public class AccountController : ControllerBase
     {
@@ -31,7 +31,7 @@ namespace AdvokatskiPortal.Controllers
         }
         //[Authorize( Policy = "AdminAdvokat")]
         [HttpPost("registrationAdvokat")]
-        public async Task<IActionResult> RegistarAdvokat([FromBody] Majstor majstor)
+        public async Task<IActionResult> RegistarAdvokat([FromBody] postMajstor majstor)
         {
 
             var newMajstor = new Majstor
@@ -43,22 +43,21 @@ namespace AdvokatskiPortal.Controllers
                 Prezime = majstor.Prezime,
                 Ulica = majstor.Ulica,
                 UserName = majstor.UserName,
-                Kateogije = majstor.Kateogije.ToArray()
+                //Kategorije = majstor.Kategorije.ToList()
             };
-                _context.Majstors.Add(newMajstor);
-
-
+            _context.Majstors.Add(newMajstor);
             try
             {
-                //foreach (var item in majstor.Kateogije)
-                //{
-            //        var newMajtorPodKategorije = new MajstorKategorije
-            //        {
-            //            KategorijaId = (int)item,
-            //            MajstorId = newMajstor.Id,
-            //        };
-            //        _context.MajstorKategorijes.Add(newMajtorPodKategorije);
-                //}
+
+                foreach (var item in majstor.Kategorije)
+                {
+                    var newMajtorKategorije = new MajstorKategorije
+                    {
+                        KategorijaId = item.Id,
+                        MajstorId = newMajstor.Id,
+                    };
+                    _context.MajstorKategorijes.Add(newMajtorKategorije);
+                }
             }
             catch (Exception e)
             {
@@ -66,35 +65,53 @@ namespace AdvokatskiPortal.Controllers
                 throw;
             }
 
-            var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
 
-            var result = await userManager.CreateAsync(appUser, majstor.Password);
+            try
+            {
+                var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
 
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                var result = await userManager.CreateAsync(appUser, majstor.Password);
 
-            await signInManager.SignInAsync(appUser, isPersistent: false);
-            newMajstor.Idenity = appUser;
+                if (!result.Succeeded)
+                    return BadRequest(result.Errors);
 
-            var user = await userManager.FindByNameAsync(majstor.UserName);
-            
-            await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
-            await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
-            
-            await _context.SaveChangesAsync();
+                await signInManager.SignInAsync(appUser, isPersistent: false);
+                newMajstor.Idenity = appUser;
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var user = await userManager.FindByNameAsync(majstor.UserName);
 
-            var jwt = new JwtSecurityToken(signingCredentials: signinCredentials);
+                await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
+                await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
+                await _context.SaveChangesAsync();
 
-            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+                //var ids = majstor.Kategorije.Select(kat => kat.Id).ToList();
+                //var dbReferences = _context.Kategorijas.Where(k => ids.Contains(k.Id)).ToList();
+                //dbReferences.ForEach(r => newMajstor.Kategorije.Add(r));
+                //newMajstor.Kategorije = majstor.Kategorije;
+                //await _context.SaveChangesAsync();
 
-            var claim = await userManager.GetClaimsAsync(user);
 
-            string i = claim.First().Type;
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
+                var jwt = new JwtSecurityToken(signingCredentials: signinCredentials);
+
+                var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+                var claim = await userManager.GetClaimsAsync(user);
+
+                string i = claim.First().Type;
+
+                return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+
+
         }
         [HttpPost("registration")]
         public async Task<IActionResult> Registar([FromBody] Korisnik korisnik)
@@ -129,7 +146,7 @@ namespace AdvokatskiPortal.Controllers
 
             string i = claim.First().Type;
 
-            return Ok(new { Token = token, typeOfClaim = i , user = user.UserName });
+            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
         }
 
         [HttpGet("getCurrentUser/{userName}")]
@@ -145,8 +162,8 @@ namespace AdvokatskiPortal.Controllers
             {
                 return Ok(advokat);
             }
-            
-            
+
+
         }
 
         [AllowAnonymous]
@@ -165,19 +182,20 @@ namespace AdvokatskiPortal.Controllers
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var claim = await userManager.GetClaimsAsync(user);
-            
+
             var tokeOptions = new JwtSecurityToken(
                 claims: claim,
                 expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: signinCredentials
             );
-            if(claim.Where(c => c.Type == "AdminAdvokat").SingleOrDefault() != null)
+            if (claim.Where(c => c.Type == "AdminAdvokat").SingleOrDefault() != null)
             {
                 i = claim.Where(c => c.Type == "AdminAdvokat").Single().Type;
-            } else
+            }
+            else
             {
                 i = claim.First().Type;
-            }         
+            }
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 

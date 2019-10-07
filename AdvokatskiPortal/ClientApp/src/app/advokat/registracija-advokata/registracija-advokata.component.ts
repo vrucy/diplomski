@@ -20,15 +20,16 @@ export class RegistracijaAdvokataComponent implements OnInit {
   podKategorije;
   //majstor: MajstorRegistarVM = new MajstorRegistarVM;
   constructor( private authService: AuthService, private advokatService: AdvokatService) {
-    
+
   }
 
   ngOnInit() {
    this.getAllCategories();
   }
-  save(){
+  save() {
+    // this.majstor.Kategorije = this.podKategorije;
     this.authService.registrationAdvokat(this.majstor);
-    //console.log(this.majstor)
+    // console.log(this.majstor)
   }
   private getAllCategories() {
     this.advokatService.getAllKategorija().subscribe((res: any) => {

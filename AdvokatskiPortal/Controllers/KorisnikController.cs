@@ -110,7 +110,7 @@ namespace AdvokatskiPortal.Controllers
 
             try
             {
-                return Ok(_context.Majstors);
+                return Ok(_context.Majstors.Include(k => k.Kategorije));
             }
             catch (Exception e)
             {

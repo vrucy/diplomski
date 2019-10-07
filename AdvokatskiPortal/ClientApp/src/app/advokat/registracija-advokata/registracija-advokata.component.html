@@ -44,7 +44,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select  [(ngModel)]="majstor.kategorije" placeholder="Unesite pod Kategoriju" multiple>k
-          <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija.id">
+          <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija">
             {{podKategorija.naziv}}
           </mat-option>
         </mat-select>
