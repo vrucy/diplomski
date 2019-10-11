@@ -6,7 +6,8 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <mat-select  [(ngModel)]="selectedId" [formControl]="podK" placeholder="Unesite pod Kategoriju" >
+      <!-- [(ngModel)]="selectedId" -->
+    <mat-select   [formControl]="podK" placeholder="Unesite pod Kategoriju" >
       <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija.id">
         {{podKategorija.naziv}}
       </mat-option>

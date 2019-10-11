@@ -3,7 +3,7 @@
 
     <mat-form-field>
         <mat-label>Odaberite vrstu placanja</mat-label>
-        <mat-select [(ngModel)]="data.cenovnik.vrstaPlacanja" required>
+        <mat-select [(ngModel)]="data.vrstaPlacanja" required>
             <mat-option value="procentualno">Procentualno</mat-option>
             <mat-option value="novcano">Novcano</mat-option>
           </mat-select>
@@ -11,20 +11,20 @@
     </mat-form-field>
     <p>Odaberite kolicinu</p>
     <mat-form-field>
-    <input matInput [(ngModel)]="data.cenovnik.kolicina" />
+    <input matInput [(ngModel)]="data.kolicina" />
     </mat-form-field>
 
     <p>Vas komentar</p>
     <mat-form-field>
-        <input matInput [(ngModel)]="data.cenovnik.komentar">
+        <input matInput [(ngModel)]="data.komentar">
     </mat-form-field>
     <mat-form-field>
-            <input matInput [(ngModel)]="data.zavrsetakRada" [matDatepicker]="picker" placeholder="Izaberite zavrsetak rada">
+            <input matInput [(ngModel)]="data.slucaj.zavrsetakRada" [matDatepicker]="picker" placeholder="Izaberite zavrsetak rada">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-    
-        <mat-checkbox [(ngModel)]="data.cenovnik.isFinal">Konacna cena</mat-checkbox> 
+
+        <mat-checkbox [(ngModel)]="data.isFinal">Konacna cena</mat-checkbox>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">No Thanks</button>

@@ -13,7 +13,8 @@ namespace AdvokatskiPortal.Models
         public string Odgovor { get; set; }
         public bool isRead { get; set; }
         public int MajstorId { get; set; }
-        public Majstor Majstor { get; set; }
+        public string MajstorIdStr{ get; set; }
+        public Majstor Majstor { get; set; } 
         public int SlucajId { get; set; }
         public Slucaj Slucaj{ get; set; }
         [ForeignKey("SlucajStatus")]

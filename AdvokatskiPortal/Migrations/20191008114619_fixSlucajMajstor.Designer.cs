@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191008114619_fixSlucajMajstor")]
+    partial class fixSlucajMajstor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +28,6 @@ namespace AdvokatskiPortal.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("IdenityId");
-
-                    b.Property<int>("MajstorId");
 
                     b.Property<int>("SlucajId");
 
@@ -45,9 +45,8 @@ namespace AdvokatskiPortal.Migrations
 
                     b.HasIndex("IdenityId");
 
-                    b.HasIndex("MajstorId");
-
-                    b.HasIndex("SlucajId");
+                    b.HasIndex("SlucajId")
+                        .IsUnique();
 
                     b.HasIndex("StatusId");
 
@@ -168,6 +167,8 @@ namespace AdvokatskiPortal.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CenovnikId");
 
                     b.Property<double>("GDuzina");
 
@@ -451,14 +452,9 @@ namespace AdvokatskiPortal.Migrations
                         .WithMany()
                         .HasForeignKey("IdenityId");
 
-                    b.HasOne("AdvokatskiPortal.Models.Majstor", "Majstor")
-                        .WithMany("Cenovniks")
-                        .HasForeignKey("MajstorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("AdvokatskiPortal.Models.Slucaj", "Slucaj")
-                        .WithMany("Cenovniks")
-                        .HasForeignKey("SlucajId")
+                        .WithOne("Cenovnik")
+                        .HasForeignKey("AdvokatskiPortal.Models.Cenovnik", "SlucajId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AdvokatskiPortal.Models.Status", "Status")

@@ -1,3 +1,4 @@
+import { Cenovnik } from './Cenovnik';
 import { Slika } from './Slika';
 import { Ugovor } from './Ugovor';
 
@@ -10,6 +11,7 @@ export class Slucaj {
     KrajnjiRokZaOdgovor;
     PocetakRada;
     GSirina;
+    Cenovniks: Cenovnik [];
     GDuzina;
     KorisnikId;
 }

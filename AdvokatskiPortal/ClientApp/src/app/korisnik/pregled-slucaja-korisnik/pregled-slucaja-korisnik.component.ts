@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { PrepravitiPonuduComponent } from './../../advokat/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
 import { MatDialog } from '@angular/material/dialog';
 import { pregledSlucajaVM } from './../../model/pregledSlucajaVM';
@@ -16,7 +17,7 @@ import { PrikazSLucajaKorisnikComponent } from '../dialog/prikaz-slucaja-korisni
 })
 export class PregledSlucajaKorisnikComponent implements OnInit {
 
-  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'zavrsetakRada','opis', 'button'];
+  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'zavrsetakRada', 'opis', 'button'];
   public dataSource = new MatTableDataSource<pregledSlucajaVM>();
 
   nameFilter = new FormControl('');
@@ -37,20 +38,35 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
       // napraviti svoj cenovnik ili prepraviti postojeci???
-      data: { cenovnik: this.cenovnik }
+      data:   Object.assign(new Cenovnik(), element)
     });
     dialogRef.afterClosed().subscribe(async result => {
-      element.cenovnik = result;
-      this.cenovnik = result;
-      this.cenovnik.id = element.slucaj.cenovnik.id;
-      this.cenovnik.SlucajId = element.slucajId;
-      this.cenovnik.StatudId = element.statusId;
-      console.log(element);
-      // potrebno je na klijentu onemogucuti postavljanje jos jedanput editovanje postojeceg odgovora od advokata
-      // to cu postici tako sto cu staviti ngIf i proveriti status
+      // element.cenovnici.forEach(el => {
+      //   if (el.idenityId === element.idMajstor) {
+      //     element.cenovnik = result;
+      //     this.cenovnik = result;
+      //     this.cenovnik.kolicina = result.cenovnik.kolicina;
+      //     this.cenovnik.vrstaPlacanja = result.cenovnik.vrstaPlacanja;
+      //     this.cenovnik.id = el.id;
+      //     this.cenovnik.SlucajId = el.slucaj.id;
+      //     this.cenovnik.StatusId = el.statusId;
+      //     this.cenovnik.IdenityId = el.idenityId;
+      //     el.majstorId = element.majstorId;
+      //     this.korisnikService.postavljanjeNoveCeneOdKorisnika(this.cenovnik);
+      //     this.korisnikService.prepravkaSlucajaKorisnika(element);
+      //   }
+      // });
+      const cenovnik = element.cenovnici.find(c => c.majstorId === element.majstorId);
+      cenovnik.komentar = result.komentar;
+      cenovnik.kolicina = result.kolicina;
+      cenovnik.vrstaPlacanja = result.vrstaPlacanja;
+      this.cenovnik = result.cenovnik;
+      // this.cenovnik.SlucajId = element.slucaj.id;
+      // this.cenovnik.MajstorId = element.majstorId;
+      // ovako cu pokusati resiti automacki refresh tabele
 
-      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(this.cenovnik);
-      this.korisnikService.prepravkaSlucajaKorisnika(element);
+      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(cenovnik);
+      this.korisnikService.prepravkaSlucajaKorisnika(cenovnik);
     });
   }
   openDialogPrikazSlucaja(element): void {
@@ -88,8 +104,8 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);
-      return (data.majstor.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
-        data.slucajStatusId === <number>searchTerms.tabIndex;
+      return (data.majstor.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name)
+      // &&  data.slucajStatusId === <number>searchTerms.tabIndex;
     };
     return filterFunction;
   }
@@ -126,7 +142,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   removeAt(index: number) {
     const data = this.dataSource.data;
     // data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
-     data.splice(index, 1);
+    data.splice(index, 1);
 
     this.dataSource.data = data;
   }
@@ -145,7 +161,16 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       result = element.slucaj.cenovniks[element.slucaj.cenovniks.length - 1];
       // result = element[length - 1];
     }
-   // console.log(element.slucaj.cenovniks);
-    return  element.slucaj.cenovniks[element.slucaj.cenovniks.length - 1];
+    // console.log(element.slucaj.cenovniks);
+    return element.slucaj.cenovniks[element.slucaj.cenovniks.length - 1];
+  }
+
+  getKolicinuCenovnika(majstor) {
+    // const cenovnik = majstor.cenovnici.find(c => (c.idenityId === majstor.idMajstor) && (c.idenityId === c.slucaj.korisnik.idenity.id));
+    const cenovnik = majstor.cenovnici.find(c => (c.majstorId === majstor.majstorId));
+
+    if (cenovnik) {
+      return cenovnik.kolicina;
+    }
   }
 }

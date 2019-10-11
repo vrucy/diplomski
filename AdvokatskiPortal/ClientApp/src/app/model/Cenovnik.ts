@@ -3,10 +3,12 @@ export class Cenovnik {
 id;
 vrstaPlacanja: string;
 kolicina: string;
-isKonacan:boolean;
+isKonacan: boolean;
+IdenityId;
+MajstorId;
 SlucajId;
 Slucaj;
-StatudId;
+StatusId;
 Status;
 }
 

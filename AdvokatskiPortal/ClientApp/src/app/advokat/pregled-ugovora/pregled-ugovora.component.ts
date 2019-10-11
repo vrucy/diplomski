@@ -16,7 +16,7 @@ import { PrikazSlucajComponent } from '../dialog/prikaz-slucaj/prikaz-slucaj.com
 })
 export class PregledUgovoraComponent implements OnInit {
   displayedColumns: string[] = ['ime', 'prezime', 'opis', 'cena', 'button'];
-  public dataSource = new MatTableDataSource<SlucajSlanjeVM>();
+  public dataSource = new MatTableDataSource<any>();
   podatci;
   nameFilter = new FormControl('');
   tabIndex = new FormControl('');
@@ -56,22 +56,26 @@ export class PregledUgovoraComponent implements OnInit {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
       // napraviti svoj cenovnik ili prepraviti postojeci???
-      data: { cenovnik: this.cenovnik , zavrsteakRada: this.podatci}
+      data: Object.assign(new Cenovnik(), element)
     });
-    dialogRef.afterClosed().subscribe(async result => {
-      element.cenovnik = result;
-      element.zavrsetakRada= result.zavrsetakRada;
-      this.cenovnik = result.cenovnik;
-      this.cenovnik.SlucajId = element.slucajId;
-      this.cenovnik.StatudId = element.statusId;
-      if (element.slucajStatusId === 1) {
-        await this.advokatService.postavljanjeNoveCeneOdAdvokata(element);
-        this.advokatService.prepravkaSlucajaAdvokata(element);
-      } else {
-        this.cenovnik.id = element.slucaj.cenovniks[0].id;
-        await this.advokatService.prepravkaCeneOdAdvokata(this.cenovnik);
-        this.advokatService.prepravkaSlucajaAdvokata(element);
-      }
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(result);
+
+      // element.cenovnik = result;
+      // element.zavrsetakRada = result.zavrsetakRada;
+      // this.cenovnik = result.cenovnik;
+      // this.cenovnik.SlucajId = element.slucaj.id;
+      // this.cenovnik.StatusId = element.statusId;
+      // this.cenovnik.MajstorId = element.majstorId;
+
+      // if (element.slucajStatusId === 1) {
+      //   await this.advokatService.postavljanjeNoveCeneOdAdvokata(this.cenovnik);
+      //   this.advokatService.prepravkaSlucajaAdvokata(element);
+      // } else {
+
+        this.advokatService.prepravkaCeneOdAdvokata(result);
+        this.advokatService.prepravkaSlucajaAdvokata(result);
+      // }
     });
   }
   openDialogPrikazSlucaja(element): void {

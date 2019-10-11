@@ -21,5 +21,6 @@ namespace AdvokatskiPortal.Models
         public ICollection<MajstorKategorije> Kategorije { get; set; }
         public ApplicationUser Idenity { get; set; }
         public ICollection<SlucajMajstor> SlucajMajstors { get; set; } = new List<SlucajMajstor>();
+        public ICollection<Cenovnik> Cenovniks { get; set; }
     }
 }

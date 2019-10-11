@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191008123349_fixrelationcenovnikslucaj")]
+    partial class fixrelationcenovnikslucaj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +28,6 @@ namespace AdvokatskiPortal.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("IdenityId");
-
-                    b.Property<int>("MajstorId");
 
                     b.Property<int>("SlucajId");
 
@@ -44,8 +44,6 @@ namespace AdvokatskiPortal.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdenityId");
-
-                    b.HasIndex("MajstorId");
 
                     b.HasIndex("SlucajId");
 
@@ -450,11 +448,6 @@ namespace AdvokatskiPortal.Migrations
                     b.HasOne("AdvokatskiPortal.Models.ApplicationUser", "Idenity")
                         .WithMany()
                         .HasForeignKey("IdenityId");
-
-                    b.HasOne("AdvokatskiPortal.Models.Majstor", "Majstor")
-                        .WithMany("Cenovniks")
-                        .HasForeignKey("MajstorId")
-                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AdvokatskiPortal.Models.Slucaj", "Slucaj")
                         .WithMany("Cenovniks")

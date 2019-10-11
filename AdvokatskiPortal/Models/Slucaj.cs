@@ -25,7 +25,8 @@ namespace AdvokatskiPortal.Models
         public Korisnik Korisnik{ get; set; }
         public ICollection<Slika> Slike { get; set; }
         public ICollection<SlucajMajstor> SlucajMajstors{ get; set; }
-        public int CenovnikId { get; set; }
-        public Cenovnik Cenovnik { get; set; }
+        //public int CenovnikId { get; set; }
+        //public Cenovnik Cenovnik { get; set; }
+        public ICollection<Cenovnik> Cenovniks{ get; set; }
     }
 }

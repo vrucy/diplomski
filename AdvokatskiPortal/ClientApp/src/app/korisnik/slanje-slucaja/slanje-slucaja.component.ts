@@ -1,3 +1,4 @@
+import { Majstor } from './../../model/Majstor';
 import { AdvokatService } from './../../service/advokat.service';
 import { Cenovnik } from './../../model/Cenovnik';
 import { SlucajSlanjeVM } from './../../model/SlucajSlanjeVM';
@@ -5,7 +6,6 @@ import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Majstor } from '../../model/Majstor';
 import { MatTableDataSource } from '@angular/material/table';
 import { Slucaj } from '../../model/Slucaj';
 

@@ -64,12 +64,18 @@ export class TabelaAdvokataComponent implements OnInit {
         }
       );
   }
+
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);
       // && data.slucajStatusId === <number>searchTerms.tabIndex;
-      return (data.ime.toLowerCase().includes(searchTerms.filterTxt) ) &&
-              data.kategorije.kategorijaId === <number>searchTerms.podK;
+      return (data.ime.toLowerCase().includes(searchTerms.filterTxt) ||
+              data.prezime.toLowerCase().includes(searchTerms.filterTxt) ||
+              data.mesto.toLowerCase().includes(searchTerms.filterTxt))
+              && data.kategorije.forEach(element => {
+               // tslint:disable-next-line:no-unused-expression
+               element.kategorijaId === <number>searchTerms.podK;
+              });
 
       // && data.slucajStatusId === <number>searchTerms.tabIndex;
     };

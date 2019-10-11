@@ -36,6 +36,8 @@
     <Compile Remove="Migrations\20190927054847_addUnarn.Designer.cs" />
     <Compile Remove="Migrations\20190927083050_initial.cs" />
     <Compile Remove="Migrations\20190927083050_initial.Designer.cs" />
+    <Compile Remove="Migrations\20191010134234_addmajstorToCenovnik.cs" />
+    <Compile Remove="Migrations\20191010134234_addmajstorToCenovnik.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
