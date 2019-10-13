@@ -22,7 +22,8 @@
       <td mat-cell *matCellDef="let element">
         <div>
         <!-- <div *ngIf="validateNesto(element, cenovnik)"> -->
-          {{getKolicinuCenovnika(element)}}
+          <!-- {{getKolicinuCenovnika(element)}} -->
+          {{element.cenovnici.kolicina}}
         <!-- </div> -->
       </div>
       </td>
@@ -30,17 +31,17 @@
     <ng-container matColumnDef="zavrsetakRada">
       <th mat-header-cell *matHeaderCellDef>Zavrsetak rada</th>
       <td mat-cell *matCellDef="let element">
-        {{element.zavrsetakRada}}
+        {{element.cenovnici.zavrsetakRada}}
       </td>
     </ng-container>
     <ng-container matColumnDef="vrstaPlacanja">
       <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
       <td mat-cell *matCellDef="let element">
-          <div *ngFor="let cenovnik of element.cenovnici">
-              <div *ngIf="cenovnik.idenityId === element.idMajstor">
-                {{cenovnik.vrstaPlacanja}}
-              </div>
-            </div>
+          <!-- <div *ngFor="let cenovnik of element.cenovnici"> -->
+              <!-- <div *ngIf="cenovnik.idenityId === element.idMajstor"> -->
+                {{element.cenovnici.vrstaPlacanja}}
+              <!-- </div> -->
+            <!-- </div> -->
       </td>
     </ng-container>
     <ng-container matColumnDef="opis">

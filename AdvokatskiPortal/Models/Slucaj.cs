@@ -17,7 +17,9 @@ namespace AdvokatskiPortal.Models
         public string Mesto { get; set; }
         public string UlicaIBroj { get; set; }
         public DateTime KrajnjiRokZaOdgovor { get; set; }
-        public DateTime? PocetakRada{ get; set; }
+        //public DateTime? PocetakRada{ get; set; }
+        //public DateTime zavrsetakRada { get; set; }
+
         public Ugovor Ugovor { get; set; }
         public int KategorijaId { get; set; }
         public Kategorija Kategorija { get; set; }

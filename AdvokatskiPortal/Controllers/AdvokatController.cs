@@ -41,7 +41,8 @@ namespace AdvokatskiPortal.Controllers
                 var cliems = User.Claims.First();
                 var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
                 var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false);
-
+                //  potrebno vratiti sve nostifikacije bice 2 vrste jedna kad pristigne novi slucaj
+                // drugi kad dobijes odbijenicu
                 return Ok(noviSlucajevi);
             }
             catch (Exception e)
@@ -150,7 +151,7 @@ namespace AdvokatskiPortal.Controllers
         [HttpPut("prepravkaCeneOdAdvokata")]
         public async Task<IActionResult> prepravkaCeneOdAdvokata ([FromBody] Cenovnik noviCenovnikVM)
         {
-            
+            //editCenovnikAdvokatVM
             //await _context.SaveChangesAsync();
             try
             {
@@ -158,6 +159,10 @@ namespace AdvokatskiPortal.Controllers
                 noviCenovnikVM.IdenityId = cliems.Value;
                 noviCenovnikVM.SlucajId = noviCenovnikVM.Slucaj.Id;
                 noviCenovnikVM.StatusId = 1;
+                //var slucaj = _context.Slucajs.Single(x => x.Id == noviCenovnikVM.Slucaj.Id);
+                //slucaj.zavrsetakRada = noviCenovnikVM.Slucaj.zavrsetakRada;
+                //_context.Entry(slucaj).State = EntityState.Modified;
+
                 _context.Entry(noviCenovnikVM).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();

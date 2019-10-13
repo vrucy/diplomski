@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191013160003_slucajAddZavrsetak")]
+    partial class slucajAddZavrsetak
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +31,6 @@ namespace AdvokatskiPortal.Migrations
 
                     b.Property<int>("MajstorId");
 
-                    b.Property<DateTime?>("PocetakRada");
-
                     b.Property<int>("SlucajId");
 
                     b.Property<int>("StatusId");
@@ -42,8 +42,6 @@ namespace AdvokatskiPortal.Migrations
                     b.Property<string>("komentar");
 
                     b.Property<string>("vrstaPlacanja");
-
-                    b.Property<DateTime>("zavrsetakRada");
 
                     b.HasKey("Id");
 
@@ -189,7 +187,11 @@ namespace AdvokatskiPortal.Migrations
 
                     b.Property<string>("Opis");
 
+                    b.Property<DateTime?>("PocetakRada");
+
                     b.Property<string>("UlicaIBroj");
+
+                    b.Property<DateTime>("zavrsetakRada");
 
                     b.HasKey("Id");
 
@@ -215,8 +217,6 @@ namespace AdvokatskiPortal.Migrations
                     b.Property<DateTime>("datumKreiranja");
 
                     b.Property<bool>("isRead");
-
-                    b.Property<bool>("isReject");
 
                     b.Property<bool>("prihvacno");
 

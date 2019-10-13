@@ -31,6 +31,20 @@ namespace AdvokatskiPortal.Data
                 .WithMany(m => m.Kategorije)
                 .HasForeignKey(y => y.MajstorId);
             modelBuilder.Entity<Kategorija>().HasOne(x => x.ParentKategorija).WithMany().HasForeignKey(x => x.ParentId).OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Kategorija>().HasData(new Kategorija() { Id = 1, Naziv = "gradjevinarstvo" },
+            //                                          new Kategorija() { Id = 2, Naziv = "zidar", ParentId = 1, },
+            //                                          new Kategorija() { Id = 3, Naziv = "stolar", ParentId = 1, },
+            //                                          new Kategorija() { Id = 4, Naziv = "moler", ParentId = 1, },
+            //                                          new Kategorija() { Id = 5, Naziv = "zidar", ParentId = 1, },
+            //                                          new Kategorija() { Id = 6, Naziv = "automobilizam", ParentId = null },
+            //                                          new Kategorija() { Id = 7, Naziv = "Limar", ParentId = 6, },
+            //                                          new Kategorija() { Id = 8, Naziv = "mehianicar", ParentId = 6, });
+                                                      
+                                                      
+                                                                         
+                                                      
+                                                      
+
         }
         public PortalAdvokataDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Majstor> Majstors { get; set; }

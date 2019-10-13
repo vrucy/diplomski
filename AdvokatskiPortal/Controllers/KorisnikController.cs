@@ -61,13 +61,15 @@ namespace AdvokatskiPortal.Controllers
                     t.Majstor.Ime,
                     t.Majstor.Prezime,
                     MajstorId = t.MajstorId,
-                    cenovnici = t.Slucaj.Cenovniks != null ? t.Slucaj.Cenovniks : null,
+                    cenovnici = t.Slucaj.Cenovniks.Single(s => s.MajstorId == t.MajstorId && s.SlucajId == t.Slucaj.Id)
+                    != null ? t.Slucaj.Cenovniks.Single(s => s.MajstorId == t.MajstorId && s.SlucajId == t.Slucaj.Id) : null,
                     //vrstaPlacanja = t.Slucaj.Cenovniks != null ? t.Slucaj.Cenovniks.FirstOrDefault().vrstaPlacanja : null,
                     //kolicina = t.Slucaj.Cenovniks != null ? t.Slucaj.Cenovniks.FirstOrDefault().kolicina : null,
                     //idMajstoraCenovnik = t.Slucaj.Cenovniks != null ? t.Slucaj.Cenovniks.FirstOrDefault().IdenityId : null,
                     //cenovnikId = t.Slucaj.Cenovniks.FirstOrDefault().Id,
                     //t.Slucaj.Cenovniks.FirstOrDefault().StatusId,
-                    t.ZavrsetakRada,
+                    // TREBA UBACITI ZAVRSETAK RADA
+                    //t.ZavrsetakRada,
                     t.SlucajStatusId,
                     idMajstor = t.Majstor.Idenity.Id,
                     Slucaj = new
@@ -327,31 +329,35 @@ namespace AdvokatskiPortal.Controllers
         //}
 
         [HttpPut("prihvacenSlucajKorisnik")]
-        public async Task<IActionResult> prihvacenSlucajKorisnik([FromBody] Cenovnik slucajMajstor)
+        public async Task<IActionResult> prihvacenSlucajKorisnik([FromBody] acceptVM ids)
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
 
             //slucajMajstor.SlucajStatusId = 4;
-            slucajMajstor.Slucaj.Cenovniks.SingleOrDefault(c => c.IdenityId == cliems.Value).StatusId = 2;
-            var x = _context.SlucajMajstors.Where(sl => sl.Slucaj.KorisnikId == ulogovaniKorisnik.Id && sl.SlucajId == slucajMajstor.SlucajId);
-            List<SlucajMajstor> odbijeniAdvokati = new List<SlucajMajstor>();
+            var slucaj = _context.Slucajs.SingleOrDefault(c => c.Id == ids.slucajId)/*.StatusId = 2*/;
+            var x = _context.SlucajMajstors.Where(sl => sl.Slucaj.KorisnikId == ulogovaniKorisnik.Id 
+                                                  && sl.SlucajId == ids.slucajId);
+            List<int> odbijeniAdvokatiId = new List<int>();
             foreach (var item in x)
             {
-                if (item.MajstorId == slucajMajstor.MajstorId)
+                if (item.MajstorId == ids.majstorId)
                 {
                     item.SlucajStatusId = 4;
                 }
                 else
                 {
                     item.SlucajStatusId = 3;
-                    odbijeniAdvokati.Add(item);
+                    // UBACITI U HELPER POZOVE METODU DA POSALJE OSTALIM ADVOKATIMA OBAVESTENJE DA SU ODBIJENI
+                    odbijeniAdvokatiId.Add(item.MajstorId);
+                    item.isReject = true;
+                    // ubaciti bool da je odbijen u slucaj majstor
                 }
                 _context.Entry(item).State = EntityState.Modified;
             }
             await _context.SaveChangesAsync();
 
-            return Ok(odbijeniAdvokati);
+            return Ok();
         }
         [HttpPut("odbijenSlucajOdKorisnika")]
         public async Task<IActionResult> odbijenSlucajOdKorisnika([FromBody] SlucajMajstor slucajMajstor)

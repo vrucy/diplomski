@@ -38,6 +38,12 @@
     <Compile Remove="Migrations\20190927083050_initial.Designer.cs" />
     <Compile Remove="Migrations\20191010134234_addmajstorToCenovnik.cs" />
     <Compile Remove="Migrations\20191010134234_addmajstorToCenovnik.Designer.cs" />
+    <Compile Remove="Migrations\20191013155806_slucajAddZavrsetak.cs" />
+    <Compile Remove="Migrations\20191013155806_slucajAddZavrsetak.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -10,6 +10,8 @@ SlucajId;
 Slucaj;
 StatusId;
 Status;
+zavrsetakRada;
+pocetakRada;
 }
 
 

@@ -56,6 +56,7 @@ export class PregledUgovoraComponent implements OnInit {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
       // napraviti svoj cenovnik ili prepraviti postojeci???
+      // data: Object.assign(new Cenovnik(), element)
       data: Object.assign(new Cenovnik(), element)
     });
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -72,7 +73,7 @@ export class PregledUgovoraComponent implements OnInit {
       //   await this.advokatService.postavljanjeNoveCeneOdAdvokata(this.cenovnik);
       //   this.advokatService.prepravkaSlucajaAdvokata(element);
       // } else {
-
+       // result.zavrsetakRada = element;
         this.advokatService.prepravkaCeneOdAdvokata(result);
         this.advokatService.prepravkaSlucajaAdvokata(result);
       // }

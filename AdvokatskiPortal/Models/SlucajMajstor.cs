@@ -7,11 +7,12 @@ namespace AdvokatskiPortal.Models
     {
         
         public DateTime datumKreiranja { get; set; }
-        public DateTime? ZavrsetakRada { get; set; }
+        // public DateTime? ZavrsetakRada { get; set; }
 
         public bool prihvacno { get; set; }
         public string Odgovor { get; set; }
         public bool isRead { get; set; }
+        public bool isReject { get; set; }
         public int MajstorId { get; set; }
         public string MajstorIdStr{ get; set; }
         public Majstor Majstor { get; set; } 
