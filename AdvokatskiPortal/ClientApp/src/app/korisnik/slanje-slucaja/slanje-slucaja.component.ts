@@ -20,7 +20,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   secondFormGroup: FormGroup;
   thridFormGroup: FormGroup;
 
-  cenovnik = {vrstaPlacanja: '', kolicina: ''};
+  cenovnik = { vrstaPlacanja: '', kolicina: '' };
   vrstaPlacanja;
   displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
   selection = new SelectionModel<Majstor>(true, []);
@@ -28,7 +28,6 @@ export class SlanjeSlucajaComponent implements OnInit {
   slucaj = { opis: '' };
   // noviSlucaj = { opis: ''};
   noviSlucaj: Slucaj = new Slucaj();
-  majstori;
   slucajevi;
   panelStanje = false;
   SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
@@ -40,6 +39,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   kategorije;
   odabraniSlucaj: Slucaj = new Slucaj();
   odabraniAdvokati;
+  sviMajstori: any;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService, private advokatService: AdvokatService) {
     this.dataSource.filterPredicate = this.tableFilter();
   }
@@ -65,7 +65,10 @@ export class SlanjeSlucajaComponent implements OnInit {
           this.dataSource.filter = JSON.stringify(this.filterValues);
         }
       );
-      this.podKategorijaFilter.valueChanges
+    this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
+      this.sviMajstori = res;
+    });
+    this.podKategorijaFilter.valueChanges
       .subscribe(
         id => {
           this.filterValues.podKategorijaFilter = id;
@@ -85,11 +88,7 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.thridFormGroup = this._formBuilder.group({
       thridCtrl: ['', Validators.required]
     });
-    this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
-      this.dataSource.data = res;
-      this.majstori = res;
-      console.log(this.majstori);
-    });
+
     this.korsinikService.getAllSlucajForKorisnik().subscribe(res => {
       this.slucajevi = res;
       console.log(this.slucajevi)
@@ -99,13 +98,18 @@ export class SlanjeSlucajaComponent implements OnInit {
       console.log(this.kategorije);
     });
   }
+
+  getMajstoriBySelectedId() {
+    const searchTerm = this.odabraniSlucaj.kategorijaId;
+    this.dataSource.data = [...this.sviMajstori].filter(r => r.kategorije.some(k => k.kategorijaId === searchTerm));
+  }
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);
       console.log(data)
-       return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
+      return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
         data.majstorKategorijes.find(ca => ca.kategorijaId === <number>searchTerms.kategorijaFilter);
-        // data.majstorKategorijes.find(ca => ca.kategorijaId === <number>this.odabraniSlucaj.kategorijaId);
+      // data.majstorKategorijes.find(ca => ca.kategorijaId === <number>this.odabraniSlucaj.kategorijaId);
 
     }
     return filterFunction;
@@ -116,7 +120,7 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.kategorijaFilter.reset();
   }
   // PROBLEM KAD SE KREIRA NE UPISE SE AUTUTOMATSKI  U SELECT PROBLEM JE U ngLifeCiCLES
-  kreiranjeSlucaja(){
+  kreiranjeSlucaja() {
     this.korsinikService.kreiranjeSlucaja(this.noviSlucaj);
     // this.slucajevi = this.noviSlucaj;
   }
@@ -131,8 +135,8 @@ export class SlanjeSlucajaComponent implements OnInit {
 
   masterToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   checkboxLabel(row?: Majstor): string {
@@ -143,7 +147,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   }
   save() {
 
-    this.SlucajVM.Majstors =  this.selection.selected;
+    this.SlucajVM.Majstors = this.selection.selected;
 
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
 
@@ -151,7 +155,14 @@ export class SlanjeSlucajaComponent implements OnInit {
     // c.kolicina = this.cenovnik.kolicina;
     // c.vrstaPlacanja = this.cenovnik.vrstaPlacanja;
     // this.SlucajVM.Cenovniks =  [c];
-    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+    console.log(this.odabraniSlucaj);
+    // this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+  }
+
+  stepChanges(step) {
+    if (step.selectedIndex === 1) {
+      this.getMajstoriBySelectedId();
+    }
   }
 
 }

@@ -34,23 +34,71 @@ namespace AdvokatskiPortal.Controllers
         }
 
         [HttpGet("getNewNostifiation")]
-        public async Task<IActionResult> getNewNostifiation()
+        public IEnumerable<string> getNewNostifiationSlucaj()
         {
+            List<string> nost = new List<string>();
             try
             {
-                var cliems = User.Claims.First();
-                var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
-                var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false);
-                //  potrebno vratiti sve nostifikacije bice 2 vrste jedna kad pristigne novi slucaj
-                // drugi kad dobijes odbijenicu
-                return Ok(noviSlucajevi);
+                var cliems = User.Claims.FirstOrDefault();
+                var ulogovaniKorisnik = _context.Majstors.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
+                var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(s => s.Slucaj).ThenInclude(m => m.Korisnik).ToList();
+
+                foreach (var item in noviSlucajevi)
+                {
+                    nost.Add("dobili ste novi slucaj " + item.Slucaj.Opis + " od " + item.Slucaj.Korisnik.Ime + " " + item.Slucaj.Korisnik.Prezime);
+                }
+
+
+                return nost;
             }
             catch (Exception e)
             {
-                return BadRequest();
-                throw e;
+
+                throw;
             }
-            
+            // potrebno prebaciti isRead na true;
+        }
+        [HttpGet("getNewNostifiationOdbijeni")]
+        public IEnumerable<string> getNewNostifiation()
+        {
+            List<string> nost = new List<string>();
+
+            try
+            {
+                var cliems = User.Claims.FirstOrDefault();
+                var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
+                var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id).ToList();
+                foreach (var item in noviSlucajevi)
+                {
+                    if (item.SlucajStatusId == 3)
+                    {
+                        nost.Add(item.Slucaj.Korisnik.Ime + item.Slucaj.Korisnik.Prezime + "vas je odbio za slucaj" + item.Slucaj.Opis);
+                    }
+
+                }
+                return nost;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            // potrebno prebaciti isRead na true;
+        }
+        [HttpPut("putNewNostifiationReadAdvokat")]
+        public async Task<IActionResult> putNewNostifiationReadAdvokat([FromBody] SlucajMajstor nostification)
+        {
+            var cliems = User.Claims.FirstOrDefault();
+            var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
+            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isReadOdbijenAdvokat == false);
+            foreach (var item in noviSlucajevi)
+            {
+                item.isReadOdbijenAdvokat = true;
+                _context.Entry(item).State = EntityState.Modified;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(nostification);
         }
         [HttpPut("putNewNostifiationRead")]
         public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor[] nostification)

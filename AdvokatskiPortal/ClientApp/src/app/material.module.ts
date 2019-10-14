@@ -19,6 +19,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule } from '@angular/material';
 import {SlideshowModule} from 'ng-simple-slideshow';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {SlideshowModule} from 'ng-simple-slideshow';
     MatTooltipModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    SlideshowModule
+    SlideshowModule,
+    MatListModule
     ]
 })
 export class MaterialModule {}

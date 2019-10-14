@@ -11,18 +11,18 @@
     <mat-icon class="material-icons" >add_alert</mat-icon>
     <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
   </button>
-</div>
-<div >
+  <div >
 
-  <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
-    (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
+    <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
+      (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
 
-  <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-    <button mat-menu-item>
-      <span>Edit</span>
-    </button>
-    <button mat-menu-item (click)="auth.logout()">
-      <span>Logout</span>
-    </button></mat-menu>
-  <button mat-button (click)="auth.logout()"></button>
+    <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
+      <button mat-menu-item>
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="auth.logout()">
+        <span>Logout</span>
+      </button></mat-menu>
+    <button mat-button (click)="auth.logout()"></button>
+  </div>
 </div>

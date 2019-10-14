@@ -15,6 +15,7 @@ import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovo
 import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
 import { EditProfilaComponent } from './edit-profila/edit-profila.component';
 import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
+import { NotificationComponent } from './layout/notification/notification.component';
 
 const router: Routes = [
   {
@@ -61,6 +62,9 @@ const router: Routes = [
   },
   {
     path: 'dodajPodkategoriju', component: DodajPodKategorijuComponent
+  },
+  {
+    path: 'notification' , component: NotificationComponent
   }
 ];
 

@@ -23,14 +23,15 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   nameFilter = new FormControl('');
   tabIndex = new FormControl('');
   cenovnik = new Cenovnik();
+  sviSlucajevi: any;
   filterValues = {
     name: '',
     tabIndex: ''
   };
   constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
     this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe(res => {
-      this.dataSource.data = res;
-      console.log(this.dataSource.data);
+      this.sviSlucajevi = res;
+      this.handleTabChange(0);
     });
     this.dataSource.filterPredicate = this.tableFilter();
   }
@@ -38,7 +39,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
       // napraviti svoj cenovnik ili prepraviti postojeci???
-      data:   Object.assign(new Cenovnik(), element)
+      data: Object.assign(new Cenovnik(), element)
     });
     dialogRef.afterClosed().subscribe(async result => {
       // element.cenovnici.forEach(el => {
@@ -130,6 +131,13 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       console.log('set 4');
     }
   }
+  writeStatus(status): string {
+    if (status.slucajStatusId === 2) {
+      return 'prihvacen drugi advokat';
+    } else {
+      return 'Ceka se odgovor Advokata';
+    }
+  }
   chekerTab(event) {
     const even = ++event.index;
     this.tabIndex.setValue(even);
@@ -147,7 +155,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     this.dataSource.data = data;
   }
   prihvacenSlucaj(slucaj) {
-    const ids = { majstorId: slucaj.majstorId, slucajId: slucaj.slucaj.id}
+    const ids = { majstorId: slucaj.majstorId, slucajId: slucaj.slucaj.id }
     this.korisnikService.prihvacenSlucajOdKorisnika(ids).subscribe(res => {
       this.removeAt(slucaj);
     });
@@ -173,5 +181,24 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     if (cenovnik) {
       return cenovnik.kolicina;
     }
+  }
+  handleTabChange(tab) {
+    switch (tab.index) {
+      // filter prihvaceni
+      case 0:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 2);
+        break;
+      // filter u procesu
+      case 1:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 3 || ss.slucajStatusId === 7);
+        break;
+      // filter odbijeni
+      case 2:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 5);
+        break;
+      default:
+        break;
+    }
+    console.log(this.dataSource.data, this.sviSlucajevi);
   }
 }

@@ -41,6 +41,7 @@ import { EditProfilaComponent } from './edit-profila/edit-profila.component';
 import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
 import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
 import { PrikazSLucajaKorisnikComponent } from './korisnik/dialog/prikaz-slucaja-korisnik/prikaz-slucaja-korisnik.component';
+import { NotificationComponent } from './layout/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { PrikazSLucajaKorisnikComponent } from './korisnik/dialog/prikaz-slucaja
     EditProfilaComponent,
     DodajKategorijuComponent,
     DodajPodKategorijuComponent,
-    PrikazSLucajaKorisnikComponent
+    PrikazSLucajaKorisnikComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

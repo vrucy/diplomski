@@ -1,5 +1,5 @@
-<mat-horizontal-stepper [linear]="isLinear" #stepper>
-  <mat-step [stepControl]="firstFormGroup">
+<mat-horizontal-stepper [linear]="isLinear" #stepper (selectionChange)="stepChanges($event)">
+  <mat-step [stepControl]="firstFormGroup" (changes)="stepChanges($event)">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Odaberite slucaj</ng-template>
       <mat-accordion>
@@ -63,7 +63,7 @@
     </form>
   </mat-step> -->
 
-  <mat-step [stepControl]="thridFormGroup">
+  <mat-step [stepControl]="thridFormGroup" >
     <form [formGroup]="thridFormGroup">
       <ng-template matStepLabel>Odaberite majstore</ng-template>
       <div class="tabelaMajstori">
