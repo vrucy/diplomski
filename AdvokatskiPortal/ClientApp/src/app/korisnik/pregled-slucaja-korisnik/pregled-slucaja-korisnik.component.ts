@@ -42,21 +42,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       data: Object.assign(new Cenovnik(), element)
     });
     dialogRef.afterClosed().subscribe(async result => {
-      // element.cenovnici.forEach(el => {
-      //   if (el.idenityId === element.idMajstor) {
-      //     element.cenovnik = result;
-      //     this.cenovnik = result;
-      //     this.cenovnik.kolicina = result.cenovnik.kolicina;
-      //     this.cenovnik.vrstaPlacanja = result.cenovnik.vrstaPlacanja;
-      //     this.cenovnik.id = el.id;
-      //     this.cenovnik.SlucajId = el.slucaj.id;
-      //     this.cenovnik.StatusId = el.statusId;
-      //     this.cenovnik.IdenityId = el.idenityId;
-      //     el.majstorId = element.majstorId;
-      //     this.korisnikService.postavljanjeNoveCeneOdKorisnika(this.cenovnik);
-      //     this.korisnikService.prepravkaSlucajaKorisnika(element);
-      //   }
-      // });
+
       const cenovnik = element.cenovnici.find(c => c.majstorId === element.majstorId);
       cenovnik.komentar = result.komentar;
       cenovnik.kolicina = result.kolicina;
@@ -105,7 +91,9 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   tableFilter(): (data: any, filter: string) => boolean {
     const filterFunction = function (data, filter): boolean {
       const searchTerms = JSON.parse(filter);
-      return (data.majstor.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name)
+      // return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name)
+      return data.ime.toLowerCase().includes(searchTerms.name)
+
       // &&  data.slucajStatusId === <number>searchTerms.tabIndex;
     };
     return filterFunction;
@@ -164,22 +152,23 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     this.korisnikService.odbijenSlucajOdKorisnika(slucaj);
   }
 
-  getLastOffer(element: any) {
-    let result = null;
-    if (element.slucaj.cenovniks.length > 0) {
-      result = element.slucaj.cenovniks[element.slucaj.cenovniks.length - 1];
-      // result = element[length - 1];
-    }
-    // console.log(element.slucaj.cenovniks);
-    return element.slucaj.cenovniks[element.slucaj.cenovniks.length - 1];
-  }
+  handleButton(element) {
+    switch (element.slucajStatusId) {
 
-  getKolicinuCenovnika(majstor) {
-    // const cenovnik = majstor.cenovnici.find(c => (c.idenityId === majstor.idMajstor) && (c.idenityId === c.slucaj.korisnik.idenity.id));
-    const cenovnik = majstor.cenovnici.find(c => (c.majstorId === majstor.majstorId));
-
-    if (cenovnik) {
-      return cenovnik.kolicina;
+      case 3:
+        return 'Odbili ste ovu ponudu';
+        break;
+      case 5:
+        return 'Odbijena ponuda advokata';
+        break;
+      case 2:
+        return 'Prihvatili ste ovu ponudu';
+        break;
+      case 6:
+        return 'Ceka se odgovor advokata';
+        break;
+      default:
+        break;
     }
   }
   handleTabChange(tab) {
@@ -190,11 +179,15 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         break;
       // filter u procesu
       case 1:
-        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 3 || ss.slucajStatusId === 7);
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 4 ||
+          ss.slucajStatusId === 7 || ss.slucajStatusId === 1);
         break;
       // filter odbijeni
       case 2:
         this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 5);
+        break;
+      case 3:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 3);
         break;
       default:
         break;

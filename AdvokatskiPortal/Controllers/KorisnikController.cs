@@ -124,7 +124,24 @@ namespace AdvokatskiPortal.Controllers
 
                 throw;
             }
-            // potrebno prebaciti isRead na true;
+        }
+        [HttpPut("putNewNostifiationReadKorisnik")]
+        public async Task<IActionResult> putNewNostifiationReadKorisnik([FromBody] SlucajMajstor nostification)
+        {
+            var cliems = User.Claims.FirstOrDefault();
+            var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
+
+            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(m => m.Majstor).Include(s => s.Slucaj).ToList();
+
+            List<string> nost = noviSlucajevi.Select(s => "dobili ste novi slucaj " + s.Slucaj.Opis + " od " + s.Majstor.Ime + " " + s.Majstor.Prezime).ToList();
+            var odbijeniSlucajevi = _context.SlucajMajstors.Where(os => os.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && os.isReadOdbijenAdvokat == false);
+            nost = odbijeniSlucajevi.Select(o => o.Majstor.Ime + " " + o.Majstor.Prezime + " vas je odbio za slucaj " + o.Slucaj.Opis).ToList();
+
+
+
+            return Ok(nost);
+            await _context.SaveChangesAsync();
+            return Ok(nost);
         }
         //[HttpGet("getNewNostifiationOdbijeni")]
         //public IEnumerable<string> getNewNostifiation()
@@ -153,21 +170,6 @@ namespace AdvokatskiPortal.Controllers
         //    }
         //    // potrebno prebaciti isRead na true;
         //}
-        [HttpPut("putNewNostifiationReadKorisnik")]
-        public async Task<IActionResult> putNewNostifiationReadKorisnik([FromBody] SlucajMajstor nostification)
-        {
-            var cliems = User.Claims.FirstOrDefault();
-            var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
-            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isReadOdbijenKorisnik == false);
-            foreach (var item in noviSlucajevi)
-            {
-                item.isReadOdbijenKorisnik = true;
-                _context.Entry(item).State = EntityState.Modified;
-            }
-
-            await _context.SaveChangesAsync();
-            return Ok(nostification);
-        }
         [HttpPut("putNewNostifiationRead")]
         public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor nostification)
         {
@@ -397,15 +399,12 @@ namespace AdvokatskiPortal.Controllers
             {
                 if (item.MajstorId == ids.majstorId)
                 {
-                    item.SlucajStatusId = 4;
+                    item.SlucajStatusId = 2;
                 }
                 else
                 {
                     item.SlucajStatusId = 3;
-                    // UBACITI U HELPER POZOVE METODU DA POSALJE OSTALIM ADVOKATIMA OBAVESTENJE DA SU ODBIJENI
-                    odbijeniAdvokatiId.Add(item.MajstorId);
                     item.isReject = true;
-                    // ubaciti bool da je odbijen u slucaj majstor
                 }
                 _context.Entry(item).State = EntityState.Modified;
             }
@@ -417,8 +416,10 @@ namespace AdvokatskiPortal.Controllers
         public async Task<IActionResult> odbijenSlucajOdKorisnika([FromBody] SlucajMajstor slucajMajstor)
         {
 
-            slucajMajstor.SlucajStatusId = 5;
-            _context.Entry(slucajMajstor).State = EntityState.Modified;
+            var slucaj = _context.SlucajMajstors.Single(x => x.MajstorId == slucajMajstor.MajstorId && x.Slucaj.Id == slucajMajstor.Slucaj.Id);
+            
+            slucaj.SlucajStatusId = 5;
+            _context.Entry(slucaj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();

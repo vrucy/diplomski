@@ -72,10 +72,11 @@ export class TabelaAdvokataComponent implements OnInit {
       return (data.ime.toLowerCase().includes(searchTerms.filterTxt) ||
               data.prezime.toLowerCase().includes(searchTerms.filterTxt) ||
               data.mesto.toLowerCase().includes(searchTerms.filterTxt))
-              && data.kategorije.forEach(element => {
-               // tslint:disable-next-line:no-unused-expression
-               element.kategorijaId === <number>searchTerms.podK;
-              });
+              && data.kategorije.kategorijaId === <number>searchTerms.kat;
+              // && data.kategorije.forEach(element => {
+              //  // tslint:disable-next-line:no-unused-expression
+              //  element.kategorijaId === <number>searchTerms.podK;
+              // });
 
       // && data.slucajStatusId === <number>searchTerms.tabIndex;
     };

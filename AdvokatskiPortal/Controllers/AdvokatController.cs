@@ -137,7 +137,7 @@ namespace AdvokatskiPortal.Controllers
                 },
                 Kolicina = c.kolicina,
                 VrstaPlacanja = c.vrstaPlacanja,
-                SlucajStatus = c.Slucaj.SlucajMajstors.First( sm => sm.SlucajId == c.Slucaj.Id && sm.MajstorId == c.Majstor.Id).SlucajStatusId,
+                SlucajStatusId = c.Slucaj.SlucajMajstors.First( sm => sm.SlucajId == c.Slucaj.Id && sm.MajstorId == c.Majstor.Id).SlucajStatusId,
                 majstorId = c.MajstorId
 
             });
@@ -255,8 +255,9 @@ namespace AdvokatskiPortal.Controllers
         public async Task<IActionResult> odbijanjeSlucajaAdvokata( [FromBody] SlucajMajstor slucajMajstor)
         {
 
-            slucajMajstor.SlucajStatusId = 3;
-            _context.Entry(slucajMajstor).State = EntityState.Modified;
+            var slucaj = _context.SlucajMajstors.Single(x => x.MajstorId == slucajMajstor.MajstorId && x.Slucaj.Id == slucajMajstor.Slucaj.Id);
+            slucaj.SlucajStatusId = 3;
+            _context.Entry(slucaj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();

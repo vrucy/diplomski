@@ -18,8 +18,6 @@ export class AdvokatHeaderComponent implements OnInit, AfterContentInit {
   constructor(private advokatService: AdvokatService, private auth: AuthService, private notificationService: NotificationService) {
     this._type = this.auth.typeUserValue;
     this.badgeCount = this.notificationService.count;
-    console.log(this.badgeCount)
-
   }
 
   ngAfterContentInit(): void {
@@ -28,8 +26,11 @@ export class AdvokatHeaderComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.ulogovaniKorisnik = localStorage.getItem('userName');
     this._type = localStorage.getItem('typeUser');
-    this.badgeCount = this.notificationService.count;
-    console.log(this.badgeCount)
+    this.advokatService.getNewNostifiation().subscribe( (res: any) => {
+      this.notificationService.setNotifications(res);
+      this.badgeCount = this.notificationService.count;
+      console.log(this.badgeCount);
+    });
   }
 
   clearCount() {

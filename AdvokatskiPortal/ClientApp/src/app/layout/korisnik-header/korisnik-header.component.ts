@@ -20,7 +20,7 @@ export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
   constructor(private korisnikService: KorisnikService,private notificationService: NotificationService,  private auth: AuthService) {
     this._type = this.auth.typeUserValue;
     this.badgeCount = this.notificationService.count;
-    console.log(this.badgeCount);
+    console.log(this.notificationService.count);
   }
 
   ngAfterViewInit(): void {
@@ -28,13 +28,17 @@ export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.ulogovaniKorisnik = localStorage.getItem('userName');
-    this.korisnikService.getNewNostifiation().subscribe( (res: any) => {
-      this.badgeCount = res;
-      this.badgeCount = res.length;
-      console.log(this.badgeCount);
+    this.korisnikService.resetNotification().subscribe(res => {
+      console.log(res);
     });
+    // this.korisnikService.getNewNostifiation().subscribe( (res: any) => {
+    //   this.notificationService.setNotifications(res);
+    //   this.badgeCount = this.notificationService.count;
+    //   console.log(this.badgeCount);
+    // });
   }
   clearCount() {
+    console.log(this.notificationService.count)
     if (this.notificationService.notifications.length !== 0) {
       // this.advokatService.putNostificationRead(this.newNostifation).subscribe();
       console.log(this.notificationService.notifications)

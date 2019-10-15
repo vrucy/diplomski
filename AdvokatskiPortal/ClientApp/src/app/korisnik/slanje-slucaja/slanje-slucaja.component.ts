@@ -155,8 +155,8 @@ export class SlanjeSlucajaComponent implements OnInit {
     // c.kolicina = this.cenovnik.kolicina;
     // c.vrstaPlacanja = this.cenovnik.vrstaPlacanja;
     // this.SlucajVM.Cenovniks =  [c];
-    console.log(this.odabraniSlucaj);
-    // this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+
+     this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 
   stepChanges(step) {

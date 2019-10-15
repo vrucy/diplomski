@@ -7,7 +7,7 @@
 
   <mat-menu #pretraga="matMenu"></mat-menu>
 
-  <button mat-icon-button (click)="clearCount()">
+  <button mat-icon-button (click)="clearCount()" routerLink="/notification">
     <mat-icon class="material-icons" >add_alert</mat-icon>
     <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
   </button>

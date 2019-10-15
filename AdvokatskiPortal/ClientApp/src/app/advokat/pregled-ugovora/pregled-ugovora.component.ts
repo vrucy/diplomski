@@ -23,10 +23,15 @@ export class PregledUgovoraComponent implements OnInit {
   cenovnik = new Cenovnik();
   odgovor: string;
   imageurl;
+  sviSlucajevi: any;
 
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
-      this.dataSource.data = res;
+      // this.dataSource.data = res;
+      this.sviSlucajevi = res;
+      this.handleTabChange(0);
+
+
       console.log(this.dataSource.data)
     });
     this.dataSource.filterPredicate = this.tableFilter();
@@ -73,9 +78,9 @@ export class PregledUgovoraComponent implements OnInit {
       //   await this.advokatService.postavljanjeNoveCeneOdAdvokata(this.cenovnik);
       //   this.advokatService.prepravkaSlucajaAdvokata(element);
       // } else {
-       // result.zavrsetakRada = element;
-        this.advokatService.prepravkaCeneOdAdvokata(result);
-        this.advokatService.prepravkaSlucajaAdvokata(result);
+      // result.zavrsetakRada = element;
+      this.advokatService.prepravkaCeneOdAdvokata(result);
+      this.advokatService.prepravkaSlucajaAdvokata(result);
       // }
     });
   }
@@ -174,5 +179,46 @@ export class PregledUgovoraComponent implements OnInit {
     this.advokatService.odbijanjeSlucajaOdAdvokata(slucajAdvokat).subscribe(res => {
       console.log(res);
     });
+  }
+  handleTabChange(tab) {
+    switch (tab.index) {
+      // filter prihvaceni
+      case 0:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 2);
+        break;
+      // filter u procesu
+      case 1:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 4 ||
+          ss.slucajStatusId === 7 || ss.slucajStatusId === 1);
+        break;
+      // filter odbijeni
+      case 2:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 5);
+        break;
+      case 3:
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 3);
+        break;
+      default:
+        break;
+    }
+    console.log(this.dataSource.data, this.sviSlucajevi);
+  }
+  handleButton(element) {
+    switch (element.slucajStatusId) {
+      // case 1:
+      //   return 'Ceka se odgovor korisnika';
+      //   break;
+      case 2:
+        return 'Korisnik je prihvatio';
+        break;
+      case 3:
+        return 'Korisnik je odbio ponudu';
+        break;
+      case 7:
+        return 'Ceka se odgovor korisnika';
+        break;
+      default:
+        break;
+    }
   }
 }
