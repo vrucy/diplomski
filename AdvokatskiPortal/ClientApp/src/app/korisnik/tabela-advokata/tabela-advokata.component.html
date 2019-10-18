@@ -1,21 +1,23 @@
 <mat-form-field>
-    <mat-select (selectionChange)="onParentChanged($event)" [formControl]="kat" placeholder="Unesite Kategoriju">
-      <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija.id">
+    <mat-select [(ngModel)]="kategorijaValue" (selectionChange)="onParentChanged($event)" [formControl]="kat" placeholder="Unesite Kategoriju">
+        <mat-option>--</mat-option>
+      <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija">
         {{kategorija.naziv}}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
       <!-- [(ngModel)]="selectedId" -->
-    <mat-select   [formControl]="podK" placeholder="Unesite pod Kategoriju" >
-      <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija.id">
+    <mat-select [(ngModel)]="podkategorijaValue"   [formControl]="podK" placeholder="Unesite pod Kategoriju" >
+        <mat-option>--</mat-option>
+      <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija">
         {{podKategorija.naziv}}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <div class="filters">
       <mat-form-field fxFlex="40%">
-        <input matInput type="text" [formControl]="filterTxt" placeholder="Filter">
+        <input [(ngModel)]="filterInputValue" matInput type="text" [formControl]="filterTxt" placeholder="Filter">
       </mat-form-field>
     </div>
 <div class="tabelaAdvokati">

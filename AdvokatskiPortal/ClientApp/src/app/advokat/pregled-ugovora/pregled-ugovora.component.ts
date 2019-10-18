@@ -29,6 +29,13 @@ export class PregledUgovoraComponent implements OnInit {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
       // this.dataSource.data = res;
       this.sviSlucajevi = res;
+      this.sviSlucajevi.map(ss => {
+        ss.slucaj.slike.map(s => {
+          s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+          return s;
+        });
+        return ss;
+      });
       this.handleTabChange(0);
 
 
@@ -62,7 +69,11 @@ export class PregledUgovoraComponent implements OnInit {
       width: '250px',
       // napraviti svoj cenovnik ili prepraviti postojeci???
       // data: Object.assign(new Cenovnik(), element)
-      data: Object.assign(new Cenovnik(), element)
+      data: {
+        cenovnik: Object.assign(new Cenovnik(), element),
+        submitCallback: this.submitPopupForm.bind(this),
+        hideUserOptions: true
+      }
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(result);
@@ -79,38 +90,32 @@ export class PregledUgovoraComponent implements OnInit {
       //   this.advokatService.prepravkaSlucajaAdvokata(element);
       // } else {
       // result.zavrsetakRada = element;
-      this.advokatService.prepravkaCeneOdAdvokata(result);
-      this.advokatService.prepravkaSlucajaAdvokata(result);
+      // this.advokatService.prepravkaCeneOdAdvokata(result);
+      // this.advokatService.prepravkaSlucajaAdvokata(result);
       // }
     });
   }
+  submitPopupForm(result) {
+    console.log('RESULTAT POPUPA', result)
+    // this.advokatService.prepravkaCeneOdAdvokata(result);
+     this.advokatService.prepravkaSlucajaAdvokata(result);
+  }
   openDialogPrikazSlucaja(element): void {
 
-    const baseSlike = element.slucaj.slike.map(s => {
-      s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
-      return s;
-    });
+
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
       width: '750px',
       height: '900px',
-      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: baseSlike }
+      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: element.slucaj.slike }
     });
     dialogRef.afterClosed().subscribe(result => {
       element.odgovor = result;
       this.odgovor = result;
-
-      element.slucaj.slike.forEach(el => {
-        // var uints = new Uint8Array(el.slikaProp);
-        // var base64 = btoa(String.fromCharCode(null, uints));
-        // var url = 'data:image/jpeg;base64,' + base64;
-        console.log(el.slikaProp.toString());
-      });
-
     });
   }
   tableFilter(): (data: any, filter: string) => boolean {
-    let filterFunction = function (data, filter): boolean {
-      let searchTerms = JSON.parse(filter);
+    const filterFunction = function (data, filter): boolean {
+      const searchTerms = JSON.parse(filter);
       return data.majstor.ime.toLowerCase().indexOf(searchTerms.name) !== -1 ||
         data.slucajStatusId.toString().toLowerCase().indexOf(searchTerms.tabIndex) !== -1;
     }
@@ -175,10 +180,11 @@ export class PregledUgovoraComponent implements OnInit {
     })
   }
 
-  redirectToReject(slucajAdvokat) {
-    this.advokatService.odbijanjeSlucajaOdAdvokata(slucajAdvokat).subscribe(res => {
-      console.log(res);
-    });
+  redirectToReject(slucajMajstor) {
+    const ids = {majstorId: slucajMajstor.majstorId , slucajId: slucajMajstor.slucaj.id}
+      this.advokatService.odbijanjeSlucajaOdAdvokata(ids).subscribe((res: any) => {
+        console.log(res);
+      });
   }
   handleTabChange(tab) {
     switch (tab.index) {
@@ -188,8 +194,8 @@ export class PregledUgovoraComponent implements OnInit {
         break;
       // filter u procesu
       case 1:
-        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 4 ||
-          ss.slucajStatusId === 7 || ss.slucajStatusId === 1);
+        this.dataSource.data = [...this.sviSlucajevi].filter(ss =>
+          ss.slucajStatusId === 6 || ss.slucajStatusId === 1);
         break;
       // filter odbijeni
       case 2:
@@ -217,6 +223,8 @@ export class PregledUgovoraComponent implements OnInit {
       case 7:
         return 'Ceka se odgovor korisnika';
         break;
+      case 5:
+        return 'Odbili ste ponudu';
       default:
         break;
     }

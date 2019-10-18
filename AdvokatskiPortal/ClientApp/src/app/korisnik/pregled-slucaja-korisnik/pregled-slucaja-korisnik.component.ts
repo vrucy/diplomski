@@ -1,4 +1,4 @@
-import { element } from 'protractor';
+import { PrikazSlucajComponent } from './../../advokat/dialog/prikaz-slucaj/prikaz-slucaj.component';
 import { PrepravitiPonuduComponent } from './../../advokat/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
 import { MatDialog } from '@angular/material/dialog';
 import { pregledSlucajaVM } from './../../model/pregledSlucajaVM';
@@ -28,32 +28,44 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     name: '',
     tabIndex: ''
   };
+  odgovor: any;
   constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
-    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe(res => {
-      this.sviSlucajevi = res;
-      this.handleTabChange(0);
-    });
+
     this.dataSource.filterPredicate = this.tableFilter();
+  }
+  submitPopupForm(result) {
+    console.log('RESULTAT POPUPA', result);
+    this.handleSubmitData(result);
+  }
+
+  private async handleSubmitData(result) {
+    console.log('slanje', result);
+    await this.korisnikService.postavljanjeNoveCeneOdKorisnika(result);
+    // await this.korisnikService.prepravkaSlucajaKorisnika(result);
   }
   openDialogEdit(element): void {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
       // napraviti svoj cenovnik ili prepraviti postojeci???
-      data: Object.assign(new Cenovnik(), element)
+      data: {
+        cenovnik: Object.assign(new Cenovnik(), element),
+        submitCallback: this.submitPopupForm.bind(this),
+        hideUserOptions: false
+      }
     });
     dialogRef.afterClosed().subscribe(async result => {
-
-      const cenovnik = element.cenovnici.find(c => c.majstorId === element.majstorId);
-      cenovnik.komentar = result.komentar;
-      cenovnik.kolicina = result.kolicina;
-      cenovnik.vrstaPlacanja = result.vrstaPlacanja;
-      this.cenovnik = result.cenovnik;
+      // const cenovnik = element.cenovnici.find(c => c.majstorId === element.majstorId);
+      // const cenovnik = element.cenovnici;
+      // cenovnik.komentar = result.komentar;
+      // cenovnik.kolicina = result.kolicina;
+      // cenovnik.vrstaPlacanja = result.vrstaPlacanja;
+      // this.cenovnik = result.cenovnik;
       // this.cenovnik.SlucajId = element.slucaj.id;
       // this.cenovnik.MajstorId = element.majstorId;
       // ovako cu pokusati resiti automacki refresh tabele
 
-      await this.korisnikService.postavljanjeNoveCeneOdKorisnika(cenovnik);
-      this.korisnikService.prepravkaSlucajaKorisnika(cenovnik);
+      // await this.korisnikService.postavljanjeNoveCeneOdKorisnika(cenovnik);
+      // this.korisnikService.prepravkaSlucajaKorisnika(cenovnik);
     });
   }
   openDialogPrikazSlucaja(element): void {
@@ -61,15 +73,22 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
       return s;
     });
-    const dialogRef = this.dialog.open(PrikazSLucajaKorisnikComponent, {
-      width: '250px',
-      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: baseSlike }
+    const dialogRef = this.dialog.open(PrikazSlucajComponent, {
+      width: '40%',
+      height: '70%',
+      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: element.slucaj.slike }
     });
     dialogRef.afterClosed().subscribe(result => {
       element.odgovor = result;
+      this.odgovor = result;
     });
   }
   ngOnInit() {
+    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
+      this.sviSlucajevi = res;
+      console.log(this.sviSlucajevi);
+      this.handleTabChange(0);
+    });
     this.nameFilter.valueChanges
       .subscribe(
         name => {
@@ -180,7 +199,8 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       // filter u procesu
       case 1:
         this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 4 ||
-          ss.slucajStatusId === 7 || ss.slucajStatusId === 1);
+          ss.slucajStatusId === 7 );
+          // || ss.slucajStatusId === 1
         break;
       // filter odbijeni
       case 2:

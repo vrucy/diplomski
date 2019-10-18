@@ -51,11 +51,9 @@
         <!-- <div *ngIf="element.slucaj.cenovnik === null || element.slucaj.cenovnik.statusId !== 2; else content1"> -->
         <div *ngIf="element.slucajStatusId === 6 || element.slucajStatusId === 1 ; else content">
             <!-- <div *ngIf="element.slucajStatus === 1; else prihvacen" > -->
-          <div *ngIf="element.slucajStatusId !== 1">
-          <button mat-icon-button (click)="openDialog(element)">
+          <button mat-icon-button (click)="openDialog(element)" *ngIf="element.slucajStatusId !== 1">
             <mat-icon class="material-icons">done </mat-icon>
           </button>
-        </div>
           <button mat-icon-button (click)="openDialogEdit(element)">
             <mat-icon class="material-icons">edit</mat-icon>
           </button>

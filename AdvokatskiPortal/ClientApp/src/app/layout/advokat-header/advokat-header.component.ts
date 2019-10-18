@@ -35,7 +35,6 @@ export class AdvokatHeaderComponent implements OnInit, AfterContentInit {
 
   clearCount() {
     if (this.badgeCount !== 0) {
-      this.advokatService.putNostificationRead(this.newNostifation).subscribe();
       this.badgeCount = 0;
     }
   }

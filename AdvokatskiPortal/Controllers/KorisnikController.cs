@@ -34,7 +34,9 @@ namespace AdvokatskiPortal.Controllers
             try
             {
                 var x = User.Claims.FirstOrDefault().Value;
-                var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x);
+                var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(sm => sm.SlucajMajstors);
+
+                var noviSlucajevi = korsinikSlucajevi.Where(y => y.SlucajMajstors == null);
 
                 return korsinikSlucajevi;
             }
@@ -63,8 +65,7 @@ namespace AdvokatskiPortal.Controllers
                         t.Majstor.Ime,
                         t.Majstor.Prezime,
                         MajstorId = t.MajstorId,
-                        cenovnici = t.Slucaj.Cenovniks.Single(s => s.MajstorId == t.MajstorId && s.SlucajId == t.Slucaj.Id)
-                        != null ? t.Slucaj.Cenovniks.Single(s => s.MajstorId == t.MajstorId && s.SlucajId == t.Slucaj.Id) : null,
+                        cenovnici = HandleCenovnik(t.Slucaj.Cenovniks.Single(s => s.MajstorId == t.MajstorId && s.SlucajId == t.Slucaj.Id)),
                         //vrstaPlacanja = t.Slucaj.Cenovniks != null ? t.Slucaj.Cenovniks.FirstOrDefault().vrstaPlacanja : null,
                         //kolicina = t.Slucaj.Cenovniks != null ? t.Slucaj.Cenovniks.FirstOrDefault().kolicina : null,
                         //idMajstoraCenovnik = t.Slucaj.Cenovniks != null ? t.Slucaj.Cenovniks.FirstOrDefault().IdenityId : null,
@@ -79,12 +80,24 @@ namespace AdvokatskiPortal.Controllers
                             Id = t.SlucajId,
                             t.Slucaj.Naziv,
                             t.Slucaj.Opis,
-                            t.Slucaj.Slike
+                            Slike = t.Slucaj.Slike.Select(slika => new { slika.slikaProp })
                         }
                     };
-                });
+                }).ToList();
            
             return Ok(result);
+        }
+        private object HandleCenovnik(Cenovnik cenovnik)
+        {
+            if (cenovnik == null)
+                return null;
+
+            return new
+            {
+                cenovnik.kolicina,
+                cenovnik.zavrsetakRada,
+                cenovnik.vrstaPlacanja
+            };
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetKorisnik([FromRoute] int id)
@@ -104,19 +117,23 @@ namespace AdvokatskiPortal.Controllers
             return Ok(korisnik);
         }
         [HttpGet("getNewNostifiation")]
-        public IEnumerable<string> getNewNostifiationSlucaj()
+        public IActionResult getNewNostifiationSlucaj()
         {
             try
             {
                 var cliems = User.Claims.FirstOrDefault();
-                var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
-                var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(m => m.Majstor).Include(s => s.Slucaj).ToList();
+                var ulogovaniKorisnik = _context.Korisniks.Where(x => x.Idenity.Id == cliems.Value).Include(i => i.Idenity).Single();
+                //var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(m => m.Majstor).Include(s => s.Slucaj).ToList();
 
-                List<string> nost = noviSlucajevi.Select(s => "dobili ste novi slucaj " + s.Slucaj.Opis + " od " + s.Majstor.Ime + " " + s.Majstor.Prezime).ToList();
-                var odbijeniSlucajevi = _context.SlucajMajstors.Where(os => os.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && os.isReadOdbijenAdvokat == false);
-                nost = odbijeniSlucajevi.Select(o => o.Majstor.Ime + " " + o.Majstor.Prezime + " vas je odbio za slucaj " + o.Slucaj.Opis).ToList();
+                var notification = _context.Notifications.Where(n => n.UserId == ulogovaniKorisnik.Idenity.Id && n.isRead == false);
 
-                return nost;
+                foreach (var item in notification)
+                {
+                    item.isRead = true;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+                _context.SaveChanges();
+                return Ok(notification);
 
             }
             catch (Exception e)
@@ -126,7 +143,7 @@ namespace AdvokatskiPortal.Controllers
             }
         }
         [HttpPut("putNewNostifiationReadKorisnik")]
-        public async Task<IActionResult> putNewNostifiationReadKorisnik([FromBody] SlucajMajstor nostification)
+        public IActionResult putNewNostifiationReadKorisnik([FromBody] List<SlucajMajstor> nostification)
         {
             var cliems = User.Claims.FirstOrDefault();
             var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
@@ -140,36 +157,10 @@ namespace AdvokatskiPortal.Controllers
 
 
             return Ok(nost);
-            await _context.SaveChangesAsync();
-            return Ok(nost);
+            //await _context.SaveChangesAsync();
+            
         }
-        //[HttpGet("getNewNostifiationOdbijeni")]
-        //public IEnumerable<string> getNewNostifiation()
-        //{
-        //    List<string> nost = new List<string>();
-
-        //    try
-        //    {
-        //        var cliems = User.Claims.FirstOrDefault();
-        //        var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
-        //        var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Slucaj.KorisnikId == ulogovaniKorisnik.Id && s.isReadOdbijenKorisnik == false).ToList();
-        //        foreach (var item in noviSlucajevi)
-        //        {
-        //            if (item.SlucajStatusId == 5 )
-        //            {
-        //                nost.Add(item.Majstor.Ime + item.Majstor.Prezime + "vas je odbio za slucaj" + item.Slucaj.Opis);
-        //            }
-
-        //        }
-        //        return nost;
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //        throw;
-        //    }
-        //    // potrebno prebaciti isRead na true;
-        //}
+       
         [HttpPut("putNewNostifiationRead")]
         public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor nostification)
         {
@@ -295,7 +286,13 @@ namespace AdvokatskiPortal.Controllers
                         SlucajId = slucajVM.Slucaj.Id,
                         SlucajStatusId = 1
                     };
-
+                    var notification = new Notification
+                    {
+                        UserId = newSlucajAdvokat.MajstorIdStr,
+                        TimeStamp = DateTime.UtcNow,
+                        isRead = false,
+                        NotificationText = $"{ulogovaniKorisnik.Ime} vam je dodao slucaj:  {newSlucajAdvokat.Slucaj.Naziv}"
+                    };
                     var cenovnik = new Cenovnik
                     {
                         MajstorId = majstor.Id,
@@ -304,7 +301,7 @@ namespace AdvokatskiPortal.Controllers
                     };
                     _context.SlucajMajstors.Add(newSlucajAdvokat);
                     _context.Cenovniks.Add(cenovnik);
-
+                    _context.Notifications.Add(notification);
                 }
                 _context.SaveChanges();
             }
@@ -322,13 +319,26 @@ namespace AdvokatskiPortal.Controllers
 
             try
             {
+                var noviCenovnik = _context.Cenovniks.Single(c => c.MajstorId == noviCenovnikVM.MajstorId && c.SlucajId == noviCenovnikVM.Slucaj.Id);
                 var cliems = User.Claims.First();
                 var ulogovaniKorisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
-                noviCenovnikVM.IdenityId = cliems.Value;
-                var slucaj = _context.SlucajMajstors.Single(x => x.MajstorId == noviCenovnikVM.MajstorId && x.SlucajId == noviCenovnikVM.Slucaj.Id);
-                noviCenovnikVM.StatusId = 1;
-                noviCenovnikVM.SlucajId = noviCenovnikVM.Slucaj.Id;
-                _context.Entry(noviCenovnikVM).State = EntityState.Modified;
+                noviCenovnik.kolicina = noviCenovnikVM.kolicina;
+                noviCenovnik.vrstaPlacanja= noviCenovnikVM.vrstaPlacanja;
+                noviCenovnik.komentar = noviCenovnikVM.komentar;
+
+                _context.Entry(noviCenovnik).State = EntityState.Modified;
+                var slucaj = _context.SlucajMajstors.Where(x => x.MajstorId == noviCenovnikVM.MajstorId && x.SlucajId == noviCenovnikVM.Slucaj.Id)
+                                                          .Include(m =>m.Majstor).ThenInclude(i=>i.Idenity).Include(s => s.Slucaj).ThenInclude(k=>k.Korisnik).Single();
+                var notification = new Notification
+                {
+                    UserId = slucaj.Majstor.Idenity.Id,
+                    TimeStamp = DateTime.UtcNow,
+                    isRead = false,
+                    NotificationText = $"{slucaj.Slucaj.Korisnik.Ime} je prepravio slucaj:  {slucaj.Slucaj.Naziv}"
+                };
+                slucaj.SlucajStatusId = 6;
+                _context.Entry(slucaj).State = EntityState.Modified;
+                _context.Notifications.Add(notification);
 
                 await _context.SaveChangesAsync();
             }
@@ -348,7 +358,8 @@ namespace AdvokatskiPortal.Controllers
             try
             {
                 // rucno nabajdovati slucaj Id slicno i gore treba
-               // slucajMajstor.SlucajId = slucajMajstor.Slucaj.Id;
+                // slucajMajstor.SlucajId = slucajMajstor.Slucaj.Id;
+                
                 var slucaj = _context.SlucajMajstors.Single(x => x.MajstorId == slucajMajstor.MajstorId && x.SlucajId == slucajMajstor.Slucaj.Id);
                 slucaj.SlucajStatusId = 6;
                 _context.Entry(slucaj).State = EntityState.Modified;
@@ -372,17 +383,6 @@ namespace AdvokatskiPortal.Controllers
             var x = slucajVm;
             return Ok();
         }
-        //[HttpGet("getSlucajNaCekanju")]
-        //public IEnumerable<SlucajMajstor> getSlucajNaCekanju()
-        //{
-        //    var cliems = User.Claims.First();
-        //    var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
-
-        //    var korsinikSlucajevi = _context.Slucajs.Where(s => s.Korisnik == ulogovaniKorisnik).Select(i => i.Id);
-        //    var sviSlucajiKorisnika = _context.SlucajMajstors.Where(d => d.SlucajStatusId == 1).Include(a => a.Majstor).Include(s => s.Slucaj).ThenInclude(c => c.Cenovniks);
-
-        //    return sviSlucajiKorisnika;
-        //}
 
         [HttpPut("prihvacenSlucajKorisnik")]
         public async Task<IActionResult> prihvacenSlucajKorisnik([FromBody] acceptVM ids)
@@ -392,10 +392,10 @@ namespace AdvokatskiPortal.Controllers
 
             //slucajMajstor.SlucajStatusId = 4;
             var slucaj = _context.Slucajs.SingleOrDefault(c => c.Id == ids.slucajId)/*.StatusId = 2*/;
-            var x = _context.SlucajMajstors.Where(sl => sl.Slucaj.KorisnikId == ulogovaniKorisnik.Id 
+            var slucajMajstor = _context.SlucajMajstors.Where(sl => sl.Slucaj.KorisnikId == ulogovaniKorisnik.Id 
                                                   && sl.SlucajId == ids.slucajId);
             List<int> odbijeniAdvokatiId = new List<int>();
-            foreach (var item in x)
+            foreach (var item in slucajMajstor)
             {
                 if (item.MajstorId == ids.majstorId)
                 {
@@ -408,6 +408,15 @@ namespace AdvokatskiPortal.Controllers
                 }
                 _context.Entry(item).State = EntityState.Modified;
             }
+            var majstor = _context.Majstors.Where(x => x.Id == ids.majstorId).Include(i => i.Idenity).Single();
+            var notification = new Notification
+            {
+                UserId = majstor.Idenity.Id,
+                TimeStamp = DateTime.UtcNow,
+                isRead = false,
+                NotificationText = $"{ulogovaniKorisnik.Ime} je prihvatio slucaj:  {slucaj.Naziv}"
+            };
+            _context.Notifications.Add(notification);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -415,9 +424,18 @@ namespace AdvokatskiPortal.Controllers
         [HttpPut("odbijenSlucajOdKorisnika")]
         public async Task<IActionResult> odbijenSlucajOdKorisnika([FromBody] SlucajMajstor slucajMajstor)
         {
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
 
             var slucaj = _context.SlucajMajstors.Single(x => x.MajstorId == slucajMajstor.MajstorId && x.Slucaj.Id == slucajMajstor.Slucaj.Id);
-            
+            var notification = new Notification
+            {
+                UserId = slucajMajstor.MajstorIdStr,
+                TimeStamp = DateTime.UtcNow,
+                isRead = false,
+                NotificationText = $"{ulogovaniKorisnik.Ime} je odbio slucaj:  {slucajMajstor.Slucaj.Naziv}"
+            };
+            _context.Notifications.Add(notification);
             slucaj.SlucajStatusId = 5;
             _context.Entry(slucaj).State = EntityState.Modified;
             await _context.SaveChangesAsync();

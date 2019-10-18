@@ -13,9 +13,7 @@ export class PrikazSlucajComponent {
 
   constructor( public dialogRef: MatDialogRef<PrikazSlucajComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log(data.slike);
       this.images = data.slike.map((s) => s.slikaProp);
-      console.log(this.images);
     }
 
     close(): void {

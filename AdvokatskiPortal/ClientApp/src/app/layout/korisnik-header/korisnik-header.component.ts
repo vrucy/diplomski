@@ -1,3 +1,4 @@
+import { AdvokatService } from './../../service/advokat.service';
 import { NotificationService } from './../../service/notification.service';
 import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit,  AfterViewInit } from '@angular/core';
@@ -17,7 +18,8 @@ export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
   _type: string;
   badgeCount;
 
-  constructor(private korisnikService: KorisnikService,private notificationService: NotificationService,  private auth: AuthService) {
+  constructor(private korisnikService: KorisnikService,private notificationService: NotificationService,
+              private auth: AuthService, private advokatService:AdvokatService) {
     this._type = this.auth.typeUserValue;
     this.badgeCount = this.notificationService.count;
     console.log(this.notificationService.count);
@@ -28,20 +30,19 @@ export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.ulogovaniKorisnik = localStorage.getItem('userName');
-    this.korisnikService.resetNotification().subscribe(res => {
-      console.log(res);
-    });
-    // this.korisnikService.getNewNostifiation().subscribe( (res: any) => {
-    //   this.notificationService.setNotifications(res);
-    //   this.badgeCount = this.notificationService.count;
-    //   console.log(this.badgeCount);
+    // this.korisnikService.resetNotification().subscribe(res => {
+    //   console.log(res);
     // });
+    this.advokatService.getNewNostifiation().subscribe( (res: any) => {
+      this.notificationService.setNotifications(res);
+      this.badgeCount = this.notificationService.count;
+      console.log(this.badgeCount);
+    });
   }
   clearCount() {
-    console.log(this.notificationService.count)
+    console.log(this.notificationService.count);
     if (this.notificationService.notifications.length !== 0) {
       // this.advokatService.putNostificationRead(this.newNostifation).subscribe();
-      console.log(this.notificationService.notifications)
       this.badgeCount = 0;
     }
   }

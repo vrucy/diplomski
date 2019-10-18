@@ -89,7 +89,7 @@ export class SlanjeSlucajaComponent implements OnInit {
       thridCtrl: ['', Validators.required]
     });
 
-    this.korsinikService.getAllSlucajForKorisnik().subscribe(res => {
+    this.korsinikService.getAllSlucajForKorisnik().subscribe((res: any) => {
       this.slucajevi = res;
       console.log(this.slucajevi)
     });

@@ -1,7 +1,7 @@
 <mat-card>
   <mat-list *ngIf="notificationService.notifications">
     <mat-list-item *ngFor="let n of notificationService.notifications">
-      <p mat-line>{{n}}</p>
+      <p mat-line>{{writeNotification(n)}}</p>
     </mat-list-item>
   </mat-list>
   <p *ngIf="!notificationService.notifications">No Notifications</p>

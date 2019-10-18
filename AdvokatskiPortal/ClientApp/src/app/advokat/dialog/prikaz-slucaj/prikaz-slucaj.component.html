@@ -5,21 +5,17 @@
 <mat-form-field>
   <input matInput [(ngModel)]="data.opis" />
 </mat-form-field>
-<!-- <slideshow [imageUrls]="images">
-
-</slideshow> -->
-<slideshow [height]="'300px'"
-[minHeight]="'525px'"
+<slideshow *ngIf="images; else context" [height]="'200px'"
+[minHeight]="'325px'"
 [showArrows]="true"
 [imageUrls]="images"
-[lazyLoad]="images?.length > 1"
-[autoPlayWaitForLazyLoad]="true"> -->
-<!-- <div *ngFor="let slika of data.slike"> -->
-  <!-- {{slika.slikaProp}} -->
-   <!-- <img [src]='slika.slikaProp'>
-  <!-- <img [src]='images[0]'> -->
-
-<!-- </div> -->
+[lazyLoad]="images.length > 1"
+[autoPlayWaitForLazyLoad]="true">
 <div mat-dialog-actions>
   <button mat-button (click)="close()">Zatvori</button>
 </div>
+<button> test</button>
+
+<ng-template #context>
+  Nema slika
+</ng-template>

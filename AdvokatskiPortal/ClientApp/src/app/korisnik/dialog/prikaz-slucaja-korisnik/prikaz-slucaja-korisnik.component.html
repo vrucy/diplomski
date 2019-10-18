@@ -5,9 +5,13 @@
 <mat-form-field>
   <input matInput [(ngModel)]="data.opis" />
 </mat-form-field>
-<slideshow [imageUrls]="data.slike.slikaProp">
 
-</slideshow>
+<slideshow [height]="'300px'"
+[minHeight]="'525px'"0
+[showArrows]="true"
+[imageUrls]="images"
+[lazyLoad]="images?.length > 1"
+[autoPlayWaitForLazyLoad]="true">
 <!-- <div *ngFor="let slika of data.slike"> -->
   <!-- {{slika.slikaProp}} -->
    <!-- <img [src]='slika.slikaProp'> -->

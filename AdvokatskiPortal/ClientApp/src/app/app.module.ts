@@ -9,7 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { RoutingModule} from './routing.module';
 import { HttpErrorInterceptor } from './service/http-error.interceptor';
-
+import * as _moment from 'moment';
 import { AuthGuard } from './service/authGuard';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';

@@ -41,11 +41,11 @@ export class AdvokatService {
       console.log(res)
     })
   }
-  prihvatanjeSlucajaOdAdvokata(slucajAdvokat) {
-    return this.http.put(` http://localhost:44345/api/Advokat/prihvatanjeSlucajaAdvokata`, slucajAdvokat);
+  prihvatanjeSlucajaOdAdvokata(slucajMajstor) {
+    return this.http.put(` http://localhost:44345/api/Advokat/prihvatanjeSlucajaAdvokata`, slucajMajstor);
   }
   odbijanjeSlucajaOdAdvokata(slucajAdvokat) {
-    return this.http.put(` http://localhost:44345/api/Advokat/odbijanjeSlucajaAdvokata`, slucajAdvokat);
+    return this.http.put(' http://localhost:44345/api/Advokat/odbijanjeSlucajaAdvokata', slucajAdvokat);
   }
   postKategorija(kategorija) {
     return this.http.post('http://localhost:44345/api/Advokat/postKategorija', kategorija).subscribe(res => {

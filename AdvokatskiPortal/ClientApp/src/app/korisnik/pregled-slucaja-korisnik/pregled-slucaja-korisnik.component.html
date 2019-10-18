@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="handleTabChange($event)">
+<mat-tab-group (selectedTabChange)="handleTabChange($event)" class="tab">
   <mat-tab label="Prihvaceni">
   </mat-tab>
   <mat-tab label="U Procesu">
@@ -10,7 +10,7 @@
 </mat-tab-group>
 
 <mat-card>
-  <mat-form-field>
+  <mat-form-field class ="search">
     <mat-label>Search</mat-label>
     <input matInput [formControl]="nameFilter">
   </mat-form-field>
@@ -42,17 +42,13 @@
     <ng-container matColumnDef="zavrsetakRada">
       <th mat-header-cell *matHeaderCellDef>Zavrsetak rada</th>
       <td mat-cell *matCellDef="let element">
-        {{element.cenovnici.zavrsetakRada}}
+        {{element.cenovnici.zavrsetakRada | date: 'mediumDate'}}
       </td>
     </ng-container>
     <ng-container matColumnDef="vrstaPlacanja">
       <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
       <td mat-cell *matCellDef="let element">
-        <!-- <div *ngFor="let cenovnik of element.cenovnici"> -->
-        <!-- <div *ngIf="cenovnik.idenityId === element.idMajstor"> -->
         {{element.cenovnici.vrstaPlacanja}}
-        <!-- </div> -->
-        <!-- </div> -->
       </td>
     </ng-container>
     <ng-container matColumnDef="opis">
