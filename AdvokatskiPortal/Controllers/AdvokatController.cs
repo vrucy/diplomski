@@ -116,6 +116,7 @@ namespace AdvokatskiPortal.Controllers
                     c.Slucaj.Opis,
                     c.Slucaj.Naziv
                 },
+                c.zavrsetakRada,
                 Kolicina = c.kolicina,
                 VrstaPlacanja = c.vrstaPlacanja,
                 SlucajStatusId = c.Slucaj.SlucajMajstors.First(sm => sm.SlucajId == c.Slucaj.Id && sm.MajstorId == c.Majstor.Id).SlucajStatusId,
@@ -232,8 +233,17 @@ namespace AdvokatskiPortal.Controllers
         public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] Cenovnik slucajMajstor)
         {
             //slucajMajstor.Slucaj.ZavrsetakRada = slucajMajstor.Slucaj.ZavrsetakRada;
+            var cliems = User.Claims.First();
+            var ulogovaniKorisnik = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
             var slucaj = _context.SlucajMajstors.Where(x => x.MajstorId == slucajMajstor.MajstorId && x.SlucajId == slucajMajstor.Slucaj.Id)
                                                         .Include(m => m.Majstor).Include(s => s.Slucaj).ThenInclude(k => k.Korisnik).ThenInclude(i => i.Idenity).Single();
+            var noviCenovnik = _context.Cenovniks.Single(c => c.MajstorId == slucajMajstor.MajstorId && c.SlucajId == slucajMajstor.Slucaj.Id);
+            noviCenovnik.kolicina = slucajMajstor.kolicina;
+            noviCenovnik.vrstaPlacanja = slucajMajstor.vrstaPlacanja;
+            noviCenovnik.komentar = slucajMajstor.komentar;
+
+            _context.Entry(noviCenovnik).State = EntityState.Modified;
+
             var notification = new Notification
             {
                 UserId = slucaj.Slucaj.Korisnik.Idenity.Id,

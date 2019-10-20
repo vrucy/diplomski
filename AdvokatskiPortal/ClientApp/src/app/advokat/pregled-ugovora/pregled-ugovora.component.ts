@@ -77,22 +77,6 @@ export class PregledUgovoraComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(result);
-
-      // element.cenovnik = result;
-      // element.zavrsetakRada = result.zavrsetakRada;
-      // this.cenovnik = result.cenovnik;
-      // this.cenovnik.SlucajId = element.slucaj.id;
-      // this.cenovnik.StatusId = element.statusId;
-      // this.cenovnik.MajstorId = element.majstorId;
-
-      // if (element.slucajStatusId === 1) {
-      //   await this.advokatService.postavljanjeNoveCeneOdAdvokata(this.cenovnik);
-      //   this.advokatService.prepravkaSlucajaAdvokata(element);
-      // } else {
-      // result.zavrsetakRada = element;
-      // this.advokatService.prepravkaCeneOdAdvokata(result);
-      // this.advokatService.prepravkaSlucajaAdvokata(result);
-      // }
     });
   }
   submitPopupForm(result) {

@@ -36,7 +36,7 @@ export class NotificationComponent implements OnInit {
         future: 'u %s',
         past: 'pre %s',
         s:  'sekunda',
-        ss: '%s sekundi',
+        ss: '%d sekundi',
         m:  'minut',
         mm: '%d minuta',
         h:  'sat',

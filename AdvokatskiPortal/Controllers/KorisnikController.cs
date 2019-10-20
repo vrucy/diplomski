@@ -291,7 +291,7 @@ namespace AdvokatskiPortal.Controllers
                         UserId = newSlucajAdvokat.MajstorIdStr,
                         TimeStamp = DateTime.UtcNow,
                         isRead = false,
-                        NotificationText = $"{ulogovaniKorisnik.Ime} vam je dodao slucaj:  {newSlucajAdvokat.Slucaj.Naziv}"
+                        NotificationText = $"{ulogovaniKorisnik.Ime} vam je dodao slucaj:  {slucajVM.Slucaj.Naziv}"
                     };
                     var cenovnik = new Cenovnik
                     {
