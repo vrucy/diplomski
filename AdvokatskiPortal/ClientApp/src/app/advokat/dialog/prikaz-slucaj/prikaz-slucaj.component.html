@@ -1,21 +1,26 @@
-<label></label>
-<mat-form-field>
-  <input matInput [(ngModel)]="data.naziv" />
-</mat-form-field>
-<mat-form-field>
-  <input matInput [(ngModel)]="data.opis" />
-</mat-form-field>
-<slideshow *ngIf="images; else context" [height]="'200px'"
-[minHeight]="'325px'"
-[showArrows]="true"
-[imageUrls]="images"
-[lazyLoad]="images.length > 1"
-[autoPlayWaitForLazyLoad]="true">
-<div mat-dialog-actions>
-  <button mat-button (click)="close()">Zatvori</button>
-</div>
-<button> test</button>
+<div style="display: flex;">
+  <div class="prikaz">
 
-<ng-template #context>
-  Nema slika
-</ng-template>
+    <mat-label>Naziv</mat-label>
+    <mat-form-field>
+      <input matInput [disabled]="true" [(ngModel)]="data.naziv" />
+    </mat-form-field>
+  </div>
+  <div class="prikaz">
+    <mat-label>Opis</mat-label>
+    <mat-form-field>
+      <input matInput [disabled]="true" [(ngModel)]="data.opis" />
+    </mat-form-field>
+  </div>
+</div>
+<slideshow *ngIf="images; else context" [height]="'200px'" [minHeight]="'325px'" [showArrows]="true"
+           [imageUrls]="images" [lazyLoad]="images.length > 1" [autoPlayWaitForLazyLoad]="true">
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="close()">Zatvori</button>
+  </div>
+  <button mat-button (click)="close()">Zatvori</button>
+
+  <ng-template #context>
+    Nema slika
+  </ng-template>

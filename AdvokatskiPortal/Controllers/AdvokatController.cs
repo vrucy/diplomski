@@ -44,19 +44,23 @@ namespace AdvokatskiPortal.Controllers
                 var ulogovaniKorisnik = _context.Users.Where(x => x.Id == cliems.Value).Single();
 
                 var notification = _context.Notifications.Where(n => n.UserId == ulogovaniKorisnik.Id && n.isRead == false).ToList();
-                var notif = notification
-                    .Select(n =>
-                    {
-                        _context.Entry(n).State = EntityState.Detached;
-                        n.isRead = true;
-                        _context.Set<Notification>().Attach(n);
-                        _context.Entry(n).State = EntityState.Modified;
-                        return n;
-                    });
-
+                //var notif = notification
+                //    .Select(n =>
+                //    {
+                //        _context.Entry(n).State = EntityState.Detached;
+                //        n.isRead = true;
+                //        _context.Set<Notification>().Attach(n);
+                //        _context.Entry(n).State = EntityState.Modified;
+                //        return n;
+                //    });
+                foreach (var item in notification)
+                {
+                    item.isRead = true;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
                 _context.SaveChanges();
 
-                return Ok(notif);
+                return Ok(notification);
             }
             catch
             {
@@ -116,7 +120,7 @@ namespace AdvokatskiPortal.Controllers
                     c.Slucaj.Opis,
                     c.Slucaj.Naziv
                 },
-                c.zavrsetakRada,
+                c.Slucaj.KrajnjiRokZaOdgovor,
                 Kolicina = c.kolicina,
                 VrstaPlacanja = c.vrstaPlacanja,
                 SlucajStatusId = c.Slucaj.SlucajMajstors.First(sm => sm.SlucajId == c.Slucaj.Id && sm.MajstorId == c.Majstor.Id).SlucajStatusId,
@@ -214,7 +218,7 @@ namespace AdvokatskiPortal.Controllers
                 var notification = new Notification
                 {
                     UserId = slucajMajstor.Slucaj.Korisnik.Idenity.Id,
-                    TimeStamp = DateTime.UtcNow,
+                    TimeStamp = DateTime.UtcNow.ToLocalTime(),
                     isRead = false,
                     NotificationText = $"{slucajMajstor.Majstor.Ime} je prihvatio da radi na slucaju:  {slucajMajstor.Slucaj.Naziv}"
                 };
@@ -241,13 +245,14 @@ namespace AdvokatskiPortal.Controllers
             noviCenovnik.kolicina = slucajMajstor.kolicina;
             noviCenovnik.vrstaPlacanja = slucajMajstor.vrstaPlacanja;
             noviCenovnik.komentar = slucajMajstor.komentar;
-
+            noviCenovnik.PocetakRada = slucajMajstor.PocetakRada;
+            noviCenovnik.zavrsetakRada = slucajMajstor.zavrsetakRada;
             _context.Entry(noviCenovnik).State = EntityState.Modified;
 
             var notification = new Notification
             {
                 UserId = slucaj.Slucaj.Korisnik.Idenity.Id,
-                TimeStamp = DateTime.UtcNow,
+                TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
                 NotificationText = $"{slucaj.Majstor.Ime} je prepravio slucaj:  {slucaj.Slucaj.Naziv}"
             };
@@ -269,7 +274,7 @@ namespace AdvokatskiPortal.Controllers
             var notification = new Notification
             {
                 UserId = slucaj.Slucaj.Korisnik.Idenity.Id,
-                TimeStamp = DateTime.UtcNow,
+                TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
                 NotificationText = $"{slucaj.Majstor.Ime} je odbio slucaj:  {slucaj.Slucaj.Naziv}"
             };

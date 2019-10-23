@@ -11,13 +11,6 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-
-    <mat-form-field>
-      <input matInput [(ngModel)]="slucaj.PocetakRada" [matDatepicker]="picker1" placeholder="Izaberite pocetak Rada">
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-
     <mat-form-field>
       <mat-select (selectionChange)="onParentChanged($event)" placeholder="Unesite Kategoriju">
         <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija.id">

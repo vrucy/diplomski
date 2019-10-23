@@ -17,7 +17,7 @@ import { PrikazSLucajaKorisnikComponent } from '../dialog/prikaz-slucaja-korisni
 })
 export class PregledSlucajaKorisnikComponent implements OnInit {
 
-  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'zavrsetakRada', 'opis', 'button'];
+  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'pocetakRada', 'zavrsetakRada', 'opis', 'button'];
   public dataSource = new MatTableDataSource<pregledSlucajaVM>();
 
   nameFilter = new FormControl('');
@@ -199,7 +199,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       // filter u procesu
       case 1:
         this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 4 ||
-          ss.slucajStatusId === 7 );
+          ss.slucajStatusId === 7 || ss.slucajStatusId === 1 );
           // || ss.slucajStatusId === 1
         break;
       // filter odbijeni

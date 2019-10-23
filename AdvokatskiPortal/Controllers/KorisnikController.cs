@@ -96,6 +96,7 @@ namespace AdvokatskiPortal.Controllers
             {
                 cenovnik.kolicina,
                 cenovnik.zavrsetakRada,
+                cenovnik.PocetakRada,
                 cenovnik.vrstaPlacanja
             };
         }
@@ -142,47 +143,48 @@ namespace AdvokatskiPortal.Controllers
                 throw;
             }
         }
-        [HttpPut("putNewNostifiationReadKorisnik")]
-        public IActionResult putNewNostifiationReadKorisnik([FromBody] List<SlucajMajstor> nostification)
-        {
-            var cliems = User.Claims.FirstOrDefault();
-            var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
+        //[HttpPut("putNewNostifiationReadKorisnik")]
+        //public IActionResult putNewNostifiationReadKorisnik([FromBody] List<SlucajMajstor> nostification)
+        //{
+        //    var cliems = User.Claims.FirstOrDefault();
+        //    var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
 
-            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(m => m.Majstor).Include(s => s.Slucaj).ToList();
+        //    var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && s.isRead == false).Include(m => m.Majstor).Include(s => s.Slucaj).ToList();
 
-            List<string> nost = noviSlucajevi.Select(s => "dobili ste novi slucaj " + s.Slucaj.Opis + " od " + s.Majstor.Ime + " " + s.Majstor.Prezime).ToList();
-            var odbijeniSlucajevi = _context.SlucajMajstors.Where(os => os.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && os.isReadOdbijenAdvokat == false);
-            nost = odbijeniSlucajevi.Select(o => o.Majstor.Ime + " " + o.Majstor.Prezime + " vas je odbio za slucaj " + o.Slucaj.Opis).ToList();
+        //    List<string> nost = noviSlucajevi.Select(s => "dobili ste novi slucaj " + s.Slucaj.Opis + " od " + s.Majstor.Ime + " " + s.Majstor.Prezime).ToList();
+        //    var odbijeniSlucajevi = _context.SlucajMajstors.Where(os => os.Slucaj.Korisnik.Id == ulogovaniKorisnik.Id && os.isReadOdbijenAdvokat == false);
+        //    nost = odbijeniSlucajevi.Select(o => o.Majstor.Ime + " " + o.Majstor.Prezime + " vas je odbio za slucaj " + o.Slucaj.Opis).ToList();
 
 
 
-            return Ok(nost);
-            //await _context.SaveChangesAsync();
+        //    return Ok(nost);
+        //    //await _context.SaveChangesAsync();
             
-        }
+        //}
        
-        [HttpPut("putNewNostifiationRead")]
-        public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor nostification)
-        {
-            var cliems = User.Claims.FirstOrDefault();
-            var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
-            var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false );
-            foreach (var item in noviSlucajevi)
-            {
-                item.isRead = true;
-                _context.Entry(item).State = EntityState.Modified;
-            }
+        //[HttpPut("putNewNostifiationRead")]
+        //public async Task<IActionResult> putNewNostifiationRead([FromBody] SlucajMajstor nostification)
+        //{
+        //    var cliems = User.Claims.FirstOrDefault();
+        //    var ulogovaniKorisnik = _context.Korisniks.SingleOrDefault(x => x.Idenity.Id == cliems.Value);
+        //    var noviSlucajevi = _context.SlucajMajstors.Where(s => s.Majstor.Id == ulogovaniKorisnik.Id && s.isRead == false );
+        //    foreach (var item in noviSlucajevi)
+        //    {
+        //        item.isRead = true;
+        //        _context.Entry(item).State = EntityState.Modified;
+        //    }
 
-            await _context.SaveChangesAsync();
-            return Ok(nostification);
-        }
+        //    await _context.SaveChangesAsync();
+        //    return Ok(nostification);
+        //}
         [HttpGet("getAllMajstori")]
         public IActionResult getAllMajstori()
         {
 
             try
             {
-                return Ok(_context.Majstors.Include(k => k.Kategorije).Include(i => i.Idenity));
+                var x = _context.Majstors.Include(k => k.Kategorije).ThenInclude(ka=>ka.Kategorija).Include(i => i.Idenity);
+                return Ok(x);
             }
             catch (Exception e)
             {
@@ -282,14 +284,14 @@ namespace AdvokatskiPortal.Controllers
                     {
                         MajstorId = majstor.Id,
                         MajstorIdStr = majstor.Idenity.Id,
-                        datumKreiranja = DateTime.UtcNow,
+                        datumKreiranja = DateTime.UtcNow.ToLocalTime(),
                         SlucajId = slucajVM.Slucaj.Id,
                         SlucajStatusId = 1
                     };
                     var notification = new Notification
                     {
                         UserId = newSlucajAdvokat.MajstorIdStr,
-                        TimeStamp = DateTime.UtcNow,
+                        TimeStamp = DateTime.UtcNow.ToLocalTime(),
                         isRead = false,
                         NotificationText = $"{ulogovaniKorisnik.Ime} vam je dodao slucaj:  {slucajVM.Slucaj.Naziv}"
                     };
@@ -332,7 +334,7 @@ namespace AdvokatskiPortal.Controllers
                 var notification = new Notification
                 {
                     UserId = slucaj.Majstor.Idenity.Id,
-                    TimeStamp = DateTime.UtcNow,
+                    TimeStamp = DateTime.UtcNow.ToLocalTime(),
                     isRead = false,
                     NotificationText = $"{slucaj.Slucaj.Korisnik.Ime} je prepravio slucaj:  {slucaj.Slucaj.Naziv}"
                 };
@@ -412,7 +414,7 @@ namespace AdvokatskiPortal.Controllers
             var notification = new Notification
             {
                 UserId = majstor.Idenity.Id,
-                TimeStamp = DateTime.UtcNow,
+                TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
                 NotificationText = $"{ulogovaniKorisnik.Ime} je prihvatio slucaj:  {slucaj.Naziv}"
             };
@@ -431,7 +433,7 @@ namespace AdvokatskiPortal.Controllers
             var notification = new Notification
             {
                 UserId = slucajMajstor.MajstorIdStr,
-                TimeStamp = DateTime.UtcNow,
+                TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
                 NotificationText = $"{ulogovaniKorisnik.Ime} je odbio slucaj:  {slucajMajstor.Slucaj.Naziv}"
             };

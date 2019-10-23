@@ -45,6 +45,11 @@
         </a></td>
 
     </ng-container>
+    <ng-container matColumnDef="najkasnijiOdgovor">
+      <th mat-header-cell *matHeaderCellDef> Najkasniji odgovor </th>
+      <td mat-cell *matCellDef="let element"> {{element.krajnjiRokZaOdgovor}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef> Prihvati/Odbi </th>
       <td mat-cell *matCellDef="let element">

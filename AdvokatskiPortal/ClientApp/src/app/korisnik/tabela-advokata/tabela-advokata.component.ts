@@ -129,7 +129,7 @@ export class TabelaAdvokataComponent implements OnInit {
     }
 
     if (this.kategorijaValue) {
-      filteredData = filteredData.filter(fd => fd.kategorije.find(k => k.kategorijaId === this.kategorijaValue.id));
+      filteredData = filteredData.filter(fd => fd.kategorije.find(k => k.kategorija.parentId === this.kategorijaValue.id));
     }
     if (this.podkategorijaValue) {
       filteredData = filteredData.filter(fd => fd.kategorije.find(k => k.kategorijaId === this.podkategorijaValue.id));

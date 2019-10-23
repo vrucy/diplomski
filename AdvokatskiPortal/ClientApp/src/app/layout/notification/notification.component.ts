@@ -35,8 +35,8 @@ export class NotificationComponent implements OnInit {
       relativeTime: {
         future: 'u %s',
         past: 'pre %s',
-        s:  'sekunda',
-        ss: '%d sekundi',
+        s:  'sekundi',
+        ss: '%d par sekundi',
         m:  'minut',
         mm: '%d minuta',
         h:  'sat',

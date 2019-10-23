@@ -46,6 +46,8 @@ export class PrepravitiPonuduComponent implements OnInit {
       });
       cenovnik.kolicina = this.data.kolicina;
       cenovnik.vrstaPlacanja = this.data.vrstaPlacanja;
+      cenovnik.pocetakRada = this.data.pocetakRada;
+      cenovnik.zavrsetakRada = this.data.zavrsetakRada;
       cenovnik.komentar = this.data.komentar;
       cenovnik.isKonacan = this.data.isKonacan;
       this.submitCallback(cenovnik);
