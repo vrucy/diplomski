@@ -17,9 +17,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule } from '@angular/material/datepicker';
-import {MatNativeDateModule } from '@angular/material';
+import {MatNativeDateModule, MatSortModule } from '@angular/material';
 import {SlideshowModule} from 'ng-simple-slideshow';
 import {MatListModule} from '@angular/material/list';
+
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {MatListModule} from '@angular/material/list';
     MatDatepickerModule,
     MatNativeDateModule,
     SlideshowModule,
-    MatListModule
+    MatListModule,
+    MatSortModule
     ]
 })
 export class MaterialModule {}

@@ -1,4 +1,4 @@
-<div fxFlex fxLayout fxLayoutAlign="center center">
+<div class="iconsHeader">
   <!-- <a mat-button> Registracija Advokata </a> -->
 
   <button routerLink="/registracijaAdvokata" mat-button *ngIf="_type === 'AdminAdvokat'"> Registracija Advokata</button>
@@ -12,18 +12,18 @@
 
 
 
-  <div>
+  <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
+    (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
 
-    <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
-      (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
+  <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
+    <button mat-button routerLink="/editProfila">
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="auth.logout()">
+      <span>Logout</span>
+    </button></mat-menu>
+  <button mat-button (click)="auth.logout()"></button>
+  <!-- <div>
 
-    <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-      <button mat-button routerLink="/editProfila">
-        <span>Edit</span>
-      </button>
-      <button mat-menu-item (click)="auth.logout()">
-        <span>Logout</span>
-      </button></mat-menu>
-    <button mat-button (click)="auth.logout()"></button>
-  </div>
+  </div> -->
 </div>

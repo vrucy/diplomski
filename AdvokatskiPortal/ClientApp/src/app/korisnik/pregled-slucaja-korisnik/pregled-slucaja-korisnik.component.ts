@@ -3,12 +3,10 @@ import { PrepravitiPonuduComponent } from './../../advokat/dialog/prepraviti-pon
 import { MatDialog } from '@angular/material/dialog';
 import { pregledSlucajaVM } from './../../model/pregledSlucajaVM';
 import { KorisnikService } from './../../service/korisnik.service';
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import { SlucajSlanjeVM } from '../../model/SlucajSlanjeVM';
 import { Cenovnik } from '../../model/Cenovnik';
-import { PrikazSLucajaKorisnikComponent } from '../dialog/prikaz-slucaja-korisnik/prikaz-slucaja-korisnik.component';
 
 @Component({
   selector: 'app-pregled-slucaja-korisnik',
@@ -24,22 +22,26 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   tabIndex = new FormControl('');
   cenovnik = new Cenovnik();
   sviSlucajevi: any;
+  // kategorije;
   filterValues = {
     name: '',
     tabIndex: ''
   };
   odgovor: any;
-  constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
 
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
     this.dataSource.filterPredicate = this.tableFilter();
   }
   submitPopupForm(result) {
-    console.log('RESULTAT POPUPA', result);
+    // console.log('RESULTAT POPUPA', result);
     this.handleSubmitData(result);
   }
 
   private async handleSubmitData(result) {
-    console.log('slanje', result);
+    // console.log('slanje', result);
     await this.korisnikService.postavljanjeNoveCeneOdKorisnika(result);
     // await this.korisnikService.prepravkaSlucajaKorisnika(result);
   }
@@ -69,10 +71,10 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     });
   }
   openDialogPrikazSlucaja(element): void {
-    const baseSlike = element.slucaj.slike.map(s => {
-      s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
-      return s;
-    });
+    // const baseSlike = element.slucaj.slike.map(s => {
+    //   s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+    //   return s;
+    // });
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
       width: '40%',
       height: '70%',
@@ -83,10 +85,15 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       this.odgovor = result;
     });
   }
+
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
     this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
       this.sviSlucajevi = res;
-      console.log(this.sviSlucajevi);
+      this.remapImagesForDisplay(res);
+      // console.log(this.sviSlucajevi);
       this.handleTabChange(0);
     });
     this.nameFilter.valueChanges
@@ -104,6 +111,14 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         }
       );
   }
+  private remapImagesForDisplay(data) {
+    data.forEach(slucaj => {
+      const baseSlike = slucaj.slucaj.slike.map(s => {
+        s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+        return s;
+      });
+    });
+  }
   filter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -118,26 +133,26 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     return filterFunction;
   }
 
-  tabDirect(event) {
-    if (event.index === 0) {
-      this.resetFilter();
+  // tabDirect(event) {
+  //   if (event.index === 0) {
+  //     this.resetFilter();
 
-      this.tabIndex.setValue(1);
-      console.log('set 1');
-    } else if (event.index === 1) {
-      this.resetFilter();
-      this.tabIndex.setValue(2);
+  //     this.tabIndex.setValue(1);
+  //     console.log('set 1');
+  //   } else if (event.index === 1) {
+  //     this.resetFilter();
+  //     this.tabIndex.setValue(2);
 
-    } else if (event.index === 2) {
-      this.resetFilter();
-      this.tabIndex.setValue(6);
-      console.log('set 3');
-    } else if (event.index === 3) {
-      this.resetFilter();
-      this.tabIndex.setValue(4);
-      console.log('set 4');
-    }
-  }
+  //   } else if (event.index === 2) {
+  //     this.resetFilter();
+  //     this.tabIndex.setValue(6);
+  //     console.log('set 3');
+  //   } else if (event.index === 3) {
+  //     this.resetFilter();
+  //     this.tabIndex.setValue(4);
+  //     console.log('set 4');
+  //   }
+  // }
   writeStatus(status): string {
     if (status.slucajStatusId === 2) {
       return 'prihvacen drugi advokat';
@@ -191,7 +206,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     }
   }
   handleTabChange(tab) {
-    switch (tab.index) {
+    switch (tab) {
       // filter prihvaceni
       case 0:
         this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 2);
@@ -199,7 +214,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       // filter u procesu
       case 1:
         this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 4 ||
-          ss.slucajStatusId === 7 || ss.slucajStatusId === 1 );
+          ss.slucajStatusId === 7 || ss.slucajStatusId === 1 || ss.slucajStatusId === 6);
           // || ss.slucajStatusId === 1
         break;
       // filter odbijeni

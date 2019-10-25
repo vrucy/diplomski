@@ -258,7 +258,7 @@ namespace AdvokatskiPortal.Controllers
 
                 if (_context.SlucajMajstors.Where(s => s.MajstorId == item.Id && s.SlucajId == slucajVM.Slucaj.Id).FirstOrDefault() != null)
                 {
-                    string mess = "Vec ste dodali za svoj slucaj advokata: " + item.Ime + " " + item.Prezime;
+                    string mess = "Vec ste dodali za svoj slucaj majstorima: " + item.Ime + " " + item.Prezime;
 
                     return StatusCode(404, new { message = mess, customStatusCode = 999 });
                 }

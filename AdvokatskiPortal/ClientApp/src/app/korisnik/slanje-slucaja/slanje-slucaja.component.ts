@@ -25,18 +25,18 @@ export class SlanjeSlucajaComponent implements OnInit {
   displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
   selection = new SelectionModel<Majstor>(true, []);
   public dataSource = new MatTableDataSource<Majstor>();
-  slucaj = { opis: '' };
+  slucaj: Slucaj = new Slucaj();
   // noviSlucaj = { opis: ''};
   noviSlucaj: Slucaj = new Slucaj();
   slucajevi;
   panelStanje = false;
   SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
   nameFilter = new FormControl('');
-  kategorijaFilter = new FormControl('');
+  // kategorijaFilter = new FormControl('');
   podKategorijaFilter = new FormControl('');
 
   filterTxt: string;
-  kategorije;
+  // kategorije;
   odabraniSlucaj: Slucaj = new Slucaj();
   odabraniAdvokati;
   sviMajstori: any;
@@ -58,13 +58,13 @@ export class SlanjeSlucajaComponent implements OnInit {
           this.dataSource.filter = JSON.stringify(this.filterValues);
         }
       );
-    this.kategorijaFilter.valueChanges
-      .subscribe(
-        id => {
-          this.filterValues.kategorijaFilter = id;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-        }
-      );
+    // this.kategorijaFilter.valueChanges
+    //   .subscribe(
+    //     id => {
+    //       this.filterValues.kategorijaFilter = id;
+    //       this.dataSource.filter = JSON.stringify(this.filterValues);
+    //     }
+    //   );
     this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
       this.sviMajstori = res;
     });
@@ -93,10 +93,10 @@ export class SlanjeSlucajaComponent implements OnInit {
       this.slucajevi = res;
       console.log(this.slucajevi)
     });
-    this.advokatService.getAllKategorija().subscribe(res => {
-      this.kategorije = res;
-      console.log(this.kategorije);
-    });
+    // this.advokatService.getAllKategorija().subscribe(res => {
+    //   this.kategorije = res;
+    //   console.log(this.kategorije);
+    // });
   }
 
   getMajstoriBySelectedId() {
@@ -117,7 +117,7 @@ export class SlanjeSlucajaComponent implements OnInit {
 
   resetFilter() {
     this.nameFilter.reset();
-    this.kategorijaFilter.reset();
+    // this.kategorijaFilter.reset();
   }
   // PROBLEM KAD SE KREIRA NE UPISE SE AUTUTOMATSKI  U SELECT PROBLEM JE U ngLifeCiCLES
   kreiranjeSlucaja() {

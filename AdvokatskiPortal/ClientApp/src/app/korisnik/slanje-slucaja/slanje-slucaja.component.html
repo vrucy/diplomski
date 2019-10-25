@@ -2,7 +2,7 @@
   <mat-step [stepControl]="firstFormGroup" (changes)="stepChanges($event)">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Odaberite slucaj</ng-template>
-      <mat-accordion>
+      <!-- <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-description>
@@ -23,7 +23,7 @@
 
         </mat-expansion-panel>
 
-      </mat-accordion>
+      </mat-accordion> -->
       <mat-card>
         <div>
           <p>opis</p>
@@ -41,28 +41,6 @@
     </form>
   </mat-step>
 
-  <!-- <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Odaberite cenovnik</ng-template>
-
-      <mat-form-field>
-        <mat-label>Odaberite vrstu placanja</mat-label>
-        <mat-select [(ngModel)]="cenovnik.vrstaPlacanja" formControlName="secondCtrl" required>
-          <mat-option value="procentualno">Procentualno</mat-option>
-          <mat-option value="novcano">Novcano</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Unesite cifru" [(ngModel)]="cenovnik.kolicina" formControlName="secondCtrl1"
-               required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step> -->
-
   <mat-step [stepControl]="thridFormGroup" >
     <form [formGroup]="thridFormGroup">
       <ng-template matStepLabel>Odaberite majstore</ng-template>
@@ -71,14 +49,14 @@
           <mat-form-field fxFlex="40%">
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
           </mat-form-field>
-
+<!--
           <mat-form-field>
             <mat-select [formControl]="kategorijaFilter" placeholder="Unesite Kategoriju">
               <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija.id">
                 {{kategorija.naziv}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
         </div>
         <div class="table">
 

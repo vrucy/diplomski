@@ -1,4 +1,4 @@
-<div fxFlex fxLayout fxLayoutAlign="center center">
+<div class="iconsHeader">
   <mat-menu></mat-menu>
   <button routerLink="/tabelaSaAdvokatima" [matMenuTriggerFor]="pretraga" mat-button> Pretraga Advokata</button>
   <button routerLink="/kreiranjeSlucaja" mat-button>Kreiraj slucaj</button>
@@ -8,14 +8,13 @@
   <mat-menu #pretraga="matMenu"></mat-menu>
 
   <button mat-icon-button (click)="clearCount()" routerLink="/notification">
-    <mat-icon class="material-icons" >add_alert</mat-icon>
+    <mat-icon class="material-icons">add_alert</mat-icon>
     <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
   </button>
-  <div >
+  <div>
 
     <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
-      (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
-
+            (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
     <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
       <button mat-menu-item>
         <span>Edit</span>

@@ -22,6 +22,8 @@ export class PrepravitiPonuduComponent implements OnInit {
     public dialogRef: MatDialogRef<PrepravitiPonuduComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.cenovnik = data.cenovnik;
+    this.cenovnik.pocetakRada = data.pocetakRada;
+    this.cenovnik.zavrsetakRada = data.zavrsetakRada;
     this.submitCallback = data.submitCallback;
     this.hideUserOptions = data.hideUserOptions;
   }

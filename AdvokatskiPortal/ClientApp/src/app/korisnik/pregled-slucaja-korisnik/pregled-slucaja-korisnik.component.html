@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="handleTabChange($event)" class="tab">
+<mat-tab-group (selectedTabChange)="handleTabChange($event.index)" class="tab">
   <mat-tab label="Prihvaceni">
   </mat-tab>
   <mat-tab label="U Procesu">
@@ -9,12 +9,12 @@
   </mat-tab>
 </mat-tab-group>
 
-<mat-card>
-  <mat-form-field class ="search">
+<!-- <mat-card> -->
+  <mat-form-field class="search">
     <mat-label>Search</mat-label>
     <input matInput [formControl]="nameFilter">
   </mat-form-field>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="ime">
       <th mat-header-cell *matHeaderCellDef> Ime </th>
       <td mat-cell *matCellDef="let element"> {{element.ime}} </td>
@@ -29,7 +29,7 @@
     </ng-container>
 
     <ng-container matColumnDef="cena">
-      <th mat-header-cell *matHeaderCellDef> Ponudjena cena </th>
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Ponudjena cena </th>
       <td mat-cell *matCellDef="let element">
         <div>
           <!-- <div *ngIf="validateNesto(element, cenovnik)"> -->
@@ -39,26 +39,26 @@
         </div>
       </td>
     </ng-container>
-    <ng-container matColumnDef="pocetakRada">
-      <th mat-header-cell *matHeaderCellDef>Pocetak rada</th>
+    <ng-container matColumnDef="pocetakRada" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Pocetak rada</th>
       <td mat-cell *matCellDef="let element">
         {{element.cenovnici.pocetakRada | date: 'mediumDate'}}
       </td>
     </ng-container>
     <ng-container matColumnDef="zavrsetakRada">
-      <th mat-header-cell *matHeaderCellDef>Zavrsetak rada</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Zavrsetak rada</th>
       <td mat-cell *matCellDef="let element">
         {{element.cenovnici.zavrsetakRada | date: 'mediumDate'}}
       </td>
     </ng-container>
     <ng-container matColumnDef="vrstaPlacanja">
-      <th mat-header-cell *matHeaderCellDef> Vrsta Placanja </th>
+      <th mat-header-cell *matHeaderCellDef > Vrsta Placanja </th>
       <td mat-cell *matCellDef="let element">
         {{element.cenovnici.vrstaPlacanja}}
       </td>
     </ng-container>
     <ng-container matColumnDef="opis">
-      <th mat-header-cell *matHeaderCellDef>Slucaj </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Slucaj </th>
       <td mat-cell *matCellDef="let element">
         <div *ngIf="element.slucaj.naziv != null"><a (click)="openDialogPrikazSlucaja(element)">
             {{element.slucaj.naziv}}
@@ -67,10 +67,11 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="button">
-      <th mat-header-cell *matHeaderCellDef> Prihvati/odbaci </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Prihvati/odbaci </th>
       <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.slucajStatusId === 7 || element.slucajStatusId === 4 || element.slucajStatusId === 1; else context">
-          <!-- <div *ngIf="element.slucajStatusId === 1; else prihvacen"> -->
+        <div
+             *ngIf="element.slucajStatusId === 7 || element.slucajStatusId === 4 || element.slucajStatusId === 1; else context">
+          <div *ngIf="element.slucajStatusId !== 1 || element.slucajStatusId !== 6 ; else odgMajstora">
             <button mat-icon-button (click)="prihvacenSlucaj(element)">
               <mat-icon class="material-icons">done </mat-icon>
             </button>
@@ -80,11 +81,11 @@
             <button mat-icon-button (click)="odbijenSlucaj(element)">
               <mat-icon class="material-icons">delete</mat-icon>
             </button>
-          <!-- </div> -->
+          </div>
         </div>
-        <!-- <ng-template #prihvacen>
-          Vec prihvacen slucaj
-        </ng-template> -->
+        <ng-template #odgMajstora>
+          Ceka se odgovor majstora
+        </ng-template>
         <ng-template #context>
           {{handleButton(element)}}
         </ng-template>
@@ -93,4 +94,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-</mat-card>
+<!-- </mat-card> -->

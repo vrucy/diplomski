@@ -16,3 +16,7 @@
   color: #ffffff;
   text-align: center;
 }
+.iconsHeader{
+  display: flex;
+  justify-content: center;
+}

@@ -19,16 +19,16 @@
     <input matInput [(ngModel)]="data.komentar">
   </mat-form-field>
   <mat-form-field *ngIf="hideUserOptions">
-    <input matInput [(ngModel)]="data.zavrsetakRada" [matDatepicker]="picker" placeholder="Izaberite zavrsetak rada">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field *ngIf="hideUserOptions">
     <input matInput [(ngModel)]="data.pocetakRada" [matDatepicker]="picker" placeholder="Izaberite pocetak rada">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <mat-checkbox *ngIf="hideUserOptions" [(ngModel)]="data.isKonacan">Konacna cena</mat-checkbox>
+  <mat-form-field *ngIf="hideUserOptions">
+    <input matInput [(ngModel)]="data.zavrsetakRada" [matDatepicker]="picker" placeholder="Izaberite zavrsetak rada">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>

@@ -1,26 +1,27 @@
-<div style="display: flex;">
+<div class="doubleflexbra">
+<div style="display: flex; justify-content: space-around;">
   <div class="prikaz">
 
     <mat-label>Naziv</mat-label>
-    <mat-form-field>
+    <mat-form-field class="prikazLabele">
       <input matInput [disabled]="true" [(ngModel)]="data.naziv" />
     </mat-form-field>
   </div>
   <div class="prikaz">
     <mat-label>Opis</mat-label>
-    <mat-form-field>
+    <mat-form-field class="prikazLabele">
       <input matInput [disabled]="true" [(ngModel)]="data.opis" />
     </mat-form-field>
   </div>
 </div>
-<slideshow *ngIf="images; else context" [height]="'200px'" [minHeight]="'325px'" [showArrows]="true"
-           [imageUrls]="images" [lazyLoad]="images.length > 1" [autoPlayWaitForLazyLoad]="true">
-
-  <div mat-dialog-actions>
-    <button mat-button (click)="close()">Zatvori</button>
-  </div>
+<slideshow *ngIf="images && images.length > 0; else context" [height]="'200px'" [minHeight]="'325px'" [showArrows]="true"
+           [imageUrls]="images" [lazyLoad]="images.length > 1" [autoPlayWaitForLazyLoad]="true" class="w100">
+</slideshow>
+<div mat-dialog-actions style="justify-content: center; margin-top: 160px;">
   <button mat-button (click)="close()">Zatvori</button>
+</div>
 
-  <ng-template #context>
-    Nema slika
-  </ng-template>
+<ng-template #context>
+  Nema slika
+</ng-template>
+</div>
