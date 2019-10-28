@@ -42,6 +42,7 @@ import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kateg
 import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
 import { PrikazSLucajaKorisnikComponent } from './korisnik/dialog/prikaz-slucaja-korisnik/prikaz-slucaja-korisnik.component';
 import { NotificationComponent } from './layout/notification/notification.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { NotificationComponent } from './layout/notification/notification.compon
     RouterModule,
     RoutingModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSortModule
 
   ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
                       PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent ],
@@ -98,6 +100,7 @@ import { NotificationComponent } from './layout/notification/notification.compon
     useClass: HttpErrorInterceptor,
     multi: true
   }],
+  exports: [ MatSortModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -11,11 +11,12 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./tabela-advokata.component.css']
 })
 export class TabelaAdvokataComponent implements OnInit {
+
   displayedColumns: string[] = ['Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
   advokati;
   kategorije;
-  selection = new SelectionModel<Majstor>(true, []);
   public dataSource = new MatTableDataSource<Majstor>();
+  selection = new SelectionModel<Majstor>(true, []);
   originalData;
   podKategorije;
   selectedId;
@@ -60,6 +61,7 @@ export class TabelaAdvokataComponent implements OnInit {
     podK: '',
     filterTxt: ''
   };
+
   ngOnInit() {
     this.dataSource.sort = this.sort;
     this.korisnikService.getAllAdvokati().subscribe((res: any) => {
@@ -67,12 +69,12 @@ export class TabelaAdvokataComponent implements OnInit {
       this.filteredData = [...res];
       this.dataSource.data = this.filteredData;
       this.advokati = res;
-      console.log(this.advokati);
     });
-    this.korisnikService.getAllKategorije().subscribe((res: any) => {
+      this.korisnikService.getAllKategorije().subscribe((res: any) => {
       this.originalData = res;
       this.kategorije = [...res].filter(x => !x.parentId);
     });
+  }
     // this.kat.valueChanges
     //   .subscribe(
     //     kat => {
@@ -94,7 +96,6 @@ export class TabelaAdvokataComponent implements OnInit {
     //       this.dataSource.filter = JSON.stringify(this.filterValues);
     //     }
     //   );
-  }
 
   // tableFilter(): (data: any, filter: string) => boolean {
   //   const filterFunction = function (data, filter): boolean {

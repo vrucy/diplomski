@@ -12,7 +12,13 @@
 <!-- <mat-card> -->
   <mat-form-field class="search">
     <mat-label>Search</mat-label>
-    <input matInput [formControl]="nameFilter">
+    <input matInput [(ngModel)]="filterInputValue">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Odaberite slucaj</mat-label>
+    <mat-select [(ngModel)]="slucajValue">
+      <mat-option *ngFor="let slucaj of sviSlucajeviOdabir" [value]="slucaj">{{slucaj.naziv}}</mat-option>
+    </mat-select>
   </mat-form-field>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="ime">
@@ -94,4 +100,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" ></mat-paginator>
 <!-- </mat-card> -->

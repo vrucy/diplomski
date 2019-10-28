@@ -46,7 +46,8 @@ import {MatListModule} from '@angular/material/list';
     SlideshowModule,
     MatListModule,
     MatSortModule
-    ]
+    ],
+    imports: [MatSortModule]
 })
 export class MaterialModule {}
 
