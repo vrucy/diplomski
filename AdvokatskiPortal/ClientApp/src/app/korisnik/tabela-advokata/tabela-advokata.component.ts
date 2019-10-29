@@ -1,6 +1,6 @@
 import { Majstor } from '../../model/Majstor';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { KorisnikService } from '../../service/korisnik.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormControl } from '@angular/forms';
@@ -24,6 +24,7 @@ export class TabelaAdvokataComponent implements OnInit {
   podK = new FormControl('');
   filterTxt = new FormControl('');
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   // filter
   private cachedData: any[];
@@ -63,6 +64,7 @@ export class TabelaAdvokataComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.korisnikService.getAllAdvokati().subscribe((res: any) => {
       this.cachedData = [...res];
@@ -75,49 +77,6 @@ export class TabelaAdvokataComponent implements OnInit {
       this.kategorije = [...res].filter(x => !x.parentId);
     });
   }
-    // this.kat.valueChanges
-    //   .subscribe(
-    //     kat => {
-    //       this.filterValues.kat = kat;
-    //       this.dataSource.filter = JSON.stringify(this.filterValues);
-    //     }
-    //   );
-    // this.podK.valueChanges
-    //   .subscribe(
-    //     podK => {
-    //       this.filterValues.podK = podK;
-    //       this.dataSource.filter = JSON.stringify(this.filterValues);
-    //     }
-    //   );
-    // this.filterTxt.valueChanges
-    //   .subscribe(
-    //     filterTxt => {
-    //       this.filterValues.filterTxt = filterTxt;
-    //       this.dataSource.filter = JSON.stringify(this.filterValues);
-    //     }
-    //   );
-
-  // tableFilter(): (data: any, filter: string) => boolean {
-  //   const filterFunction = function (data, filter): boolean {
-  //     const searchTerms = JSON.parse(filter);
-  //     // && data.slucajStatusId === <number>searchTerms.tabIndex;
-  //     let filteredResult = (
-  //       data.ime.toLowerCase().includes(searchTerms.filterTxt) ||
-  //       data.prezime.toLowerCase().includes(searchTerms.filterTxt) ||
-  //       data.mesto.toLowerCase().includes(searchTerms.filterTxt))
-  //       && data.kategorije.kategorijaId === <number>searchTerms.kat;
-
-  //     filteredResult = filteredResult.filter(fr => fr.kategorijaId === <number>searchTerms.podK)
-  //     return filteredResult;
-  //     //  data.kategorije.forEach(element => {
-  //     //  // tslint:disable-next-line:no-unused-expression
-  //     //  element.kategorijaId === <number>searchTerms.podK;
-  //     // });
-
-  //     // && data.slucajStatusId === <number>searchTerms.tabIndex;
-  //   };
-  //   return filterFunction;
-  // }
 
   filterData() {
     if (!this.cachedData) {

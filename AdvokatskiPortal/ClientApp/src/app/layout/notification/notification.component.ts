@@ -17,17 +17,6 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     this.setupCustomMomentLabels();
     if (localStorage.getItem('typeUser').endsWith('User')) {
-    //   this.korisnikService.getNewNostifiation().subscribe((res: any[]) => {
-    //     console.log(res);
-    //     this.notificationService.setNotifications(res);
-    //     // this.notificationService.count;
-    //   });
-    // } else {
-    //   this.advokatService.getNewNostifiation().subscribe((res: any[]) => {
-    //     console.log(res);
-    //     this.notificationService.setNotifications(res);
-    //     // this.notificationService.count;
-    //   });
     }
   }
   private setupCustomMomentLabels() {
@@ -50,7 +39,11 @@ export class NotificationComponent implements OnInit {
       }
     });
   }
+
   writeNotification(not): string {
+    if (not === null || not === undefined) {
+      return 'Nema obavestenja';
+    }
     const name = not.notificationText;
     const time = not.timeStamp;
     const deltaTime = moment(time).local().fromNow();
