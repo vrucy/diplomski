@@ -1,0 +1,22 @@
+.mat-table{
+  box-shadow: 1px 5px 15px #888;
+  width: 90%;
+}
+.table {
+  display: flex;
+  justify-content: center;
+}
+.kategorije{
+  display: flex;
+  justify-content: space-evenly;;
+}
+.filters{
+  display: flex;
+  justify-content: center;
+}
+.inputFilter{
+  width: 50%;
+}
+.inputSelect{
+  width: 20%;
+}

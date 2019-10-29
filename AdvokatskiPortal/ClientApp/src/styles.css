@@ -2,9 +2,9 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 /* @import '~material-icons/iconfont/material-icons.css'; */
-table {
+/* table {
   width: 100%;
-}
+} */
 .footer{
   display:flex;
   align-items: center;

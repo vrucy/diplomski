@@ -1,26 +1,28 @@
-<mat-form-field>
-    <mat-select [(ngModel)]="kategorijaValue" (selectionChange)="onParentChanged($event)" [formControl]="kat" placeholder="Unesite Kategoriju">
-        <mat-option>--</mat-option>
-      <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija">
-        {{kategorija.naziv}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-      <!-- [(ngModel)]="selectedId" -->
-    <mat-select [(ngModel)]="podkategorijaValue"   [formControl]="podK" placeholder="Unesite pod Kategoriju" >
-        <mat-option>--</mat-option>
-      <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija">
-        {{podKategorija.naziv}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+
   <div class="filters">
-      <mat-form-field fxFlex="40%">
+      <mat-form-field class="inputFilter">
         <input [(ngModel)]="filterInputValue" matInput type="text" [formControl]="filterTxt" placeholder="Filter">
       </mat-form-field>
     </div>
-<div class="tabelaAdvokati">
+    <div class="kategorije">
+    <mat-form-field class="inputSelect">
+      <mat-select [(ngModel)]="kategorijaValue" (selectionChange)="onParentChanged($event)" [formControl]="kat" placeholder="Unesite Kategoriju">
+          <mat-option>--</mat-option>
+        <mat-option *ngFor="let kategorija of kategorije" [value]="kategorija">
+          {{kategorija.naziv}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="inputSelect">
+        <!-- [(ngModel)]="selectedId" -->
+      <mat-select [(ngModel)]="podkategorijaValue"   [formControl]="podK" placeholder="Unesite pod Kategoriju" >
+          <mat-option>--</mat-option>
+        <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija">
+          {{podKategorija.naziv}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="table">
 
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -63,4 +65,4 @@
     <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 4, 6, 10, 20]">
     </mat-paginator>
   </div>
-</div>
+
