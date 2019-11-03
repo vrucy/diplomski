@@ -37,12 +37,17 @@ import { UspesnoLogovanjeComponent } from './snackBar/uspesno-logovanje/uspesno-
 import { NeUspesnoLogovanjeComponent } from './snackBar/ne-uspesno-logovanje/ne-uspesno-logovanje.component';
 import { PrikazSlucajComponent } from './advokat/dialog/prikaz-slucaj/prikaz-slucaj.component';
 import { DodavanjeDuplogAdvokataComponent } from './snackBar/dodavanje-duplog-advokata/dodavanje-duplog-advokata.component';
-import { EditProfilaComponent } from './edit-profila/edit-profila.component';
 import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
 import { DodajPodKategorijuComponent } from './advokat/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
 import { PrikazSLucajaKorisnikComponent } from './korisnik/dialog/prikaz-slucaja-korisnik/prikaz-slucaja-korisnik.component';
 import { NotificationComponent } from './layout/notification/notification.component';
 import { MatSortModule } from '@angular/material/sort';
+import { EditKorisnikComponent } from './korisnik/edit-korisnik/edit-korisnik.component';
+import { EditMajstorComponent } from './advokat/edit-majstor/edit-majstor.component';
+import { PrikazSlikaComponent } from './korisnik/dialog/prikaz-slika/prikaz-slika.component';
+import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -71,11 +76,14 @@ import { MatSortModule } from '@angular/material/sort';
     NeUspesnoLogovanjeComponent,
     PrikazSlucajComponent,
     DodavanjeDuplogAdvokataComponent,
-    EditProfilaComponent,
     DodajKategorijuComponent,
     DodajPodKategorijuComponent,
     PrikazSLucajaKorisnikComponent,
-    NotificationComponent
+    NotificationComponent,
+    EditKorisnikComponent,
+    EditMajstorComponent,
+    PrikazSlikaComponent,
+    EditSlucajComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,10 +94,12 @@ import { MatSortModule } from '@angular/material/sort';
     RoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatSortModule
+    MatSortModule,
+    PdfViewerModule,
+    NgxExtendedPdfViewerModule
 
   ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
-                      PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent ],
+                      PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent,PrikazSlikaComponent ],
     providers: [AuthGuard, AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,

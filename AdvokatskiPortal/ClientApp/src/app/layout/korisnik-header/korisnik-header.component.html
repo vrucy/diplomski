@@ -1,9 +1,9 @@
 <div class="iconsHeader">
   <mat-menu></mat-menu>
-  <button routerLink="/tabelaSaAdvokatima"  mat-button> Pretraga Advokata</button>
+  <button routerLink="/tabelaSaAdvokatima"  mat-button> Pretraga Majstora</button>
   <button routerLink="/kreiranjeSlucaja" mat-button>Kreiraj slucaj</button>
   <button routerLink="/slanjeSlucaja" mat-button>Slanje Slucaja</button>
-  <button routerLink="/pregledSlucajaKorisnik" mat-button>Odgovori Advokata</button>
+  <button routerLink="/pregledSlucajaKorisnik" mat-button>Odgovori Majstora</button>
 
   <mat-menu #pretraga="matMenu"></mat-menu>
 
@@ -16,7 +16,7 @@
     <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
             (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
     <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-      <button mat-menu-item>
+      <button mat-menu-item routerLink="/editKorisnik">
         <span>Edit</span>
       </button>
       <button mat-menu-item (click)="auth.logout()">

@@ -58,6 +58,7 @@ namespace AdvokatskiPortal.Data
         public DbSet<Ugovor> Ugovors{ get; set; }
         public DbSet<SlucajStatus> SlucajStatuses { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Slika> Slikas { get; set; }
 
     }
 }

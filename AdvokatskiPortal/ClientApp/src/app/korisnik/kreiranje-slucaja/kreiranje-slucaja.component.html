@@ -1,5 +1,5 @@
-<mat-card>
-  <div>
+<div class="kreiranjeS">
+  <mat-card class="mainCard">
     <mat-form-field>
       <input matInput [(ngModel)]="slucaj.naziv" placeholder="Unesite naziv">
     </mat-form-field>
@@ -7,7 +7,8 @@
       <input matInput [(ngModel)]="slucaj.opis" placeholder="Unesite Opis">
     </mat-form-field>
     <mat-form-field>
-      <input matInput [(ngModel)]="slucaj.KrajnjiRokZaOdgovor" [matDatepicker]="picker" placeholder="Izaberite Krajnji rok za odgovor">
+      <input matInput [(ngModel)]="slucaj.KrajnjiRokZaOdgovor" [matDatepicker]="picker"
+        placeholder="Izaberite Krajnji rok za odgovor">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -19,27 +20,25 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <mat-select  [(ngModel)]="slucaj.kategorijaId" placeholder="Unesite pod Kategoriju" >
+      <mat-select [(ngModel)]="slucaj.kategorijaId" placeholder="Unesite pod Kategoriju">
         <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija.id">
           {{podKategorija.naziv}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Unesite Opis" multiple>
-    <mat-card>
-      <table>
-        <tr>
-          <th>
-            Slika
-          </th>
-        </tr>
-        <tr *ngFor="let item of slika">
-          <th width="90%">
-            {{item.naziv}}
-          </th>
-        </tr>
-      </table>
-    </mat-card>
+    <div class="prikazSlika">
+    <div *ngFor="let img of prikazSlike" class="show-image" style="max-width: 90px;">
+      <img [src]="img.prikaz" height="80" *ngIf="img.prikaz && img.type === pdf">
+      <mat-icon class="material-icons" (click)="deleteImage(img)">clear</mat-icon>
+      <pdf-viewer [src]="pdfSrc" 
+              [original-size]="false"
+              [autoresize] = "true"
+  ></pdf-viewer>
+    </div>
   </div>
-  <button mat-button (click)="kreiranjeSlucaja()">Snimi</button>
-</mat-card>
+    <!-- <div> -->
+    <button mat-button (click)="kreiranjeSlucaja()">Snimi</button>
+    <!-- </div> -->
+  </mat-card>
+</div>

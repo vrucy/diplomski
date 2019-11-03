@@ -1,4 +1,6 @@
 <mat-tab-group (selectedTabChange)="handleTabChange($event.index)">
+  <mat-tab label="Svi">
+  </mat-tab>
   <mat-tab label="Prihvaceni">
   </mat-tab>
   <mat-tab label="U Procesu">
@@ -8,6 +10,20 @@
   <mat-tab label="Odbijeni od korisnika">
   </mat-tab>
 </mat-tab-group>
+<div class="search">
+    <mat-form-field class="field-search">
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)]="filterInputValue">
+    </mat-form-field>
+  </div>
+  <div class="select">
+    <mat-form-field>
+      <mat-label>Odaberite slucaj</mat-label>
+      <mat-select [(ngModel)]="slucajValue">
+        <mat-option *ngFor="let slucaj of sviSlucajeviOdabir" [value]="slucaj">{{slucaj.naziv}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 <mat-card>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="ime">

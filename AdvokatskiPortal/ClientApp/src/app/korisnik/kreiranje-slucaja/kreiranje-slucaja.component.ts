@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { KorisnikService } from '../../service/korisnik.service';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import { DatePipe } from '@angular/common';
+import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 
 @Component({
   selector: 'app-kreiranje-slucaja',
@@ -21,6 +22,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
   podKategorije;
   originalData;
   i = 0;
+  pdfSrc = "";
   reader = new FileReader();
   private fileHandler: ImageHandler;
   constructor(private korisnikService: KorisnikService) { }
@@ -42,7 +44,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setGPS(position.coords.latitude, position.coords.longitude);
     });
-    this.slucaj.Slike = this.slike;
+    this.slucaj.slike = this.slike;
     this.korisnikService.kreiranjeSlucaja(this.slucaj);
   }
   setGPS(duzina, sirina) {
@@ -59,16 +61,34 @@ export class KreiranjeSlucajaComponent implements OnInit {
     }
 
   }
-
+  prikazSlike;
   handleReaderLoaded(e) {
     // console.log(e.target.result)
-    const base64 = e.target.result.toString().split(',')[1]; // btoa(e.target.result);
-    // console.log('data:image/png;base64,' + base64);
-    // console.log(e.target.result);
-    // this.handlePictureName(file, slika);
-    const slika = this.fileHandler.ProcessFile(base64);
+    const base64 = e.target.result.toString().split(',')[1]; 
+    const prikaz = e.target.result;
+    this.pdfSrc = e.target.result;
+    console.log(e.target.result.toString().split(';')[0])
+    let type ;
+    if(e.target.result.toString().split(';')[0] === "data:application/pdf") {
+      type = "pdf";
+      console.log('pdf fajl je uploudovan ')
+    }
+    
+    const slika = this.fileHandler.ProcessFile(base64, prikaz, type);
     this.slike.push(slika);
+    this.prikazSlike = this.slike;
+    console.log(this.prikazSlike)
     // this.slika[this.i].base64textString = btoa(e.target.result);
+  }
+  deleteImage(img):string {
+    this.slike.forEach(slika => {
+      if (slika === img ){
+        const index: number = this.slike.indexOf(img);
+        this.slike.splice(index ,1)
+        console.log('slika: ', slika)
+      }
+    });
+    return img;
   }
 }
 
@@ -78,9 +98,12 @@ class ImageHandler {
     this.slika = new Slika();
   }
 
-  public ProcessFile(base64): Slika {
+  public ProcessFile(base64, prikaz, type): Slika {
     this.handlePictureName();
+    this.slika.type = type;
     this.slika.slikaProp = base64;
+    this.slika.prikaz = prikaz;
+    console.log(this.slika);
     return this.slika;
   }
   private handlePictureName() {

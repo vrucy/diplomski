@@ -77,7 +77,10 @@ export class TabelaAdvokataComponent implements OnInit {
       this.kategorije = [...res].filter(x => !x.parentId);
     });
   }
-
+  resetFilters(){
+    this.filterInputValue = null;
+    this.kategorijaValue = null;
+  }
   filterData() {
     if (!this.cachedData) {
       return;

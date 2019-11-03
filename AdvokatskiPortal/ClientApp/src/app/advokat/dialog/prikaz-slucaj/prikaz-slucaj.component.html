@@ -17,7 +17,7 @@
 <slideshow *ngIf="images && images.length > 0; else context" [height]="'200px'" [minHeight]="'325px'" [showArrows]="true"
            [imageUrls]="images" [lazyLoad]="images.length > 1" [autoPlayWaitForLazyLoad]="true" class="w100">
 </slideshow>
-<div mat-dialog-actions style="justify-content: center; margin-top: 160px;">
+<div mat-dialog-actions style="justify-content: center;">
   <button mat-button (click)="close()">Zatvori</button>
 </div>
 

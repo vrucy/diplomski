@@ -24,7 +24,25 @@ export class PregledUgovoraComponent implements OnInit {
   odgovor: string;
   imageurl;
   sviSlucajevi: any;
-
+  sviSlucajeviOdabir;
+  private cachedData: any[];
+  private filteredData: any[];
+  private _slucajValue: any;
+  public set slucajValue(val: any) {
+    this._slucajValue = val;
+    this.filterData();
+  }
+  public get slucajValue() {
+    return this._slucajValue;
+  }
+  private _filterInputValue: string;
+  public set filterInputValue(val: any) {
+    this._filterInputValue = val;
+    this.filterData();
+  }
+  public get filterInputValue() {
+    return this._filterInputValue;
+  }
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -41,6 +59,9 @@ export class PregledUgovoraComponent implements OnInit {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
       // this.dataSource.data = res;
       this.sviSlucajevi = res;
+      this.cachedData = [...res];
+      this.filteredData = [...res];
+      this.dataSource.data = this.filteredData;
       this.sviSlucajevi.map(ss => {
         ss.slucaj.slike.map(s => {
           s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
@@ -84,9 +105,9 @@ export class PregledUgovoraComponent implements OnInit {
         pocetakRada: element.pocetakRada
       }
     });
-    dialogRef.afterClosed().subscribe((result: any) => {
-      console.log(result);
-    });
+    // dialogRef.afterClosed().subscribe((result: any) => {
+    //   console.log(result);
+    // });
   }
   submitPopupForm(result) {
     console.log('RESULTAT POPUPA', result)
@@ -96,8 +117,6 @@ export class PregledUgovoraComponent implements OnInit {
      });
   }
   openDialogPrikazSlucaja(element): void {
-
-
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
       width: '750px',
       height: '900px',
@@ -136,32 +155,6 @@ export class PregledUgovoraComponent implements OnInit {
       );
 
   }
-
-
-  // tabDirect(event) {
-  //   if (event.index === 0) {
-  //     this.resetFilter();
-  //     this.dataSource.filter = null;
-  //     this.tabIndex.setValue(1);
-  //     console.log('set 1');
-  //   } else if (event.index === 1) {
-  //     this.resetFilter();
-  //     this.tabIndex.setValue(2);
-  //     console.log('set 2');
-  //   } else if (event.index === 2) {
-  //     this.resetFilter();
-  //     this.tabIndex.setValue(3);
-  //     console.log('set 3');
-  //   }
-  // }
-  // chekerTab(event) {
-  //   const even = ++event.index;
-  //   this.tabIndex.setValue(even);
-  //   this.resetFilter();
-  // }
-  // resetFilter() {
-  //   this.nameFilter.reset();
-  // }
   removeAt(index: number) {
     const data = this.dataSource.data;
     // data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
@@ -182,28 +175,41 @@ export class PregledUgovoraComponent implements OnInit {
         console.log(res);
       });
   }
+  handleSlucaj(ids) {
+    this.sviSlucajeviOdabir = [];
+    ids.forEach(el => {
+      const x = [...this.filteredData].find(sso => sso.slucaj.id === el);
+      this.sviSlucajeviOdabir.push(x.slucaj);
+    });
+    console.log(this.sviSlucajeviOdabir);
+  }
   handleTabChange(tab) {
     switch (tab) {
-      // filter prihvaceni
       case 0:
-        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 2);
+          const unique0 = [...new Set(this.filteredData.map(item => item.slucaj.id))];
+          this.handleSlucaj(unique0);
+        this.dataSource.data = [...this.filteredData];
+        break;
+      // filter prihvaceni
+      case 1:
+        this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 2);
         break;
       // filter u procesu
-      case 1:
-        this.dataSource.data = [...this.sviSlucajevi].filter(ss =>
-          ss.slucajStatusId === 6 || ss.slucajStatusId === 1);
+      case 2:
+        this.dataSource.data = [...this.filteredData].filter(ss =>
+          ss.slucajStatusId === 6 || ss.slucajStatusId === 1 || ss.slucajStatusId === 7);
         break;
       // filter odbijeni
-      case 2:
-        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 5);
-        break;
       case 3:
-        this.dataSource.data = [...this.sviSlucajevi].filter(ss => ss.slucajStatusId === 3);
+        this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 5);
+        break;
+      case 4:
+        this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 3);
         break;
       default:
         break;
     }
-    console.log(this.dataSource.data, this.sviSlucajevi);
+    console.log(this.dataSource.data, this.filteredData);
   }
   handleButton(element) {
     switch (element.slucajStatusId) {
@@ -217,7 +223,7 @@ export class PregledUgovoraComponent implements OnInit {
         return 'Korisnik je odbio ponudu';
         break;
       case 7:
-        return 'Ceka se odgovor klijante';
+        return 'Ceka se odgovor klijanta';
         break;
       case 5:
         return 'Odbili ste ponudu';
@@ -225,4 +231,24 @@ export class PregledUgovoraComponent implements OnInit {
         break;
     }
   }
+  public filterData() {
+    if (!this.cachedData) {
+      return;
+    }
+    let filteredData = [...this.cachedData];
+
+    if (this.slucajValue) {
+      console.log(filteredData)
+      // filteredData = filteredData.filter(fd => fd.find(k => k.slucaj.id === this.slucajValue.id));
+      filteredData = filteredData.filter(fd => fd.slucaj.id === this.slucajValue.id);
+
+    }
+
+    if (this.filterInputValue) {
+      filteredData = filteredData.filter(cd => cd.ime.includes(this.filterInputValue) || cd.prezime.includes(this.filterInputValue));
+    }
+    this.filteredData = filteredData;
+    this.dataSource.data = this.filteredData;
+  }
 }
+

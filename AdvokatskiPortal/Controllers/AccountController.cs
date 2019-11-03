@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using AdvokatskiPortal.Models.View;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdvokatskiPortal.Controllers
 {
@@ -81,7 +82,7 @@ namespace AdvokatskiPortal.Controllers
                 var user = await userManager.FindByNameAsync(majstor.UserName);
 
                 await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
-                await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
+                // await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
                 await _context.SaveChangesAsync();
 
                 //var ids = majstor.Kategorije.Select(kat => kat.Id).ToList();
@@ -148,7 +149,22 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
         }
+        [HttpGet("getKorisnik")]
+        public IActionResult getKorisnik()
+        {
+            var cliems = User.Claims.First();
+            var korisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
 
+            return Ok(korisnik);
+        }
+        [HttpGet("getMajstor")]
+        public IActionResult getAdvokat()
+        {
+            var cliems = User.Claims.First();
+            var majstor = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
+
+            return Ok(majstor);
+        }
         [HttpGet("getCurrentUser/{userName}")]
         public async Task<IActionResult> getCurrentUser([FromRoute] string userName)
         {
@@ -200,6 +216,36 @@ namespace AdvokatskiPortal.Controllers
             var token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
             return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
+        }
+        [HttpPut("editKorisnik")]
+        public IActionResult editKorisnik(Korisnik korisnik)
+        {
+            var user = _context.Korisniks.Single(k => k.Id == korisnik.Id);
+            user.Ime = korisnik.Ime;
+            user.Prezime = korisnik.Prezime;
+            user.UserName = korisnik.UserName;
+            user.Password = korisnik.Password;
+            user.Email = korisnik.Email;
+            user.Mesto = korisnik.Mesto;
+            user.Ulica = korisnik.Ulica;
+            _context.Entry(user).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok();
+        }
+        [HttpPut("editMajstor")]
+        public IActionResult editMajstor(Majstor majstor)
+        {
+            var user = _context.Majstors.Single(k => k.Id == majstor.Id);
+            user.Ime = majstor.Ime;
+            user.Prezime = majstor.Prezime;
+            user.UserName = majstor.UserName;
+            user.Password = majstor.Password;
+            user.Email = majstor.Email;
+            user.Mesto = majstor.Mesto;
+            user.Ulica = majstor.Ulica;
+            _context.Entry(user).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }

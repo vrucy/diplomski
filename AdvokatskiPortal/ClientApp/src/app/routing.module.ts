@@ -13,9 +13,11 @@ import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranj
 import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
 import { PregledUgovoraComponent } from './advokat/pregled-ugovora/pregled-ugovora.component';
 import { PrihvacenOdgovorComponent } from './advokat/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
-import { EditProfilaComponent } from './edit-profila/edit-profila.component';
 import { DodajKategorijuComponent } from './advokat/dodaj-kategoriju/dodaj-kategoriju.component';
 import { NotificationComponent } from './layout/notification/notification.component';
+import { EditKorisnikComponent } from './korisnik/edit-korisnik/edit-korisnik.component';
+import { EditMajstorComponent } from './advokat/edit-majstor/edit-majstor.component';
+import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
 
 const router: Routes = [
   {
@@ -55,7 +57,13 @@ const router: Routes = [
     path: 'pregledSlucajaKorisnik' , component: PregledSlucajaKorisnikComponent
   },
   {
-    path: 'editProfila', component: EditProfilaComponent
+    path: 'editKorisnik', component: EditKorisnikComponent
+  },
+  {
+    path: 'editMajstor', component: EditMajstorComponent
+  },
+  {
+    path: 'editSlucaj/:id', component: EditSlucajComponent
   },
   {
     path: 'dodajKategoriju', component: DodajKategorijuComponent

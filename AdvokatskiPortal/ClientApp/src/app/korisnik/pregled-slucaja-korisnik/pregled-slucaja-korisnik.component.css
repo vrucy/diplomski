@@ -13,3 +13,11 @@
   display: flex;
   justify-content: center;
 }
+.select{
+  display: flex;
+    justify-content: center;
+}
+.field-search{
+  width: 50%;
+
+}

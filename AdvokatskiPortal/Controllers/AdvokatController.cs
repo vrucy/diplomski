@@ -240,6 +240,7 @@ namespace AdvokatskiPortal.Controllers
                 return BadRequest();
             }
         }
+        // KORISTI SE
         [HttpPut("prepravkaSlucajaAdvokata")]
         public async Task<IActionResult> prepravkaSlucajaAdvokata([FromBody] Cenovnik slucajMajstor)
         {
@@ -254,6 +255,7 @@ namespace AdvokatskiPortal.Controllers
             noviCenovnik.komentar = slucajMajstor.komentar;
             noviCenovnik.PocetakRada = slucajMajstor.PocetakRada;
             noviCenovnik.zavrsetakRada = slucajMajstor.zavrsetakRada;
+            noviCenovnik.isKonacan = slucajMajstor.isKonacan;
             _context.Entry(noviCenovnik).State = EntityState.Modified;
 
             var notification = new Notification

@@ -4,3 +4,14 @@ table {
   .my-tooltip {
     white-space: pre-line;
 }
+.search{
+  display: flex;
+    justify-content: center;
+}
+.select{
+  display: flex;
+    justify-content: center;
+}
+.field-search{
+  width: 50%;
+}

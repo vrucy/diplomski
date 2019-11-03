@@ -20,7 +20,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
   displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'pocetakRada', 'zavrsetakRada', 'opis', 'button'];
   public dataSource = new MatTableDataSource<pregledSlucajaVM>();
-  // public dataSource = new MatTableDataSource();
 
   nameFilter = new FormControl('');
   tabIndex = new FormControl('');
@@ -65,7 +64,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
   private async handleSubmitData(result) {
     await this.korisnikService.postavljanjeNoveCeneOdKorisnika(result);
-    // await this.korisnikService.prepravkaSlucajaKorisnika(result);
   }
 
 
@@ -171,7 +169,9 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
   handleButton(element) {
     switch (element.slucajStatusId) {
-
+      case 1: 
+        return 'Ceka se odgovor advokata'
+        break;
       case 3:
         return 'Odbili ste ovu ponudu';
         break;
@@ -194,20 +194,26 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       const x = [...this.filteredData].find(sso => sso.slucaj.id === el);
       this.sviSlucajeviOdabir.push(x.slucaj);
     });
-    // this.sviSlucajeviOdabir = this.cachedData.filter(sso => sso.slucaj.id === ids);
     console.log(this.sviSlucajeviOdabir);
   }
   handleTabChange(tab) {
     switch (tab) {
-      // filter prihvaceni
+      // svi
       case 0:
+         this.resetFilter();
+         const unique0 = [...new Set(this.filteredData.map(item => item.slucaj.id))];
+        this.handleSlucaj(unique0);
+        this.dataSource.data = [...this.filteredData];
+        break;
+      // filter prihvaceni
+      case 1:
         this.resetFilter();
         const unique = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 2).map(item => item.slucaj.id))];
         this.handleSlucaj(unique);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 2);
         break;
       // filter u procesu
-      case 1:
+      case 2:
         // this.filterData()
         this.resetFilter();
         const unique1 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 4 ||
@@ -217,13 +223,13 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
           ss.slucajStatusId === 7 || ss.slucajStatusId === 1 || ss.slucajStatusId === 6);
         break;
       // filter odbijeni
-      case 2:
+      case 3:
         this.resetFilter();
         const unique2 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 5).map(item => item.slucaj.id))];
         this.handleSlucaj(unique2);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 5);
         break;
-      case 3:
+      case 4:
         const unique3 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 3).map(item => item.slucaj.id))];
         this.handleSlucaj(unique3);
         this.resetFilter();

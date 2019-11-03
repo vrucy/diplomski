@@ -16,7 +16,7 @@
     (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
 
   <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-    <button mat-button routerLink="/editProfila">
+    <button mat-button routerLink="/editMajstor">
       <span>Edit</span>
     </button>
     <button mat-menu-item (click)="auth.logout()">

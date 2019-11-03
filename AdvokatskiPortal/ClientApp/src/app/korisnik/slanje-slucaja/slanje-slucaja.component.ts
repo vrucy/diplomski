@@ -3,11 +3,13 @@ import { AdvokatService } from './../../service/advokat.service';
 import { Cenovnik } from './../../model/Cenovnik';
 import { SlucajSlanjeVM } from './../../model/SlucajSlanjeVM';
 import { KorisnikService } from './../../service/korisnik.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { Slucaj } from '../../model/Slucaj';
+import { PrikazSlikaComponent } from '../dialog/prikaz-slika/prikaz-slika.component';
+import { MatDialog, MatPaginator, MatSort, MatStepper } from '@angular/material';
 
 @Component({
   selector: 'app-slanje-slucaja',
@@ -25,14 +27,14 @@ export class SlanjeSlucajaComponent implements OnInit {
   displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
   selection = new SelectionModel<Majstor>(true, []);
   public dataSource = new MatTableDataSource<Majstor>();
+  displayedColumnsSlucaj: string[] = ['Id', 'Naziv', 'Opis', 'Slike', 'Akcije'];
+  public dataSourceSlucaj = new MatTableDataSource<Slucaj>();
   slucaj: Slucaj = new Slucaj();
-  // noviSlucaj = { opis: ''};
   noviSlucaj: Slucaj = new Slucaj();
   slucajevi;
   panelStanje = false;
   SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
   nameFilter = new FormControl('');
-  // kategorijaFilter = new FormControl('');
   podKategorijaFilter = new FormControl('');
 
   filterTxt: string;
@@ -40,7 +42,9 @@ export class SlanjeSlucajaComponent implements OnInit {
   odabraniSlucaj: Slucaj = new Slucaj();
   odabraniAdvokati;
   sviMajstori: any;
-  constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService, private advokatService: AdvokatService) {
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService, private advokatService: AdvokatService, public dialog: MatDialog) {
     this.dataSource.filterPredicate = this.tableFilter();
   }
 
@@ -50,31 +54,25 @@ export class SlanjeSlucajaComponent implements OnInit {
     podKategorijaFilter: ''
   };
   ngOnInit() {
-
-    this.nameFilter.valueChanges
-      .subscribe(
-        name => {
-          this.filterValues.name = name;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-        }
-      );
-    // this.kategorijaFilter.valueChanges
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    // this.nameFilter.valueChanges
     //   .subscribe(
-    //     id => {
-    //       this.filterValues.kategorijaFilter = id;
+    //     name => {
+    //       this.filterValues.name = name;
     //       this.dataSource.filter = JSON.stringify(this.filterValues);
     //     }
     //   );
     this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
       this.sviMajstori = res;
     });
-    this.podKategorijaFilter.valueChanges
-      .subscribe(
-        id => {
-          this.filterValues.podKategorijaFilter = id;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-        }
-      );
+    // this.podKategorijaFilter.valueChanges
+    //   .subscribe(
+    //     id => {
+    //       this.filterValues.podKategorijaFilter = id;
+    //       this.dataSource.filter = JSON.stringify(this.filterValues);
+    //     }
+    //   );
 
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required],
@@ -91,12 +89,10 @@ export class SlanjeSlucajaComponent implements OnInit {
 
     this.korsinikService.getAllSlucajForKorisnik().subscribe((res: any) => {
       this.slucajevi = res;
+      this.dataSourceSlucaj.data = this.slucajevi;
+      this.remapImagesForDisplay(res) 
       console.log(this.slucajevi)
     });
-    // this.advokatService.getAllKategorija().subscribe(res => {
-    //   this.kategorije = res;
-    //   console.log(this.kategorije);
-    // });
   }
 
   getMajstoriBySelectedId() {
@@ -114,15 +110,28 @@ export class SlanjeSlucajaComponent implements OnInit {
     }
     return filterFunction;
   }
-
+  openDialogPrikazSlika(element): void {
+    const dialogRef = this.dialog.open(PrikazSlikaComponent, {
+      width: '750px',
+      height: '900px',
+      data: { slike: element.slike }
+    });
+    
+  }
+  private remapImagesForDisplay(data) {
+    data.forEach(slucaj => {
+      const baseSlike = slucaj.slike.map(s => {
+        s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+        return s;
+      });
+    });
+  }
+  acceptSlucaj(slucaj, stepper: MatStepper){
+    this.odabraniSlucaj = slucaj;
+    stepper.next();
+  }
   resetFilter() {
     this.nameFilter.reset();
-    // this.kategorijaFilter.reset();
-  }
-  // PROBLEM KAD SE KREIRA NE UPISE SE AUTUTOMATSKI  U SELECT PROBLEM JE U ngLifeCiCLES
-  kreiranjeSlucaja() {
-    this.korsinikService.kreiranjeSlucaja(this.noviSlucaj);
-    // this.slucajevi = this.noviSlucaj;
   }
   doFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -132,7 +141,9 @@ export class SlanjeSlucajaComponent implements OnInit {
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
+  redirectToEdit(slucaj) {
 
+  }
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
@@ -146,17 +157,9 @@ export class SlanjeSlucajaComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
   save() {
-
     this.SlucajVM.Majstors = this.selection.selected;
-
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
-
-    // const c: Cenovnik = new Cenovnik();
-    // c.kolicina = this.cenovnik.kolicina;
-    // c.vrstaPlacanja = this.cenovnik.vrstaPlacanja;
-    // this.SlucajVM.Cenovniks =  [c];
-
-     this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
   }
 
   stepChanges(step) {

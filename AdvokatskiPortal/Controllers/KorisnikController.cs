@@ -27,14 +27,14 @@ namespace AdvokatskiPortal.Controllers
             _context = context;
             this.userManager = userManager;
         }
-
+        // KORISTI SE
         [HttpGet("getAllSlucajForKorisnik")]
         public IEnumerable<Slucaj> getAllSlucajForKorisnik()
         {
             try
             {
                 var x = User.Claims.FirstOrDefault().Value;
-                var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(sm => sm.SlucajMajstors);
+                var korsinikSlucajevi = _context.Slucajs.Where(k => k.Korisnik.Idenity.Id == x).Include(sm => sm.SlucajMajstors).Include(k => k.Kategorija).Include(s =>s.Slike);
 
                 var noviSlucajevi = korsinikSlucajevi.Where(y => y.SlucajMajstors == null);
 
@@ -46,6 +46,11 @@ namespace AdvokatskiPortal.Controllers
                 throw;
             }
 
+        }
+        [HttpGet("getSlucajById/{id}")]
+        public Slucaj GetSlucajById([FromRoute]int id)
+        {
+            return _context.Slucajs.Where(s => s.Id == id).Include(sl => sl.Slike).Single();
         }
         // GET: api/Korisnik/5
         [HttpGet("getAllSlucajAdvokatForKorisnik")]
@@ -97,7 +102,8 @@ namespace AdvokatskiPortal.Controllers
                 cenovnik.kolicina,
                 cenovnik.zavrsetakRada,
                 cenovnik.PocetakRada,
-                cenovnik.vrstaPlacanja
+                cenovnik.vrstaPlacanja,
+                cenovnik.isKonacan
             };
         }
         [HttpGet("{id}")]
@@ -218,7 +224,7 @@ namespace AdvokatskiPortal.Controllers
 
             return CreatedAtAction("GetKorisnik", new { id = korisnik.Id }, korisnik);
         }
-
+        // KORISTI SE
         [HttpPost("kreiranjeSlucaja")]
         public async Task<IActionResult> kreiranjeSlucaja([FromBody] Slucaj slucaj)
         {
@@ -246,6 +252,7 @@ namespace AdvokatskiPortal.Controllers
         {
             return _context.Kategorijas;
         }
+        //  KORISTI SE  
         [HttpPost("postSlucajaSaAdvokatimaSaCenovnikom")]
         public IActionResult postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
         {
@@ -315,6 +322,7 @@ namespace AdvokatskiPortal.Controllers
 
             return Ok();
         }
+        //KORISTI SE
         [HttpPut("postavljanjeNoveCeneOdKorisnika")]
         public async Task<IActionResult> postavljanjeNoveCeneOdKorisnika([FromBody] Cenovnik noviCenovnikVM)
         {
@@ -385,7 +393,55 @@ namespace AdvokatskiPortal.Controllers
             var x = slucajVm;
             return Ok();
         }
+        [HttpPut("editSlucaj")]
+        public IActionResult editSlucaj([FromBody] Slucaj slucaj)
+        {
+            var currentSlucaj = _context.Slucajs.Where(s => s.Id == slucaj.Id).Include(sli => sli.Slike).First();
+            if (currentSlucaj.Slike.Count > slucaj.Slike.Count)
+            {
 
+                //IEnumerable<Slika> x = slucaj.Slike.Except(currentSlucaj.Slike);
+                List<Slika> exist = new List<Slika>();
+                List<Slika> Nexist = new List<Slika>();
+                foreach (var item in slucaj.Slike)
+                {
+                    if (/*item.Id !=*/ currentSlucaj.Slike.Contains/*Select(x => x.Id == item.Id)*/(item))
+                    {
+                        exist.Add(item);
+                    }
+                    else
+                    {
+                        Nexist.Add(item);
+                    }
+
+                }
+                //var x = slucaj.Slike.SelectMany(s => s.Id != slucaj.Slike.)
+                //var test = currentSlucaj.Slike.Where(x => slucaj.Slike.Where(q => q.Id != x.Id));
+                // var x = slucaj.Slike.Select(s => currentSlucaj.Slike.Where(sl => sl.Id == s.Id));
+
+                // _context.Slikas.Remove(x);
+
+
+                //}
+
+            }
+            foreach (var slika in slucaj.Slike)
+            {
+                if(slika.Id == 0)
+                {
+                    var novaSlika = new Slika()
+                     {
+                        Naziv = slika.Naziv,
+                        slikaProp = slika.slikaProp,
+                        SlucajId = slucaj.Id
+                    };
+                    _context.Slikas.Add(novaSlika);               
+                 }
+            }
+            _context.Entry(currentSlucaj).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok();
+        }
         [HttpPut("prihvacenSlucajKorisnik")]
         public async Task<IActionResult> prihvacenSlucajKorisnik([FromBody] acceptVM ids)
         {

@@ -17,7 +17,6 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
 
   registration(korisnik) {
-
     return this.http.post<any>('http://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
       localStorage.setItem('token', res);
       this.authenticate(res);
@@ -39,6 +38,12 @@ export class AuthService {
     });
 
   }
+  getKorisnik(){
+    return this.http.get('http://localhost:44345/api/Account/getKorisnik')
+  }
+  getMajstor(){
+    return this.http.get('http://localhost:44345/api/Account/getMajstor')
+  }
   isLogged(): boolean {
     const user = localStorage.getItem('token');
     if (user != null) {
@@ -52,6 +57,12 @@ export class AuthService {
       localStorage.setItem('token', res);
       this.authenticate(res);
     })
+  }
+  editProfilKorisnik(korisnik) {
+    return this.http.put<any>('http://localhost:44345/api/Account/editKorisnik', korisnik).subscribe();
+  }
+  editProfilMajstor(majstor) {
+    return this.http.put('http://localhost:44345/api/Account/editMajstor', majstor).subscribe();
   }
   authenticate(res) {
     let tokenValue = res['token'];

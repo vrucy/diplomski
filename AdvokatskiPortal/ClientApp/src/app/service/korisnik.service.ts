@@ -63,8 +63,13 @@ export class KorisnikService {
   resetNotification() {
     return this.http.put('http://localhost:44345/api/Korisnik/putNewNostifiationReadKorisnik', null);
   }
-
+  getSlucajById(id) {
+    return this.http.get('http://localhost:44345/api/Korisnik/GetSlucajById'+ "/" + id)
+  }
   upload(file: any) {
     return this.http.post('http://localhost:44345/api/Korisnik/uploadFile', file).subscribe();
+  }
+  editSlucaj(slucaj) {
+    return this.http.put('http://localhost:44345/api/Korisnik/editSlucaj', slucaj).subscribe();
   }
 }

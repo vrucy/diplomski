@@ -7,7 +7,7 @@ export class Slucaj {
     Naziv: String;
     Opis: String;
     Ugovor: Ugovor;
-    Slike: Slika[];
+    slike: Slika[];
     KrajnjiRokZaOdgovor;
     PocetakRada;
     GSirina;
