@@ -85,8 +85,8 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     //   return s;
     // });
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
-      width: '40%',
-      height: '70%',
+      maxWidth: '40%',
+      maxHeight: '70%',
       data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: element.slucaj.slike }
     });
     dialogRef.afterClosed().subscribe(result => {

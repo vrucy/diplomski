@@ -17,10 +17,9 @@ import { MatDialog, MatPaginator, MatSort, MatStepper } from '@angular/material'
   styleUrls: ['./slanje-slucaja.component.css']
 })
 export class SlanjeSlucajaComponent implements OnInit {
-  isLinear = false;
-  firstFormGroup: FormGroup;
+  odabirSlucajaFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  thridFormGroup: FormGroup;
+  odabirMajstoraFormGroup: FormGroup;
 
   cenovnik = { vrstaPlacanja: '', kolicina: '' };
   vrstaPlacanja;
@@ -45,7 +44,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService, private advokatService: AdvokatService, public dialog: MatDialog) {
-    this.dataSource.filterPredicate = this.tableFilter();
+    //this.dataSource.filterPredicate = this.tableFilter();
   }
 
   filterValues = {
@@ -74,18 +73,14 @@ export class SlanjeSlucajaComponent implements OnInit {
     //     }
     //   );
 
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
-      noviSlucajNaziv: [''],
-      noviSlucajOpis: ['']
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
-      secondCtrl1: ['', Validators.required]
-    });
-    this.thridFormGroup = this._formBuilder.group({
-      thridCtrl: ['', Validators.required]
-    });
+    // this.odabirSlucajaFormGroup = this._formBuilder.group({
+    //   odabirSlucajaForm: [ Validators.required]
+    //   // noviSlucajNaziv: [''],
+    //   // noviSlucajOpis: ['']
+    // });
+    // this.odabirMajstoraFormGroup = this._formBuilder.group({
+    //   odabirMajstora: ['', Validators.required]
+    // });
 
     this.korsinikService.getAllSlucajForKorisnik().subscribe((res: any) => {
       this.slucajevi = res;
@@ -99,21 +94,21 @@ export class SlanjeSlucajaComponent implements OnInit {
     const searchTerm = this.odabraniSlucaj.kategorijaId;
     this.dataSource.data = [...this.sviMajstori].filter(r => r.kategorije.some(k => k.kategorijaId === searchTerm));
   }
-  tableFilter(): (data: any, filter: string) => boolean {
-    const filterFunction = function (data, filter): boolean {
-      const searchTerms = JSON.parse(filter);
-      console.log(data)
-      return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
-        data.majstorKategorijes.find(ca => ca.kategorijaId === <number>searchTerms.kategorijaFilter);
-      // data.majstorKategorijes.find(ca => ca.kategorijaId === <number>this.odabraniSlucaj.kategorijaId);
+  // tableFilter(): (data: any, filter: string) => boolean {
+  //   const filterFunction = function (data, filter): boolean {
+  //     const searchTerms = JSON.parse(filter);
+  //     console.log(data)
+  //     return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
+  //       data.majstorKategorijes.find(ca => ca.kategorijaId === <number>searchTerms.kategorijaFilter);
+  //     // data.majstorKategorijes.find(ca => ca.kategorijaId === <number>this.odabraniSlucaj.kategorijaId);
 
-    }
-    return filterFunction;
-  }
+  //   }
+  //   return filterFunction;
+  // }
   openDialogPrikazSlika(element): void {
     const dialogRef = this.dialog.open(PrikazSlikaComponent, {
-      width: '750px',
-      height: '900px',
+      width: '40%',
+      height: '80%',
       data: { slike: element.slike }
     });
     
@@ -126,7 +121,14 @@ export class SlanjeSlucajaComponent implements OnInit {
       });
     });
   }
+  y
   acceptSlucaj(slucaj, stepper: MatStepper){
+    slucaj.slike.forEach((slika: any) => {
+      if (slika.slikaProp) {
+       const base64result = slika.slikaProp.split(',')[1];
+       slika.slikaProp = base64result;
+      }
+    });
     this.odabraniSlucaj = slucaj;
     stepper.next();
   }

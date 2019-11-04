@@ -17,7 +17,7 @@ div.show-image mat-icon {
 .card-edit {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 70%;
 }
 .slike{
   display: flex;
@@ -35,6 +35,9 @@ div.show-image mat-icon {
   display: flex;
   justify-content: center;
   width: 50%;
+}
+.input {
+  display: flex;
 }
 /* .material-icon1{
 display: flex;

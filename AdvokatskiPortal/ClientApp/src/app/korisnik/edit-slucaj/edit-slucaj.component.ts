@@ -40,18 +40,14 @@ export class EditSlucajComponent implements OnInit {
   }
   editSlucaj() {
     this.slucaj.slike.map((s)=> {
-      console.log(s.slikaProp)
-      console.log(s.slikaProp.toString().split(',')[1])
-      s.slikaProp = s.slikaProp.toString().split(',')[1];
-      // if(s.prikaz) {
-      //   delete s.prikaz;
-      // }      
+      s.slikaProp = s.slikaProp.toString().split(',')[1];  
       return s;
 
     })
     console.log(this.slucaj)
      this.korisnikService.editSlucaj(this.slucaj);
      this.router.navigate(['/slanjeSlucaja'])
+     
   }
   prikazSlike;
   deleteImage(img):string {
@@ -72,9 +68,7 @@ export class EditSlucajComponent implements OnInit {
     const base64 = e.target.result.toString().split(',')[1]; 
     console.log(base64)
     const prikaz = e.target.result;
-
     const slika = this.fileHandler.ProcessFile(base64, prikaz);
-    
     this.slike.push(slika);
     this.slucaj.slike.push(slika);
     this.prikazSlike = this.slucaj.slike;

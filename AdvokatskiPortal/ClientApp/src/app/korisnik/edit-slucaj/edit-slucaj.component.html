@@ -1,16 +1,17 @@
 <div class="main-div">
     <mat-card class="card-edit">
         <!-- <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5" [(ngModel)]="slucaj.opis" placeholder="Opis">
-
-                </textarea> -->
-        <mat-form-field>
-
-            <input matInput [(ngModel)]="slucaj.naziv" placeholder="Naziv">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput [(ngModel)]="slucaj.opis" placeholder="Opis">
-        </mat-form-field>
+            cdkAutosizeMaxRows="5" [(ngModel)]="slucaj.opis" placeholder="Opis">
+            
+        </textarea> -->
+        <div class="input">
+            <mat-form-field>
+                <input matInput [(ngModel)]="slucaj.naziv" placeholder="Naziv">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [(ngModel)]="slucaj.opis" placeholder="Opis">
+            </mat-form-field>
+        </div>
         <div class="slike">
             <div *ngFor="let img of slucaj.slike" class="show-image">
                 <img [src]="img.slikaProp" height="80" *ngIf="img.slikaProp">
@@ -24,6 +25,7 @@
         </div>
         <div class="div-button">
             <button mat-button (click)="editSlucaj()">Edit</button>
+            
             <button mat-button routerLink="/slanjeSlucaja">Nazad</button>
         </div>
     </mat-card>

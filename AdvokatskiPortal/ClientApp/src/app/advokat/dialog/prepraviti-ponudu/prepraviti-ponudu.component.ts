@@ -10,13 +10,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./prepraviti-ponudu.component.css']
 })
 export class PrepravitiPonuduComponent implements OnInit {
-
-
   public test: any;
   cenovnik: Cenovnik;
   private submitCallback: Function;
   hideUserOptions: boolean;
-
 
   constructor(private advokatService: AdvokatService,
     public dialogRef: MatDialogRef<PrepravitiPonuduComponent>,
@@ -38,7 +35,6 @@ export class PrepravitiPonuduComponent implements OnInit {
 
   onYesClick(): void {
     if (this.submitCallback) {
-      console.log(this.data.cenovnik)
       const cenovnik = {...this.cenovnik};
       cenovnik.slucaj.slike.forEach((slika: any) => {
         if (slika.slikaProp) {

@@ -306,7 +306,8 @@ namespace AdvokatskiPortal.Controllers
                     {
                         MajstorId = majstor.Id,
                         StatusId = 1,
-                        SlucajId = slucajVM.Slucaj.Id
+                        SlucajId = slucajVM.Slucaj.Id,
+                        zavrsetakRada = null
                     };
                     _context.SlucajMajstors.Add(newSlucajAdvokat);
                     _context.Cenovniks.Add(cenovnik);
@@ -396,35 +397,20 @@ namespace AdvokatskiPortal.Controllers
         [HttpPut("editSlucaj")]
         public IActionResult editSlucaj([FromBody] Slucaj slucaj)
         {
-            var currentSlucaj = _context.Slucajs.Where(s => s.Id == slucaj.Id).Include(sli => sli.Slike).First();
-            if (currentSlucaj.Slike.Count > slucaj.Slike.Count)
+            var currentSlucaj = _context.Slucajs.Where(s => s.Id == slucaj.Id).Include(sli => sli.Slike).Single();
+            
+            
+            var ids = slucaj.Slike.Select(x => x.Id);
+            var diff = currentSlucaj.Slike.Select(q => q.Id).Except(ids);
+            List<Slika> slikeRemove = new List<Slika>();
+            foreach (var item in diff)
             {
-
-                //IEnumerable<Slika> x = slucaj.Slike.Except(currentSlucaj.Slike);
-                List<Slika> exist = new List<Slika>();
-                List<Slika> Nexist = new List<Slika>();
-                foreach (var item in slucaj.Slike)
-                {
-                    if (/*item.Id !=*/ currentSlucaj.Slike.Contains/*Select(x => x.Id == item.Id)*/(item))
-                    {
-                        exist.Add(item);
-                    }
-                    else
-                    {
-                        Nexist.Add(item);
-                    }
-
-                }
-                //var x = slucaj.Slike.SelectMany(s => s.Id != slucaj.Slike.)
-                //var test = currentSlucaj.Slike.Where(x => slucaj.Slike.Where(q => q.Id != x.Id));
-                // var x = slucaj.Slike.Select(s => currentSlucaj.Slike.Where(sl => sl.Id == s.Id));
-
-                // _context.Slikas.Remove(x);
-
-
-                //}
+                slikeRemove.AddRange(_context.Slikas.Where(s => s.Id == item));
 
             }
+            _context.Slikas.RemoveRange(slikeRemove);
+            _context.SaveChanges();
+
             foreach (var slika in slucaj.Slike)
             {
                 if(slika.Id == 0)

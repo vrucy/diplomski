@@ -20,7 +20,7 @@ import {MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule, MatSortModule } from '@angular/material';
 import {SlideshowModule} from 'ng-simple-slideshow';
 import {MatListModule} from '@angular/material/list';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -45,7 +45,8 @@ import {MatListModule} from '@angular/material/list';
     MatNativeDateModule,
     SlideshowModule,
     MatListModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressSpinnerModule
     ],
     imports: [MatSortModule]
 })

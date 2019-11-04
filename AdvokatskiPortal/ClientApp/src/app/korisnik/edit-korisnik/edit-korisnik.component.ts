@@ -8,7 +8,7 @@ import { AuthService } from '../../service/auth.service';
   styleUrls: ['./edit-korisnik.component.css']
 })
 export class EditKorisnikComponent implements OnInit {
-  trenutniKorisnik;
+  trenutniKorisnik:Korisnik;
 
   constructor( private authService: AuthService) {
   
@@ -17,6 +17,7 @@ export class EditKorisnikComponent implements OnInit {
    ngOnInit() {
     this.authService.getKorisnik().subscribe( (res: any) => {
       this.trenutniKorisnik = res;
+      this.trenutniKorisnik.ime = res.ime;
       console.log(this.trenutniKorisnik)
     });
     
