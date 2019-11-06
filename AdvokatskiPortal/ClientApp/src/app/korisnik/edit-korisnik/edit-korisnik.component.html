@@ -1,4 +1,4 @@
-<div class="div-editKorisnik">
+<div class="div-editKorisnik" *ngIf="trenutniKorisnik">
 <mat-card class="card-editKorisnik">
         <mat-form-field>
             <input matInput [(ngModel)]="trenutniKorisnik.ime" placeholder="Ime">
@@ -20,9 +20,9 @@
         </mat-form-field>
         <mat-form-field>
             <input matInput [(ngModel)]="trenutniKorisnik.ulica" placeholder="Ulica">
-    
+
         </mat-form-field>
         <button mat-button (click)="Submit()">edit</button>
-    
+
     </mat-card>
     </div>

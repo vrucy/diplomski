@@ -30,5 +30,6 @@ namespace AdvokatskiPortal.Models
         //public int CenovnikId { get; set; }
         //public Cenovnik Cenovnik { get; set; }
         public ICollection<Cenovnik> Cenovniks{ get; set; }
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

@@ -43,16 +43,16 @@ namespace AdvokatskiPortal.Controllers
                 var cliems = User.Claims.FirstOrDefault();
                 var ulogovaniKorisnik = _context.Users.Where(x => x.Id == cliems.Value).Single();
 
-                var notification = _context.Notifications.Where(n => n.UserId == ulogovaniKorisnik.Id && n.isRead == false).ToList();
-                //var notif = notification
-                //    .Select(n =>
-                //    {
-                //        _context.Entry(n).State = EntityState.Detached;
-                //        n.isRead = true;
-                //        _context.Set<Notification>().Attach(n);
-                //        _context.Entry(n).State = EntityState.Modified;
-                //        return n;
-                //    });
+                var notification = _context.Notifications.Where(n => n.UserId == ulogovaniKorisnik.Id && n.isRead == false)
+                                                               .Include(s => s.Slucaj).ThenInclude(sl => sl.Slike).ToList();
+                //var result = notification.Select(n => new
+                //{
+                //    n.Slucaj.Naziv,
+                //    n.Slucaj.Opis,
+                //    n.Slucaj.Slike,
+                //    n.isRead
+                //});
+                
                 foreach (var item in notification)
                 {
                     item.isRead = true;
@@ -227,6 +227,7 @@ namespace AdvokatskiPortal.Controllers
                     UserId = slucaj.Slucaj.Korisnik.Idenity.Id,
                     TimeStamp = DateTime.UtcNow.ToLocalTime(),
                     isRead = false,
+                    SlucajId = slucaj.SlucajId,
                     NotificationText = $"{slucaj.Majstor.Ime} je prihvatio da radi na slucaju:  {slucaj.Slucaj.Naziv}"
                 };
                 _context.Notifications.Add(notification);
@@ -263,6 +264,7 @@ namespace AdvokatskiPortal.Controllers
                 UserId = slucaj.Slucaj.Korisnik.Idenity.Id,
                 TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
+                SlucajId = slucaj.SlucajId,
                 NotificationText = $"{slucaj.Majstor.Ime} je prepravio slucaj:  {slucaj.Slucaj.Naziv}"
             };
             _context.Notifications.Add(notification);
@@ -285,6 +287,7 @@ namespace AdvokatskiPortal.Controllers
                 UserId = slucaj.Slucaj.Korisnik.Idenity.Id,
                 TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
+                SlucajId = slucaj.SlucajId,
                 NotificationText = $"{slucaj.Majstor.Ime} je odbio slucaj:  {slucaj.Slucaj.Naziv}"
             };
             _context.Notifications.Add(notification);

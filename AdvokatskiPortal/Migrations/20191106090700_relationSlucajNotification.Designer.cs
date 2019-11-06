@@ -4,14 +4,16 @@ using AdvokatskiPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdvokatskiPortal.Migrations
 {
     [DbContext(typeof(PortalAdvokataDbContext))]
-    partial class PortalAdvokataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191106090700_relationSlucajNotification")]
+    partial class relationSlucajNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

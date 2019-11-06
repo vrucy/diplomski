@@ -82,7 +82,7 @@ namespace AdvokatskiPortal.Controllers
                 var user = await userManager.FindByNameAsync(majstor.UserName);
 
                 await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
-                // await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
+                await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
                 await _context.SaveChangesAsync();
 
                 //var ids = majstor.Kategorije.Select(kat => kat.Id).ToList();

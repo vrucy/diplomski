@@ -129,7 +129,7 @@ export class SlanjeSlucajaComponent implements OnInit {
       });
     });
   }
-  y
+
   acceptSlucaj(slucaj, stepper: MatStepper) {
     slucaj.slike.forEach((slika: any) => {
       if (slika.slikaProp) {

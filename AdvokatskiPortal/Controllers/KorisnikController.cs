@@ -300,6 +300,7 @@ namespace AdvokatskiPortal.Controllers
                         UserId = newSlucajAdvokat.MajstorIdStr,
                         TimeStamp = DateTime.UtcNow.ToLocalTime(),
                         isRead = false,
+                        SlucajId = slucajVM.Slucaj.Id,
                         NotificationText = $"{ulogovaniKorisnik.Ime} vam je dodao slucaj:  {slucajVM.Slucaj.Naziv}"
                     };
                     var cenovnik = new Cenovnik
@@ -345,6 +346,7 @@ namespace AdvokatskiPortal.Controllers
                     UserId = slucaj.Majstor.Idenity.Id,
                     TimeStamp = DateTime.UtcNow.ToLocalTime(),
                     isRead = false,
+                    SlucajId = slucaj.SlucajId,
                     NotificationText = $"{slucaj.Slucaj.Korisnik.Ime} je prepravio slucaj:  {slucaj.Slucaj.Naziv}"
                 };
                 slucaj.SlucajStatusId = 6;
@@ -458,6 +460,7 @@ namespace AdvokatskiPortal.Controllers
                 UserId = majstor.Idenity.Id,
                 TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
+                SlucajId = slucaj.Id,
                 NotificationText = $"{ulogovaniKorisnik.Ime} je prihvatio slucaj:  {slucaj.Naziv}"
             };
             _context.Notifications.Add(notification);
@@ -477,6 +480,7 @@ namespace AdvokatskiPortal.Controllers
                 UserId = slucajMajstor.MajstorIdStr,
                 TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
+                SlucajId = slucajMajstor.Slucaj.Id,
                 NotificationText = $"{ulogovaniKorisnik.Ime} je odbio slucaj:  {slucajMajstor.Slucaj.Naziv}"
             };
             _context.Notifications.Add(notification);

@@ -43,9 +43,9 @@ export class KreiranjeSlucajaComponent implements OnInit {
   kreiranjeSlucaja() {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setGPS(position.coords.latitude, position.coords.longitude);
+      this.slucaj.slike = this.slike;
+      this.korisnikService.kreiranjeSlucaja(this.slucaj);
     });
-    this.slucaj.slike = this.slike;
-    this.korisnikService.kreiranjeSlucaja(this.slucaj);
   }
   setGPS(duzina, sirina) {
     this.slucaj.GDuzina = duzina;
@@ -64,7 +64,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
   prikazSlike;
   handleReaderLoaded(e) {
     // console.log(e.target.result)
-    const base64 = e.target.result.toString().split(',')[1]; 
+    const base64 = e.target.result.toString().split(',')[1];
     const prikaz = e.target.result;
     this.pdfSrc = e.target.result;
     console.log(e.target.result.toString().split(';')[0])
@@ -73,7 +73,7 @@ export class KreiranjeSlucajaComponent implements OnInit {
       type = "pdf";
       console.log('pdf fajl je uploudovan ')
     }
-    
+
     const slika = this.fileHandler.ProcessFile(base64, prikaz, type);
     this.slike.push(slika);
     this.prikazSlike = this.slike;

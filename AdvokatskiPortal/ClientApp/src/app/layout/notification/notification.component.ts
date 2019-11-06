@@ -41,18 +41,28 @@ export class NotificationComponent implements OnInit {
       }
     });
   }
+  private remapImagesForDisplay(data) {
+    console.log(data);
+      const baseSlike = data.slike.map(s => {
+        console.log(s)
+        s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+        return s;
+    });
+  }
   openDialogPrikazSlucaja(element): void {
+    console.log(element);
+    this.remapImagesForDisplay(element);
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
       maxWidth: '40%',
       maxHeight: '70%',
-      data: { naziv: element.slucaj.naziv, opis: element.slucaj.opis, slike: element.slucaj.slike }
+      data: { naziv: element.naziv, opis: element.opis, slike: element.slike }
     });
   }
   writeNotification(not): string {
     if (not === null || not === undefined) {
       return 'Nema obavestenja';
     }
-    console.log(not)
+
     const name = not.notificationText;
     const time = not.timeStamp;
     const deltaTime = moment(time).local().fromNow();
