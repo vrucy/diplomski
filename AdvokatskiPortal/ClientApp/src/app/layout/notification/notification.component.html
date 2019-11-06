@@ -3,6 +3,7 @@
   <mat-list *ngIf="notificationService.notifications">
     <mat-list-item *ngFor="let n of notificationService.notifications">
       <p mat-line>{{writeNotification(n)}}</p>
+      <a style="cursor: pointer"><mat-icon class="material-icons" style="color:#757575"  (click)="openDialogPrikazSlucaja(n.slucaj)"> call_made</mat-icon></a>
     </mat-list-item>
   </mat-list>
   <p *ngIf="!notificationService.notifications">Nema obavestenja

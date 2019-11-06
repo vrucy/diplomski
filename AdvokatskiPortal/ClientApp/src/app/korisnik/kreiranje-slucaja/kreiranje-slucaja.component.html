@@ -31,10 +31,10 @@
     <div *ngFor="let img of prikazSlike" class="show-image" style="max-width: 90px;">
       <img [src]="img.prikaz" height="80" *ngIf="img.prikaz && img.type === pdf">
       <mat-icon class="material-icons" (click)="deleteImage(img)">clear</mat-icon>
-      <pdf-viewer [src]="pdfSrc" 
+      <!-- <pdf-viewer [src]="pdfSrc"
               [original-size]="false"
               [autoresize] = "true"
-  ></pdf-viewer>
+  ></pdf-viewer> -->
     </div>
   </div>
     <!-- <div> -->

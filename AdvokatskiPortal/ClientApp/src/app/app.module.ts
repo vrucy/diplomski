@@ -46,8 +46,8 @@ import { EditKorisnikComponent } from './korisnik/edit-korisnik/edit-korisnik.co
 import { EditMajstorComponent } from './advokat/edit-majstor/edit-majstor.component';
 import { PrikazSlikaComponent } from './korisnik/dialog/prikaz-slika/prikaz-slika.component';
 import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+// import { PdfViewerModule } from 'ng2-pdf-viewer';
+// import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -94,9 +94,9 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     RoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatSortModule,
-    PdfViewerModule,
-    NgxExtendedPdfViewerModule
+    MatSortModule
+    // PdfViewerModule,
+    // NgxExtendedPdfViewerModule
 
   ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
                       PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent,PrikazSlikaComponent ],

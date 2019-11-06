@@ -1,8 +1,8 @@
-<div class="main-div">
+<div class="main-div" *ngIf="slucaj">
     <mat-card class="card-edit">
         <!-- <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="5" [(ngModel)]="slucaj.opis" placeholder="Opis">
-            
+
         </textarea> -->
         <div class="input">
             <mat-form-field>
@@ -25,7 +25,7 @@
         </div>
         <div class="div-button">
             <button mat-button (click)="editSlucaj()">Edit</button>
-            
+
             <button mat-button routerLink="/slanjeSlucaja">Nazad</button>
         </div>
     </mat-card>

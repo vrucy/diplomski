@@ -1,109 +1,111 @@
 <mat-horizontal-stepper [linear]="!isLinear" #stepper (selectionChange)="stepChanges($event)">
-  <mat-step (changes)="stepChanges($event)">
+  <mat-step  (changes)="stepChanges($event)">
+    <!-- <form > -->
+      <ng-template matStepLabel>Odaberite slucaj</ng-template>
+      <div class="tableDiv">
 
-    <ng-template matStepLabel>Odaberite slucaj</ng-template>
-    <div class="tableDiv">
+        <table mat-table [dataSource]="dataSourceSlucaj" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="Id">
+            <th mat-header-cell *matHeaderCellDef [style.display]="'none'">id</th>
+            <td mat-cell *matCellDef="let slucaj" [style.display]="'none'">{{slucaj.Id}}</td>
+          </ng-container>
 
-      <table mat-table [dataSource]="dataSourceSlucaj" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="Id">
-          <th mat-header-cell *matHeaderCellDef [style.display]="'none'">id</th>
-          <td mat-cell *matCellDef="let slucaj" [style.display]="'none'">{{slucaj.Id}}</td>
-        </ng-container>
+          <ng-container matColumnDef="Naziv">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Naziv</th>
+            <td mat-cell *matCellDef="let slucaj">{{slucaj.naziv}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="Naziv">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Naziv</th>
-          <td mat-cell *matCellDef="let slucaj">{{slucaj.naziv}}</td>
-        </ng-container>
+          <ng-container matColumnDef="Opis">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
+            <td mat-cell *matCellDef="let slucaj">{{slucaj.opis}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="Opis">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
-          <td mat-cell *matCellDef="let slucaj">{{slucaj.opis}}</td>
-        </ng-container>
+          <ng-container matColumnDef="Slike">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Slike</th>
+            <td mat-cell *matCellDef="let slucaj"><a (click)="openDialogPrikazSlika(slucaj)">
+                Click
+              </a></td>
+          </ng-container>
+          <ng-container matColumnDef="Akcije">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcije</th>
+            <td mat-cell *matCellDef="let slucaj">
+              <button mat-button (click)="acceptSlucaj(slucaj,stepper)">
+                <mat-icon class="material-icons">done </mat-icon>
 
-        <ng-container matColumnDef="Slike">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Slike</th>
-          <td mat-cell *matCellDef="let slucaj"><a (click)="openDialogPrikazSlika(slucaj)">
-              Click
-            </a></td>
-        </ng-container>
-        <ng-container matColumnDef="Akcije">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcije</th>
-          <td mat-cell *matCellDef="let slucaj">
-            <button mat-button (click)="acceptSlucaj(slucaj,stepper)">
-              <mat-icon class="material-icons">done </mat-icon>
+              </button>
+              <button mat-button class="material-icons" [routerLink]="[ '/editSlucaj',slucaj.id]">
+                <mat-icon class="material-icons">edit </mat-icon>
 
-            </button>
-            <button mat-button class="material-icons" [routerLink]="[ '/editSlucaj',slucaj.id]">
-              <mat-icon class="material-icons">edit </mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsSlucaj"></tr>
 
-            </button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsSlucaj"></tr>
-
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsSlucaj;"></tr>
-      </table>
-    </div>
-
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsSlucaj;"></tr>
+        </table>
+      </div>
+    <!-- </form> -->
   </mat-step>
 
-  <mat-step>
+  <mat-step [stepControl]="odabirMajstora">
+    <form>
     <ng-template matStepLabel>Odaberite majstore</ng-template>
     <div class="tabelaMajstori">
 
-      <div class="filters">
-        <mat-form-field fxFlex="40%">
-          <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
-        </mat-form-field>
-      </div>
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-              [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-            </mat-checkbox>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="Id">
-          <th mat-header-cell *matHeaderCellDef [style.display]="'none'">id</th>
-          <td mat-cell *matCellDef="let adv" [style.display]="'none'">{{adv.Id}}</td>
-        </ng-container>
+        <div class="filters">
+          <mat-form-field fxFlex="40%">
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+        </div>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"
+                            required>
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)" required>
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Id">
+            <th mat-header-cell *matHeaderCellDef [style.display]="'none'">id</th>
+            <td mat-cell *matCellDef="let adv" [style.display]="'none'">{{adv.Id}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="Ime">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>ime</th>
-          <td mat-cell *matCellDef="let adv">{{adv.ime}}</td>
-        </ng-container>
+          <ng-container matColumnDef="Ime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ime</th>
+            <td mat-cell *matCellDef="let adv">{{adv.ime}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="Prezime">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>prezime</th>
-          <td mat-cell *matCellDef="let adv">{{adv.prezime}}</td>
-        </ng-container>
+          <ng-container matColumnDef="Prezime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>prezime</th>
+            <td mat-cell *matCellDef="let adv">{{adv.prezime}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="Email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>email</th>
-          <td mat-cell *matCellDef="let adv">{{adv.email}}</td>
-        </ng-container>
+          <ng-container matColumnDef="Email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>email</th>
+            <td mat-cell *matCellDef="let adv">{{adv.email}}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="Mesto">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>mesto</th>
-          <td mat-cell *matCellDef="let adv">{{adv.mesto}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Ulica">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Ulica</th>
-          <td mat-cell *matCellDef="let adv">{{adv.ulica}}</td>
-        </ng-container>
+          <ng-container matColumnDef="Mesto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>mesto</th>
+            <td mat-cell *matCellDef="let adv">{{adv.mesto}}</td>
+          </ng-container>
+          <ng-container matColumnDef="Ulica">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ulica</th>
+            <td mat-cell *matCellDef="let adv">{{adv.ulica}}</td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      </table>
-
+        </table>
       <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 4, 6, 10, 20]">
       </mat-paginator>
       <div class="button1">
@@ -113,7 +115,7 @@
         <button mat-button matStepperNext>Next</button>
       </div>
     </div>
-
+  </form>
   </mat-step>
 
   <mat-step>
