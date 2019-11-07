@@ -28,10 +28,10 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   odabraniSlucaj;
   sviSlucajeviOdabir;
   // kategorije;
-  filterValues = {
-    name: '',
-    slucaj: ''
-  };
+  // filterValues = {
+  //   name: '',
+  //   slucaj: ''
+  // };
   private _filterInputValue: string;
   public set filterInputValue(val: any) {
     this._filterInputValue = val;
@@ -70,7 +70,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   openDialogEdit(element): void {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
-      // napraviti svoj cenovnik ili prepraviti postojeci???
       data: {
         cenovnik: Object.assign(new Cenovnik(), element),
         submitCallback: this.submitPopupForm.bind(this),
@@ -80,10 +79,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
   }
   openDialogPrikazSlucaja(element): void {
-    // const baseSlike = element.slucaj.slike.map(s => {
-    //   s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
-    //   return s;
-    // });
     const dialogRef = this.dialog.open(PrikazSlucajComponent, {
       maxWidth: '40%',
       maxHeight: '70%',
@@ -96,12 +91,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   }
   handleOdabirSlucaja() {
     const unique = [...new Set(this.filteredData.map(item => item.slucaj.id))];
-    //  UNIQUE FOR EACH????
     this.sviSlucajeviOdabir = this.filteredData.filter(x => x.slucaj.id === unique);
-    unique.forEach(x => {
-      // this.sviSlucajeviOdabir = this.filteredData.filter(y => y.slucaj.id === x);
-    });
-    console.log(this.sviSlucajeviOdabir)
   }
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -115,20 +105,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       this.handleTabChange(0);
       this.handleOdabirSlucaja();
     });
-    this.nameFilter.valueChanges
-      .subscribe(
-        name => {
-          this.filterValues.name = name;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-        }
-      );
-    this.tabIndex.valueChanges
-      .subscribe(
-        id => {
-          this.filterValues.slucaj = id;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-        }
-      );
   }
   private remapImagesForDisplay(data) {
     data.forEach(slucaj => {
@@ -141,15 +117,15 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   filter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  tableFilter(): (data: any, filter: string) => boolean {
-    const filterFunction = function (data, filter): boolean {
-      const searchTerms = JSON.parse(filter);
-      // return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name)
-      return data.ime.toLowerCase().includes(searchTerms.name)
-      // &&  data.slucajStatusId === <number>searchTerms.tabIndex;
-    };
-    return filterFunction;
-  }
+  // tableFilter(): (data: any, filter: string) => boolean {
+  //   const filterFunction = function (data, filter): boolean {
+  //     const searchTerms = JSON.parse(filter);
+  //     // return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name)
+  //     return data.ime.toLowerCase().includes(searchTerms.name)
+  //     // &&  data.slucajStatusId === <number>searchTerms.tabIndex;
+  //   };
+  //   return filterFunction;
+  // }
 
   removeAt(index: number) {
     const data = this.dataSource.data;
@@ -169,7 +145,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
   handleButton(element) {
     switch (element.slucajStatusId) {
-      case 1: 
+      case 1:
         return 'Ceka se odgovor advokata'
         break;
       case 3:
@@ -196,14 +172,16 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     });
     console.log(this.sviSlucajeviOdabir);
   }
-  handleTabChange(tab) {
+  async handleTabChange(tab) {
     switch (tab) {
       // svi
       case 0:
+        console.log(tab);
          this.resetFilter();
          const unique0 = [...new Set(this.filteredData.map(item => item.slucaj.id))];
-        this.handleSlucaj(unique0);
-        this.dataSource.data = [...this.filteredData];
+         console.log(unique0);
+         this.handleSlucaj(unique0);
+         this.dataSource.data = [...this.filteredData];
         break;
       // filter prihvaceni
       case 1:
@@ -214,10 +192,10 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         break;
       // filter u procesu
       case 2:
-        // this.filterData()
         this.resetFilter();
         const unique1 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 4 ||
           ss.slucajStatusId === 7 || ss.slucajStatusId === 1 || ss.slucajStatusId === 6).map(item => item.slucaj.id))];
+         console.log(unique1);
         this.handleSlucaj(unique1);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 4 ||
           ss.slucajStatusId === 7 || ss.slucajStatusId === 1 || ss.slucajStatusId === 6);
@@ -261,7 +239,8 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     }
 
     if (this.filterInputValue) {
-      filteredData = filteredData.filter(cd => cd.ime.includes(this.filterInputValue) || cd.prezime.includes(this.filterInputValue));
+      filteredData = filteredData.filter(cd => cd.ime.includes(this.filterInputValue) ||
+                                         cd.prezime.includes(this.filterInputValue));
     }
     this.filteredData = filteredData;
     this.dataSource.data = this.filteredData;

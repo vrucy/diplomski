@@ -11,17 +11,16 @@
   </mat-tab>
 </mat-tab-group>
 
-<!-- <mat-card> -->
 <div class="search">
   <mat-form-field class="field-search">
     <mat-label>Search</mat-label>
     <input matInput [(ngModel)]="filterInputValue">
   </mat-form-field>
 </div>
-<div class="select">
-  <mat-form-field>
+<div class="select" *ngIf="sviSlucajeviOdabir">
+  <mat-form-field >
     <mat-label>Odaberite slucaj</mat-label>
-    <mat-select [(ngModel)]="slucajValue">
+    <mat-select [(ngModel)]="slucajValue" >
       <mat-option *ngFor="let slucaj of sviSlucajeviOdabir" [value]="slucaj">{{slucaj.naziv}}</mat-option>
     </mat-select>
   </mat-form-field>

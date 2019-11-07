@@ -31,7 +31,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
   nameFilter = new FormControl('');
   podKategorijaFilter = new FormControl('');
-
+  isLinear:boolean;
   filterTxt: string;
   // kategorije;
   odabraniSlucaj: Slucaj = new Slucaj();
@@ -46,31 +46,19 @@ export class SlanjeSlucajaComponent implements OnInit {
     // this.dataSource.filterPredicate = this.tableFilter();
   }
 
-  filterValues = {
-    name: '',
-    kategorijaFilter: '',
-    podKategorijaFilter: ''
-  };
+  // filterValues = {
+  //   name: '',
+  //   kategorijaFilter: '',
+  //   podKategorijaFilter: ''
+  // };
   ngOnInit() {
     this.odabraniAdvokati = new FormGroup({
       odabirMajstora: this._formBuilder.group({
         odabirMajstora1: ['', Validators.requiredTrue]
       })
     });
-    // this.odbairSlucajaFormGruop = new FormGroup({
-    //   odabirSlucja: this._formBuilder.group({
-    //     odabirSlucaja1: this._formBuilder.array()
-    //   });
-    // });
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    // this.nameFilter.valueChanges
-    //   .subscribe(
-    //     name => {
-    //       this.filterValues.name = name;
-    //       this.dataSource.filter = JSON.stringify(this.filterValues);
-    //     }
-    //   );
     this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
       this.sviMajstori = res;
     });
@@ -82,41 +70,14 @@ export class SlanjeSlucajaComponent implements OnInit {
       console.log(this.slucajevi)
     });
   }
-  // private mapToCheckboxArrayGroup(data: string[]): FormArray {
-  //   return this._formBuilder.array(data.map((i) => {
-  //     return this._formBuilder.group({
-  //       name: i,
-  //       selected: false
-  //     });
-  //   }));
-  // }
-  // getMajstorFormGroup(): FormGroup {
-  //   return this._formBuilder.group({
-  //     size: [size],
-  //     toppings: this.mapToCheckboxArrayGroup(this.sviMajstori)
-  //   }, {
-  //     validator: ['', Validators.required]
-  //   });
-  // }
   getMajstoriBySelectedId() {
     const searchTerm = this.odabraniSlucaj.kategorijaId;
     this.dataSource.data = [...this.sviMajstori].filter(r => r.kategorije.some(k => k.kategorijaId === searchTerm));
   }
-  // tableFilter(): (data: any, filter: string) => boolean {
-  //   const filterFunction = function (data, filter): boolean {
-  //     const searchTerms = JSON.parse(filter);
-  //     console.log(data)
-  //     return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
-  //       data.majstorKategorijes.find(ca => ca.kategorijaId === <number>searchTerms.kategorijaFilter);
-  //     // data.majstorKategorijes.find(ca => ca.kategorijaId === <number>this.odabraniSlucaj.kategorijaId);
-
-  //   }
-  //   return filterFunction;
-  // }
   openDialogPrikazSlika(element): void {
     const dialogRef = this.dialog.open(PrikazSlikaComponent, {
       width: '40%',
-      height: '80%',
+      height: '70%',
       data: { slike: element.slike }
     });
 

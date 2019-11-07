@@ -112,7 +112,7 @@
         <button mat-button matStepperPrevious>Back</button>
 
         <button mat-button (click)="stepper.reset()">Reset</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext [disabled]="!selection.selected.length > 0">Next</button>
       </div>
     </div>
   </form>
