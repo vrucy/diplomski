@@ -1,6 +1,6 @@
 import { Majstor } from './../../model/Majstor';
 import { AdvokatService } from './../../service/advokat.service';
-import { Cenovnik } from './../../model/Cenovnik';
+import {ChangeDetectorRef } from '@angular/core';
 import { SlucajSlanjeVM } from './../../model/SlucajSlanjeVM';
 import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
@@ -44,7 +44,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService,
-    private advokatService: AdvokatService, public dialog: MatDialog) {
+    private advokatService: AdvokatService, public dialog: MatDialog, private cdref: ChangeDetectorRef) {
     // this.dataSource.filterPredicate = this.tableFilter();
   }
 
@@ -53,12 +53,15 @@ export class SlanjeSlucajaComponent implements OnInit {
   //   kategorijaFilter: '',
   //   podKategorijaFilter: ''
   // };
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
-    this.secondFormGroup = new FormGroup({
-
+    this.secondFormGroup = this._formBuilder.group({
+      items: [ '',this.selection.selected ]
     });
     // this.odbairSlucajaFormGruop = new FormGroup({
     //   odabirSlucja: this._formBuilder.group({

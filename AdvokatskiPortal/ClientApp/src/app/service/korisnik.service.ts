@@ -70,6 +70,6 @@ export class KorisnikService {
     return this.http.post('http://localhost:44345/api/Korisnik/uploadFile', file).subscribe();
   }
   editSlucaj(slucaj) {
-    return this.http.put('http://localhost:44345/api/Korisnik/editSlucaj', slucaj).subscribe();
+    return this.http.post('http://localhost:44345/api/Korisnik/editSlucaj', slucaj);
   }
 }

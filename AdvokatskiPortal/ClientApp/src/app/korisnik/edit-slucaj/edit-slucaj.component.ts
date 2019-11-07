@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { KorisnikService } from '../../service/korisnik.service';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Slika } from '../../model/Slika';
+import { delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-edit-slucaj',
   templateUrl: './edit-slucaj.component.html',
@@ -16,45 +18,51 @@ export class EditSlucajComponent implements OnInit {
   private fileHandler: ImageHandler;
   slike: Slika[] = [];
 
-  constructor(private route: ActivatedRoute, private korisnikService: KorisnikService , private _ngZone: NgZone, private router: Router) { }
-  @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
+  constructor(private route: ActivatedRoute, private korisnikService: KorisnikService, private _ngZone: NgZone, private router: Router) { }
+  @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize;
   ngOnInit() {
-     this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.id = params['id'];
       this.korisnikService.getSlucajById(this.id).subscribe((res: any) => {
         this.slucaj = new Slucaj();
         this.slucaj = res;
         this.remapImagesForDisplay(this.slucaj)
       });
-      });
-      console.log(this.id);
+    });
+    console.log(this.id);
     this.reader.onload = this.handleReaderLoaded.bind(this);
   }
   private remapImagesForDisplay(data) {
-      const baseSlike = data.slike.map(s => {
-        s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
-        console.log(s)
-        return s;
-      });
-      // this.images = data.slike.map((s) => s.slikaProp);
+    const baseSlike = data.slike.map(s => {
+      s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+      console.log(s)
+      return s;
+    });
+    // this.images = data.slike.map((s) => s.slikaProp);
   }
   editSlucaj() {
-    this.slucaj.slike.map((s)=> {
-      s.slikaProp = s.slikaProp.toString().split(',')[1];  
+    this.slucaj.slike.map((s) => {
+      s.slikaProp = s.slikaProp.toString().split(',')[1];
       return s;
 
     })
-    console.log(this.slucaj)
-     this.korisnikService.editSlucaj(this.slucaj);
-     this.router.navigate(['/slanjeSlucaja'])
-     
+
+    this.korisnikService.editSlucaj(this.slucaj).subscribe((res: any) => {
+      this.remapImagesForDisplay(res)
+      this.slucaj = res;
+      console.log(res)
+    })
+
+    setTimeout(() => {
+      this.router.navigate(['/slanjeSlucaja'])
+    }, 100)
   }
   prikazSlike;
-  deleteImage(img):string {
+  deleteImage(img): string {
     const index: number = this.slucaj.slike.indexOf(img);
-    this.slucaj.slike.splice(index ,1)
+    this.slucaj.slike.splice(index, 1)
     console.log('slika: ', this.slucaj.slike)
-      
+
     return img;
   }
   onUploadChange(evt: any) {
@@ -65,7 +73,7 @@ export class EditSlucajComponent implements OnInit {
     }
   }
   handleReaderLoaded(e) {
-    const base64 = e.target.result.toString().split(',')[1]; 
+    const base64 = e.target.result.toString().split(',')[1];
     console.log(base64)
     const prikaz = e.target.result;
     const slika = this.fileHandler.ProcessFile(base64, prikaz);

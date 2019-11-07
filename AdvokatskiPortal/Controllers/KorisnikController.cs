@@ -396,6 +396,7 @@ namespace AdvokatskiPortal.Controllers
             var x = slucajVm;
             return Ok();
         }
+        //KOTISTI SE
         [HttpPut("editSlucaj")]
         public IActionResult editSlucaj([FromBody] Slucaj slucaj)
         {
@@ -428,7 +429,7 @@ namespace AdvokatskiPortal.Controllers
             }
             _context.Entry(currentSlucaj).State = EntityState.Modified;
             _context.SaveChanges();
-            return Ok();
+            return Ok(currentSlucaj);
         }
         [HttpPut("prihvacenSlucajKorisnik")]
         public async Task<IActionResult> prihvacenSlucajKorisnik([FromBody] acceptVM ids)
