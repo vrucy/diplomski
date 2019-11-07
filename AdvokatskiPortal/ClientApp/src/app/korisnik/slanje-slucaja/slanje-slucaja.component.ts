@@ -31,14 +31,16 @@ export class SlanjeSlucajaComponent implements OnInit {
   SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
   nameFilter = new FormControl('');
   podKategorijaFilter = new FormControl('');
-
+  isLinear = true;
   filterTxt: string;
   // kategorije;
   odabraniSlucaj: Slucaj = new Slucaj();
   odabraniAdvokati;
   sviMajstori: any;
-  odabirMajstoraFormGroup: FormGroup;
-  odbairSlucajaFormGruop: FormGroup;
+  // odabirMajstoraFormGroup: FormGroup;
+  // odbairSlucajaFormGruop: FormGroup;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService,
@@ -46,16 +48,17 @@ export class SlanjeSlucajaComponent implements OnInit {
     // this.dataSource.filterPredicate = this.tableFilter();
   }
 
-  filterValues = {
-    name: '',
-    kategorijaFilter: '',
-    podKategorijaFilter: ''
-  };
+  // filterValues = {
+  //   name: '',
+  //   kategorijaFilter: '',
+  //   podKategorijaFilter: ''
+  // };
   ngOnInit() {
-    this.odabraniAdvokati = new FormGroup({
-      odabirMajstora: this._formBuilder.group({
-        odabirMajstora1: ['', Validators.requiredTrue]
-      })
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = new FormGroup({
+
     });
     // this.odbairSlucajaFormGruop = new FormGroup({
     //   odabirSlucja: this._formBuilder.group({
@@ -102,17 +105,6 @@ export class SlanjeSlucajaComponent implements OnInit {
     const searchTerm = this.odabraniSlucaj.kategorijaId;
     this.dataSource.data = [...this.sviMajstori].filter(r => r.kategorije.some(k => k.kategorijaId === searchTerm));
   }
-  // tableFilter(): (data: any, filter: string) => boolean {
-  //   const filterFunction = function (data, filter): boolean {
-  //     const searchTerms = JSON.parse(filter);
-  //     console.log(data)
-  //     return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name) &&
-  //       data.majstorKategorijes.find(ca => ca.kategorijaId === <number>searchTerms.kategorijaFilter);
-  //     // data.majstorKategorijes.find(ca => ca.kategorijaId === <number>this.odabraniSlucaj.kategorijaId);
-
-  //   }
-  //   return filterFunction;
-  // }
   openDialogPrikazSlika(element): void {
     const dialogRef = this.dialog.open(PrikazSlikaComponent, {
       width: '40%',

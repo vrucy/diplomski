@@ -1,6 +1,6 @@
-<mat-horizontal-stepper [linear]="!isLinear" #stepper (selectionChange)="stepChanges($event)">
+<mat-horizontal-stepper [linear]="isLinear" #stepper (selectionChange)="stepChanges($event)">
   <mat-step  (changes)="stepChanges($event)">
-    <!-- <form > -->
+    <form > 
       <ng-template matStepLabel>Odaberite slucaj</ng-template>
       <div class="tableDiv">
 
@@ -22,16 +22,17 @@
 
           <ng-container matColumnDef="Slike">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Slike</th>
-            <td mat-cell *matCellDef="let slucaj"><a (click)="openDialogPrikazSlika(slucaj)">
+            <td mat-cell *matCellDef="let slucaj"><a (click)="openDialogPrikazSlika(slucaj)" >
                 Click
               </a></td>
           </ng-container>
           <ng-container matColumnDef="Akcije">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcije</th>
             <td mat-cell *matCellDef="let slucaj">
-              <button mat-button (click)="acceptSlucaj(slucaj,stepper)">
+              <!-- <input mat-button (click)="acceptSlucaj(slucaj,stepper)" formControlName="firstCtrl" required> -->
+              <button mat-button (click)="acceptSlucaj(slucaj,stepper)" required>
                 <mat-icon class="material-icons">done </mat-icon>
-
+              <!-- </input> -->
               </button>
               <button mat-button class="material-icons" [routerLink]="[ '/editSlucaj',slucaj.id]">
                 <mat-icon class="material-icons">edit </mat-icon>
@@ -44,11 +45,11 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumnsSlucaj;"></tr>
         </table>
       </div>
-    <!-- </form> -->
+    </form>
   </mat-step>
 
-  <mat-step [stepControl]="odabirMajstora">
-    <form>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
     <ng-template matStepLabel>Odaberite majstore</ng-template>
     <div class="tabelaMajstori">
 

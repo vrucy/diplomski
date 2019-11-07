@@ -20,9 +20,9 @@ export class TabelaAdvokataComponent implements OnInit {
   originalData;
   podKategorije;
   selectedId;
-  kat = new FormControl('');
-  podK = new FormControl('');
-  filterTxt = new FormControl('');
+  // kat = new FormControl('');
+  // podK = new FormControl('');
+  // filterTxt = new FormControl('');
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -57,11 +57,11 @@ export class TabelaAdvokataComponent implements OnInit {
   constructor(private korisnikService: KorisnikService) {
     // this.dataSource.filterPredicate = this.tableFilter();
   }
-  filterValues = {
-    kat: '',
-    podK: '',
-    filterTxt: ''
-  };
+  // filterValues = {
+  //   kat: '',
+  //   podK: '',
+  //   filterTxt: ''
+  // };
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -80,6 +80,7 @@ export class TabelaAdvokataComponent implements OnInit {
   resetFilters(){
     this.filterInputValue = null;
     this.kategorijaValue = null;
+    this.podkategorijaValue = null;
   }
   filterData() {
     if (!this.cachedData) {

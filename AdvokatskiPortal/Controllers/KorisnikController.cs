@@ -307,8 +307,8 @@ namespace AdvokatskiPortal.Controllers
                     {
                         MajstorId = majstor.Id,
                         StatusId = 1,
-                        SlucajId = slucajVM.Slucaj.Id,
-                        zavrsetakRada = null
+                        SlucajId = slucajVM.Slucaj.Id
+                        //zavrsetakRada = null
                     };
                     _context.SlucajMajstors.Add(newSlucajAdvokat);
                     _context.Cenovniks.Add(cenovnik);
@@ -469,22 +469,22 @@ namespace AdvokatskiPortal.Controllers
             return Ok();
         }
         [HttpPut("odbijenSlucajOdKorisnika")]
-        public async Task<IActionResult> odbijenSlucajOdKorisnika([FromBody] SlucajMajstor slucajMajstor)
+        public async Task<IActionResult> odbijenSlucajOdKorisnika([FromBody] acceptVM odbijenSlucaj)
         {
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
 
-            var slucaj = _context.SlucajMajstors.Single(x => x.MajstorId == slucajMajstor.MajstorId && x.Slucaj.Id == slucajMajstor.Slucaj.Id);
+            var slucaj = _context.SlucajMajstors.Where(x => x.MajstorId == odbijenSlucaj.majstorId&& x.Slucaj.Id == odbijenSlucaj.slucajId).Include(s=>s.Slucaj).Single();
             var notification = new Notification
             {
-                UserId = slucajMajstor.MajstorIdStr,
+                UserId = slucaj.MajstorIdStr,
                 TimeStamp = DateTime.UtcNow.ToLocalTime(),
                 isRead = false,
-                SlucajId = slucajMajstor.Slucaj.Id,
-                NotificationText = $"{ulogovaniKorisnik.Ime} je odbio slucaj:  {slucajMajstor.Slucaj.Naziv}"
+                SlucajId = odbijenSlucaj.slucajId,
+                NotificationText = $"{ulogovaniKorisnik.Ime} je odbio slucaj:  {slucaj.Slucaj.Naziv}"
             };
             _context.Notifications.Add(notification);
-            slucaj.SlucajStatusId = 5;
+            slucaj.SlucajStatusId = 3;
             _context.Entry(slucaj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

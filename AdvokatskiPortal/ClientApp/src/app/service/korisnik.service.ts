@@ -52,8 +52,8 @@ export class KorisnikService {
   prihvacenSlucajOdKorisnika (slucaj) {
     return this.http.put ('http://localhost:44345/api/Korisnik/prihvacenSlucajKorisnik', slucaj);
   }
-  odbijenSlucajOdKorisnika(slucaj) {
-    return this.http.put('http://localhost:44345/api/Korisnik/odbijenSlucajOdKorisnika', slucaj).subscribe(res => {
+  odbijenSlucajOdKorisnika(ids) {
+    return this.http.put('http://localhost:44345/api/Korisnik/odbijenSlucajOdKorisnika', ids).subscribe(res => {
       console.log(res)
     });
   }

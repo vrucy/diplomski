@@ -164,7 +164,10 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     });
   }
   odbijenSlucaj(slucaj) {
-    this.korisnikService.odbijenSlucajOdKorisnika(slucaj);
+    console.log(slucaj)
+    const ids = { majstorId: slucaj.majstorId, slucajId: slucaj.slucaj.id }
+    console.log(ids)
+    this.korisnikService.odbijenSlucajOdKorisnika(ids);
   }
 
   handleButton(element) {
