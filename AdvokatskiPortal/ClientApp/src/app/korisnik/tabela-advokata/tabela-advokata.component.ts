@@ -12,7 +12,7 @@ import { FormControl } from '@angular/forms';
 })
 export class TabelaAdvokataComponent implements OnInit {
 
-  displayedColumns: string[] = ['Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
+  displayedColumns: string[] = ['Id', 'ime', 'prezime', 'mesto', 'ulica', 'email'];
   advokati;
   kategorije;
   public dataSource = new MatTableDataSource<Majstor>();
@@ -64,8 +64,12 @@ export class TabelaAdvokataComponent implements OnInit {
   // };
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, 200);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
     this.korisnikService.getAllAdvokati().subscribe((res: any) => {
       this.cachedData = [...res];
       this.filteredData = [...res];

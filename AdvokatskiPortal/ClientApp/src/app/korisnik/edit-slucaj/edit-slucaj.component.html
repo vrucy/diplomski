@@ -1,32 +1,32 @@
 <div class="main-div" *ngIf="slucaj">
-    <mat-card class="card-edit">
-        <!-- <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+  <mat-card class="card-edit">
+    <!-- <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="5" [(ngModel)]="slucaj.opis" placeholder="Opis">
 
         </textarea> -->
-        <div class="input">
-            <mat-form-field>
-                <input matInput [(ngModel)]="slucaj.naziv" placeholder="Naziv">
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput [(ngModel)]="slucaj.opis" placeholder="Opis">
-            </mat-form-field>
-        </div>
-        <div class="slike">
-            <div *ngFor="let img of slucaj.slike" class="show-image">
-                <img [src]="img.slikaProp" height="80" *ngIf="img.slikaProp">
-                <mat-icon class="material-icons" (click)="deleteImage(img)">clear</mat-icon>
-            </div>
-            <!-- <button mat-button type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" multiple>
+    <div class="input">
+      <mat-form-field>
+        <input matInput [(ngModel)]="slucaj.naziv" placeholder="Naziv">
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput [(ngModel)]="slucaj.opis" placeholder="Opis"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="slike">
+      <div *ngFor="let img of slucaj.slike" class="show-image">
+        <img [src]="img.slikaProp" height="80" *ngIf="img.slikaProp">
+        <mat-icon class="material-icons" (click)="deleteImage(img)">clear</mat-icon>
+      </div>
+      <!-- <button mat-button type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" multiple>
                         <mat-icon class="material-icons" >add</mat-icon>
                     </button> -->
-            <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Unesite Opis"
-                multiple>
-        </div>
-        <div class="div-button">
-            <button mat-button (click)="editSlucaj()">Edit</button>
+      <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Unesite Opis"
+             multiple>
+    </div>
+    <div class="div-button">
+      <button mat-button (click)="editSlucaj()">Edit</button>
 
-            <button mat-button routerLink="/slanjeSlucaja">Nazad</button>
-        </div>
-    </mat-card>
+      <button mat-button routerLink="/slanjeSlucaja">Nazad</button>
+    </div>
+  </mat-card>
 </div>

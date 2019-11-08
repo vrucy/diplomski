@@ -85,7 +85,8 @@ namespace AdvokatskiPortal.Controllers
                             Id = t.SlucajId,
                             t.Slucaj.Naziv,
                             t.Slucaj.Opis,
-                            Slike = t.Slucaj.Slike.Select(slika => new { slika.slikaProp })
+                            Slike = t.Slucaj.Slike.Select(slika => new { slika.slikaProp }),
+                            t.datumKreiranja
                         }
                     };
                 }).ToList();

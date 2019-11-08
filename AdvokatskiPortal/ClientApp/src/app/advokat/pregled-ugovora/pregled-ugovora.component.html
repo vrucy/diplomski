@@ -55,9 +55,9 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="opis">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Opis Slucaja </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Slucaj </th>
       <!-- <td mat-cell *matCellDef="let element"> {{element.slucaj.opis}} </td> -->
-      <td mat-cell *matCellDef="let element"> <a (click)="openDialogPrikazSlucaja(element)">{{element.slucaj.opis}}
+      <td mat-cell *matCellDef="let element"> <a (click)="openDialogPrikazSlucaja(element)">{{element.slucaj.naziv}}
         </a></td>
 
     </ng-container>

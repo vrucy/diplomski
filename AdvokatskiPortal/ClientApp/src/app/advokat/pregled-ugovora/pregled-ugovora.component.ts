@@ -48,12 +48,12 @@ export class PregledUgovoraComponent implements OnInit {
 
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) {
     this.initialize();
-    this.dataSource.filterPredicate = this.tableFilter();
+    // this.dataSource.filterPredicate = this.tableFilter();
   }
-  filterValues = {
-    name: '',
-    tabIndex: ''
-  };
+  // filterValues = {
+  //   name: '',
+  //   tabIndex: ''
+  // };
 
   initialize() {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
@@ -73,30 +73,10 @@ export class PregledUgovoraComponent implements OnInit {
     });
   }
 
-  // submitAcceptForm(result) {
-  //   this.advokatService.prihvatanjeSlucajaOdAdvokata(result).subscribe(res => {
-  //   });
-  // }
-  // openDialog(element): void {
-  //   const dialogRef = this.dialog.open(AcceptComponent, {
-  //     width: '250px',
-  //     data: { odgovor: this.odgovor }
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     element.odgovor = result;
-  //     this.odgovor = result;
-  //     console.log(result);
-  //     this.advokatService.prihvatanjeSlucajaOdAdvokata(element).subscribe(res => {
-  //     });
-  //   });
-  // }
-
   openDialogEdit(element): void {
     console.log(element)
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
-      // napraviti svoj cenovnik ili prepraviti postojeci???
-      // data: Object.assign(new Cenovnik(), element)
       data: {
         cenovnik: Object.assign(new Cenovnik(), element),
         submitCallback: this.submitPopupForm.bind(this),
@@ -105,13 +85,9 @@ export class PregledUgovoraComponent implements OnInit {
         pocetakRada: element.pocetakRada
       }
     });
-    // dialogRef.afterClosed().subscribe((result: any) => {
-    //   console.log(result);
-    // });
   }
   submitPopupForm(result) {
     console.log('RESULTAT POPUPA', result)
-    // this.advokatService.prepravkaCeneOdAdvokata(result);
      this.advokatService.prepravkaSlucajaAdvokata(result).subscribe(res => {
      this.initialize() ;
      });
@@ -127,32 +103,31 @@ export class PregledUgovoraComponent implements OnInit {
       this.odgovor = result;
     });
   }
-  tableFilter(): (data: any, filter: string) => boolean {
-    const filterFunction = function (data, filter): boolean {
-      const searchTerms = JSON.parse(filter);
-      return data.majstor.ime.toLowerCase().indexOf(searchTerms.name) !== -1 ||
-        data.slucajStatusId.toString().toLowerCase().indexOf(searchTerms.tabIndex) !== -1;
-    }
-    return filterFunction;
-  }
+  // tableFilter(): (data: any, filter: string) => boolean {
+  //   const filterFunction = function (data, filter): boolean {
+  //     const searchTerms = JSON.parse(filter);
+  //     return data.majstor.ime.toLowerCase().indexOf(searchTerms.name) !== -1 ||
+  //       data.slucajStatusId.toString().toLowerCase().indexOf(searchTerms.tabIndex) !== -1;
+  //   }
+  //   return filterFunction;
+  // }
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
-    this.nameFilter.valueChanges
-      .subscribe(
-        name => {
-          this.filterValues.name = name;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-        }
-      );
-    this.tabIndex.valueChanges
-      .subscribe(
-        id => {
-          this.filterValues.tabIndex = id;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-        }
-      );
+    // this.nameFilter.valueChanges
+    //   .subscribe(
+    //     name => {
+    //       this.filterValues.name = name;
+    //       this.dataSource.filter = JSON.stringify(this.filterValues);
+    //     }
+    //   );
+    // this.tabIndex.valueChanges
+    //   .subscribe(
+    //     id => {
+    //       this.filterValues.tabIndex = id;
+    //       this.dataSource.filter = JSON.stringify(this.filterValues);
+    //     }
+    //   );
 
   }
   removeAt(index: number) {
@@ -192,18 +167,28 @@ export class PregledUgovoraComponent implements OnInit {
         break;
       // filter prihvaceni
       case 1:
+          const unique = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 2).map(item => item.slucaj.id))];
+          this.handleSlucaj(unique);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 2);
         break;
       // filter u procesu
       case 2:
+          const unique1 = [...new Set(this.filteredData.filter(
+                        ss => ss.slucajStatusId === 6 || ss.slucajStatusId === 1 || ss.slucajStatusId === 7).map(item => item.slucaj.id))];
+           console.log(unique1);
+          this.handleSlucaj(unique1);
         this.dataSource.data = [...this.filteredData].filter(ss =>
           ss.slucajStatusId === 6 || ss.slucajStatusId === 1 || ss.slucajStatusId === 7);
         break;
       // filter odbijeni
       case 3:
+          const unique2 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 5).map(item => item.slucaj.id))];
+          this.handleSlucaj(unique2);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 5);
         break;
       case 4:
+          const unique3 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 3).map(item => item.slucaj.id))];
+          this.handleSlucaj(unique3);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 3);
         break;
       default:

@@ -51,6 +51,12 @@
         </div>
       </td>
     </ng-container>
+    <ng-container matColumnDef="datumKreiranja">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Datum kreiranja</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.slucaj.datumKreiranja | date: 'mediumDate'}}
+        </td>
+      </ng-container>
     <ng-container matColumnDef="pocetakRada">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Pocetak rada</th>
       <td mat-cell *matCellDef="let element">

@@ -1,39 +1,37 @@
 <mat-horizontal-stepper [linear]="isLinear" #stepper (selectionChange)="stepChanges($event)">
-  <mat-step  (changes)="stepChanges($event)">
-    <form > 
+  <mat-step [stepControl]="firstFormGroup" (changes)="stepChanges($event)">
+    <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Odaberite slucaj</ng-template>
       <div class="tableDiv">
-
         <table mat-table [dataSource]="dataSourceSlucaj" matSort class="mat-elevation-z8">
-          <ng-container matColumnDef="Id">
+          <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef [style.display]="'none'">id</th>
             <td mat-cell *matCellDef="let slucaj" [style.display]="'none'">{{slucaj.Id}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Naziv">
+          <ng-container matColumnDef="naziv">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Naziv</th>
             <td mat-cell *matCellDef="let slucaj">{{slucaj.naziv}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Opis">
+          <ng-container matColumnDef="opis">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Opis</th>
             <td mat-cell *matCellDef="let slucaj">{{slucaj.opis}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Slike">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Slike</th>
-            <td mat-cell *matCellDef="let slucaj"><a (click)="openDialogPrikazSlika(slucaj)" >
+          <ng-container matColumnDef="slike">
+            <th mat-header-cell *matHeaderCellDef >Slike</th>
+            <td mat-cell *matCellDef="let slucaj"><a (click)="openDialogPrikazSlika(slucaj)">
                 Click
               </a></td>
           </ng-container>
-          <ng-container matColumnDef="Akcije">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Akcije</th>
+          <ng-container matColumnDef="akcije">
+            <th mat-header-cell *matHeaderCellDef >Akcije</th>
             <td mat-cell *matCellDef="let slucaj">
-              <!-- <input mat-button (click)="acceptSlucaj(slucaj,stepper)" formControlName="firstCtrl" required> -->
-              <button mat-button (click)="acceptSlucaj(slucaj,stepper)" required>
-                <mat-icon class="material-icons">done </mat-icon>
-              <!-- </input> -->
-              </button>
+                 <button mat-button (click)="acceptSlucaj(slucaj,stepper)" required>
+                  <mat-icon class="material-icons">done </mat-icon>
+                  </button>
+                <!-- <input type="button" formControlName="firstCtrl" (click)="acceptSlucaj(slucaj,stepper)" required> -->
               <button mat-button class="material-icons" [routerLink]="[ '/editSlucaj',slucaj.id]">
                 <mat-icon class="material-icons">edit </mat-icon>
 
@@ -50,8 +48,8 @@
 
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
-    <ng-template matStepLabel>Odaberite majstore</ng-template>
-    <div class="tabelaMajstori">
+      <ng-template matStepLabel>Odaberite majstore</ng-template>
+      <div class="tabelaMajstori">
 
         <div class="filters">
           <mat-form-field fxFlex="40%">
@@ -69,35 +67,36 @@
             </th>
             <td mat-cell *matCellDef="let row">
               <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)" formControlName="items" required>
+                            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"
+                            formControlName="items" required>
               </mat-checkbox>
             </td>
           </ng-container>
-          <ng-container matColumnDef="Id">
+          <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef [style.display]="'none'">id</th>
-            <td mat-cell *matCellDef="let adv" [style.display]="'none'">{{adv.Id}}</td>
+            <td mat-cell *matCellDef="let adv" [style.display]="'none'">{{adv.id}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Ime">
+          <ng-container matColumnDef="ime">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ime</th>
             <td mat-cell *matCellDef="let adv">{{adv.ime}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Prezime">
+          <ng-container matColumnDef="prezime">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>prezime</th>
             <td mat-cell *matCellDef="let adv">{{adv.prezime}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Email">
+          <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>email</th>
             <td mat-cell *matCellDef="let adv">{{adv.email}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Mesto">
+          <ng-container matColumnDef="mesto">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>mesto</th>
             <td mat-cell *matCellDef="let adv">{{adv.mesto}}</td>
           </ng-container>
-          <ng-container matColumnDef="Ulica">
+          <ng-container matColumnDef="ulica">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Ulica</th>
             <td mat-cell *matCellDef="let adv">{{adv.ulica}}</td>
           </ng-container>
@@ -107,23 +106,22 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
         </table>
-      <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 4, 6, 10, 20]">
-      </mat-paginator>
-      <div class="button1">
-        <button mat-button matStepperPrevious>Back</button>
-
-        <button mat-button (click)="stepper.reset()">Reset</button>
-        <button mat-button matStepperNext [disabled]="!selection.selected.length > 0">Next</button>
+        <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+        </mat-paginator>
+        <div class="button1">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button [disabled]="!selection.selected.length > 0" matStepperNext>Next</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
   </mat-step>
   <!-- [disabled]="!selection.selected.length > 0" -->
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     You are now done.
     <div>
-      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperPrevious (click)="resetStepper(stepper)">Back</button>
       <button mat-button (click)="stepper.reset()">Reset</button>
       <button mat-button (click)="save()">Snimi</button>
     </div>

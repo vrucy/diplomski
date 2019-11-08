@@ -19,10 +19,10 @@ import { MatDialog, MatPaginator, MatSort, MatStepper } from '@angular/material'
 export class SlanjeSlucajaComponent implements OnInit {
   cenovnik = { vrstaPlacanja: '', kolicina: '' };
   vrstaPlacanja;
-  displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
+  displayedColumns: string[] = ['select', 'id', 'ime', 'prezime', 'mesto', 'ulica', 'email'];
   selection = new SelectionModel<Majstor>(true, []);
   public dataSource = new MatTableDataSource<Majstor>();
-  displayedColumnsSlucaj: string[] = ['Id', 'Naziv', 'Opis', 'Slike', 'Akcije'];
+  displayedColumnsSlucaj: string[] = ['id', 'naziv', 'opis', 'slike', 'akcije'];
   public dataSourceSlucaj = new MatTableDataSource<Slucaj>();
   slucaj: Slucaj = new Slucaj();
   noviSlucaj: Slucaj = new Slucaj();
@@ -33,12 +33,9 @@ export class SlanjeSlucajaComponent implements OnInit {
   podKategorijaFilter = new FormControl('');
   isLinear = true;
   filterTxt: string;
-  // kategorije;
   odabraniSlucaj: Slucaj = new Slucaj();
   odabraniAdvokati;
   sviMajstori: any;
-  // odabirMajstoraFormGroup: FormGroup;
-  // odbairSlucajaFormGruop: FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -57,19 +54,19 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.cdref.detectChanges();
   }
   ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      firstCtrl: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
-      items: [ '',this.selection.selected ]
+      items: [ '', Validators.requiredTrue ]
     });
     // this.odbairSlucajaFormGruop = new FormGroup({
     //   odabirSlucja: this._formBuilder.group({
     //     odabirSlucaja1: this._formBuilder.array()
     //   });
     // });
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
     // this.nameFilter.valueChanges
     //   .subscribe(
     //     name => {
@@ -88,22 +85,6 @@ export class SlanjeSlucajaComponent implements OnInit {
       console.log(this.slucajevi)
     });
   }
-  // private mapToCheckboxArrayGroup(data: string[]): FormArray {
-  //   return this._formBuilder.array(data.map((i) => {
-  //     return this._formBuilder.group({
-  //       name: i,
-  //       selected: false
-  //     });
-  //   }));
-  // }
-  // getMajstorFormGroup(): FormGroup {
-  //   return this._formBuilder.group({
-  //     size: [size],
-  //     toppings: this.mapToCheckboxArrayGroup(this.sviMajstori)
-  //   }, {
-  //     validator: ['', Validators.required]
-  //   });
-  // }
   getMajstoriBySelectedId() {
     const searchTerm = this.odabraniSlucaj.kategorijaId;
     this.dataSource.data = [...this.sviMajstori].filter(r => r.kategorije.some(k => k.kategorijaId === searchTerm));
@@ -160,6 +141,11 @@ export class SlanjeSlucajaComponent implements OnInit {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+  resetStepper(stepper) {
+    stepper.reset();
+    this.selection.clear();
+
   }
   save() {
     this.SlucajVM.Majstors = this.selection.selected;

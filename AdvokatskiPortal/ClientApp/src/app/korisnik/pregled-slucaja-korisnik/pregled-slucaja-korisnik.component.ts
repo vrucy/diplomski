@@ -18,7 +18,8 @@ import { MatSort } from '@angular/material/sort';
 })
 export class PregledSlucajaKorisnikComponent implements OnInit {
 
-  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'pocetakRada', 'zavrsetakRada', 'opis', 'button'];
+  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'datumKreiranja'
+                              , 'pocetakRada', 'zavrsetakRada', 'opis', 'button'];
   public dataSource = new MatTableDataSource<pregledSlucajaVM>();
 
   nameFilter = new FormControl('');
@@ -57,6 +58,30 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
   constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
     // this.dataSource.filterPredicate = this.tableFilter();
+    this.initialize();
+  }
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    // this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
+    //   this.cachedData = [...res];
+    //   this.filteredData = [...res];
+    //   this.dataSource.data = this.filteredData;
+    //   this.sviSlucajevi = res;
+    //   this.remapImagesForDisplay(res);
+    //   this.handleTabChange(0);
+    //   this.handleOdabirSlucaja();
+    // });
+  }
+  initialize() {
+    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
+      this.cachedData = [...res];
+      this.filteredData = [...res];
+      this.dataSource.data = this.filteredData;
+      this.sviSlucajevi = res;
+      this.remapImagesForDisplay(res);
+      this.handleTabChange(0);
+    });
   }
   submitPopupForm(result) {
     this.handleSubmitData(result);
@@ -89,23 +114,10 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       this.odgovor = result;
     });
   }
-  handleOdabirSlucaja() {
-    const unique = [...new Set(this.filteredData.map(item => item.slucaj.id))];
-    this.sviSlucajeviOdabir = this.filteredData.filter(x => x.slucaj.id === unique);
-  }
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
-      this.cachedData = [...res];
-      this.filteredData = [...res];
-      this.dataSource.data = this.filteredData;
-      this.sviSlucajevi = res;
-      this.remapImagesForDisplay(res);
-      this.handleTabChange(0);
-      this.handleOdabirSlucaja();
-    });
-  }
+  // handleOdabirSlucaja() {
+  //   const unique = [...new Set(this.filteredData.map(item => item.slucaj.id))];
+  //   this.sviSlucajeviOdabir = this.filteredData.filter(x => x.slucaj.id === unique);
+  // }
   private remapImagesForDisplay(data) {
     data.forEach(slucaj => {
       const baseSlike = slucaj.slucaj.slike.map(s => {
@@ -171,16 +183,16 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
     this.sviSlucajeviOdabir = [];
     ids.forEach(el => {
       const x = [...this.filteredData].find(sso => sso.slucaj.id === el);
-      this.sviSlucajeviOdabir.push(x.slucaj);
+      this.sviSlucajeviOdabir = [...this.sviSlucajeviOdabir, x.slucaj];
     });
     console.log(this.sviSlucajeviOdabir);
   }
-  async handleTabChange(tab) {
+  handleTabChange(tab) {
     switch (tab) {
       // svi
       case 0:
         console.log(tab);
-         this.resetFilter();
+        //  this.resetFilter();
          const unique0 = [...new Set(this.filteredData.map(item => item.slucaj.id))];
          console.log(unique0);
          this.handleSlucaj(unique0);
@@ -188,14 +200,14 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         break;
       // filter prihvaceni
       case 1:
-        this.resetFilter();
+        // this.resetFilter();
         const unique = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 2).map(item => item.slucaj.id))];
         this.handleSlucaj(unique);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 2);
         break;
       // filter u procesu
       case 2:
-        this.resetFilter();
+        // this.resetFilter();
         const unique1 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 4 ||
           ss.slucajStatusId === 7 || ss.slucajStatusId === 1 || ss.slucajStatusId === 6).map(item => item.slucaj.id))];
          console.log(unique1);
@@ -205,7 +217,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         break;
       // filter odbijeni
       case 3:
-        this.resetFilter();
+        // this.resetFilter();
         const unique2 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 5).map(item => item.slucaj.id))];
         this.handleSlucaj(unique2);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 5);
@@ -213,7 +225,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       case 4:
         const unique3 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 3).map(item => item.slucaj.id))];
         this.handleSlucaj(unique3);
-        this.resetFilter();
+        // this.resetFilter();
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 3);
         break;
       default:
