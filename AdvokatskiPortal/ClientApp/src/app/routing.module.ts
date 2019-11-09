@@ -63,7 +63,7 @@ const router: Routes = [
     path: 'editMajstor', component: EditMajstorComponent
   },
   {
-    path: 'editSlucaj/:id', component: EditSlucajComponent
+    path: 'editSlucaj/:id', component: EditSlucajComponent, canActivate: [AuthGuard]
   },
   {
     path: 'dodajKategoriju', component: DodajKategorijuComponent

@@ -51,11 +51,9 @@ export class EditSlucajComponent implements OnInit {
       this.remapImagesForDisplay(res)
       this.slucaj = res;
       console.log(res)
-    })
-
-    setTimeout(() => {
-      this.router.navigate(['/slanjeSlucaja'])
-    }, 100)
+      location.reload()
+    }) 
+    this.router.navigate(['/slanjeSlucaja'])
   }
   prikazSlike;
   deleteImage(img): string {

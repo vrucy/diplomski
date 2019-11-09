@@ -62,43 +62,43 @@
               <mat-checkbox (change)="$event ? masterToggle() : null"
                             [checked]="selection.hasValue() && isAllSelected()"
                             [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"
-                            required>
+                            >
               </mat-checkbox>
             </th>
             <td mat-cell *matCellDef="let row">
               <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
                             [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"
-                            formControlName="items" required>
+                            formControlName="items" >
               </mat-checkbox>
             </td>
           </ng-container>
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef [style.display]="'none'">id</th>
-            <td mat-cell *matCellDef="let adv" [style.display]="'none'">{{adv.id}}</td>
+            <td mat-cell *matCellDef="let m" [style.display]="'none'">{{m.id}}</td>
           </ng-container>
 
           <ng-container matColumnDef="ime">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ime</th>
-            <td mat-cell *matCellDef="let adv">{{adv.ime}}</td>
+            <td mat-cell *matCellDef="let m">{{m.ime}}</td>
           </ng-container>
 
           <ng-container matColumnDef="prezime">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>prezime</th>
-            <td mat-cell *matCellDef="let adv">{{adv.prezime}}</td>
+            <td mat-cell *matCellDef="let m">{{m.prezime}}</td>
           </ng-container>
 
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>email</th>
-            <td mat-cell *matCellDef="let adv">{{adv.email}}</td>
+            <td mat-cell *matCellDef="let m">{{m.email}}</td>
           </ng-container>
 
           <ng-container matColumnDef="mesto">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>mesto</th>
-            <td mat-cell *matCellDef="let adv">{{adv.mesto}}</td>
+            <td mat-cell *matCellDef="let m">{{m.mesto}}</td>
           </ng-container>
           <ng-container matColumnDef="ulica">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Ulica</th>
-            <td mat-cell *matCellDef="let adv">{{adv.ulica}}</td>
+            <td mat-cell *matCellDef="let m">{{m.ulica}}</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

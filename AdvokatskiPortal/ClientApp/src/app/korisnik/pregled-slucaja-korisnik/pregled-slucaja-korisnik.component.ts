@@ -4,7 +4,7 @@ import { PrepravitiPonuduComponent } from './../../advokat/dialog/prepraviti-pon
 import { MatDialog } from '@angular/material/dialog';
 import { pregledSlucajaVM } from './../../model/pregledSlucajaVM';
 import { KorisnikService } from './../../service/korisnik.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Cenovnik } from '../../model/Cenovnik';
@@ -16,23 +16,19 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './pregled-slucaja-korisnik.component.html',
   styleUrls: ['./pregled-slucaja-korisnik.component.css']
 })
-export class PregledSlucajaKorisnikComponent implements OnInit {
+export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'cena', 'datumKreiranja'
-                              , 'pocetakRada', 'zavrsetakRada', 'opis', 'button'];
-  public dataSource = new MatTableDataSource<pregledSlucajaVM>();
-
+  displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'kolicina', 'datumKreiranja'
+    , 'pocetakRada', 'zavrsetakRada', 'naziv', 'button'];
+  public dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   nameFilter = new FormControl('');
-  tabIndex = new FormControl('');
-  cenovnik = new Cenovnik();
+  // tabIndex = new FormControl('');
+  // cenovnik = new Cenovnik();
   sviSlucajevi: any;
   odabraniSlucaj;
   sviSlucajeviOdabir;
-  // kategorije;
-  // filterValues = {
-  //   name: '',
-  //   slucaj: ''
-  // };
   private _filterInputValue: string;
   public set filterInputValue(val: any) {
     this._filterInputValue = val;
@@ -53,9 +49,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   }
   odgovor: any;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-
   constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
     // this.dataSource.filterPredicate = this.tableFilter();
     this.initialize();
@@ -63,21 +56,44 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    // this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
-    //   this.cachedData = [...res];
-    //   this.filteredData = [...res];
-    //   this.dataSource.data = this.filteredData;
-    //   this.sviSlucajevi = res;
-    //   this.remapImagesForDisplay(res);
-    //   this.handleTabChange(0);
-    //   this.handleOdabirSlucaja();
-    // });
+  }
+  ngAfterViewInit() {
+    this.dataSource.sortingDataAccessor = (item, property):any => {
+      switch (property) {
+        case 'pocetakRada': {
+          let newDate = new Date(item.cenovnici.pocetakRada);
+          return newDate;
+        }
+        case 'zavrsetakRada': {
+          let newDate = new Date(item.cenovnici.zavrsetakRada);
+          return newDate;
+        }
+        case 'datumKreiranja': {
+          let newDate = new Date(item.cenovnici.datumKreiranja);
+          return newDate;
+        }
+        case 'naziv': {
+          return item.slucaj.naziv;
+        }
+        case 'kolicina': {
+          return item.cenovnici.kolicina;
+        }
+        case 'vrstaPlacanja': {
+          return item.cenovnici.vrstaPlacanja;
+        }
+        default: {
+          return item[property];
+        }
+      }
+    };
   }
   initialize() {
     this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
       this.cachedData = [...res];
       this.filteredData = [...res];
       this.dataSource.data = this.filteredData;
+
+      console.log(this.dataSource.data)
       this.sviSlucajevi = res;
       this.remapImagesForDisplay(res);
       this.handleTabChange(0);
@@ -193,10 +209,10 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
       case 0:
         console.log(tab);
         //  this.resetFilter();
-         const unique0 = [...new Set(this.filteredData.map(item => item.slucaj.id))];
-         console.log(unique0);
-         this.handleSlucaj(unique0);
-         this.dataSource.data = [...this.filteredData];
+        const unique0 = [...new Set(this.filteredData.map(item => item.slucaj.id))];
+        console.log(unique0);
+        this.handleSlucaj(unique0);
+        this.dataSource.data = [...this.filteredData];
         break;
       // filter prihvaceni
       case 1:
@@ -210,7 +226,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
         // this.resetFilter();
         const unique1 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 4 ||
           ss.slucajStatusId === 7 || ss.slucajStatusId === 1 || ss.slucajStatusId === 6).map(item => item.slucaj.id))];
-         console.log(unique1);
+        console.log(unique1);
         this.handleSlucaj(unique1);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 4 ||
           ss.slucajStatusId === 7 || ss.slucajStatusId === 1 || ss.slucajStatusId === 6);
@@ -255,7 +271,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit {
 
     if (this.filterInputValue) {
       filteredData = filteredData.filter(cd => cd.ime.includes(this.filterInputValue) ||
-                                         cd.prezime.includes(this.filterInputValue));
+        cd.prezime.includes(this.filterInputValue));
     }
     this.filteredData = filteredData;
     this.dataSource.data = this.filteredData;

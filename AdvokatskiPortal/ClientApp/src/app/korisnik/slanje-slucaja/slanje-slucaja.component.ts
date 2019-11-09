@@ -60,22 +60,11 @@ export class SlanjeSlucajaComponent implements OnInit {
       firstCtrl: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
-      items: [ '', Validators.requiredTrue ]
+      items: [ '']
     });
-    // this.odbairSlucajaFormGruop = new FormGroup({
-    //   odabirSlucja: this._formBuilder.group({
-    //     odabirSlucaja1: this._formBuilder.array()
-    //   });
-    // });
-    // this.nameFilter.valueChanges
-    //   .subscribe(
-    //     name => {
-    //       this.filterValues.name = name;
-    //       this.dataSource.filter = JSON.stringify(this.filterValues);
-    //     }
-    //   );
     this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
       this.sviMajstori = res;
+      console.log(res)
     });
 
     this.korsinikService.getAllSlucajForKorisnik().subscribe((res: any) => {
