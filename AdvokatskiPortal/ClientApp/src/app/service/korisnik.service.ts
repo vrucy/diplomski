@@ -27,9 +27,7 @@ export class KorisnikService {
     })
   }
   postavljanjeNoveCeneOdKorisnika(slucajAdvokat) {
-    return this.http.put(` http://localhost:44345/api/Korisnik/postavljanjeNoveCeneOdKorisnika`, slucajAdvokat).subscribe(res => {
-
-    })
+    return this.http.put(` http://localhost:44345/api/Korisnik/postavljanjeNoveCeneOdKorisnika`, slucajAdvokat)
   }
   prepravkaSlucajaKorisnika(slucajAdvokat) {
     return this.http.put('http://localhost:44345/api/Korisnik/prepravkaSlucajaKorisnik', slucajAdvokat).subscribe(res => {

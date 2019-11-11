@@ -82,7 +82,7 @@
       <th mat-header-cell *matHeaderCellDef> Prihvati/odbaci </th>
       <td mat-cell *matCellDef="let element">
         <div *ngIf="element.slucajStatusId === 7 || element.slucajStatusId === 4 ; else context">
-          <div *ngIf="element.slucajStatusId !== 1 || element.slucajStatusId !== 6 ; else odgMajstora">
+          <!-- <div *ngIf="element.slucajStatusId !== 1 || element.slucajStatusId !== 6 ; else odgMajstora"> -->
             <button mat-icon-button (click)="prihvacenSlucaj(element)">
               <mat-icon class="material-icons">done </mat-icon>
             </button>
@@ -94,7 +94,7 @@
             <button mat-icon-button (click)="odbijenSlucaj(element)">
               <mat-icon class="material-icons">delete</mat-icon>
             </button>
-          </div>
+          <!-- </div> -->
         </div>
         <ng-template #odgMajstora>
           Ceka se odgovor majstora

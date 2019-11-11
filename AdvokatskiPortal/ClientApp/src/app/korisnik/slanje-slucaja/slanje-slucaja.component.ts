@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Slucaj } from '../../model/Slucaj';
 import { PrikazSlikaComponent } from '../dialog/prikaz-slika/prikaz-slika.component';
 import { MatDialog, MatPaginator, MatSort, MatStepper } from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-slanje-slucaja',
@@ -17,8 +18,8 @@ import { MatDialog, MatPaginator, MatSort, MatStepper } from '@angular/material'
   styleUrls: ['./slanje-slucaja.component.css']
 })
 export class SlanjeSlucajaComponent implements OnInit {
-  cenovnik = { vrstaPlacanja: '', kolicina: '' };
-  vrstaPlacanja;
+  // cenovnik = { vrstaPlacanja: '', kolicina: '' };
+  // vrstaPlacanja;
   displayedColumns: string[] = ['select', 'id', 'ime', 'prezime', 'mesto', 'ulica', 'email'];
   selection = new SelectionModel<Majstor>(true, []);
   public dataSource = new MatTableDataSource<Majstor>();
@@ -27,7 +28,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   slucaj: Slucaj = new Slucaj();
   noviSlucaj: Slucaj = new Slucaj();
   slucajevi;
-  panelStanje = false;
+  // panelStanje = false;
   SlucajVM: SlucajSlanjeVM = new SlucajSlanjeVM();
   nameFilter = new FormControl('');
   podKategorijaFilter = new FormControl('');
@@ -41,7 +42,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService,
-    private advokatService: AdvokatService, public dialog: MatDialog, private cdref: ChangeDetectorRef) {
+    private router: Router, public dialog: MatDialog, private cdref: ChangeDetectorRef) {
     // this.dataSource.filterPredicate = this.tableFilter();
   }
 
@@ -57,10 +58,10 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['']
+      firstCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
-      items: [ '']
+      items: [ ''] 
     });
     this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
       this.sviMajstori = res;
@@ -94,8 +95,9 @@ export class SlanjeSlucajaComponent implements OnInit {
       });
     });
   }
-
+ 
   acceptSlucaj(slucaj, stepper: MatStepper) {
+    console.log(slucaj)
     slucaj.slike.forEach((slika: any) => {
       if (slika.slikaProp) {
         const base64result = slika.slikaProp.split(',')[1];
@@ -103,6 +105,7 @@ export class SlanjeSlucajaComponent implements OnInit {
       }
     });
     this.odabraniSlucaj = slucaj;
+    this.firstFormGroup.get('firstCtrl').setValue('true') ;
     stepper.next();
   }
   resetFilter() {
@@ -115,9 +118,6 @@ export class SlanjeSlucajaComponent implements OnInit {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
-  }
-  redirectToEdit(slucaj) {
-
   }
   masterToggle() {
     this.isAllSelected() ?
@@ -132,8 +132,30 @@ export class SlanjeSlucajaComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
   resetStepper(stepper) {
-    stepper.reset();
+    console.log(this.selection)
+    stepper.reset(); 
     this.selection.clear();
+    console.log(this.odabraniSlucaj)
+     this.dataSource.data = null;
+     this.odabraniSlucaj = null;
+    console.log(this.odabraniSlucaj)
+  }
+  onSubmit(){
+
+  }
+  validateForm(slucaj, stepper: MatStepper){
+    console.log(slucaj)
+    // this.firstFormGroup.get('firstCtrl').value = 'ture'; 
+    this.firstFormGroup.get('firstCtrl').setValue('true') ;
+    slucaj.slike.forEach((slika: any) => {
+      if (slika.slikaProp) {
+        const base64result = slika.slikaProp.split(',')[1];
+        slika.slikaProp = base64result;
+      }
+    });
+    this.odabraniSlucaj = slucaj;
+    stepper.next();
+      
 
   }
   save() {

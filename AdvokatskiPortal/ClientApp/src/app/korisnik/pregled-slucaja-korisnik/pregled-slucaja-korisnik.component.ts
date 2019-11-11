@@ -100,11 +100,16 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
     });
   }
   submitPopupForm(result) {
-    this.handleSubmitData(result);
+    // this.handleSubmitData(result);
+    this.korisnikService.postavljanjeNoveCeneOdKorisnika(result).subscribe(res => {
+      this.initialize();
+    });
   }
 
-  private async handleSubmitData(result) {
-    await this.korisnikService.postavljanjeNoveCeneOdKorisnika(result);
+  private handleSubmitData(result) {
+    this.korisnikService.postavljanjeNoveCeneOdKorisnika(result).subscribe(res => {
+      this.initialize();
+    });
   }
 
 

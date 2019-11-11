@@ -46,6 +46,7 @@ import { EditKorisnikComponent } from './korisnik/edit-korisnik/edit-korisnik.co
 import { EditMajstorComponent } from './advokat/edit-majstor/edit-majstor.component';
 import { PrikazSlikaComponent } from './korisnik/dialog/prikaz-slika/prikaz-slika.component';
 import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
+import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
 // import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 

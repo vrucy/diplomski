@@ -48,7 +48,8 @@ export class AuthService {
     const user = localStorage.getItem('token');
     if (user != null) {
       return true;
-    } else {
+    } 
+    else {
       return false;
     }
   }
