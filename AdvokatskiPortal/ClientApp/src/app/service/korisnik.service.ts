@@ -17,9 +17,7 @@ export class KorisnikService {
     return this.http.get ('http://localhost:44345/api/Korisnik/getAllSlucajForKorisnik');
   }
   kreiranjeSlucaja(slucaj){
-    return this.http.post('http://localhost:44345/api/Korisnik/kreiranjeSlucaja', slucaj).subscribe(rez => {
-      console.log(rez)
-    });
+    return this.http.post('http://localhost:44345/api/Korisnik/kreiranjeSlucaja', slucaj);
   }
   postSlucajaSaAdvokatimaSaCenovnikom(slucaj){
     return this.http.post('http://localhost:44345/api/Korisnik/postSlucajaSaAdvokatimaSaCenovnikom', slucaj).subscribe(res => {

@@ -58,18 +58,18 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
   ngAfterViewInit() {
-    this.dataSource.sortingDataAccessor = (item, property):any => {
+    this.dataSource.sortingDataAccessor = (item, property): any => {
       switch (property) {
         case 'pocetakRada': {
-          let newDate = new Date(item.cenovnici.pocetakRada);
+          const newDate = new Date(item.cenovnici.pocetakRada);
           return newDate;
         }
         case 'zavrsetakRada': {
-          let newDate = new Date(item.cenovnici.zavrsetakRada);
+          const newDate = new Date(item.cenovnici.zavrsetakRada);
           return newDate;
         }
         case 'datumKreiranja': {
-          let newDate = new Date(item.cenovnici.datumKreiranja);
+          const newDate = new Date(item.cenovnici.datumKreiranja);
           return newDate;
         }
         case 'naziv': {
@@ -89,12 +89,12 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   }
   initialize() {
     this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
+      this.sviSlucajevi = res;
       this.cachedData = [...res];
       this.filteredData = [...res];
       this.dataSource.data = this.filteredData;
 
       console.log(this.dataSource.data)
-      this.sviSlucajevi = res;
       this.remapImagesForDisplay(res);
       this.handleTabChange(0);
     });
@@ -106,13 +106,11 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private handleSubmitData(result) {
-    this.korisnikService.postavljanjeNoveCeneOdKorisnika(result).subscribe(res => {
-      this.initialize();
-    });
-  }
-
-
+  // private handleSubmitData(result) {
+  //   this.korisnikService.postavljanjeNoveCeneOdKorisnika(result).subscribe(res => {
+  //     this.initialize();
+  //   });
+  // }
   openDialogEdit(element): void {
     const dialogRef = this.dialog.open(PrepravitiPonuduComponent, {
       width: '250px',
@@ -182,7 +180,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   handleButton(element) {
     switch (element.slucajStatusId) {
       case 1:
-        return 'Ceka se odgovor advokata'
+        return 'Ceka se odgovor advokata';
         break;
       case 3:
         return 'Odbili ste ovu ponudu';
@@ -215,7 +213,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
         console.log(tab);
         //  this.resetFilter();
         const unique0 = [...new Set(this.filteredData.map(item => item.slucaj.id))];
-        console.log(unique0);
         this.handleSlucaj(unique0);
         this.dataSource.data = [...this.filteredData];
         break;

@@ -1,3 +1,4 @@
+import { ObavestenjeKreirajSlucajComponent } from './../../snackBar/obavestenje-kreiraj-slucaj/obavestenje-kreiraj-slucaj.component';
 import { Slucaj } from './../../model/Slucaj';
 import { Slika } from './../../model/Slika';
 import { Component, OnInit } from '@angular/core';
@@ -5,6 +6,7 @@ import { KorisnikService } from '../../service/korisnik.service';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import { DatePipe } from '@angular/common';
 import { __core_private_testing_placeholder__ } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-kreiranje-slucaja',
@@ -25,13 +27,16 @@ export class KreiranjeSlucajaComponent implements OnInit {
   pdfSrc = "";
   reader = new FileReader();
   private fileHandler: ImageHandler;
-  constructor(private korisnikService: KorisnikService) { }
+  constructor(private korisnikService: KorisnikService, private _snackBar: MatSnackBar) { }
   ngOnInit(): void {
     this.korisnikService.getAllKategorije().subscribe((res: any) => {
       this.originalData = res;
       this.kategorije = [...res].filter(x => !x.parentId);
     });
     this.reader.onload = this.handleReaderLoaded.bind(this);
+  }
+  openSnackBar() {
+
   }
   onParentChanged(evt) {
     this.setSubcategories(evt.value);
@@ -44,7 +49,11 @@ export class KreiranjeSlucajaComponent implements OnInit {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setGPS(position.coords.latitude, position.coords.longitude);
       this.slucaj.slike = this.slike;
-      this.korisnikService.kreiranjeSlucaja(this.slucaj);
+      this.korisnikService.kreiranjeSlucaja(this.slucaj).subscribe( res => {
+        this._snackBar.openFromComponent(ObavestenjeKreirajSlucajComponent, {
+          duration: 3000
+        });
+      });
     });
   }
   setGPS(duzina, sirina) {

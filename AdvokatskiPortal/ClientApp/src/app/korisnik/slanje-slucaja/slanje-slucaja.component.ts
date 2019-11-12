@@ -61,7 +61,7 @@ export class SlanjeSlucajaComponent implements OnInit {
       firstCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
-      items: [ ''] 
+      items: [ '']
     });
     this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
       this.sviMajstori = res;
@@ -95,7 +95,7 @@ export class SlanjeSlucajaComponent implements OnInit {
       });
     });
   }
- 
+
   acceptSlucaj(slucaj, stepper: MatStepper) {
     console.log(slucaj)
     slucaj.slike.forEach((slika: any) => {
@@ -133,7 +133,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   }
   resetStepper(stepper) {
     console.log(this.selection)
-    stepper.reset(); 
+    stepper.reset();
     this.selection.clear();
     console.log(this.odabraniSlucaj)
      this.dataSource.data = null;
@@ -145,7 +145,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   }
   validateForm(slucaj, stepper: MatStepper){
     console.log(slucaj)
-    // this.firstFormGroup.get('firstCtrl').value = 'ture'; 
+    // this.firstFormGroup.get('firstCtrl').value = 'ture';
     this.firstFormGroup.get('firstCtrl').setValue('true') ;
     slucaj.slike.forEach((slika: any) => {
       if (slika.slikaProp) {
@@ -155,7 +155,7 @@ export class SlanjeSlucajaComponent implements OnInit {
     });
     this.odabraniSlucaj = slucaj;
     stepper.next();
-      
+
 
   }
   save() {

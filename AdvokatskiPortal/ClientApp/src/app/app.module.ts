@@ -47,6 +47,7 @@ import { EditMajstorComponent } from './advokat/edit-majstor/edit-majstor.compon
 import { PrikazSlikaComponent } from './korisnik/dialog/prikaz-slika/prikaz-slika.component';
 import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
 import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
+import { ObavestenjeKreirajSlucajComponent } from './snackBar/obavestenje-kreiraj-slucaj/obavestenje-kreiraj-slucaj.component';
 // import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
@@ -84,7 +85,8 @@ import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
     EditKorisnikComponent,
     EditMajstorComponent,
     PrikazSlikaComponent,
-    EditSlucajComponent
+    EditSlucajComponent,
+    ObavestenjeKreirajSlucajComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -100,7 +102,8 @@ import { JwtHelperService, JWT_OPTIONS  } from '@auth0/angular-jwt';
     // NgxExtendedPdfViewerModule
 
   ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
-                      PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent,PrikazSlikaComponent ],
+                      PrikazSlucajComponent, DodavanjeDuplogAdvokataComponent, PrikazSLucajaKorisnikComponent, PrikazSlikaComponent,
+                      ObavestenjeKreirajSlucajComponent],
     providers: [AuthGuard, AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,

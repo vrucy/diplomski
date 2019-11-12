@@ -48,13 +48,11 @@ export class PregledUgovoraComponent implements OnInit {
 
   constructor(private advokatService: AdvokatService, public dialog: MatDialog) {
     this.initialize();
-    // this.dataSource.filterPredicate = this.tableFilter();
   }
-  // filterValues = {
-  //   name: '',
-  //   tabIndex: ''
-  // };
-
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   initialize() {
     this.advokatService.getUgovorsForAdvokat().subscribe(res => {
       // this.dataSource.data = res;
@@ -111,25 +109,7 @@ export class PregledUgovoraComponent implements OnInit {
   //   }
   //   return filterFunction;
   // }
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    // this.nameFilter.valueChanges
-    //   .subscribe(
-    //     name => {
-    //       this.filterValues.name = name;
-    //       this.dataSource.filter = JSON.stringify(this.filterValues);
-    //     }
-    //   );
-    // this.tabIndex.valueChanges
-    //   .subscribe(
-    //     id => {
-    //       this.filterValues.tabIndex = id;
-    //       this.dataSource.filter = JSON.stringify(this.filterValues);
-    //     }
-    //   );
 
-  }
   removeAt(index: number) {
     const data = this.dataSource.data;
     // data.splice((this.paginator.pageIndex * this.paginator.pageSize) + index, 1);
