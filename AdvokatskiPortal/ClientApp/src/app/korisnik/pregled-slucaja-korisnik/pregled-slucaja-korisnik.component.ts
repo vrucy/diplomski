@@ -133,10 +133,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
       this.odgovor = result;
     });
   }
-  // handleOdabirSlucaja() {
-  //   const unique = [...new Set(this.filteredData.map(item => item.slucaj.id))];
-  //   this.sviSlucajeviOdabir = this.filteredData.filter(x => x.slucaj.id === unique);
-  // }
   private remapImagesForDisplay(data) {
     data.forEach(slucaj => {
       const baseSlike = slucaj.slucaj.slike.map(s => {
@@ -148,15 +144,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   filter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  // tableFilter(): (data: any, filter: string) => boolean {
-  //   const filterFunction = function (data, filter): boolean {
-  //     const searchTerms = JSON.parse(filter);
-  //     // return (data.ime.toLowerCase().includes(searchTerms.name) || !searchTerms.name)
-  //     return data.ime.toLowerCase().includes(searchTerms.name)
-  //     // &&  data.slucajStatusId === <number>searchTerms.tabIndex;
-  //   };
-  //   return filterFunction;
-  // }
 
   removeAt(index: number) {
     const data = this.dataSource.data;
@@ -165,7 +152,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
     this.dataSource.data = data;
   }
   prihvacenSlucaj(slucaj) {
-    const ids = { majstorId: slucaj.majstorId, slucajId: slucaj.slucaj.id }
+    const ids = { majstorId: slucaj.majstorId, slucajId: slucaj.id }
     this.korisnikService.prihvacenSlucajOdKorisnika(ids).subscribe(res => {
       this.removeAt(slucaj);
     });

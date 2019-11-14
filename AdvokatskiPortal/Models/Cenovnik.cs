@@ -22,7 +22,7 @@ namespace AdvokatskiPortal.Models
         public int StatusId{ get; set; }
         public Status Status { get; set; }
         public string IdenityId { get; set; }
-        public ApplicationUser Idenity { get; set; }
+        //public ApplicationUser Idenity { get; set; }
         [ForeignKey("Majstor")]
         public int MajstorId { get; set; }
         public Majstor Majstor { get; set; }

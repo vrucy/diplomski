@@ -1,6 +1,9 @@
 .mat-table{
   box-shadow: 1px 5px 15px #888;
   width: 90%;
+  mat-cell:first-child, mat-footer-cell: first-child, mat-header-cell:first-child {
+    padding-left: 24px;
+  }
 }
 .table {
   display: flex;

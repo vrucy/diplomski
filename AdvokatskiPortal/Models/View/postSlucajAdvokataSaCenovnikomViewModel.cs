@@ -10,7 +10,7 @@ namespace AdvokatskiPortal.Models.View
         public Slucaj Slucaj { get; set; }
         public ICollection<Majstor> Majstors { get; set; }
         public string Opis { get; set; }
-        public Ugovor Ugovor { get; set; }
+        //public Ugovor Ugovor { get; set; }
         public int KorisnikId { get; set; }
         public Korisnik Korisnik { get; set; }
         public ICollection<SlucajMajstor> SlucajMajstors { get; set; }

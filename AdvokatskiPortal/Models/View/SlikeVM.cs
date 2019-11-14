@@ -7,11 +7,11 @@ namespace AdvokatskiPortal.Models.View
 {
     public class SlikeVM
     {
-        public int Id { get; set; }
-        public string imgSource { get; set; }
-        public byte[] getSource()
-        {
-            return Convert.FromBase64String(imgSource);
-        }
+    //    public int Id { get; set; }
+    //    public string imgSource { get; set; }
+    //    public byte[] getSource()
+    //    {
+    //        return Convert.FromBase64String(imgSource);
+    //    }
     }
 }

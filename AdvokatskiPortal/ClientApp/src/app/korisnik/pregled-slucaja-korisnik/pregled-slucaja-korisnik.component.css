@@ -5,9 +5,16 @@
   display: flex;
   justify-content: center;
 }
+
+.td.mat-cell:first-child {
+
+  padding-left: 24px;
+}
+
 .mat-table{
   box-shadow: 1px 5px 15px #888;
   width: 90%;
+
 }
 .tableDiv {
   display: flex;

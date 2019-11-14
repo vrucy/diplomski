@@ -118,9 +118,9 @@ export class PregledUgovoraComponent implements OnInit {
     this.dataSource.data = data;
   }
   redirectToAccept(slucajAdvokat) {
-    this.advokatService.prihvatanjeSlucajaOdAdvokata(slucajAdvokat).subscribe(res => {
-      console.log(res);
-      this.removeAt(slucajAdvokat);
+    const ids = { majstorId: slucajAdvokat.majstorId, slucajId: slucajAdvokat.slucaj.id }
+    this.advokatService.prihvatanjeSlucajaOdAdvokata(ids).subscribe(res => {
+      // this.removeAt(slucajAdvokat);
     });
   }
 
@@ -178,9 +178,9 @@ export class PregledUgovoraComponent implements OnInit {
   }
   handleButton(element) {
     switch (element.slucajStatusId) {
-      // case 1:
-      //   return 'Ceka se odgovor korisnika';
-      //   break;
+      case 4:
+        return 'Ceka se odgovor klijenta';
+        break;
       case 2:
         return 'Korisnik je prihvatio';
         break;

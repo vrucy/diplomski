@@ -55,7 +55,6 @@ namespace AdvokatskiPortal.Data
         public DbSet<SlucajMajstor> SlucajMajstors { get; set; }
         public DbSet<MajstorKategorije> MajstorKategorijes {get; set;}
         public DbSet<Status> Statuses{ get; set; }
-        public DbSet<Ugovor> Ugovors{ get; set; }
         public DbSet<SlucajStatus> SlucajStatuses { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Slika> Slikas { get; set; }

@@ -20,7 +20,7 @@ namespace AdvokatskiPortal.Models
         //public DateTime? PocetakRada{ get; set; }
         //public DateTime zavrsetakRada { get; set; }
 
-        public Ugovor Ugovor { get; set; }
+        //public Ugovor Ugovor { get; set; }
         public int KategorijaId { get; set; }
         public Kategorija Kategorija { get; set; }
         public int KorisnikId { get; set; }

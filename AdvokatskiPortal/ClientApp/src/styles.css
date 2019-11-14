@@ -21,3 +21,8 @@
 .mat-tab-labels{
   justify-content: center;
 }
+.mat-table{
+  mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child {
+    padding-left: 24px;
+  }
+}

@@ -11,19 +11,20 @@
   </mat-tab>
 </mat-tab-group>
 <div class="search">
-    <mat-form-field class="field-search">
-      <mat-label>Search</mat-label>
-      <input matInput [(ngModel)]="filterInputValue">
-    </mat-form-field>
-  </div>
-  <div class="select">
-    <mat-form-field>
-      <mat-label>Odaberite slucaj</mat-label>
-      <mat-select [(ngModel)]="slucajValue">
-        <mat-option *ngFor="let slucaj of sviSlucajeviOdabir" [value]="slucaj">{{slucaj.naziv}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+  <mat-form-field class="field-search">
+    <mat-label>Search</mat-label>
+    <input matInput [(ngModel)]="filterInputValue">
+  </mat-form-field>
+</div>
+<div class="select">
+  <mat-form-field>
+    <mat-label>Odaberite slucaj</mat-label>
+    <mat-select [(ngModel)]="slucajValue">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let slucaj of sviSlucajeviOdabir" [value]="slucaj">{{slucaj.naziv}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 <mat-card>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="ime">
@@ -38,20 +39,9 @@
     <ng-container matColumnDef="cena">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Ponudjena cena </th>
       <td mat-cell *matCellDef="let element">
-
-        <!-- <div *ngIf="element.slucaj.cenovniks == null ;else content ">
-          Postavite cenu
-        </div> -->
-        <!-- <ng-template #content>
-          <div *ngFor="let cenovnik of element.slucaj.cenovniks">
-            <div *ngIf="cenovnik.idenityId === element.slucaj.korisnik.idenity.id ">
-              {{cenovnik.kolicina}}
-            </div>
-          </div>
-        </ng-template> -->
         <div>
-            {{element.kolicina}}
-          </div>
+          {{element.kolicina}}
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="opis">
@@ -71,7 +61,7 @@
       <td mat-cell *matCellDef="let element">
         <!-- <div *ngIf="element.slucaj.cenovnik === null || element.slucaj.cenovnik.statusId !== 2; else content1"> -->
         <div *ngIf="element.slucajStatusId === 6 || element.slucajStatusId === 1 ; else content">
-            <!-- <div *ngIf="element.slucajStatus === 1; else prihvacen" > -->
+          <!-- <div *ngIf="element.slucajStatus === 1; else prihvacen" > -->
           <button mat-icon-button (click)="redirectToAccept(element)" *ngIf="element.slucajStatusId !== 1">
             <mat-icon class="material-icons">done </mat-icon>
           </button>
@@ -81,7 +71,7 @@
           <button mat-icon-button (click)="redirectToReject(element)">
             <mat-icon class="material-icons">delete</mat-icon>
           </button>
-            <!-- </div> -->
+          <!-- </div> -->
         </div>
         <ng-template #content>
           {{handleButton(element)}}

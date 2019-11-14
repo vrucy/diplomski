@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { KorisnikService } from '../../service/korisnik.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-tabela-advokata',
@@ -12,17 +11,14 @@ import { FormControl } from '@angular/forms';
 })
 export class TabelaAdvokataComponent implements OnInit {
 
-  displayedColumns: string[] = ['Id', 'ime', 'prezime', 'mesto', 'ulica', 'email'];
+  displayedColumns: string[] = [ 'ime', 'prezime', 'mesto', 'ulica', 'email'];
   advokati;
   kategorije;
   public dataSource = new MatTableDataSource<Majstor>();
   selection = new SelectionModel<Majstor>(true, []);
   originalData;
   podKategorije;
-  selectedId;
-  // kat = new FormControl('');
-  // podK = new FormControl('');
-  // filterTxt = new FormControl('');
+  // selectedId;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -54,20 +50,14 @@ export class TabelaAdvokataComponent implements OnInit {
     return this._filterInputValue;
   }
   // end filter
-  constructor(private korisnikService: KorisnikService) {
-    // this.dataSource.filterPredicate = this.tableFilter();
-  }
-  // filterValues = {
-  //   kat: '',
-  //   podK: '',
-  //   filterTxt: ''
-  // };
+  constructor(private korisnikService: KorisnikService) { }
+
 
   ngOnInit() {
-    setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }, 200);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    // setTimeout(() => {
+    // }, 200);
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
     this.korisnikService.getAllAdvokati().subscribe((res: any) => {

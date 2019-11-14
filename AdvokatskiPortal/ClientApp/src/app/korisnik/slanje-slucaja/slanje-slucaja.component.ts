@@ -20,10 +20,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class SlanjeSlucajaComponent implements OnInit {
   // cenovnik = { vrstaPlacanja: '', kolicina: '' };
   // vrstaPlacanja;
-  displayedColumns: string[] = ['select', 'id', 'ime', 'prezime', 'mesto', 'ulica', 'email'];
+  displayedColumns: string[] = ['select',  'ime', 'prezime', 'mesto', 'ulica', 'email'];
   selection = new SelectionModel<Majstor>(true, []);
   public dataSource = new MatTableDataSource<Majstor>();
-  displayedColumnsSlucaj: string[] = ['id', 'naziv', 'opis', 'slike', 'akcije'];
+  displayedColumnsSlucaj: string[] = [ 'naziv', 'opis', 'slike', 'akcije'];
   public dataSourceSlucaj = new MatTableDataSource<Slucaj>();
   slucaj: Slucaj = new Slucaj();
   noviSlucaj: Slucaj = new Slucaj();
@@ -35,44 +35,42 @@ export class SlanjeSlucajaComponent implements OnInit {
   isLinear = true;
   filterTxt: string;
   odabraniSlucaj: Slucaj = new Slucaj();
-  odabraniAdvokati;
+  // odabraniAdvokati;
   sviMajstori: any;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('sort', { static: true }) sort: MatSort;
+  // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('sort1', { static: true }) sort1: MatSort;
+  // @ViewChild(MatPaginator, { static: true }) paginator1: MatPaginator;
+  @ViewChild('paginator', { read: MatPaginator, static: true}) paginator: MatPaginator;
+  @ViewChild('paginator1', { read: MatPaginator, static: true } ) paginator1: MatPaginator;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService,
     private router: Router, public dialog: MatDialog, private cdref: ChangeDetectorRef) {
     // this.dataSource.filterPredicate = this.tableFilter();
   }
-
-  // filterValues = {
-  //   name: '',
-  //   kategorijaFilter: '',
-  //   podKategorijaFilter: ''
-  // };
   ngAfterContentChecked() {
     this.cdref.detectChanges();
   }
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator1;
+    this.dataSource.sort = this.sort1;
+    this.dataSourceSlucaj.sort = this.sort;
+    this.dataSourceSlucaj.paginator = this.paginator;
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
       items: [ '']
     });
-    this.korsinikService.getAllAdvokati().subscribe((res: any[]) => {
+    this.korsinikService.getAllAdvokati().subscribe((res: any) => {
       this.sviMajstori = res;
-      console.log(res)
     });
 
     this.korsinikService.getAllSlucajForKorisnik().subscribe((res: any) => {
       this.slucajevi = res;
       this.dataSourceSlucaj.data = this.slucajevi;
-      this.remapImagesForDisplay(res)
-      console.log(this.slucajevi)
+      this.remapImagesForDisplay(res);
     });
   }
   getMajstoriBySelectedId() {
@@ -144,7 +142,6 @@ export class SlanjeSlucajaComponent implements OnInit {
 
   }
   validateForm(slucaj, stepper: MatStepper){
-    console.log(slucaj)
     // this.firstFormGroup.get('firstCtrl').value = 'ture';
     this.firstFormGroup.get('firstCtrl').setValue('true') ;
     slucaj.slike.forEach((slika: any) => {
