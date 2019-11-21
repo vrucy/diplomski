@@ -280,6 +280,7 @@ namespace AdvokatskiPortal.Controllers
             noviCenovnik.PocetakRada = slucajMajstor.PocetakRada;
             noviCenovnik.zavrsetakRada = slucajMajstor.zavrsetakRada;
             noviCenovnik.isKonacan = slucajMajstor.isKonacan;
+            noviCenovnik.Izmena = DateTime.UtcNow.ToLocalTime();
             _context.Entry(noviCenovnik).State = EntityState.Modified;
 
             var notification = new Notification

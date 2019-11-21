@@ -104,7 +104,9 @@ namespace AdvokatskiPortal.Controllers
                 cenovnik.zavrsetakRada,
                 cenovnik.PocetakRada,
                 cenovnik.vrstaPlacanja,
-                cenovnik.isKonacan
+                cenovnik.isKonacan,
+                cenovnik.Kreiranje,
+                cenovnik.Izmena
             };
         }
         [HttpGet("{id}")]
@@ -308,7 +310,8 @@ namespace AdvokatskiPortal.Controllers
                     {
                         MajstorId = majstor.Id,
                         StatusId = 1,
-                        SlucajId = slucajVM.Slucaj.Id
+                        SlucajId = slucajVM.Slucaj.Id,
+                        Kreiranje = DateTime.UtcNow.ToLocalTime()
                         //zavrsetakRada = null
                     };
                     _context.SlucajMajstors.Add(newSlucajAdvokat);
@@ -338,7 +341,7 @@ namespace AdvokatskiPortal.Controllers
                 noviCenovnik.kolicina = noviCenovnikVM.kolicina;
                 noviCenovnik.vrstaPlacanja= noviCenovnikVM.vrstaPlacanja;
                 noviCenovnik.komentar = noviCenovnikVM.komentar;
-
+                noviCenovnik.Izmena = DateTime.UtcNow.ToLocalTime();
                 _context.Entry(noviCenovnik).State = EntityState.Modified;
                 var slucaj = _context.SlucajMajstors.Where(x => x.MajstorId == noviCenovnikVM.MajstorId && x.SlucajId == noviCenovnikVM.Slucaj.Id)
                                                           .Include(m =>m.Majstor).ThenInclude(i=>i.Idenity).Include(s => s.Slucaj).ThenInclude(k=>k.Korisnik).Single();
