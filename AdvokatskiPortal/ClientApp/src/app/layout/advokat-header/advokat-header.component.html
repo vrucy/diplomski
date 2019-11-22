@@ -1,10 +1,10 @@
 <div class="iconsHeader">
   <!-- <a mat-button> Registracija Advokata </a> -->
 
-  <button routerLink="/registracijaAdvokata" mat-button *ngIf="_type === 'AdminAdvokat'"> Registracija Advokata</button>
+  <button routerLink="/registracijaAdvokata" mat-button *ngIf="_type === 'AdminAdvokat'"> Registracija majstora</button>
   <button routerLink="/dodajKategoriju" mat-button *ngIf="_type === 'AdminAdvokat'"> Dodaj Kategoriju</button>
   <button routerLink="/dodajPodkategoriju" mat-button *ngIf="_type === 'AdminAdvokat'"> Dodaj Podkategoriju</button>
-  <button routerLink="/pregledUgovora" mat-button> Pregled Slucaja</button>
+  <button routerLink="/pregledUgovora" mat-button> Pregled Slučaja</button>
   <button mat-icon-button (click)="clearCount()" routerLink="/notification">
     <mat-icon class="material-icons" routerLink="/pregledUgovora">add_alert</mat-icon>
     <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>

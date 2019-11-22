@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { pregledSlucajaVM } from './../../model/pregledSlucajaVM';
 import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, Sort } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Cenovnik } from '../../model/Cenovnik';
 
@@ -58,10 +58,12 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
   ngAfterViewInit() {
-    this.dataSource.sortingDataAccessor = (item, property): any => {
+    this.dataSource.sortingDataAccessor = (item: any, property: any) => {
+      console.log(property)
       switch (property) {
         case 'pocetakRada': {
           const newDate = new Date(item.cenovnici.pocetakRada);
+          console.log(newDate);
           return newDate;
         }
         case 'zavrsetakRada': {
@@ -86,6 +88,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
         }
       }
     };
+
   }
   initialize() {
     this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
