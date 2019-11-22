@@ -95,14 +95,14 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
       this.dataSource.data = this.filteredData;
 
       console.log(this.dataSource.data)
-      this.remapImagesForDisplay(res);
+      this.remapImagesForDisplay(res); 
       this.handleTabChange(0);
     });
   }
   submitPopupForm(result) {
     // this.handleSubmitData(result);
     this.korisnikService.postavljanjeNoveCeneOdKorisnika(result).subscribe(res => {
-      this.initialize();
+      this.initialize(); 
     });
   }
 
