@@ -31,11 +31,11 @@ export class AdvokatService {
       console.log(res)
     });
   }
-  prepravkaCeneOdAdvokata(cenovnik) {
-    return this.http.put(` http://localhost:44345/api/Advokat/prepravkaCeneOdAdvokata`, cenovnik).subscribe(res =>{
-      console.log(res);
-    });
-  }
+  // prepravkaCeneOdAdvokata(cenovnik) {
+  //   return this.http.put(` http://localhost:44345/api/Advokat/prepravkaCeneOdAdvokata`, cenovnik).subscribe(res =>{
+  //     console.log(res);
+  //   });
+  // }
   prepravkaSlucajaAdvokata(slucajAdvokat) {
     return this.http.put('http://localhost:44345/api/Advokat/prepravkaSlucajaAdvokata', slucajAdvokat);
   }

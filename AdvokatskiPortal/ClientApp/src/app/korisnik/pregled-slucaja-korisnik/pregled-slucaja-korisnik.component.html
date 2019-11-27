@@ -26,7 +26,7 @@
     </mat-select>
   </mat-form-field>
 </div>
-<div class="tableDiv" *ngIf="sviSlucajevi">
+<div class="tableDiv">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="ime">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Ime </th>
@@ -39,7 +39,7 @@
 
 
     <ng-container matColumnDef="kolicina">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef> Ponudjena cena </th>
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Ponuđena cena </th>
       <td mat-cell *matCellDef="let element">
         <div>
           {{element.cenovnici.kolicina}}
@@ -53,25 +53,37 @@
         </td>
       </ng-container>
     <ng-container matColumnDef="pocetakRada">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Pocetak rada</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Početak rada</th>
       <td mat-cell *matCellDef="let element">
         {{element.cenovnici.pocetakRada | date: 'mediumDate'}}
       </td>
     </ng-container>
     <ng-container matColumnDef="zavrsetakRada">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Zavrsetak rada</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Završetak rada</th>
       <td mat-cell *matCellDef="let element">
         {{element.cenovnici.zavrsetakRada | date: 'mediumDate'}}
       </td>
     </ng-container>
+    <ng-container matColumnDef="datumSlanja">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Poslat slučaj</th>
+      <td mat-cell *matCellDef="let element">
+        {{element.cenovnici.primanjeSlucaja | date: 'mediumDate'}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="izmenaSlucaja">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Poslednja izmena</th>
+      <td mat-cell *matCellDef="let element">
+        {{element.cenovnici.izmenaSlucaja | date: 'mediumDate'}}
+      </td>
+    </ng-container>
     <ng-container matColumnDef="vrstaPlacanja">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vrsta Placanja </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Vrsta plaćanja </th>
       <td mat-cell *matCellDef="let element">
         {{element.cenovnici.vrstaPlacanja}}
       </td>
     </ng-container>
     <ng-container matColumnDef="naziv">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Slucaj </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Slučaj </th>
       <td mat-cell *matCellDef="let element">
         <div *ngIf="element.slucaj.naziv != null"><a (click)="openDialogPrikazSlucaja(element)">
             {{element.slucaj.naziv}}

@@ -20,7 +20,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <mat-select [(ngModel)]="slucaj.kategorijaId" placeholder="Unesite pod Kategoriju">
+      <mat-select [(ngModel)]="slucaj.kategorijaId" placeholder="Unesite podkategoriju">
         <mat-option *ngFor="let podKategorija of podKategorije" [value]="podKategorija.id">
           {{podKategorija.naziv}}
         </mat-option>
@@ -29,16 +29,10 @@
     <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Unesite Opis" multiple>
     <div class="prikazSlika">
     <div *ngFor="let img of prikazSlike" class="show-image" style="max-width: 90px;">
-      <img [src]="img.prikaz" height="80" *ngIf="img.prikaz && img.type === pdf">
+      <img [src]="img.prikaz" height="80" *ngIf="img.prikaz ">
       <mat-icon class="material-icons" (click)="deleteImage(img)">clear</mat-icon>
-      <!-- <pdf-viewer [src]="pdfSrc"
-              [original-size]="false"
-              [autoresize] = "true"
-  ></pdf-viewer> -->
     </div>
   </div>
-    <!-- <div> -->
     <button mat-button (click)="kreiranjeSlucaja()">Snimi</button>
-    <!-- </div> -->
   </mat-card>
 </div>

@@ -123,6 +123,8 @@ namespace AdvokatskiPortal.Controllers
                 c.Slucaj.KrajnjiRokZaOdgovor,
                 c.zavrsetakRada,
                 c.PocetakRada,
+                c.IzmenaSlucaja,
+                c.PrimanjeSlucaja,
                 Kolicina = c.kolicina,
                 VrstaPlacanja = c.vrstaPlacanja,
                 SlucajStatusId = c.Slucaj.SlucajMajstors.First(sm => sm.SlucajId == c.Slucaj.Id && sm.MajstorId == c.Majstor.Id).SlucajStatusId,
@@ -184,6 +186,7 @@ namespace AdvokatskiPortal.Controllers
             return Ok(cenovnik);
 
         }
+        //KORISNTI SE
         [HttpPut("prepravkaCeneOdAdvokata")]
         public async Task<IActionResult> prepravkaCeneOdAdvokata([FromBody] Cenovnik noviCenovnikVM)
         {
@@ -280,7 +283,7 @@ namespace AdvokatskiPortal.Controllers
             noviCenovnik.PocetakRada = slucajMajstor.PocetakRada;
             noviCenovnik.zavrsetakRada = slucajMajstor.zavrsetakRada;
             noviCenovnik.isKonacan = slucajMajstor.isKonacan;
-            noviCenovnik.Izmena = DateTime.UtcNow.ToLocalTime();
+            noviCenovnik.IzmenaSlucaja = DateTime.UtcNow.ToLocalTime();
             _context.Entry(noviCenovnik).State = EntityState.Modified;
 
             var notification = new Notification
