@@ -105,8 +105,8 @@ namespace AdvokatskiPortal.Controllers
                 cenovnik.PocetakRada,
                 cenovnik.vrstaPlacanja,
                 cenovnik.isKonacan,
-                cenovnik.Kreiranje,
-                cenovnik.Izmena
+                cenovnik.PrimanjeSlucaja,
+                cenovnik.IzmenaSlucaja
             };
         }
         [HttpGet("{id}")]
@@ -186,6 +186,7 @@ namespace AdvokatskiPortal.Controllers
         //    await _context.SaveChangesAsync();
         //    return Ok(nostification);
         //}
+        // KORISTI SE
         [HttpGet("getAllMajstori")]
         public IActionResult getAllMajstori()
         {
@@ -256,8 +257,8 @@ namespace AdvokatskiPortal.Controllers
             return _context.Kategorijas;
         }
         //  KORISTI SE  
-        [HttpPost("postSlucajaSaAdvokatimaSaCenovnikom")]
-        public IActionResult postSlucajaSaAdvokatimaSaCenovnikom([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
+        [HttpPost("postSlucajMajstorima")]
+        public IActionResult postSlucajMajstorima([FromBody] postSlucajAdvokataSaCenovnikomViewModel slucajVM)
         {
             if (!ModelState.IsValid)
             {
@@ -311,7 +312,7 @@ namespace AdvokatskiPortal.Controllers
                         MajstorId = majstor.Id,
                         StatusId = 1,
                         SlucajId = slucajVM.Slucaj.Id,
-                        Kreiranje = DateTime.UtcNow.ToLocalTime()
+                        PrimanjeSlucaja = DateTime.UtcNow.ToLocalTime()
                         //zavrsetakRada = null
                     };
                     _context.SlucajMajstors.Add(newSlucajAdvokat);
@@ -341,7 +342,7 @@ namespace AdvokatskiPortal.Controllers
                 noviCenovnik.kolicina = noviCenovnikVM.kolicina;
                 noviCenovnik.vrstaPlacanja= noviCenovnikVM.vrstaPlacanja;
                 noviCenovnik.komentar = noviCenovnikVM.komentar;
-                noviCenovnik.Izmena = DateTime.UtcNow.ToLocalTime();
+                noviCenovnik.IzmenaSlucaja = DateTime.UtcNow.ToLocalTime();
                 _context.Entry(noviCenovnik).State = EntityState.Modified;
                 var slucaj = _context.SlucajMajstors.Where(x => x.MajstorId == noviCenovnikVM.MajstorId && x.SlucajId == noviCenovnikVM.Slucaj.Id)
                                                           .Include(m =>m.Majstor).ThenInclude(i=>i.Idenity).Include(s => s.Slucaj).ThenInclude(k=>k.Korisnik).Single();

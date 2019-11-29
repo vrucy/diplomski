@@ -53,9 +53,22 @@
     </ng-container>
     <ng-container matColumnDef="najkasnijiOdgovor">
       <th mat-header-cell *matHeaderCellDef> Najkasniji odgovor </th>
-      <td mat-cell *matCellDef="let element"> {{element.krajnjiRokZaOdgovor}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.krajnjiRokZaOdgovor | date: 'mediumDate'}} </td>
     </ng-container>
-
+    <ng-container matColumnDef="pocetakRada">
+      <th mat-header-cell *matHeaderCellDef> Pocetak rada</th>
+      <td mat-cell *matCellDef="let element"> {{element.pocetakRada | date: 'mediumDate'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="zavrsetakRada">
+      <th mat-header-cell *matHeaderCellDef> Završetak rada </th>
+      <td mat-cell *matCellDef="let element"> {{element.zavrsetakRada | date: 'mediumDate'}} </td>
+    </ng-container><ng-container matColumnDef="poslednjaIzmena">
+      <th mat-header-cell *matHeaderCellDef> Poslednja izmena </th>
+      <td mat-cell *matCellDef="let element"> {{element.izmenaSlucaja | date: 'mediumDate'}} </td>
+    </ng-container><ng-container matColumnDef="datumPrijema">
+      <th mat-header-cell *matHeaderCellDef> Datum prijema </th>
+      <td mat-cell *matCellDef="let element"> {{element.primanjeSlucaja | date: 'mediumDate'}} </td>
+    </ng-container>
     <ng-container matColumnDef="button">
       <th mat-header-cell *matHeaderCellDef> Prihvati/Odbi </th>
       <td mat-cell *matCellDef="let element">

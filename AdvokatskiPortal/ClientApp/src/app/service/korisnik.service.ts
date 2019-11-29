@@ -10,7 +10,7 @@ import { Slucaj } from '../model/Slucaj';
 export class KorisnikService {
 
   constructor(private http: HttpClient) { }
-  getAllAdvokati(){
+  getAllMajstori(){
     return this.http.get('http://localhost:44345/api/Korisnik/getAllMajstori');
   }
   getAllSlucajForKorisnik() {
@@ -19,29 +19,25 @@ export class KorisnikService {
   kreiranjeSlucaja(slucaj){
     return this.http.post('http://localhost:44345/api/Korisnik/kreiranjeSlucaja', slucaj);
   }
-  postSlucajaSaAdvokatimaSaCenovnikom(slucaj){
-    return this.http.post('http://localhost:44345/api/Korisnik/postSlucajaSaAdvokatimaSaCenovnikom', slucaj).subscribe(res => {
-      console.log(res)
-    })
+  postSlucajMajstorima(slucaj){
+    return this.http.post('http://localhost:44345/api/Korisnik/postSlucajMajstorima', slucaj).subscribe()
   }
   postavljanjeNoveCeneOdKorisnika(slucajAdvokat) {
     return this.http.put(` http://localhost:44345/api/Korisnik/postavljanjeNoveCeneOdKorisnika`, slucajAdvokat)
   }
-  prepravkaSlucajaKorisnika(slucajAdvokat) {
-    return this.http.put('http://localhost:44345/api/Korisnik/prepravkaSlucajaKorisnik', slucajAdvokat).subscribe(res => {
-      console.log(res);
-    })
-  }
+  // prepravkaSlucajaKorisnika(slucajAdvokat) {
+  //   return this.http.put('http://localhost:44345/api/Korisnik/prepravkaSlucajaKorisnik', slucajAdvokat).subscribe()
+  // }
   getAllKategorije() {
     return this.http.get('http://localhost:44345/api/Korisnik/getAllKategorije');
   }
-  postSlucajAdvokatima(slucaj){
-    return this.http.post('http://localhost:44345/api/Korisnik/postSlucajAdvokatima', slucaj).subscribe(rez => {
-    });
-  }
-  postRequestAdvokats(advokati){
-    return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats', advokati).subscribe();
-  }
+  // postSlucajAdvokatima(slucaj){
+  //   return this.http.post('http://localhost:44345/api/Korisnik/postSlucajAdvokatima', slucaj).subscribe(rez => {
+  //   });
+  // }
+  // postRequestAdvokats(advokati){
+  //   return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats', advokati).subscribe();
+  // }
   GetAllSlucajAdvokatForKorisnik() {
     return this.http.get('http://localhost:44345/api/Korisnik/getAllSlucajAdvokatForKorisnik');
   }
@@ -53,12 +49,12 @@ export class KorisnikService {
       console.log(res)
     });
   }
-  getNewNostifiation() {
-    return this.http.get('http://localhost:44345/api/Korisnik/getNewNostifiation');
-  }
-  resetNotification() {
-    return this.http.put('http://localhost:44345/api/Korisnik/putNewNostifiationReadKorisnik', null);
-  }
+  // getNewNostifiation() {
+  //   return this.http.get('http://localhost:44345/api/Korisnik/getNewNostifiation');
+  // }
+  // resetNotification() {
+  //   return this.http.put('http://localhost:44345/api/Korisnik/putNewNostifiationReadKorisnik', null);
+  // }
   getSlucajById(id) {
     return this.http.get(`http://localhost:44345/api/Korisnik/GetSlucajById/` + id);
   }

@@ -63,7 +63,7 @@ export class SlanjeSlucajaComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       items: [ '']
     });
-    this.korsinikService.getAllAdvokati().subscribe((res: any) => {
+    this.korsinikService.getAllMajstori().subscribe((res: any) => {
       this.sviMajstori = res;
     });
 
@@ -158,7 +158,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   save() {
     this.SlucajVM.Majstors = this.selection.selected;
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
-    this.korsinikService.postSlucajaSaAdvokatimaSaCenovnikom(this.SlucajVM);
+    this.korsinikService.postSlucajMajstorima(this.SlucajVM);
   }
 
   stepChanges(step) {

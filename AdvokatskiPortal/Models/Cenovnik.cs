@@ -16,8 +16,8 @@ namespace AdvokatskiPortal.Models
         public bool isKonacan { get; set; }
         public DateTime? PocetakRada { get; set; }
         public DateTime? zavrsetakRada { get; set; }
-        public DateTime? Kreiranje { get; set; }
-        public DateTime? Izmena { get; set; }
+        public DateTime? PrimanjeSlucaja { get; set; }
+        public DateTime? IzmenaSlucaja { get; set; }
         [ForeignKey("Slucaj")]
         public int SlucajId { get; set; }
         public Slucaj Slucaj { get; set; }

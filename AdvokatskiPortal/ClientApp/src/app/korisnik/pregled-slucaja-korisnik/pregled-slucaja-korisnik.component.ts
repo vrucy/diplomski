@@ -19,13 +19,12 @@ import { MatSort } from '@angular/material/sort';
 export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['ime', 'prezime', 'vrstaPlacanja', 'kolicina', 'datumKreiranja'
-    , 'pocetakRada', 'zavrsetakRada', 'naziv', 'button'];
+    , 'pocetakRada', 'zavrsetakRada','datumSlanja', 'izmenaSlucaja', 'naziv', 'button'];
   public dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   nameFilter = new FormControl('');
-  // tabIndex = new FormControl('');
-  // cenovnik = new Cenovnik();
+
   sviSlucajevi: any;
   odabraniSlucaj;
   sviSlucajeviOdabir;
@@ -50,7 +49,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   odgovor: any;
 
   constructor(private korisnikService: KorisnikService, public dialog: MatDialog) {
-    // this.dataSource.filterPredicate = this.tableFilter();
     this.initialize();
   }
   ngOnInit() {
@@ -59,11 +57,9 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.dataSource.sortingDataAccessor = (item: any, property: any) => {
-      console.log(property)
       switch (property) {
         case 'pocetakRada': {
           const newDate = new Date(item.cenovnici.pocetakRada);
-          console.log(newDate);
           return newDate;
         }
         case 'zavrsetakRada': {
@@ -98,14 +94,14 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
       this.dataSource.data = this.filteredData;
 
       console.log(this.dataSource.data)
-      this.remapImagesForDisplay(res);
+      this.remapImagesForDisplay(res); 
       this.handleTabChange(0);
     });
   }
   submitPopupForm(result) {
     // this.handleSubmitData(result);
     this.korisnikService.postavljanjeNoveCeneOdKorisnika(result).subscribe(res => {
-      this.initialize();
+      this.initialize(); 
     });
   }
 
@@ -170,7 +166,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   handleButton(element) {
     switch (element.slucajStatusId) {
       case 1:
-        return 'Ceka se odgovor advokata';
+        return 'Čeka se odgovor advokata';
         break;
       case 3:
         return 'Odbili ste ovu ponudu';
@@ -182,7 +178,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
         return 'Prihvatili ste ovu ponudu';
         break;
       case 6:
-        return 'Ceka se odgovor advokata';
+        return 'Čeka se odgovor advokata';
         break;
       default:
         break;
@@ -225,7 +221,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
         break;
       // filter odbijeni
       case 3:
-        // this.resetFilter();
         const unique2 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 5).map(item => item.slucaj.id))];
         this.handleSlucaj(unique2);
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 5);
@@ -233,7 +228,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
       case 4:
         const unique3 = [...new Set(this.filteredData.filter(ss => ss.slucajStatusId === 3).map(item => item.slucaj.id))];
         this.handleSlucaj(unique3);
-        // this.resetFilter();
         this.dataSource.data = [...this.filteredData].filter(ss => ss.slucajStatusId === 3);
         break;
       default:
@@ -243,7 +237,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   }
   resetFilter() {
     this.filterInputValue = null;
-    // this.filterData().filteredData = [...this.cachedData];
     this.slucajValue = null;
     this.filterInputValue = null;
     this.sviSlucajeviOdabir = [];
@@ -256,7 +249,6 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
 
     if (this.slucajValue) {
       console.log(filteredData)
-      // filteredData = filteredData.filter(fd => fd.find(k => k.slucaj.id === this.slucajValue.id));
       filteredData = filteredData.filter(fd => fd.slucaj.id === this.slucajValue.id);
 
     }

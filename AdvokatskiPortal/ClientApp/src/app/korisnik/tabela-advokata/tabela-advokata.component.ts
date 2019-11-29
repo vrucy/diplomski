@@ -60,7 +60,7 @@ export class TabelaAdvokataComponent implements OnInit {
     // }, 200);
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
-    this.korisnikService.getAllAdvokati().subscribe((res: any) => {
+    this.korisnikService.getAllMajstori().subscribe((res: any) => {
       this.cachedData = [...res];
       this.filteredData = [...res];
       this.dataSource.data = this.filteredData;
