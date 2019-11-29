@@ -14,8 +14,6 @@ namespace AdvokatskiPortal.Models
         public string Opis { get; set; }
         public double GSirina { get; set; }
         public double GDuzina { get; set; }
-        public string Mesto { get; set; }
-        public string UlicaIBroj { get; set; }
         public DateTime KrajnjiRokZaOdgovor { get; set; }
         //public DateTime? PocetakRada{ get; set; }
         //public DateTime zavrsetakRada { get; set; }

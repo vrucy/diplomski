@@ -13,10 +13,7 @@ namespace AdvokatskiPortal.Models
         [ForeignKey("ParentKategorija")]
         public int? ParentId { get; set; }
         public Kategorija ParentKategorija { get; set; }
-        //public ICollection<Majstor> Majstors { get; set; }
-        //[ForeignKey("Majstor")]
-        //public int? MajstorId { get; set; }
-        //public Majstor Majstor { get; set; }
+        
         public ICollection<MajstorKategorije> MajstorKategorijes { get; set; }
         public ICollection<Slucaj> Slucajs { get; set; }
     }
