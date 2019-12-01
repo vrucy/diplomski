@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AdvokatskiPortal.Migrations
+namespace MajstorskiPortal.Migrations
 {
     public partial class slucajAddZavrsetak : Migration
     {

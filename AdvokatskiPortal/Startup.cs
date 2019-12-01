@@ -1,5 +1,5 @@
-using AdvokatskiPortal.Data;
-using AdvokatskiPortal.Models;
+using MajstorskiPortal.Data;
+using MajstorskiPortal.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace AdvokatskiPortal
+namespace MajstorskiPortal
 {
     public class Startup
     {
@@ -32,18 +32,16 @@ namespace AdvokatskiPortal
                 .AllowAnyMethod().AllowAnyHeader()
                 .Build();
             }));
-            services.AddDbContext<PortalAdvokataDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("PortalAdvokata")));
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PortalAdvokataDbContext>();
-            //services.AddScoped<IAdvokatRepo, AdvokatRepo>();
-            services.AddScoped<IKorisnikRepo, KorisnikRepo>();
+            services.AddDbContext<PortalMajstoraDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("PortalMajstora")));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PortalMajstoraDbContext>();
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RegularAdvokat", policy => policy.RequireClaim("RegularAdvokat"));
-                //options.AddPolicy("AdminAdvokat", policy => policy.RequireClaim("AdminAdvokat","RegularAdvokat"));
-                options.AddPolicy("AdminAdvokat", policy => policy.RequireAssertion(context => (
+                options.AddPolicy("RegularMajstor", policy => policy.RequireClaim("RegularMajstor"));
+                options.AddPolicy("AdminMajstor", policy => policy.RequireClaim("AdminMajstor","RegularMajstor"));
+                options.AddPolicy("AdminMajstor", policy => policy.RequireAssertion(context => (
                     context.User.HasClaim(c => (
-                        c.Type == "AdminAdvokat" || c.Type == "ReqularAdvokat"
+                        c.Type == "AdminMajstor" || c.Type == "RegularMajstor"
                         )))));
                 
 

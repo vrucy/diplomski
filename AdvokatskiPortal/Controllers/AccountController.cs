@@ -4,35 +4,35 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AdvokatskiPortal.Data;
-using AdvokatskiPortal.Models;
+using MajstorskiPortal.Data;
+using MajstorskiPortal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
-using AdvokatskiPortal.Models.View;
+using MajstorskiPortal.Models.View;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdvokatskiPortal.Controllers
+namespace MajstorskiPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize("AdminAdvokat")]
+    // [Authorize("AdminMajstor")]
 
     public class AccountController : ControllerBase
     {
         readonly UserManager<IdentityUser> userManager;
         readonly SignInManager<IdentityUser> signInManager;
-        private readonly PortalAdvokataDbContext _context;
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, PortalAdvokataDbContext context)
+        private readonly PortalMajstoraDbContext _context;
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, PortalMajstoraDbContext context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this._context = context;
         }
-        //[Authorize( Policy = "AdminAdvokat")]
-        [HttpPost("registrationAdvokat")]
-        public async Task<IActionResult> RegistarAdvokat([FromBody] postMajstor majstor)
+        //[Authorize( Policy = "AdminMajstor")]
+        [HttpPost("registrationMajstor")]
+        public async Task<IActionResult> RegistarMajstor([FromBody] postMajstor majstor)
         {
 
             var newMajstor = new Majstor
@@ -81,8 +81,8 @@ namespace AdvokatskiPortal.Controllers
 
                 var user = await userManager.FindByNameAsync(majstor.UserName);
 
-                await userManager.AddClaimAsync(appUser, new Claim("RegularAdvokat", appUser.Id));
-                await userManager.AddClaimAsync(appUser, new Claim("AdminAdvokat", appUser.Id));
+                await userManager.AddClaimAsync(appUser, new Claim("RegularMajstor", appUser.Id));
+                await userManager.AddClaimAsync(appUser, new Claim("AdminMajstor", appUser.Id));
                 await _context.SaveChangesAsync();
 
                 //var ids = majstor.Kategorije.Select(kat => kat.Id).ToList();
@@ -158,7 +158,7 @@ namespace AdvokatskiPortal.Controllers
             return Ok(korisnik);
         }
         [HttpGet("getMajstor")]
-        public IActionResult getAdvokat()
+        public IActionResult getMajstor()
         {
             var cliems = User.Claims.First();
             var majstor = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
@@ -169,14 +169,14 @@ namespace AdvokatskiPortal.Controllers
         public async Task<IActionResult> getCurrentUser([FromRoute] string userName)
         {
             var korisnik = _context.Korisniks.Where(x => x.UserName == userName);
-            var advokat = _context.Majstors.Where(x => x.UserName == userName);
+            var majstor = _context.Majstors.Where(x => x.UserName == userName);
             if (korisnik != null)
             {
                 return Ok(korisnik);
             }
             else
             {
-                return Ok(advokat);
+                return Ok(majstor);
             }
 
 
@@ -204,9 +204,9 @@ namespace AdvokatskiPortal.Controllers
                 expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: signinCredentials
             );
-            if (claim.Where(c => c.Type == "AdminAdvokat").SingleOrDefault() != null)
+            if (claim.Where(c => c.Type == "AdminMajstor").SingleOrDefault() != null)
             {
-                i = claim.Where(c => c.Type == "AdminAdvokat").Single().Type;
+                i = claim.Where(c => c.Type == "AdminMajstor").Single().Type;
             }
             else
             {

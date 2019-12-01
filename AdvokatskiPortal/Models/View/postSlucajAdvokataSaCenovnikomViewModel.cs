@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AdvokatskiPortal.Models.View
+namespace MajstorskiPortal.Models.View
 {
-    public class postSlucajAdvokataSaCenovnikomViewModel
+    public class postSlucajMajstoraSaCenovnikomViewModel
     {
         public Slucaj Slucaj { get; set; }
         public ICollection<Majstor> Majstors { get; set; }

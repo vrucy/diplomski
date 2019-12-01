@@ -1,4 +1,4 @@
-import { AdvokatService } from './../../service/advokat.service';
+import { MajstorService } from './../../service/majstor.service';
 import { NotificationService } from './../../service/notification.service';
 import { KorisnikService } from './../../service/korisnik.service';
 import { Component, OnInit,  AfterViewInit } from '@angular/core';
@@ -19,7 +19,7 @@ export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
   badgeCount;
 
   constructor(private korisnikService: KorisnikService,private notificationService: NotificationService,
-              private auth: AuthService, private advokatService:AdvokatService) {
+              private auth: AuthService, private majstorService:MajstorService) {
     this._type = this.auth.typeUserValue;
     this.badgeCount = this.notificationService.count;
     console.log(this.notificationService.count);
@@ -33,7 +33,7 @@ export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
     // this.korisnikService.resetNotification().subscribe(res => {
     //   console.log(res);
     // });
-    this.advokatService.getNewNostifiation().subscribe( (res: any) => {
+    this.majstorService.getNewNostifiation().subscribe( (res: any) => {
       this.notificationService.setNotifications(res);
       this.badgeCount = this.notificationService.count;
       console.log(this.badgeCount);
@@ -42,7 +42,7 @@ export class KorisnikHeaderComponent implements OnInit, AfterViewInit {
   clearCount() {
     console.log(this.notificationService.count);
     if (this.notificationService.notifications.length !== 0) {
-      // this.advokatService.putNostificationRead(this.newNostifation).subscribe();
+      // this.majstorService.putNostificationRead(this.newNostifation).subscribe();
       this.badgeCount = 0;
     }
   }

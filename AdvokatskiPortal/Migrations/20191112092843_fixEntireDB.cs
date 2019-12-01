@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AdvokatskiPortal.Migrations
+namespace MajstorskiPortal.Migrations
 {
     public partial class fixEntireDB : Migration
     {
@@ -23,7 +23,7 @@ namespace AdvokatskiPortal.Migrations
                 table: "SlucajMajstors");
 
             migrationBuilder.DropColumn(
-                name: "isReadOdbijenAdvokat",
+                name: "isReadOdbijenMajstor",
                 table: "SlucajMajstors");
 
             migrationBuilder.DropColumn(
@@ -51,7 +51,7 @@ namespace AdvokatskiPortal.Migrations
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "isReadOdbijenAdvokat",
+                name: "isReadOdbijenMajstor",
                 table: "SlucajMajstors",
                 nullable: false,
                 defaultValue: false);

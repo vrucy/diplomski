@@ -1,8 +1,8 @@
-import { PrikazSlucajComponent } from './../../advokat/dialog/prikaz-slucaj/prikaz-slucaj.component';
+import { PrikazSlucajComponent } from './../../majstor/dialog/prikaz-slucaj/prikaz-slucaj.component';
 import { KorisnikService } from './../../service/korisnik.service';
 import { NotificationService } from './../../service/notification.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { AdvokatService } from '../../service/advokat.service';
+import { MajstorService } from '../../service/majstor.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
 
@@ -15,7 +15,7 @@ export class NotificationComponent implements OnInit {
 
 
   constructor(private korisnikService: KorisnikService, public notificationService: NotificationService,
-              private advokatService: AdvokatService, public dialog: MatDialog) { }
+              private majstorService: MajstorService, public dialog: MatDialog) { }
   ngOnInit() {
     this.setupCustomMomentLabels();
     if (localStorage.getItem('typeUser').endsWith('User')) {

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AdvokatskiPortal.Models.View
+namespace MajstorskiPortal.Models.View
 {
-    public class postNewCenovnikFromAdvokatVM
+    public class postNewCenovnikFromMajstorVM
     {
         //public DateTime datumKreiranja { get; set; }
         //public bool prihvacno { get; set; }
         //public string Odgovor { get; set; }
         //public bool isRead { get; set; }
         //public bool isActive { get; set; }
-        //public int AdvokatId { get; set; }
+        //public int MajstorId { get; set; }
         //public Majstor Majstor { get; set; }
         //public int SlucajId { get; set; }
         //public Slucaj Slucaj { get; set; }

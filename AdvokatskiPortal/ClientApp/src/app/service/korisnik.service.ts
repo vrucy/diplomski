@@ -22,24 +22,24 @@ export class KorisnikService {
   postSlucajMajstorima(slucaj){
     return this.http.post('http://localhost:44345/api/Korisnik/postSlucajMajstorima', slucaj).subscribe()
   }
-  postavljanjeNoveCeneOdKorisnika(slucajAdvokat) {
-    return this.http.put(` http://localhost:44345/api/Korisnik/postavljanjeNoveCeneOdKorisnika`, slucajAdvokat)
+  postavljanjeNoveCeneOdKorisnika(slucajMajstor) {
+    return this.http.put(` http://localhost:44345/api/Korisnik/postavljanjeNoveCeneOdKorisnika`, slucajMajstor)
   }
-  // prepravkaSlucajaKorisnika(slucajAdvokat) {
-  //   return this.http.put('http://localhost:44345/api/Korisnik/prepravkaSlucajaKorisnik', slucajAdvokat).subscribe()
+  // prepravkaSlucajaKorisnika(slucajMajstor) {
+  //   return this.http.put('http://localhost:44345/api/Korisnik/prepravkaSlucajaKorisnik', slucajMajstor).subscribe()
   // }
   getAllKategorije() {
     return this.http.get('http://localhost:44345/api/Korisnik/getAllKategorije');
   }
-  // postSlucajAdvokatima(slucaj){
-  //   return this.http.post('http://localhost:44345/api/Korisnik/postSlucajAdvokatima', slucaj).subscribe(rez => {
+  // postSlucajMajstorima(slucaj){
+  //   return this.http.post('http://localhost:44345/api/Korisnik/postSlucajMajstorima', slucaj).subscribe(rez => {
   //   });
   // }
-  // postRequestAdvokats(advokati){
-  //   return this.http.post('http://localhost:44345/api/Korisnik/postRequestAdvokats', advokati).subscribe();
+  // postRequestMajstors(majstori){
+  //   return this.http.post('http://localhost:44345/api/Korisnik/postRequestMajstors', majstori).subscribe();
   // }
-  GetAllSlucajAdvokatForKorisnik() {
-    return this.http.get('http://localhost:44345/api/Korisnik/getAllSlucajAdvokatForKorisnik');
+  GetAllSlucajMajstorForKorisnik() {
+    return this.http.get('http://localhost:44345/api/Korisnik/getAllSlucajMajstorForKorisnik');
   }
   prihvacenSlucajOdKorisnika (slucaj) {
     return this.http.put ('http://localhost:44345/api/Korisnik/prihvacenSlucajKorisnik', slucaj);

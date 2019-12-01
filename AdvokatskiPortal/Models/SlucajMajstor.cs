@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AdvokatskiPortal.Models
+namespace MajstorskiPortal.Models
 {
     public class SlucajMajstor
     {

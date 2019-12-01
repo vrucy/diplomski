@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AdvokatskiPortal.Migrations
+namespace MajstorskiPortal.Migrations
 {
     public partial class addslucajMajstorIsReadKorisnik : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "isReadOdbijenAdvokat",
+                name: "isReadOdbijenMajstor",
                 table: "SlucajMajstors",
                 nullable: false,
                 defaultValue: false);
@@ -22,7 +22,7 @@ namespace AdvokatskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "isReadOdbijenAdvokat",
+                name: "isReadOdbijenMajstor",
                 table: "SlucajMajstors");
 
             migrationBuilder.DropColumn(

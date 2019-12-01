@@ -11,6 +11,6 @@ export class pregledSlucajaVM {
   Cenovniks: Cenovnik [] = [];
   KorisnikId;
   Korisnik;
-  SlucajAdvokats;
+  SlucajMajstors;
   }
 

@@ -1,11 +1,11 @@
-﻿using AdvokatskiPortal.Models;
+﻿using MajstorskiPortal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdvokatskiPortal.Data
+namespace MajstorskiPortal.Data
 {
-    public class PortalAdvokataDbContext : IdentityDbContext<IdentityUser>
+    public class PortalMajstoraDbContext : IdentityDbContext<IdentityUser>
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace AdvokatskiPortal.Data
                                                       
 
         }
-        public PortalAdvokataDbContext(DbContextOptions options) : base(options) { }
+        public PortalMajstoraDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Majstor> Majstors { get; set; }
         public DbSet<Korisnik> Korisniks { get; set; }
         public DbSet<Slucaj> Slucajs { get; set; }

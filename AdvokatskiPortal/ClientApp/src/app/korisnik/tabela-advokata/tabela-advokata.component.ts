@@ -5,14 +5,14 @@ import { KorisnikService } from '../../service/korisnik.service';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-tabela-advokata',
-  templateUrl: './tabela-advokata.component.html',
-  styleUrls: ['./tabela-advokata.component.css']
+  selector: 'app-tabela-majstora',
+  templateUrl: './tabela-majstora.component.html',
+  styleUrls: ['./tabela-majstora.component.css']
 })
-export class TabelaAdvokataComponent implements OnInit {
+export class TabelaMajstoraComponent implements OnInit {
 
   displayedColumns: string[] = [ 'ime', 'prezime', 'mesto', 'ulica', 'email'];
-  advokati;
+  majstori;
   kategorije;
   public dataSource = new MatTableDataSource<Majstor>();
   selection = new SelectionModel<Majstor>(true, []);
@@ -64,7 +64,7 @@ export class TabelaAdvokataComponent implements OnInit {
       this.cachedData = [...res];
       this.filteredData = [...res];
       this.dataSource.data = this.filteredData;
-      this.advokati = res;
+      this.majstori = res;
     });
       this.korisnikService.getAllKategorije().subscribe((res: any) => {
       this.originalData = res;

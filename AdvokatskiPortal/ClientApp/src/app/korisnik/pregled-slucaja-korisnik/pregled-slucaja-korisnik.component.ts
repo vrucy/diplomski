@@ -1,6 +1,6 @@
 import { element } from 'protractor';
-import { PrikazSlucajComponent } from './../../advokat/dialog/prikaz-slucaj/prikaz-slucaj.component';
-import { PrepravitiPonuduComponent } from './../../advokat/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
+import { PrikazSlucajComponent } from './../../majstor/dialog/prikaz-slucaj/prikaz-slucaj.component';
+import { PrepravitiPonuduComponent } from './../../majstor/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
 import { MatDialog } from '@angular/material/dialog';
 import { pregledSlucajaVM } from './../../model/pregledSlucajaVM';
 import { KorisnikService } from './../../service/korisnik.service';
@@ -87,7 +87,7 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
 
   }
   initialize() {
-    this.korisnikService.GetAllSlucajAdvokatForKorisnik().subscribe((res: any) => {
+    this.korisnikService.GetAllSlucajMajstorForKorisnik().subscribe((res: any) => {
       this.sviSlucajevi = res;
       this.cachedData = [...res];
       this.filteredData = [...res];
@@ -166,19 +166,19 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
   handleButton(element) {
     switch (element.slucajStatusId) {
       case 1:
-        return 'Čeka se odgovor advokata';
+        return 'Čeka se odgovor majstora';
         break;
       case 3:
         return 'Odbili ste ovu ponudu';
         break;
       case 5:
-        return 'Odbijena ponuda advokata';
+        return 'Odbijena ponuda majstora';
         break;
       case 2:
         return 'Prihvatili ste ovu ponudu';
         break;
       case 6:
-        return 'Čeka se odgovor advokata';
+        return 'Čeka se odgovor majstora';
         break;
       default:
         break;

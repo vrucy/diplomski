@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AdvokatskiPortal.Models
+namespace MajstorskiPortal.Models
 {
     public class ApplicationUser: IdentityUser
     {

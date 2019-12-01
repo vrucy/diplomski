@@ -1,7 +1,7 @@
 import { Majstor } from './Majstor';
 import { Cenovnik } from './Cenovnik';
 import { Slucaj } from './Slucaj';
-export class putCenovnikAdvokat {
+export class putCenovnikMajstor {
 
   id;
   slucaj: Slucaj;
@@ -9,5 +9,5 @@ export class putCenovnikAdvokat {
   Cenovnik: Cenovnik;
   KorisnikId;
   Korisnik;
-  SlucajAdvokat;
+  SlucajMajstor;
 }

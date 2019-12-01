@@ -9,7 +9,7 @@ Majstors: Majstor [] = [];
 KorisnikId;
 Korisnik;
 ZavrsetakRada;
-SlucajAdvokats;
+SlucajMajstors;
 
 }
 

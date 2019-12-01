@@ -53,8 +53,8 @@ export class AuthService {
       return false;
     }
   }
-  registrationAdvokat(majstor) {
-    return this.http.post<any>('http://localhost:44345/api/Account/registrationAdvokat', majstor).subscribe(res => {
+  registrationMajstor(majstor) {
+    return this.http.post<any>('http://localhost:44345/api/Account/registrationMajstor', majstor).subscribe(res => {
       localStorage.setItem('token', res);
       this.authenticate(res);
     })
@@ -76,15 +76,15 @@ export class AuthService {
     this.type = localStorage.getItem('typeUser');
 
     switch (this.type) {
-      case "AdminAdvokat": {
-        this.router.navigate(['/pocetnaAdvokat'])
+      case "AdminMajstor": {
+        this.router.navigate(['/pocetnaMajstor'])
         return true;
       }
-      case "RegularAdvokat": {
-        this.router.navigate(['/pocetnaAdvokat']);
+      case "RegularMajstor": {
+            this.router.navigate(['/pocetnaMajstor']);
         return true;
       } case "RegularUser": {
-        this.router.navigate(['/pocetnaKorisnik']);
+            this.router.navigate(['/pocetnaMajstor']);
         return true;
       } default: {
         break;

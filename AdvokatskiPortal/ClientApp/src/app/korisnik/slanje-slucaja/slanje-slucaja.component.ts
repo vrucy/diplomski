@@ -1,5 +1,5 @@
 import { Majstor } from './../../model/Majstor';
-import { AdvokatService } from './../../service/advokat.service';
+import { MajstorService } from './../../service/majstor.service';
 import {ChangeDetectorRef } from '@angular/core';
 import { SlucajSlanjeVM } from './../../model/SlucajSlanjeVM';
 import { KorisnikService } from './../../service/korisnik.service';
@@ -35,7 +35,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   isLinear = true;
   filterTxt: string;
   odabraniSlucaj: Slucaj = new Slucaj();
-  // odabraniAdvokati;
+  // odabraniMajstori;
   sviMajstori: any;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;

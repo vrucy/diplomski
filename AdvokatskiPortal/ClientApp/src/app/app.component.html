@@ -1,8 +1,8 @@
   <div *ngIf="_type ==='RegularUser'">
   <app-korisnik-header></app-korisnik-header>
   </div>
-  <div *ngIf="_type === 'RegularAdvokat' || _type === 'AdminAdvokat'">
-    <app-advokat-header></app-advokat-header>
+  <div *ngIf="_type === 'RegularMajstor' || _type === 'AdminMajstor'">
+    <app-majstor-header></app-majstor-header>
   </div>
   <router-outlet></router-outlet>
   <app-footer></app-footer>

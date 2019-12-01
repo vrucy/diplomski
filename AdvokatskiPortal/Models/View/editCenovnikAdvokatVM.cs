@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AdvokatskiPortal.Models.View
+namespace MajstorskiPortal.Models.View
 {
-    public class editCenovnikAdvokatVM
+    public class editCenovnikMajstorVM
     {
         //public int Id { get; set; }
         //public string idMajstor { get; set; }

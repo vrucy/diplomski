@@ -10,7 +10,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
-import { DodavanjeDuplogAdvokataComponent } from '../snackBar/dodavanje-duplog-advokata/dodavanje-duplog-advokata.component';
+import { DodavanjeDuplogMajstoraComponent } from '../snackBar/dodavanje-duplog-majstora/dodavanje-duplog-majstora.component';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(private _snackBar: MatSnackBar) { }
@@ -34,7 +34,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           }
           if ( error.status === 404) {
             console.log(error);
-            this._snackBar.openFromComponent(DodavanjeDuplogAdvokataComponent, {
+            this._snackBar.openFromComponent(DodavanjeDuplogMajstoraComponent, {
               data: error,
               duration: 3000
             })
