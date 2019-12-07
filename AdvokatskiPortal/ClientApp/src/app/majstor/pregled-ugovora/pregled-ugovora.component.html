@@ -73,6 +73,7 @@
       <th mat-header-cell *matHeaderCellDef> Prihvati/Odbi </th>
       <td mat-cell *matCellDef="let element">
         <!-- <div *ngIf="element.slucaj.cenovnik === null || element.slucaj.cenovnik.statusId !== 2; else content1"> -->
+          <div *ngIf="chekData(element.krajnjiRokZaOdgovor) == true; else prosloVreme">
         <div *ngIf="element.slucajStatusId === 6 || element.slucajStatusId === 1 ; else content">
           <!-- <div *ngIf="element.slucajStatus === 1; else prihvacen" > -->
           <button mat-icon-button (click)="redirectToAccept(element)" *ngIf="element.slucajStatusId !== 1">
@@ -84,8 +85,11 @@
           <button mat-icon-button (click)="redirectToReject(element)">
             <mat-icon class="material-icons">delete</mat-icon>
           </button>
-          <!-- </div> -->
+          </div>
         </div>
+        <ng-template #prosloVreme>
+            Isteklo je vreme za dogovor
+          </ng-template>
         <ng-template #content>
           {{handleButton(element)}}
         </ng-template>

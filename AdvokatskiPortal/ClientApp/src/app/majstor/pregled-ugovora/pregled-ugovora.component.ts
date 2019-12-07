@@ -138,6 +138,11 @@ export class PregledUgovoraComponent implements OnInit {
     });
     console.log(this.sviSlucajeviOdabir);
   }
+  chekData(data):boolean {
+    var nowData = new Date().toUTCString();
+    var x = data < nowData
+    return x ; 
+  }
   handleTabChange(tab) {
     switch (tab) {
       case 0:

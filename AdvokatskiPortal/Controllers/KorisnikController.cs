@@ -391,16 +391,7 @@ namespace MajstorskiPortal.Controllers
 
             return Ok();
         }
-        [HttpPost("postSlucajMajstorima")]
-        public async Task<IActionResult> PostSlucajMajstorima([FromBody] postSlucajViewModel slucajVm)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var x = slucajVm;
-            return Ok();
-        }
+        
         //KOTISTI SE
         [HttpPut("editSlucaj")]
         public IActionResult editSlucaj([FromBody] Slucaj slucaj)
@@ -442,11 +433,9 @@ namespace MajstorskiPortal.Controllers
             var cliems = User.Claims.First();
             var ulogovaniKorisnik = _context.Korisniks.Single(k => k.Idenity.Id == cliems.Value);
 
-            //slucajMajstor.SlucajStatusId = 4;
-            var slucaj = _context.Slucajs.SingleOrDefault(c => c.Id == ids.slucajId)/*.StatusId = 2*/;
+            var slucaj = _context.Slucajs.SingleOrDefault(c => c.Id == ids.slucajId);
             var slucajMajstor = _context.SlucajMajstors.Where(sl => sl.Slucaj.KorisnikId == ulogovaniKorisnik.Id 
-                                                  && sl.SlucajId == ids.slucajId);
-            List<int> odbijeniMajstoriId = new List<int>();
+                                                  && sl.SlucajId == ids.slucajId).Include(m => m.Majstor).ThenInclude(i => i.Idenity);
             foreach (var item in slucajMajstor)
             {
                 if (item.MajstorId == ids.majstorId)
@@ -457,6 +446,14 @@ namespace MajstorskiPortal.Controllers
                 {
                     item.SlucajStatusId = 3;
                     item.isReject = true;
+                    var odbijen = new Notification
+                    {
+                        UserId = item.Majstor.Idenity.Id,
+                        TimeStamp = DateTime.UtcNow.ToLocalTime(),
+                        isRead = false,
+                        SlucajId = slucaj.Id,
+                        NotificationText = $"{ulogovaniKorisnik.Ime} je odbio slucaj:  {slucaj.Naziv}"
+                    };
                 }
                 _context.Entry(item).State = EntityState.Modified;
             }

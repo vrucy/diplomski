@@ -151,9 +151,9 @@ export class PregledSlucajaKorisnikComponent implements OnInit, AfterViewInit {
     this.dataSource.data = data;
   }
   prihvacenSlucaj(slucaj) {
-    const ids = { majstorId: slucaj.majstorId, slucajId: slucaj.id }
+    const ids = { majstorId: slucaj.majstorId, slucajId: slucaj.slucaj.id }
     this.korisnikService.prihvacenSlucajOdKorisnika(ids).subscribe(res => {
-      this.removeAt(slucaj);
+      //this.removeAt(slucaj);
     });
   }
   odbijenSlucaj(slucaj) {
