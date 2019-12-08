@@ -1,6 +1,6 @@
 import { Majstor } from '../../model/Majstor';
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { KorisnikService } from '../../service/korisnik.service';
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -10,48 +10,97 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['./tabela-majstora.component.css']
 })
 export class TabelaMajstoraComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'Id', 'Ime', 'Prezime', 'Mesto', 'Ulica', 'Email'];
-  majstori;
-  slucajeviKorisnika;
-  slucaj;
-  selection = new SelectionModel<Majstor>(true, []);
+
+  displayedColumns: string[] = [ 'ime', 'prezime', 'mesto', 'ulica', 'email'];
+  advokati;
+  kategorije;
   public dataSource = new MatTableDataSource<Majstor>();
+  selection = new SelectionModel<Majstor>(true, []);
+  originalData;
+  podKategorije;
+  // selectedId;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private korsinikService: KorisnikService) { }
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  // filter
+  private cachedData: any[];
+  private filteredData: any[];
+  private _kategorijaValue: any;
+  public set kategorijaValue(val: any) {
+    this._kategorijaValue = val;
+    this.filterData();
   }
+  public get kategorijaValue() {
+    return this._kategorijaValue;
+  }
+  private _podkategorijaValue: any;
+  public set podkategorijaValue(val: any) {
+    this._podkategorijaValue = val;
+    this.filterData();
+  }
+  public get podkategorijaValue() {
+    return this._podkategorijaValue;
+  }
+  private _filterInputValue: string;
+  public set filterInputValue(val: any) {
+    this._filterInputValue = val;
+    this.filterData();
+  }
+  public get filterInputValue() {
+    return this._filterInputValue;
+  }
+  // end filter
+  constructor(private korisnikService: KorisnikService) { }
 
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
 
-  checkboxLabel(row?: Majstor): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
-  }
   ngOnInit() {
-    this.korsinikService.getAllSlucajForKorisnik().subscribe(res =>{
-      this.slucajeviKorisnika = res;
-      console.log(res)
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    // setTimeout(() => {
+    // }, 200);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    this.korisnikService.getAllMajstori().subscribe((res: any) => {
+      this.cachedData = [...res];
+      this.filteredData = [...res];
+      this.dataSource.data = this.filteredData;
+      // this.advokati = res;
     });
-    this.korsinikService.getAllMajstori().subscribe((res: any) => {
-      this.dataSource.data = res;
-      this.majstori = res;
-      console.log(res);
+      this.korisnikService.getAllKategorije().subscribe((res: any) => {
+      this.originalData = res;
+      this.kategorije = [...res].filter(x => !x.parentId);
     });
   }
-  SendChosenMajstor() {
-    console.log(this.slucaj.id)
-   // console.log(this.selection.selected);
-   const x = { Slucaj: this.slucaj, Majstors: this.selection.selected }
-    this.korsinikService.postSlucajMajstorima(x);
+  resetFilters(){
+    this.filterInputValue = null;
+    this.kategorijaValue = null;
+    this.podkategorijaValue = null;
+  }
+  filterData() {
+    if (!this.cachedData) {
+      return;
+    }
+    let filteredData = [...this.cachedData];
+    // filter by name first
+    if (this.filterInputValue) {
+      filteredData = filteredData.filter(cd => cd.ime.includes(this.filterInputValue) || cd.prezime.includes(this.filterInputValue));
+    }
 
+    if (this.kategorijaValue) {
+      filteredData = filteredData.filter(fd => fd.kategorije.find(k => k.kategorija.parentId === this.kategorijaValue.id));
+    }
+    if (this.podkategorijaValue) {
+      filteredData = filteredData.filter(fd => fd.kategorije.find(k => k.kategorijaId === this.podkategorijaValue.id));
+    }
+
+    this.filteredData = filteredData;
+    this.dataSource.data = this.filteredData;
+  }
+  onParentChanged(evt) {
+    this.setSubcategories(evt.value);
+  }
+
+  setSubcategories(parent) {
+    this.podKategorije = [...this.originalData].filter(x => x.parentId === parent.id);
   }
 }

@@ -30,7 +30,7 @@ namespace MajstorskiPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
-        //[Authorize( Policy = "AdminMajstor")]
+        [Authorize(Policy = "AdminMajstor")]
         [HttpPost("registrationMajstor")]
         public async Task<IActionResult> RegistarMajstor([FromBody] postMajstor majstor)
         {
@@ -43,77 +43,49 @@ namespace MajstorskiPortal.Controllers
                 Password = majstor.Password,
                 Prezime = majstor.Prezime,
                 Ulica = majstor.Ulica,
-                UserName = majstor.UserName,
-                //Kategorije = majstor.Kategorije.ToList()
+                UserName = majstor.UserName
             };
             _context.Majstors.Add(newMajstor);
-            try
+            
+            foreach (var item in majstor.Kategorije)
             {
-
-                foreach (var item in majstor.Kategorije)
+                var newMajtorKategorije = new MajstorKategorije
                 {
-                    var newMajtorKategorije = new MajstorKategorije
-                    {
-                        KategorijaId = item.Id,
-                        MajstorId = newMajstor.Id,
-                    };
-                    _context.MajstorKategorijes.Add(newMajtorKategorije);
-                }
+                    KategorijaId = item.Id,
+                    MajstorId = newMajstor.Id,
+                };
+                _context.MajstorKategorijes.Add(newMajtorKategorije);
             }
-            catch (Exception e)
-            {
+            var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
 
-                throw;
-            }
+            var result = await userManager.CreateAsync(appUser, majstor.Password);
 
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
 
-            try
-            {
-                var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
+            await signInManager.SignInAsync(appUser, isPersistent: false);
+            newMajstor.Idenity = appUser;
 
-                var result = await userManager.CreateAsync(appUser, majstor.Password);
+            var user = await userManager.FindByNameAsync(majstor.UserName);
 
-                if (!result.Succeeded)
-                    return BadRequest(result.Errors);
+            await userManager.AddClaimAsync(appUser, new Claim("RegularMajstor", appUser.Id));
+            await userManager.AddClaimAsync(appUser, new Claim("AdminMajstor", appUser.Id));
+            await _context.SaveChangesAsync();
 
-                await signInManager.SignInAsync(appUser, isPersistent: false);
-                newMajstor.Idenity = appUser;
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                var user = await userManager.FindByNameAsync(majstor.UserName);
+            var jwt = new JwtSecurityToken(signingCredentials: signinCredentials);
 
-                await userManager.AddClaimAsync(appUser, new Claim("RegularMajstor", appUser.Id));
-                await userManager.AddClaimAsync(appUser, new Claim("AdminMajstor", appUser.Id));
-                await _context.SaveChangesAsync();
+            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-                //var ids = majstor.Kategorije.Select(kat => kat.Id).ToList();
-                //var dbReferences = _context.Kategorijas.Where(k => ids.Contains(k.Id)).ToList();
-                //dbReferences.ForEach(r => newMajstor.Kategorije.Add(r));
-                //newMajstor.Kategorije = majstor.Kategorije;
-                //await _context.SaveChangesAsync();
+            var claim = await userManager.GetClaimsAsync(user);
 
+            string i = claim.First().Type;
 
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                var jwt = new JwtSecurityToken(signingCredentials: signinCredentials);
-
-                var token = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-                var claim = await userManager.GetClaimsAsync(user);
-
-                string i = claim.First().Type;
-
-                return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-
-
+            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
         }
+
         [HttpPost("registration")]
         public async Task<IActionResult> Registar([FromBody] Korisnik korisnik)
         {

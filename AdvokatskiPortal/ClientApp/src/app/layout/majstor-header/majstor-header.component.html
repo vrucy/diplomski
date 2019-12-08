@@ -1,29 +1,26 @@
-<div fxFlex fxLayout fxLayoutAlign="center center">
-  <!-- <a mat-button> Registracija Majstora </a> -->
-
-  <button routerLink="/registracijaMajstora" mat-button *ngIf="_type === 'AdminMajstor'"> Registracija Majstora</button>
-  <button routerLink="/dodajKategoriju" mat-button *ngIf="_type === 'AdminMajstor'"> Dodaj Kategoriju</button>
-  <button routerLink="/dodajPodkategoriju" mat-button *ngIf="_type === 'AdminMajstor'"> Dodaj Podkategoriju</button>
-  <button routerLink="/pregledUgovora" mat-button> Pregled Slucaja</button>
-  <button mat-icon-button (click)="clearCount()">
-    <mat-icon class="material-icons" routerLink="/pregledUgovora">add_alert</mat-icon>
-    <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
-  </button>
-
-
-
-  <div>
-
+<div class="header">
+    <button routerLink="/registracijaMajstora" mat-button *ngIf="_type === 'AdminMajstor'"> Registracija majstora</button>
+    <button routerLink="/dodajKategoriju" mat-button *ngIf="_type === 'AdminMajstor'"> Dodaj Kategoriju</button>
+    <button routerLink="/dodajPodkategoriju" mat-button *ngIf="_type === 'AdminMajstor'"> Dodaj Podkategoriju</button>
+    <button routerLink="/pregledUgovora" mat-button> Pregled Slučaja</button>
+    <button mat-icon-button (click)="clearCount()" routerLink="/notification">
+      <mat-icon class="material-icons" routerLink="/pregledUgovora">add_alert</mat-icon>
+      <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+    </button>
+  
+    <div>
     <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
       (mouseenter)="menuTrigger.openMenu()"> {{ulogovaniKorisnik}}</button>
-
+  
     <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
-      <button mat-button routerLink="/editProfila">
+      <button mat-button routerLink="/editMajstor">
         <span>Edit</span>
       </button>
       <button mat-menu-item (click)="auth.logout()">
         <span>Logout</span>
       </button></mat-menu>
     <button mat-button (click)="auth.logout()"></button>
+  
+    </div>
   </div>
-</div>
+  
