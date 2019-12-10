@@ -71,19 +71,8 @@ namespace MajstorskiPortal.Controllers
             await userManager.AddClaimAsync(appUser, new Claim("RegularMajstor", appUser.Id));
             await userManager.AddClaimAsync(appUser, new Claim("AdminMajstor", appUser.Id));
             await _context.SaveChangesAsync();
-
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-            var jwt = new JwtSecurityToken(signingCredentials: signinCredentials);
-
-            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            var claim = await userManager.GetClaimsAsync(user);
-
-            string i = claim.First().Type;
-
-            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
+            
+            return Ok();
         }
 
         [HttpPost("registration")]
@@ -108,18 +97,7 @@ namespace MajstorskiPortal.Controllers
 
             await _context.SaveChangesAsync();
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-            var jwt = new JwtSecurityToken(signingCredentials: signinCredentials);
-
-            var token = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            var claim = await userManager.GetClaimsAsync(user);
-
-            string i = claim.First().Type;
-
-            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
+            return Ok();
         }
         [HttpGet("getKorisnik")]
         public IActionResult getKorisnik()
