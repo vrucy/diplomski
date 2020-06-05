@@ -80,11 +80,19 @@ namespace MajstorskiPortal.Controllers
         {
 
             var appUser = new ApplicationUser { UserName = korisnik.UserName, Email = korisnik.Email };
+            try
+            {
 
             var result = await userManager.CreateAsync(appUser, korisnik.Password);
-
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
 
             await signInManager.SignInAsync(appUser, isPersistent: false);
             korisnik.Idenity = appUser;
