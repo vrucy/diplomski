@@ -20,7 +20,7 @@ export class KorisnikService {
     return this.http.post('http://localhost:44345/api/Korisnik/kreiranjeSlucaja', slucaj);
   }
   postSlucajMajstorima(slucaj){
-    return this.http.post('http://localhost:44345/api/Korisnik/postSlucajMajstorima', slucaj).subscribe()
+    return this.http.post('http://localhost:44345/api/Korisnik/postSlucajMajstorima', slucaj)
   }
   postavljanjeNoveCeneOdKorisnika(slucajMajstor) {
     return this.http.put(` http://localhost:44345/api/Korisnik/postavljanjeNoveCeneOdKorisnika`, slucajMajstor)

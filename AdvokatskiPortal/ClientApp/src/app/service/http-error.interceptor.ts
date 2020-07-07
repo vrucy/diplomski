@@ -35,7 +35,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if ( error.status === 404) {
             console.log(error);
             this._snackBar.openFromComponent(DodavanjeDuplogMajstoraComponent, {
-              data: error,
+              data: error.error.message,
               duration: 3000
             })
           }

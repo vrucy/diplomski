@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { UspesnaRegistracijaComponent } from '../snackBar/uspesna-registracija/uspesna-registracija.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,12 @@ export class AuthService {
 
   registration(korisnik) {
     return this.http.post<any>('http://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
-      localStorage.setItem('token', res);
-      this.authenticate(res);
+      //localStorage.setItem('token', res);
+      //this.autorization(res);
+      this._snackBar.openFromComponent(UspesnaRegistracijaComponent, {
+        duration: 2000
+      });
+      this.router.navigate(['/login']);
     });
   }
   login(korisnik) {
@@ -33,8 +38,8 @@ export class AuthService {
 
       })
       localStorage.setItem('token', res);
-      this.router.navigate(['/pocetnaKorisnik']);
-      this.authenticate(res);
+      //this.router.navigate(['/pocetnaKorisnik']);
+      this.autorization(res);
     });
 
   }
@@ -55,8 +60,10 @@ export class AuthService {
   }
   registrationMajstor(majstor) {
     return this.http.post<any>('http://localhost:44345/api/Account/registrationMajstor', majstor).subscribe(res => {
-      localStorage.setItem('token', res);
-      this.authenticate(res);
+      this._snackBar.openFromComponent(UspesnaRegistracijaComponent, {
+        duration: 2000
+      });
+      this.router.navigate(['/login']);
     })
   }
   editProfilKorisnik(korisnik) {
@@ -65,10 +72,9 @@ export class AuthService {
   editProfilMajstor(majstor) {
     return this.http.put('http://localhost:44345/api/Account/editMajstor', majstor).subscribe();
   }
-  authenticate(res) {
+  autorization(res) {
     let tokenValue = res['token'];
     localStorage.setItem('userName', res['user']);
-
     localStorage.setItem('token', tokenValue);
     this.typeUserValue = res["typeOfClaim"]
     localStorage.setItem('typeUser', this.typeUserValue);
@@ -84,7 +90,7 @@ export class AuthService {
             this.router.navigate(['/pocetnaMajstor']);
         return true;
       } case "RegularUser": {
-            this.router.navigate(['/pocetnaMajstor']);
+            this.router.navigate(['/pocetnaKorisnik']);
         return true;
       } default: {
         break;

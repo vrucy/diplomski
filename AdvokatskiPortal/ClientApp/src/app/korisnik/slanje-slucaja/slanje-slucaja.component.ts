@@ -9,8 +9,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { Slucaj } from '../../model/Slucaj';
 import { PrikazSlikaComponent } from '../dialog/prikaz-slika/prikaz-slika.component';
-import { MatDialog, MatPaginator, MatSort, MatStepper } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort, MatStepper, MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UspesnoStePoslaliSlucajComponent } from '../../snackBar/uspesno-ste-poslali-slucaj/uspesno-ste-poslali-slucaj.component';
 
 @Component({
   selector: 'app-slanje-slucaja',
@@ -46,7 +47,7 @@ export class SlanjeSlucajaComponent implements OnInit {
   @ViewChild('paginator', { read: MatPaginator, static: true}) paginator: MatPaginator;
   @ViewChild('paginator1', { read: MatPaginator, static: true } ) paginator1: MatPaginator;
   constructor(private _formBuilder: FormBuilder, private korsinikService: KorisnikService,
-    private router: Router, public dialog: MatDialog, private cdref: ChangeDetectorRef) {
+    private router: Router, public dialog: MatDialog, private cdref: ChangeDetectorRef, private _snackBar: MatSnackBar) {
     // this.dataSource.filterPredicate = this.tableFilter();
   }
   ngAfterContentChecked() {
@@ -158,7 +159,11 @@ export class SlanjeSlucajaComponent implements OnInit {
   save() {
     this.SlucajVM.Majstors = this.selection.selected;
     this.SlucajVM.Slucaj = this.odabraniSlucaj;
-    this.korsinikService.postSlucajMajstorima(this.SlucajVM);
+    this.korsinikService.postSlucajMajstorima(this.SlucajVM).subscribe(res => {
+      this._snackBar.openFromComponent(UspesnoStePoslaliSlucajComponent, {
+        duration: 3000
+      });
+    });
   }
 
   stepChanges(step) {

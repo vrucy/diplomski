@@ -118,22 +118,22 @@
         <mat-paginator [pageSizeOptions]="[5 , 10, 20]" #paginator1>
         </mat-paginator>
         <div class="button1">
-          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperPrevious>Nazad</button>
           <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
           <button mat-button (click)="stepper.reset()">Reset</button>
-          <button mat-button [disabled]="!selection.selected.length > 0" matStepperNext>Next</button>
+          <button mat-button [disabled]="!selection.selected.length > 0" matStepperNext>Dalje</button>
         </div>
       </div>
     </form>
   </mat-step>
   <!-- [disabled]="!selection.selected.length > 0" -->
   <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    You are now done.
+    <ng-template matStepLabel>Slanje</ng-template>
+    Da li ste sigurni da posaljete ponudu odabranim majstorima?
     <div>
-      <button mat-button matStepperPrevious (click)="resetStepper(stepper)">Back</button>
+      <button mat-button matStepperPrevious (click)="resetStepper(stepper)">Nazad</button>
       <button mat-button (click)="stepper.reset()">Reset</button>
-      <button mat-button (click)="save()">Snimi</button>
+      <button mat-button (click)="save()">Pošalji</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

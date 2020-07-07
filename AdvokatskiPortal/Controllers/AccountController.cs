@@ -30,7 +30,7 @@ namespace MajstorskiPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
-        [Authorize(Policy = "AdminMajstor")]
+        //[Authorize(Policy = "AdminMajstor")]
         [HttpPost("registrationMajstor")]
         public async Task<IActionResult> RegistarMajstor([FromBody] postMajstor majstor)
         {

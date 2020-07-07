@@ -47,6 +47,8 @@ import { EditMajstorComponent } from './majstor/edit-majstor/edit-majstor.compon
 import { PrikazSlikaComponent } from './korisnik/dialog/prikaz-slika/prikaz-slika.component';
 import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
 import { ObavestenjeKreirajSlucajComponent } from './snackBar/obavestenje-kreiraj-slucaj/obavestenje-kreiraj-slucaj.component';
+import { UspesnaRegistracijaComponent } from './snackBar/uspesna-registracija/uspesna-registracija.component';
+import { UspesnoStePoslaliSlucajComponent } from './snackBar/uspesno-ste-poslali-slucaj/uspesno-ste-poslali-slucaj.component';
 // import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
@@ -85,7 +87,9 @@ import { ObavestenjeKreirajSlucajComponent } from './snackBar/obavestenje-kreira
     EditMajstorComponent,
     PrikazSlikaComponent,
     EditSlucajComponent,
-    ObavestenjeKreirajSlucajComponent
+    ObavestenjeKreirajSlucajComponent,
+    UspesnaRegistracijaComponent,
+    UspesnoStePoslaliSlucajComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -102,7 +106,7 @@ import { ObavestenjeKreirajSlucajComponent } from './snackBar/obavestenje-kreira
 
   ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
                       PrikazSlucajComponent, DodavanjeDuplogMajstoraComponent, PrikazSLucajaKorisnikComponent, PrikazSlikaComponent,
-                      ObavestenjeKreirajSlucajComponent],
+                      ObavestenjeKreirajSlucajComponent,UspesnaRegistracijaComponent, UspesnoStePoslaliSlucajComponent],
     providers: [AuthGuard, AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,
