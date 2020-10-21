@@ -1,19 +1,19 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class slucajAddZavrsetak1 : Migration
+    public partial class CaseAddZavrsetak1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
                 name: "PocetakRada",
-                table: "Slucajs");
+                table: "Cases");
 
             migrationBuilder.DropColumn(
                 name: "zavrsetakRada",
-                table: "Slucajs");
+                table: "Cases");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "PocetakRada",
@@ -39,12 +39,12 @@ namespace MajstorskiPortal.Migrations
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "PocetakRada",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "zavrsetakRada",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }

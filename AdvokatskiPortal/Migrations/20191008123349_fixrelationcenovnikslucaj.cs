@@ -1,41 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class fixrelationcenovnikslucaj : Migration
+    public partial class fixrelationcenovnikCase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
-                name: "IX_Cenovniks_SlucajId",
+                name: "IX_Cenovniks_CaseId",
                 table: "Cenovniks");
 
             migrationBuilder.DropColumn(
                 name: "CenovnikId",
-                table: "Slucajs");
+                table: "Cases");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cenovniks_SlucajId",
+                name: "IX_Cenovniks_CaseId",
                 table: "Cenovniks",
-                column: "SlucajId");
+                column: "CaseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
-                name: "IX_Cenovniks_SlucajId",
+                name: "IX_Cenovniks_CaseId",
                 table: "Cenovniks");
 
             migrationBuilder.AddColumn<int>(
                 name: "CenovnikId",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cenovniks_SlucajId",
+                name: "IX_Cenovniks_CaseId",
                 table: "Cenovniks",
-                column: "SlucajId",
+                column: "CaseId",
                 unique: true);
         }
     }

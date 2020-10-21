@@ -1,25 +1,25 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class changeslucajModel : Migration
+    public partial class changeCaseModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
                 name: "Lokacija",
-                table: "Slucajs",
+                table: "Cases",
                 newName: "GSirina");
 
             migrationBuilder.AddColumn<string>(
                 name: "GDuzina",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "KrajnjiRokZaOdgovor",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }
@@ -28,15 +28,15 @@ namespace MajstorskiPortal.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "GDuzina",
-                table: "Slucajs");
+                table: "Cases");
 
             migrationBuilder.DropColumn(
                 name: "KrajnjiRokZaOdgovor",
-                table: "Slucajs");
+                table: "Cases");
 
             migrationBuilder.RenameColumn(
                 name: "GSirina",
-                table: "Slucajs",
+                table: "Cases",
                 newName: "Lokacija");
         }
     }

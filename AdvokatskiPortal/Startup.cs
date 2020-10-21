@@ -1,5 +1,5 @@
-using MajstorskiPortal.Data;
-using MajstorskiPortal.Models;
+using ContractorskiPortal.Data;
+using ContractorskiPortal.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace MajstorskiPortal
+namespace ContractorskiPortal
 {
     public class Startup
     {
@@ -22,7 +22,7 @@ namespace MajstorskiPortal
 
         public IConfiguration _configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtFirstName. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -32,20 +32,20 @@ namespace MajstorskiPortal
                 .AllowAnyMethod().AllowAnyHeader()
                 .Build();
             }));
-            services.AddDbContext<PortalMajstoraDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("PortalMajstora")));
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PortalMajstoraDbContext>();
+            services.AddDbContext<PortalOfCraftsmanDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("PortalOfCraftsmanDbContext")));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PortalOfCraftsmanDbContext>();
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RegularMajstor", policy => policy.RequireClaim("RegularMajstor"));
-                options.AddPolicy("AdminMajstor", policy => policy.RequireClaim("AdminMajstor","RegularMajstor"));
-                options.AddPolicy("AdminMajstor", policy => policy.RequireAssertion(context => (
+                options.AddPolicy("RegularContractor", policy => policy.RequireClaim("RegularContractor"));
+                options.AddPolicy("AdminContractor", policy => policy.RequireClaim("AdminContractor","RegularContractor"));
+                options.AddPolicy("AdminContractor", policy => policy.RequireAssertion(context => (
                     context.User.HasClaim(c => (
-                        c.Type == "AdminMajstor" || c.Type == "RegularMajstor"
+                        c.Type == "AdminContractor" || c.Type == "RegularContractor"
                         )))));
                 
 
-                options.AddPolicy("RegularKorisnik", policy => policy.RequireClaim("RegularKorisnik"));
+                options.AddPolicy("RegularUser", policy => policy.RequireClaim("RegularUser"));
             });
 
             services.AddAuthentication(option =>
@@ -73,7 +73,7 @@ namespace MajstorskiPortal
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtFirstName. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

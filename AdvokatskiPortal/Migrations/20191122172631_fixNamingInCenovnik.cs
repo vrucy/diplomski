@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
     public partial class fixNamingInCenovnik : Migration
     {
@@ -9,23 +9,23 @@ namespace MajstorskiPortal.Migrations
             migrationBuilder.RenameColumn(
                 name: "Kreiranje",
                 table: "Cenovniks",
-                newName: "PrimanjeSlucaja");
+                newName: "PrimanjeCasea");
 
             migrationBuilder.RenameColumn(
                 name: "Izmena",
                 table: "Cenovniks",
-                newName: "IzmenaSlucaja");
+                newName: "IzmenaCasea");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "PrimanjeSlucaja",
+                name: "PrimanjeCasea",
                 table: "Cenovniks",
                 newName: "Kreiranje");
 
             migrationBuilder.RenameColumn(
-                name: "IzmenaSlucaja",
+                name: "IzmenaCasea",
                 table: "Cenovniks",
                 newName: "Izmena");
         }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
     public partial class initial : Migration
     {
@@ -70,7 +70,7 @@ namespace MajstorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SlucajStatuses",
+                name: "CaseStatuses",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -79,7 +79,7 @@ namespace MajstorskiPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SlucajStatuses", x => x.Id);
+                    table.PrimaryKey("PK_CaseStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,14 +202,14 @@ namespace MajstorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Korisniks",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IdenityId = table.Column<string>(nullable: true),
-                    Ime = table.Column<string>(nullable: true),
-                    Prezime = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    PrezFirstName = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -218,9 +218,9 @@ namespace MajstorskiPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Korisniks", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Korisniks_AspNetUsers_IdenityId",
+                        name: "FK_Users_AspNetUsers_IdenityId",
                         column: x => x.IdenityId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -228,13 +228,13 @@ namespace MajstorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Majstors",
+                name: "Contractors",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Ime = table.Column<string>(nullable: true),
-                    Prezime = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    PrezFirstName = table.Column<string>(nullable: true),
                     Mesto = table.Column<string>(nullable: true),
                     Ulica = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
@@ -245,15 +245,15 @@ namespace MajstorskiPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Majstors", x => x.Id);
+                    table.PrimaryKey("PK_Contractors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Majstors_AspNetUsers_IdenityId",
+                        name: "FK_Contractors_AspNetUsers_IdenityId",
                         column: x => x.IdenityId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Majstors_Kategorijas_KategorijaId",
+                        name: "FK_Contractors_Kategorijas_KategorijaId",
                         column: x => x.KategorijaId,
                         principalTable: "Kategorijas",
                         principalColumn: "Id",
@@ -261,7 +261,7 @@ namespace MajstorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Slucajs",
+                name: "Cases",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -274,45 +274,45 @@ namespace MajstorskiPortal.Migrations
                     PocetakRada = table.Column<DateTime>(nullable: true),
                     ZavrsetakRada = table.Column<DateTime>(nullable: true),
                     KategorijaId = table.Column<int>(nullable: false),
-                    KorisnikId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Slucajs", x => x.Id);
+                    table.PrimaryKey("PK_Cases", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Slucajs_Kategorijas_KategorijaId",
+                        name: "FK_Cases_Kategorijas_KategorijaId",
                         column: x => x.KategorijaId,
                         principalTable: "Kategorijas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Slucajs_Korisniks_KorisnikId",
-                        column: x => x.KorisnikId,
-                        principalTable: "Korisniks",
+                        name: "FK_Cases_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MajstorKategorijes",
+                name: "ContractorKategorijes",
                 columns: table => new
                 {
-                    MajstorId = table.Column<int>(nullable: false),
+                    ContractorId = table.Column<int>(nullable: false),
                     KategorijaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MajstorKategorijes", x => new { x.MajstorId, x.KategorijaId });
+                    table.PrimaryKey("PK_ContractorKategorijes", x => new { x.ContractorId, x.KategorijaId });
                     table.ForeignKey(
-                        name: "FK_MajstorKategorijes_Kategorijas_KategorijaId",
+                        name: "FK_ContractorKategorijes_Kategorijas_KategorijaId",
                         column: x => x.KategorijaId,
                         principalTable: "Kategorijas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MajstorKategorijes_Majstors_MajstorId",
-                        column: x => x.MajstorId,
-                        principalTable: "Majstors",
+                        name: "FK_ContractorKategorijes_Contractors_ContractorId",
+                        column: x => x.ContractorId,
+                        principalTable: "Contractors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -326,7 +326,7 @@ namespace MajstorskiPortal.Migrations
                     vrstaPlacanja = table.Column<string>(nullable: true),
                     kolicina = table.Column<string>(nullable: true),
                     komentar = table.Column<string>(nullable: true),
-                    SlucajId = table.Column<int>(nullable: false),
+                    CaseId = table.Column<int>(nullable: false),
                     StatusId = table.Column<int>(nullable: false),
                     IdenityId = table.Column<string>(nullable: true)
                 },
@@ -340,9 +340,9 @@ namespace MajstorskiPortal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cenovniks_Slucajs_SlucajId",
-                        column: x => x.SlucajId,
-                        principalTable: "Slucajs",
+                        name: "FK_Cenovniks_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -361,50 +361,50 @@ namespace MajstorskiPortal.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Naziv = table.Column<string>(nullable: true),
                     slikaProp = table.Column<byte[]>(nullable: true),
-                    SlucajId = table.Column<int>(nullable: false)
+                    CaseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Slika", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Slika_Slucajs_SlucajId",
-                        column: x => x.SlucajId,
-                        principalTable: "Slucajs",
+                        name: "FK_Slika_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SlucajMajstors",
+                name: "CaseContractors",
                 columns: table => new
                 {
                     datumKreiranja = table.Column<DateTime>(nullable: false),
                     prihvacno = table.Column<bool>(nullable: false),
                     Odgovor = table.Column<string>(nullable: true),
                     isRead = table.Column<bool>(nullable: false),
-                    MajstorId = table.Column<int>(nullable: false),
-                    SlucajId = table.Column<int>(nullable: false),
-                    SlucajStatusId = table.Column<int>(nullable: false)
+                    ContractorId = table.Column<int>(nullable: false),
+                    CaseId = table.Column<int>(nullable: false),
+                    CaseStatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SlucajMajstors", x => new { x.SlucajId, x.MajstorId });
+                    table.PrimaryKey("PK_CaseContractors", x => new { x.CaseId, x.ContractorId });
                     table.ForeignKey(
-                        name: "FK_SlucajMajstors_Majstors_MajstorId",
-                        column: x => x.MajstorId,
-                        principalTable: "Majstors",
+                        name: "FK_CaseContractors_Contractors_ContractorId",
+                        column: x => x.ContractorId,
+                        principalTable: "Contractors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SlucajMajstors_Slucajs_SlucajId",
-                        column: x => x.SlucajId,
-                        principalTable: "Slucajs",
+                        name: "FK_CaseContractors_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SlucajMajstors_SlucajStatuses_SlucajStatusId",
-                        column: x => x.SlucajStatusId,
-                        principalTable: "SlucajStatuses",
+                        name: "FK_CaseContractors_CaseStatuses_CaseStatusId",
+                        column: x => x.CaseStatusId,
+                        principalTable: "CaseStatuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -415,15 +415,15 @@ namespace MajstorskiPortal.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SlucajId = table.Column<int>(nullable: false)
+                    CaseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ugovors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ugovors_Slucajs_SlucajId",
-                        column: x => x.SlucajId,
-                        principalTable: "Slucajs",
+                        name: "FK_Ugovors_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -473,9 +473,9 @@ namespace MajstorskiPortal.Migrations
                 column: "IdenityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cenovniks_SlucajId",
+                name: "IX_Cenovniks_CaseId",
                 table: "Cenovniks",
-                column: "SlucajId");
+                column: "CaseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cenovniks_StatusId",
@@ -488,54 +488,54 @@ namespace MajstorskiPortal.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Korisniks_IdenityId",
-                table: "Korisniks",
+                name: "IX_Users_IdenityId",
+                table: "Users",
                 column: "IdenityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MajstorKategorijes_KategorijaId",
-                table: "MajstorKategorijes",
+                name: "IX_ContractorKategorijes_KategorijaId",
+                table: "ContractorKategorijes",
                 column: "KategorijaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Majstors_IdenityId",
-                table: "Majstors",
+                name: "IX_Contractors_IdenityId",
+                table: "Contractors",
                 column: "IdenityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Majstors_KategorijaId",
-                table: "Majstors",
+                name: "IX_Contractors_KategorijaId",
+                table: "Contractors",
                 column: "KategorijaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slika_SlucajId",
+                name: "IX_Slika_CaseId",
                 table: "Slika",
-                column: "SlucajId");
+                column: "CaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SlucajMajstors_MajstorId",
-                table: "SlucajMajstors",
-                column: "MajstorId");
+                name: "IX_CaseContractors_ContractorId",
+                table: "CaseContractors",
+                column: "ContractorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SlucajMajstors_SlucajStatusId",
-                table: "SlucajMajstors",
-                column: "SlucajStatusId");
+                name: "IX_CaseContractors_CaseStatusId",
+                table: "CaseContractors",
+                column: "CaseStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slucajs_KategorijaId",
-                table: "Slucajs",
+                name: "IX_Cases_KategorijaId",
+                table: "Cases",
                 column: "KategorijaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slucajs_KorisnikId",
-                table: "Slucajs",
-                column: "KorisnikId");
+                name: "IX_Cases_UserId",
+                table: "Cases",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ugovors_SlucajId",
+                name: "IX_Ugovors_CaseId",
                 table: "Ugovors",
-                column: "SlucajId",
+                column: "CaseId",
                 unique: true);
         }
 
@@ -560,13 +560,13 @@ namespace MajstorskiPortal.Migrations
                 name: "Cenovniks");
 
             migrationBuilder.DropTable(
-                name: "MajstorKategorijes");
+                name: "ContractorKategorijes");
 
             migrationBuilder.DropTable(
                 name: "Slika");
 
             migrationBuilder.DropTable(
-                name: "SlucajMajstors");
+                name: "CaseContractors");
 
             migrationBuilder.DropTable(
                 name: "Ugovors");
@@ -578,19 +578,19 @@ namespace MajstorskiPortal.Migrations
                 name: "Statuses");
 
             migrationBuilder.DropTable(
-                name: "Majstors");
+                name: "Contractors");
 
             migrationBuilder.DropTable(
-                name: "SlucajStatuses");
+                name: "CaseStatuses");
 
             migrationBuilder.DropTable(
-                name: "Slucajs");
+                name: "Cases");
 
             migrationBuilder.DropTable(
                 name: "Kategorijas");
 
             migrationBuilder.DropTable(
-                name: "Korisniks");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

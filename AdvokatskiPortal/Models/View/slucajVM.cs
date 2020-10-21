@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MajstorskiPortal.Models.View
+namespace ContractorskiPortal.Models.View
 {
-    public class slucajVM
+    public class CaseVM
     {
         //public int Id { get; set; }
         //public string Naziv { get; set; }
@@ -20,11 +20,11 @@ namespace MajstorskiPortal.Models.View
         //public Ugovor Ugovor { get; set; }
         //public int KategorijaId { get; set; }
         //public Kategorija Kategorija { get; set; }
-        //public int KorisnikId { get; set; }
-        //public Korisnik Korisnik { get; set; }
+        //public int UserId { get; set; }
+        //public User User { get; set; }
         //public string imgSource { get; set; }
         //public ICollection<SlikeVM> Slike { get; set; }
-        //public ICollection<SlucajMajstor> SlucajMajstors { get; set; }
+        //public ICollection<CaseContractor> CaseContractors { get; set; }
         //public ICollection<Cenovnik> Cenovniks { get; set; }
         //public byte[] getSource(string imgs)
         //{

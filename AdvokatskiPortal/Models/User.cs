@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MajstorskiPortal.Models
+namespace ContractorskiPortal.Models
 {
-    public class Korisnik
+    public class User
     {
         public int Id { get; set; }
         public ApplicationUser Idenity { get; set; }
-        public string Ime { get; set; }
-        public string Prezime { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string Mesto { get; set; }
-        public string Ulica { get; set; }
-        public ICollection<Slucaj>Slucajs { get; set; }
+        public string Place { get; set; }
+        public string Street { get; set; }
+        public ICollection<Case>Cases { get; set; }
 
     }
 }

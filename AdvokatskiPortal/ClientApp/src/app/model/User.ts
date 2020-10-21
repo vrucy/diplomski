@@ -1,10 +1,10 @@
 export class Korisnik {
     id;
-    ime: string;
-    prezime: string;
+    FirstName: string;
+    LastName: string;
     userName: string;
     password: string;
     email: string;
-    mesto: string;
-    ulica:string
+    Place: string;
+    Street:string
   }

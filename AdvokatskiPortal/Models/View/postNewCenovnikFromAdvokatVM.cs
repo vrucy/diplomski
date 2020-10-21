@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MajstorskiPortal.Models.View
+namespace ContractorskiPortal.Models.View
 {
-    public class postNewCenovnikFromMajstorVM
+    public class postNewCenovnikFromContractorVM
     {
         //public DateTime datumKreiranja { get; set; }
         //public bool prihvacno { get; set; }
         //public string Odgovor { get; set; }
         //public bool isRead { get; set; }
         //public bool isActive { get; set; }
-        //public int MajstorId { get; set; }
-        //public Majstor Majstor { get; set; }
-        //public int SlucajId { get; set; }
-        //public Slucaj Slucaj { get; set; }
-        //public int SlucajStatusId { get; set; }
-        //public SlucajStatus SlucajStatus { get; set; }
+        //public int ContractorId { get; set; }
+        //public Contractor Contractor { get; set; }
+        //public int CaseId { get; set; }
+        //public Case Case { get; set; }
+        //public int CaseStatusId { get; set; }
+        //public CaseStatus CaseStatus { get; set; }
         //public Cenovnik Cenovnik { get; set; }
     }
 }

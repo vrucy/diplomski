@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
     public partial class addTableNotification : Migration
     {
@@ -17,7 +17,7 @@ namespace MajstorskiPortal.Migrations
                     UserId = table.Column<string>(nullable: true),
                     isRead = table.Column<bool>(nullable: false),
                     NotificationText = table.Column<string>(nullable: true),
-                    TimeStamp = table.Column<DateTime>(nullable: false)
+                    TFirstNameStamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class fixDataTime : Migration
+    public partial class fixDataTFirstName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

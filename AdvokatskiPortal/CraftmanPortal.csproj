@@ -30,19 +30,21 @@
     <Compile Remove="Migrations\20190924155207_inital.Designer.cs" />
     <Compile Remove="Migrations\20190925081922_addForeignKeyKategorija.cs" />
     <Compile Remove="Migrations\20190925081922_addForeignKeyKategorija.Designer.cs" />
-    <Compile Remove="Migrations\20190925093655_addTableMajstorKategorija.cs" />
-    <Compile Remove="Migrations\20190925093655_addTableMajstorKategorija.Designer.cs" />
+    <Compile Remove="Migrations\20190925093655_addTableContractortorKategorija.cs" />
+    <Compile Remove="Migrations\20190925093655_addTableContractortorKategorija.Designer.cs" />
     <Compile Remove="Migrations\20190927054847_addUnarn.cs" />
     <Compile Remove="Migrations\20190927054847_addUnarn.Designer.cs" />
     <Compile Remove="Migrations\20190927083050_initial.cs" />
     <Compile Remove="Migrations\20190927083050_initial.Designer.cs" />
-    <Compile Remove="Migrations\20191010134234_addmajstorToCenovnik.cs" />
-    <Compile Remove="Migrations\20191010134234_addmajstorToCenovnik.Designer.cs" />
-    <Compile Remove="Migrations\20191013155806_slucajAddZavrsetak.cs" />
-    <Compile Remove="Migrations\20191013155806_slucajAddZavrsetak.Designer.cs" />
+    <Compile Remove="Migrations\20191010134234_addContractortorToCenovnik.cs" />
+    <Compile Remove="Migrations\20191010134234_addContractortorToCenovnik.Designer.cs" />
+    <Compile Remove="Migrations\20191013155806_CaseAddZavrsetak.cs" />
+    <Compile Remove="Migrations\20191013155806_CaseAddZavrsetak.Designer.cs" />
+    <Compile Remove="Migrations\PortalAdvokataDbContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ContractorskiPortal\Migrations\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
 

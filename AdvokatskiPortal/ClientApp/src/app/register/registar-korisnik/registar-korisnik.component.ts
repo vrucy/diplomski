@@ -11,13 +11,13 @@ export class RegistarKorisnikComponent implements OnInit {
   form: FormGroup;
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.form = this.fb.group({
-      Ime: [ '' , Validators.required ],
-      Prezime: [ '' , Validators.required ],
+      FirstName: [ '' , Validators.required ],
+      LastName: [ '' , Validators.required ],
       UserName: [ '' , Validators.required ],
       Password: [ '' , Validators.required ],
       Email: [ '' , Validators.required ],
-      Mesto: [ '' , Validators.required ],
-      Ulica: [ '' , Validators.required ]
+      Place: [ '' , Validators.required ],
+      Street: [ '' , Validators.required ]
     });
   }
 

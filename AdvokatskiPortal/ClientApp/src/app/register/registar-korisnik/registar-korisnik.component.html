@@ -4,12 +4,12 @@
     <form [formGroup]="form" (ngSubmit)="authService.registration(form.value)">
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Ime" formControlName="Ime">
+          <input matInput type="text" placeholder="FirstName" formControlName="FirstName">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Prezime" formControlName="Prezime">
+          <input matInput type="text" placeholder="LastName" formControlName="LastName">
         </mat-form-field>
       </div>
       <div>
@@ -29,12 +29,12 @@
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Mesto" formControlName="Mesto">
+          <input matInput type="text" placeholder="Place" formControlName="Place">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="text" placeholder="Ulica i broj" formControlName="Ulica">
+          <input matInput type="text" placeholder="Street" formControlName="Street">
         </mat-form-field>
       </div>
       <div class="button-registar">

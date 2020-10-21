@@ -1,27 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class addmajstorToCenovnik : Migration
+    public partial class addContractorToCenovnik : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "MajstorId",
+                name: "ContractorId",
                 table: "Cenovniks",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cenovniks_MajstorId",
+                name: "IX_Cenovniks_ContractorId",
                 table: "Cenovniks",
-                column: "MajstorId");
+                column: "ContractorId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Cenovniks_Majstors_MajstorId",
+                name: "FK_Cenovniks_Contractors_ContractorId",
                 table: "Cenovniks",
-                column: "MajstorId",
-                principalTable: "Majstors",
+                column: "ContractorId",
+                principalTable: "Contractors",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -29,15 +29,15 @@ namespace MajstorskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Cenovniks_Majstors_MajstorId",
+                name: "FK_Cenovniks_Contractors_ContractorId",
                 table: "Cenovniks");
 
             migrationBuilder.DropIndex(
-                name: "IX_Cenovniks_MajstorId",
+                name: "IX_Cenovniks_ContractorId",
                 table: "Cenovniks");
 
             migrationBuilder.DropColumn(
-                name: "MajstorId",
+                name: "ContractorId",
                 table: "Cenovniks");
         }
     }

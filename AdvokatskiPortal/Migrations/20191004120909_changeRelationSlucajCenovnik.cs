@@ -1,34 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class changeRelationSlucajCenovnik : Migration
+    public partial class changeRelationCaseCenovnik : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Cenovniks_Slucajs_SlucajId",
+                name: "FK_Cenovniks_Cases_CaseId",
                 table: "Cenovniks");
 
             migrationBuilder.DropIndex(
-                name: "IX_Cenovniks_SlucajId",
+                name: "IX_Cenovniks_CaseId",
                 table: "Cenovniks");
 
             migrationBuilder.AddColumn<int>(
                 name: "CenovnikId",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slucajs_CenovnikId",
-                table: "Slucajs",
+                name: "IX_Cases_CenovnikId",
+                table: "Cases",
                 column: "CenovnikId",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Slucajs_Cenovniks_CenovnikId",
-                table: "Slucajs",
+                name: "FK_Cases_Cenovniks_CenovnikId",
+                table: "Cases",
                 column: "CenovnikId",
                 principalTable: "Cenovniks",
                 principalColumn: "Id",
@@ -38,27 +38,27 @@ namespace MajstorskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Slucajs_Cenovniks_CenovnikId",
-                table: "Slucajs");
+                name: "FK_Cases_Cenovniks_CenovnikId",
+                table: "Cases");
 
             migrationBuilder.DropIndex(
-                name: "IX_Slucajs_CenovnikId",
-                table: "Slucajs");
+                name: "IX_Cases_CenovnikId",
+                table: "Cases");
 
             migrationBuilder.DropColumn(
                 name: "CenovnikId",
-                table: "Slucajs");
+                table: "Cases");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cenovniks_SlucajId",
+                name: "IX_Cenovniks_CaseId",
                 table: "Cenovniks",
-                column: "SlucajId");
+                column: "CaseId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Cenovniks_Slucajs_SlucajId",
+                name: "FK_Cenovniks_Cases_CaseId",
                 table: "Cenovniks",
-                column: "SlucajId",
-                principalTable: "Slucajs",
+                column: "CaseId",
+                principalTable: "Cases",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }

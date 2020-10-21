@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MajstorskiPortal.Models.View
+namespace ContractorskiPortal.Models.View
 {
-    public class postSlucajMajstoraSaCenovnikomViewModel
+    public class postCaseContractoraSaCenovnikomViewModel
     {
-        public Slucaj Slucaj { get; set; }
-        public ICollection<Majstor> Majstors { get; set; }
+        public Case Case { get; set; }
+        public ICollection<Contractor> Contractors { get; set; }
         public string Opis { get; set; }
         //public Ugovor Ugovor { get; set; }
-        public int KorisnikId { get; set; }
-        public Korisnik Korisnik { get; set; }
-        public ICollection<SlucajMajstor> SlucajMajstors { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public ICollection<CaseContractor> CaseContractors { get; set; }
         //public ICollection<Cenovnik> Cenovniks { get; set; }
 
     }

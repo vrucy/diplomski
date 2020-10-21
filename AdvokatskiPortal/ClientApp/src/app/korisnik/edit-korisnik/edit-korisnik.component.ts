@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Korisnik } from '../../model/Korisnik';
+import { Korisnik } from '../../model/User';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class EditKorisnikComponent implements OnInit {
    ngOnInit() {
     this.authService.getKorisnik().subscribe( (res: any) => {
       this.trenutniKorisnik = res;
-      this.trenutniKorisnik.ime = res.ime;
+      this.trenutniKorisnik.FirstName = res.FirstName;
       console.log(this.trenutniKorisnik)
     });
     

@@ -1,35 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
     public partial class makeNullubleCenovnikId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Slucajs_Cenovniks_CenovnikId",
-                table: "Slucajs");
+                name: "FK_Cases_Cenovniks_CenovnikId",
+                table: "Cases");
 
             migrationBuilder.DropIndex(
-                name: "IX_Slucajs_CenovnikId",
-                table: "Slucajs");
+                name: "IX_Cases_CenovnikId",
+                table: "Cases");
 
             migrationBuilder.AlterColumn<int>(
                 name: "CenovnikId",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: true,
                 oldClrType: typeof(int));
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slucajs_CenovnikId",
-                table: "Slucajs",
+                name: "IX_Cases_CenovnikId",
+                table: "Cases",
                 column: "CenovnikId",
                 unique: true,
                 filter: "[CenovnikId] IS NOT NULL");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Slucajs_Cenovniks_CenovnikId",
-                table: "Slucajs",
+                name: "FK_Cases_Cenovniks_CenovnikId",
+                table: "Cases",
                 column: "CenovnikId",
                 principalTable: "Cenovniks",
                 principalColumn: "Id",
@@ -39,29 +39,29 @@ namespace MajstorskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Slucajs_Cenovniks_CenovnikId",
-                table: "Slucajs");
+                name: "FK_Cases_Cenovniks_CenovnikId",
+                table: "Cases");
 
             migrationBuilder.DropIndex(
-                name: "IX_Slucajs_CenovnikId",
-                table: "Slucajs");
+                name: "IX_Cases_CenovnikId",
+                table: "Cases");
 
             migrationBuilder.AlterColumn<int>(
                 name: "CenovnikId",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: false,
                 oldClrType: typeof(int),
                 oldNullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Slucajs_CenovnikId",
-                table: "Slucajs",
+                name: "IX_Cases_CenovnikId",
+                table: "Cases",
                 column: "CenovnikId",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Slucajs_Cenovniks_CenovnikId",
-                table: "Slucajs",
+                name: "FK_Cases_Cenovniks_CenovnikId",
+                table: "Cases",
                 column: "CenovnikId",
                 principalTable: "Cenovniks",
                 principalColumn: "Id",

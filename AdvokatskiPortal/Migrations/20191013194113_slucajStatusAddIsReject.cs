@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class slucajStatusAddIsReject : Migration
+    public partial class CaseStatusAddIsReject : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
                 name: "isReject",
-                table: "SlucajMajstors",
+                table: "CaseContractors",
                 nullable: false,
                 defaultValue: false);
         }
@@ -17,7 +17,7 @@ namespace MajstorskiPortal.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "isReject",
-                table: "SlucajMajstors");
+                table: "CaseContractors");
         }
     }
 }

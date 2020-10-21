@@ -4,86 +4,86 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using MajstorskiPortal.Data;
-using MajstorskiPortal.Models;
+using ContractorskiPortal.Data;
+using ContractorskiPortal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
-using MajstorskiPortal.Models.View;
+using ContractorskiPortal.Models.View;
 using Microsoft.EntityFrameworkCore;
 
-namespace MajstorskiPortal.Controllers
+namespace ContractorskiPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize("AdminMajstor")]
+    // [Authorize("AdminContractor")]
 
     public class AccountController : ControllerBase
     {
         readonly UserManager<IdentityUser> userManager;
         readonly SignInManager<IdentityUser> signInManager;
-        private readonly PortalMajstoraDbContext _context;
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, PortalMajstoraDbContext context)
+        private readonly PortalOfCraftsmanDbContext _context;
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, PortalOfCraftsmanDbContext context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this._context = context;
         }
-        //[Authorize(Policy = "AdminMajstor")]
-        [HttpPost("registrationMajstor")]
-        public async Task<IActionResult> RegistarMajstor([FromBody] postMajstor majstor)
+        //[Authorize(Policy = "AdminContractor")]
+        [HttpPost("registrationContractor")]
+        public async Task<IActionResult> RegistarContractor([FromBody] postContractor Contractor)
         {
 
-            var newMajstor = new Majstor
+            var newContractor = new Contractor
             {
-                Email = majstor.Email,
-                Ime = majstor.Ime,
-                Mesto = majstor.Mesto,
-                Password = majstor.Password,
-                Prezime = majstor.Prezime,
-                Ulica = majstor.Ulica,
-                UserName = majstor.UserName
+                Email = Contractor.Email,
+                FirstName = Contractor.FirstName,
+                Place = Contractor.Place,
+                Password = Contractor.Password,
+                LastName = Contractor.LastName,
+                Street = Contractor.Street,
+                UserName = Contractor.UserName
             };
-            _context.Majstors.Add(newMajstor);
+            _context.Contractors.Add(newContractor);
             
-            foreach (var item in majstor.Kategorije)
+            foreach (var item in Contractor.Categories)
             {
-                var newMajtorKategorije = new MajstorKategorije
+                var newMajtorKategorije = new ContractCategory
                 {
-                    KategorijaId = item.Id,
-                    MajstorId = newMajstor.Id,
+                    CategoryId = item.Id,
+                    ContractorId = newContractor.Id,
                 };
-                _context.MajstorKategorijes.Add(newMajtorKategorije);
+                _context.ContractCategores.Add(newMajtorKategorije);
             }
-            var appUser = new ApplicationUser { UserName = majstor.UserName, Email = majstor.Email };
+            var appUser = new ApplicationUser { UserName = Contractor.UserName, Email = Contractor.Email };
 
-            var result = await userManager.CreateAsync(appUser, majstor.Password);
+            var result = await userManager.CreateAsync(appUser, Contractor.Password);
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
             await signInManager.SignInAsync(appUser, isPersistent: false);
-            newMajstor.Idenity = appUser;
+            newContractor.Idenity = appUser;
 
-            var user = await userManager.FindByNameAsync(majstor.UserName);
+            var user = await userManager.FindByNameAsync(Contractor.UserName);
 
-            await userManager.AddClaimAsync(appUser, new Claim("RegularMajstor", appUser.Id));
-            await userManager.AddClaimAsync(appUser, new Claim("AdminMajstor", appUser.Id));
+            await userManager.AddClaimAsync(appUser, new Claim("RegularContractor", appUser.Id));
+            await userManager.AddClaimAsync(appUser, new Claim("AdminContractor", appUser.Id));
             await _context.SaveChangesAsync();
             
             return Ok();
         }
 
         [HttpPost("registration")]
-        public async Task<IActionResult> Registar([FromBody] Korisnik korisnik)
+        public async Task<IActionResult> Registar([FromBody] User User)
         {
 
-            var appUser = new ApplicationUser { UserName = korisnik.UserName, Email = korisnik.Email };
+            var appUser = new ApplicationUser { UserName = User.UserName, Email = User.Email };
             try
             {
 
-            var result = await userManager.CreateAsync(appUser, korisnik.Password);
+            var result = await userManager.CreateAsync(appUser, User.Password);
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
             }
@@ -95,46 +95,46 @@ namespace MajstorskiPortal.Controllers
 
 
             await signInManager.SignInAsync(appUser, isPersistent: false);
-            korisnik.Idenity = appUser;
+            User.Idenity = appUser;
 
-            var user = await userManager.FindByNameAsync(korisnik.UserName);
+            var user = await userManager.FindByNameAsync(User.UserName);
 
             await userManager.AddClaimAsync(appUser, new Claim("RegularUser", appUser.Id));
 
-            _context.Korisniks.Add(korisnik);
+            _context.Users.Add(User);
 
             await _context.SaveChangesAsync();
 
             return Ok();
         }
-        [HttpGet("getKorisnik")]
-        public IActionResult getKorisnik()
+        [HttpGet("getUser")]
+        public IActionResult getUser()
         {
             var cliems = User.Claims.First();
-            var korisnik = _context.Korisniks.Single(x => x.Idenity.Id == cliems.Value);
+            var loginUser = _context.Users.Single(x => x.Idenity.Id == cliems.Value);
 
-            return Ok(korisnik);
+            return Ok(loginUser);
         }
-        [HttpGet("getMajstor")]
-        public IActionResult getMajstor()
+        [HttpGet("getContractor")]
+        public IActionResult getContractor()
         {
             var cliems = User.Claims.First();
-            var majstor = _context.Majstors.Single(x => x.Idenity.Id == cliems.Value);
+            var Contractor = _context.Contractors.Single(x => x.Idenity.Id == cliems.Value);
 
-            return Ok(majstor);
+            return Ok(Contractor);
         }
         [HttpGet("getCurrentUser/{userName}")]
         public async Task<IActionResult> getCurrentUser([FromRoute] string userName)
         {
-            var korisnik = _context.Korisniks.Where(x => x.UserName == userName);
-            var majstor = _context.Majstors.Where(x => x.UserName == userName);
-            if (korisnik != null)
+            var User = _context.Users.Where(x => x.UserName == userName);
+            var Contractor = _context.Contractors.Where(x => x.UserName == userName);
+            if (User != null)
             {
-                return Ok(korisnik);
+                return Ok(User);
             }
             else
             {
-                return Ok(majstor);
+                return Ok(Contractor);
             }
 
 
@@ -162,9 +162,9 @@ namespace MajstorskiPortal.Controllers
                 expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: signinCredentials
             );
-            if (claim.Where(c => c.Type == "AdminMajstor").SingleOrDefault() != null)
+            if (claim.Where(c => c.Type == "AdminContractor").SingleOrDefault() != null)
             {
-                i = claim.Where(c => c.Type == "AdminMajstor").Single().Type;
+                i = claim.Where(c => c.Type == "AdminContractor").Single().Type;
             }
             else
             {
@@ -175,32 +175,32 @@ namespace MajstorskiPortal.Controllers
 
             return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
         }
-        [HttpPut("editKorisnik")]
-        public IActionResult editKorisnik(Korisnik korisnik)
+        [HttpPut("editUser")]
+        public IActionResult editUser(User user)
         {
-            var user = _context.Korisniks.Single(k => k.Id == korisnik.Id);
-            user.Ime = korisnik.Ime;
-            user.Prezime = korisnik.Prezime;
-            user.UserName = korisnik.UserName;
-            user.Password = korisnik.Password;
-            user.Email = korisnik.Email;
-            user.Mesto = korisnik.Mesto;
-            user.Ulica = korisnik.Ulica;
-            _context.Entry(user).State = EntityState.Modified;
+            var selectedUser = _context.Users.Single(k => k.Id == user.Id);
+            selectedUser.FirstName = user.FirstName;
+            selectedUser.LastName = user.LastName;
+            selectedUser.UserName = user.UserName;
+            selectedUser.Password = user.Password;
+            selectedUser.Email = user.Email;
+            selectedUser.Place = user.Place;
+            selectedUser.Street = user.Street;
+            _context.Entry(selectedUser).State = EntityState.Modified;
             _context.SaveChanges();
             return Ok();
         }
-        [HttpPut("editMajstor")]
-        public IActionResult editMajstor(Majstor majstor)
+        [HttpPut("editContractor")]
+        public IActionResult editContractor(Contractor Contractor)
         {
-            var user = _context.Majstors.Single(k => k.Id == majstor.Id);
-            user.Ime = majstor.Ime;
-            user.Prezime = majstor.Prezime;
-            user.UserName = majstor.UserName;
-            user.Password = majstor.Password;
-            user.Email = majstor.Email;
-            user.Mesto = majstor.Mesto;
-            user.Ulica = majstor.Ulica;
+            var user = _context.Contractors.Single(k => k.Id == Contractor.Id);
+            user.FirstName = Contractor.FirstName;
+            user.LastName = Contractor.LastName;
+            user.UserName = Contractor.UserName;
+            user.Password = Contractor.Password;
+            user.Email = Contractor.Email;
+            user.Place = Contractor.Place;
+            user.Street = Contractor.Street;
             _context.Entry(user).State = EntityState.Modified;
             _context.SaveChanges();
             return Ok();

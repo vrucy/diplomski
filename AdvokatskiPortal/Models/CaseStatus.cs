@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MajstorskiPortal.Models
+namespace ContractorskiPortal.Models
 {
-    public class SlucajStatus
+    public class CaseStatus
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<SlucajMajstor> SlucajMajstors { get; set; }
+        public ICollection<CaseContractor> CaseContractors { get; set; }
     }
 }

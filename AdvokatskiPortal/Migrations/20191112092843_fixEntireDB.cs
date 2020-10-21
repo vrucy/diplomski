@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
     public partial class fixEntireDB : Migration
     {
@@ -20,19 +20,19 @@ namespace MajstorskiPortal.Migrations
 
             migrationBuilder.DropColumn(
                 name: "isRead",
-                table: "SlucajMajstors");
+                table: "CaseContractors");
 
             migrationBuilder.DropColumn(
-                name: "isReadOdbijenMajstor",
-                table: "SlucajMajstors");
+                name: "isReadOdbijenContractor",
+                table: "CaseContractors");
 
             migrationBuilder.DropColumn(
-                name: "isReadOdbijenKorisnik",
-                table: "SlucajMajstors");
+                name: "isReadOdbijenUser",
+                table: "CaseContractors");
 
             migrationBuilder.DropColumn(
                 name: "prihvacno",
-                table: "SlucajMajstors");
+                table: "CaseContractors");
 
             migrationBuilder.AlterColumn<string>(
                 name: "IdenityId",
@@ -46,25 +46,25 @@ namespace MajstorskiPortal.Migrations
         {
             migrationBuilder.AddColumn<bool>(
                 name: "isRead",
-                table: "SlucajMajstors",
+                table: "CaseContractors",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "isReadOdbijenMajstor",
-                table: "SlucajMajstors",
+                name: "isReadOdbijenContractor",
+                table: "CaseContractors",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "isReadOdbijenKorisnik",
-                table: "SlucajMajstors",
+                name: "isReadOdbijenUser",
+                table: "CaseContractors",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "prihvacno",
-                table: "SlucajMajstors",
+                table: "CaseContractors",
                 nullable: false,
                 defaultValue: false);
 
@@ -81,15 +81,15 @@ namespace MajstorskiPortal.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SlucajId = table.Column<int>(nullable: false)
+                    CaseId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ugovors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ugovors_Slucajs_SlucajId",
-                        column: x => x.SlucajId,
-                        principalTable: "Slucajs",
+                        name: "FK_Ugovors_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -100,9 +100,9 @@ namespace MajstorskiPortal.Migrations
                 column: "IdenityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ugovors_SlucajId",
+                name: "IX_Ugovors_CaseId",
                 table: "Ugovors",
-                column: "SlucajId",
+                column: "CaseId",
                 unique: true);
 
             migrationBuilder.AddForeignKey(

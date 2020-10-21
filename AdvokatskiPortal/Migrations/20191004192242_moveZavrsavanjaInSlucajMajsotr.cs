@@ -1,19 +1,19 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class moveZavrsavanjaInSlucajMajsotr : Migration
+    public partial class moveZavrsavanjaInCaseMajsotr : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
                 name: "ZavrsetakRada",
-                table: "Slucajs");
+                table: "Cases");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "ZavrsetakRada",
-                table: "SlucajMajstors",
+                table: "CaseContractors",
                 nullable: true);
         }
 
@@ -21,11 +21,11 @@ namespace MajstorskiPortal.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "ZavrsetakRada",
-                table: "SlucajMajstors");
+                table: "CaseContractors");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "ZavrsetakRada",
-                table: "Slucajs",
+                table: "Cases",
                 nullable: true);
         }
     }

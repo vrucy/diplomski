@@ -13,9 +13,6 @@ import * as _moment from 'moment';
 import { AuthGuard } from './service/authGuard';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule} from './material.module';
 import { PocetnaStranicaKorisnikComponent } from './korisnik/pocetna-stranica-korisnik/pocetna-stranica-korisnik.component';
@@ -56,9 +53,6 @@ import { UspesnoStePoslaliSlucajComponent } from './snackBar/uspesno-ste-poslali
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     LoginComponent,
     PocetnaStranicaKorisnikComponent,
     PocetnaStranicaMajstorComponent,

@@ -1,38 +1,38 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
     public partial class fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Majstors_Kategorijas_KategorijaId",
-                table: "Majstors");
+                name: "FK_Contractors_Kategorijas_KategorijaId",
+                table: "Contractors");
 
             migrationBuilder.DropIndex(
-                name: "IX_Majstors_KategorijaId",
-                table: "Majstors");
+                name: "IX_Contractors_KategorijaId",
+                table: "Contractors");
 
             migrationBuilder.DropColumn(
                 name: "KategorijaId",
-                table: "Majstors");
+                table: "Contractors");
 
             migrationBuilder.AddColumn<int>(
-                name: "MajstorId",
+                name: "ContractorId",
                 table: "Kategorijas",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Kategorijas_MajstorId",
+                name: "IX_Kategorijas_ContractorId",
                 table: "Kategorijas",
-                column: "MajstorId");
+                column: "ContractorId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Kategorijas_Majstors_MajstorId",
+                name: "FK_Kategorijas_Contractors_ContractorId",
                 table: "Kategorijas",
-                column: "MajstorId",
-                principalTable: "Majstors",
+                column: "ContractorId",
+                principalTable: "Contractors",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -40,31 +40,31 @@ namespace MajstorskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Kategorijas_Majstors_MajstorId",
+                name: "FK_Kategorijas_Contractors_ContractorId",
                 table: "Kategorijas");
 
             migrationBuilder.DropIndex(
-                name: "IX_Kategorijas_MajstorId",
+                name: "IX_Kategorijas_ContractorId",
                 table: "Kategorijas");
 
             migrationBuilder.DropColumn(
-                name: "MajstorId",
+                name: "ContractorId",
                 table: "Kategorijas");
 
             migrationBuilder.AddColumn<int>(
                 name: "KategorijaId",
-                table: "Majstors",
+                table: "Contractors",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Majstors_KategorijaId",
-                table: "Majstors",
+                name: "IX_Contractors_KategorijaId",
+                table: "Contractors",
                 column: "KategorijaId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Majstors_Kategorijas_KategorijaId",
-                table: "Majstors",
+                name: "FK_Contractors_Kategorijas_KategorijaId",
+                table: "Contractors",
                 column: "KategorijaId",
                 principalTable: "Kategorijas",
                 principalColumn: "Id",

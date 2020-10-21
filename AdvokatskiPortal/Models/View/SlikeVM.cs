@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MajstorskiPortal.Models.View
+namespace ContractorskiPortal.Models.View
 {
     public class SlikeVM
     {

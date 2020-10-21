@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MajstorskiPortal.Models
+namespace ContractorskiPortal.Models
 {
     public class Notification
     {
@@ -13,8 +13,8 @@ namespace MajstorskiPortal.Models
         public bool isRead { get; set; }
         public string NotificationText { get; set; }
         public DateTime TimeStamp { get; set; }
-        [ForeignKey("Slucaj")]
-        public int SlucajId{ get; set; }
-        public Slucaj Slucaj { get; set; }
+        [ForeignKey("Case")]
+        public int CaseId{ get; set; }
+        public Case Case { get; set; }
     }
 }

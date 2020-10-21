@@ -1,27 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MajstorskiPortal.Migrations
+namespace ContractorskiPortal.Migrations
 {
-    public partial class relationSlucajNotification : Migration
+    public partial class relationCaseNotification : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "SlucajId",
+                name: "CaseId",
                 table: "Notifications",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_SlucajId",
+                name: "IX_Notifications_CaseId",
                 table: "Notifications",
-                column: "SlucajId");
+                column: "CaseId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Notifications_Slucajs_SlucajId",
+                name: "FK_Notifications_Cases_CaseId",
                 table: "Notifications",
-                column: "SlucajId",
-                principalTable: "Slucajs",
+                column: "CaseId",
+                principalTable: "Cases",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -29,15 +29,15 @@ namespace MajstorskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Notifications_Slucajs_SlucajId",
+                name: "FK_Notifications_Cases_CaseId",
                 table: "Notifications");
 
             migrationBuilder.DropIndex(
-                name: "IX_Notifications_SlucajId",
+                name: "IX_Notifications_CaseId",
                 table: "Notifications");
 
             migrationBuilder.DropColumn(
-                name: "SlucajId",
+                name: "CaseId",
                 table: "Notifications");
         }
     }
