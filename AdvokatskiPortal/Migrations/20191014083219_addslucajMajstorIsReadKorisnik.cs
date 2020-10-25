@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
-    public partial class addCaseContractorIsReadUser : Migration
+    public partial class addCaseCraftmanIsReadUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "isReadOdbijenContractor",
-                table: "CaseContractors",
+                name: "isReadOdbijenCraftman",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "isReadOdbijenUser",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
         }
@@ -22,12 +22,12 @@ namespace ContractorskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "isReadOdbijenContractor",
-                table: "CaseContractors");
+                name: "isReadOdbijenCraftman",
+                table: "CaseCraftmans");
 
             migrationBuilder.DropColumn(
                 name: "isReadOdbijenUser",
-                table: "CaseContractors");
+                table: "CaseCraftmans");
         }
     }
 }

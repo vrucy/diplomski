@@ -1,0 +1,56 @@
+<div class="registrationCraftman">
+  <mat-card class="registrationCraftman-card">
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="First name" [(ngModel)]="craftman.firstName">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Last name"  [(ngModel)]="craftman.lastname">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="User name"  [(ngModel)]="craftman.userName">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="password" placeholder="Password"  [(ngModel)]="craftman.password">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Email"  [(ngModel)]="craftman.email">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Place"  [(ngModel)]="craftman.place">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Street"  [(ngModel)]="craftman.street">
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-select placeholder="Enter categoty" (selectionChange)="onParentChanged($event)" >
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select  [(ngModel)]="craftman.categories" placeholder="Enter sub categories" multiple>
+          <mat-option *ngFor="let subCategory of subCategories" [value]="subCategory">
+            {{subCategory.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="button-registar">
+        <button mat-button color="primary" (click)="save()">Registraion</button>
+      </div>
+  </mat-card>
+</div>

@@ -1,5 +1,5 @@
-using ContractorskiPortal.Data;
-using ContractorskiPortal.Models;
+using CraftmanPortal.Data;
+using CraftmanPortal.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ContractorskiPortal
+namespace CraftmanPortal
 {
     public class Startup
     {
@@ -37,11 +37,11 @@ namespace ContractorskiPortal
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RegularContractor", policy => policy.RequireClaim("RegularContractor"));
-                options.AddPolicy("AdminContractor", policy => policy.RequireClaim("AdminContractor","RegularContractor"));
-                options.AddPolicy("AdminContractor", policy => policy.RequireAssertion(context => (
+                options.AddPolicy("RegularCraftman", policy => policy.RequireClaim("RegularCraftman"));
+                options.AddPolicy("AdminCraftman", policy => policy.RequireClaim("AdminCraftman","RegularCraftman"));
+                options.AddPolicy("AdminCraftman", policy => policy.RequireAssertion(context => (
                     context.User.HasClaim(c => (
-                        c.Type == "AdminContractor" || c.Type == "RegularContractor"
+                        c.Type == "AdminCraftman" || c.Type == "RegularCraftman"
                         )))));
                 
 

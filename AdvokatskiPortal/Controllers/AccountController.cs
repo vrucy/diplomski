@@ -4,20 +4,20 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using ContractorskiPortal.Data;
-using ContractorskiPortal.Models;
+using CraftmanPortal.Data;
+using CraftmanPortal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
-using ContractorskiPortal.Models.View;
+using CraftmanPortal.Models.View;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContractorskiPortal.Controllers
+namespace CraftmanPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize("AdminContractor")]
+    // [Authorize("AdminCraftman")]
 
     public class AccountController : ControllerBase
     {
@@ -30,53 +30,53 @@ namespace ContractorskiPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
-        //[Authorize(Policy = "AdminContractor")]
-        [HttpPost("registrationContractor")]
-        public async Task<IActionResult> RegistarContractor([FromBody] postContractor Contractor)
+        //[Authorize(Policy = "AdminCraftman")]
+        [HttpPost("RegistrationCraftman")]
+        public async Task<IActionResult> RegistrationCraftman([FromBody] postCraftman Craftman)
         {
 
-            var newContractor = new Contractor
+            var newCraftman = new Craftman
             {
-                Email = Contractor.Email,
-                FirstName = Contractor.FirstName,
-                Place = Contractor.Place,
-                Password = Contractor.Password,
-                LastName = Contractor.LastName,
-                Street = Contractor.Street,
-                UserName = Contractor.UserName
+                Email = Craftman.Email,
+                FirstName = Craftman.FirstName,
+                Place = Craftman.Place,
+                Password = Craftman.Password,
+                LastName = Craftman.LastName,
+                Street = Craftman.Street,
+                UserName = Craftman.UserName
             };
-            _context.Contractors.Add(newContractor);
+            _context.Craftmans.Add(newCraftman);
             
-            foreach (var item in Contractor.Categories)
+            foreach (var item in Craftman.Categories)
             {
                 var newMajtorKategorije = new ContractCategory
                 {
                     CategoryId = item.Id,
-                    ContractorId = newContractor.Id,
+                    CraftmanId = newCraftman.Id,
                 };
                 _context.ContractCategores.Add(newMajtorKategorije);
             }
-            var appUser = new ApplicationUser { UserName = Contractor.UserName, Email = Contractor.Email };
+            var appUser = new ApplicationUser { UserName = Craftman.UserName, Email = Craftman.Email };
 
-            var result = await userManager.CreateAsync(appUser, Contractor.Password);
+            var result = await userManager.CreateAsync(appUser, Craftman.Password);
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
             await signInManager.SignInAsync(appUser, isPersistent: false);
-            newContractor.Idenity = appUser;
+            newCraftman.Idenity = appUser;
 
-            var user = await userManager.FindByNameAsync(Contractor.UserName);
+            var user = await userManager.FindByNameAsync(Craftman.UserName);
 
-            await userManager.AddClaimAsync(appUser, new Claim("RegularContractor", appUser.Id));
-            await userManager.AddClaimAsync(appUser, new Claim("AdminContractor", appUser.Id));
+            await userManager.AddClaimAsync(appUser, new Claim("RegularCraftman", appUser.Id));
+            await userManager.AddClaimAsync(appUser, new Claim("AdminCraftman", appUser.Id));
             await _context.SaveChangesAsync();
             
             return Ok();
         }
 
-        [HttpPost("registration")]
-        public async Task<IActionResult> Registar([FromBody] User User)
+        [HttpPost("Registration")]
+        public async Task<IActionResult> Registration([FromBody] User User)
         {
 
             var appUser = new ApplicationUser { UserName = User.UserName, Email = User.Email };
@@ -107,41 +107,41 @@ namespace ContractorskiPortal.Controllers
 
             return Ok();
         }
-        [HttpGet("getUser")]
-        public IActionResult getUser()
+        [HttpGet("GetUser")]
+        public IActionResult GetUser()
         {
             var cliems = User.Claims.First();
             var loginUser = _context.Users.Single(x => x.Idenity.Id == cliems.Value);
 
             return Ok(loginUser);
         }
-        [HttpGet("getContractor")]
-        public IActionResult getContractor()
+        [HttpGet("GetCraftman")]
+        public IActionResult GetCraftman()
         {
             var cliems = User.Claims.First();
-            var Contractor = _context.Contractors.Single(x => x.Idenity.Id == cliems.Value);
+            var Craftman = _context.Craftmans.Single(x => x.Idenity.Id == cliems.Value);
 
-            return Ok(Contractor);
+            return Ok(Craftman);
         }
-        [HttpGet("getCurrentUser/{userName}")]
-        public async Task<IActionResult> getCurrentUser([FromRoute] string userName)
+        [HttpGet("GetCurrentUser/{userName}")]
+        public async Task<IActionResult> GetCurrentUser([FromRoute] string userName)
         {
             var User = _context.Users.Where(x => x.UserName == userName);
-            var Contractor = _context.Contractors.Where(x => x.UserName == userName);
+            var Craftman = _context.Craftmans.Where(x => x.UserName == userName);
             if (User != null)
             {
                 return Ok(User);
             }
             else
             {
-                return Ok(Contractor);
+                return Ok(Craftman);
             }
 
 
         }
 
         [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginModel loginUser)
         {
             string i;
@@ -162,21 +162,22 @@ namespace ContractorskiPortal.Controllers
                 expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: signinCredentials
             );
-            if (claim.Where(c => c.Type == "AdminContractor").SingleOrDefault() != null)
+            //TODO must refactor terible.
+            if (claim.Where(c => c.Type == "AdminCraftman").SingleOrDefault() != null)
             {
-                i = claim.Where(c => c.Type == "AdminContractor").Single().Type;
+                i = claim.Where(c => c.Type == "AdminCraftman").Single().Type;
             }
             else
             {
                 i = claim.First().Type;
             }
 
-            var token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+            var Token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
-            return Ok(new { Token = token, typeOfClaim = i, user = user.UserName });
+            return Ok(new { Token = Token, typeOfClaim = i, user = user.UserName });
         }
-        [HttpPut("editUser")]
-        public IActionResult editUser(User user)
+        [HttpPut("EditUser")]
+        public IActionResult EditUser(User user)
         {
             var selectedUser = _context.Users.Single(k => k.Id == user.Id);
             selectedUser.FirstName = user.FirstName;
@@ -190,17 +191,17 @@ namespace ContractorskiPortal.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        [HttpPut("editContractor")]
-        public IActionResult editContractor(Contractor Contractor)
+        [HttpPut("EditCraftman")]
+        public IActionResult EditCraftman(Craftman Craftman)
         {
-            var user = _context.Contractors.Single(k => k.Id == Contractor.Id);
-            user.FirstName = Contractor.FirstName;
-            user.LastName = Contractor.LastName;
-            user.UserName = Contractor.UserName;
-            user.Password = Contractor.Password;
-            user.Email = Contractor.Email;
-            user.Place = Contractor.Place;
-            user.Street = Contractor.Street;
+            var user = _context.Craftmans.Single(k => k.Id == Craftman.Id);
+            user.FirstName = Craftman.FirstName;
+            user.LastName = Craftman.LastName;
+            user.UserName = Craftman.UserName;
+            user.Password = Craftman.Password;
+            user.Email = Craftman.Email;
+            user.Place = Craftman.Place;
+            user.Street = Craftman.Street;
             _context.Entry(user).State = EntityState.Modified;
             _context.SaveChanges();
             return Ok();

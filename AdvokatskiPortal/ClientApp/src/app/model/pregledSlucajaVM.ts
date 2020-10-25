@@ -1,16 +1,16 @@
-import { Slucaj } from './Slucaj';
+import { Case } from './Case';
 import { Ugovor } from './Ugovor';
-import { Majstor } from './Majstor';
-import { Cenovnik } from './Cenovnik';
+import { Craftman } from './Craftman'
+import { Contract } from './Contrct';
 
 export class pregledSlucajaVM {
   id;
-  Slucaj: Slucaj ;
+  Case: Case ;
   Ugovor: Ugovor;
-  Majstors: Majstor [] = [];
-  Cenovniks: Cenovnik [] = [];
-  KorisnikId;
-  Korisnik;
-  SlucajMajstors;
+  Craftmans: Craftman [] = [];
+  Contracts: Contract [] = [];
+  UserId;
+  User;
+  CaseCraftmans;
   }
 

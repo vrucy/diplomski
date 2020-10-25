@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
     public partial class changeModelsToEng : Migration
     {
@@ -16,7 +16,7 @@ namespace ContractorskiPortal.Migrations
                 name: "Cenovniks");
 
             migrationBuilder.DropTable(
-                name: "ContractorKategorijes");
+                name: "CraftmanKategorijes");
 
             migrationBuilder.DropTable(
                 name: "Kategorijas");
@@ -30,12 +30,12 @@ namespace ContractorskiPortal.Migrations
                 table: "Cases");
 
             migrationBuilder.DropColumn(
-                name: "ContractorIdStr",
-                table: "CaseContractors");
+                name: "CraftmanIdStr",
+                table: "CaseCraftmans");
 
             migrationBuilder.DropColumn(
                 name: "isReject",
-                table: "CaseContractors");
+                table: "CaseCraftmans");
 
             migrationBuilder.RenameColumn(
                 name: "Ulica",
@@ -69,17 +69,17 @@ namespace ContractorskiPortal.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "Ulica",
-                table: "Contractors",
+                table: "Craftmans",
                 newName: "Street");
 
             migrationBuilder.RenameColumn(
                 name: "PrezFirstName",
-                table: "Contractors",
+                table: "Craftmans",
                 newName: "Place");
 
             migrationBuilder.RenameColumn(
                 name: "Mesto",
-                table: "Contractors",
+                table: "Craftmans",
                 newName: "LastName");
 
             migrationBuilder.RenameColumn(
@@ -109,13 +109,13 @@ namespace ContractorskiPortal.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "datumKreiranja",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 newName: "CreationDate");
 
             migrationBuilder.RenameColumn(
                 name: "Odgovor",
-                table: "CaseContractors",
-                newName: "ContractorIdIndentity");
+                table: "CaseCraftmans",
+                newName: "CraftmanIdIndentity");
 
             migrationBuilder.CreateTable(
                 name: "Categories",
@@ -153,7 +153,7 @@ namespace ContractorskiPortal.Migrations
                     ChangeCaseDate = table.Column<DateTime>(nullable: true),
                     CaseId = table.Column<int>(nullable: false),
                     StatusId = table.Column<int>(nullable: false),
-                    ContractorId = table.Column<int>(nullable: false)
+                    CraftmanId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,9 +165,9 @@ namespace ContractorskiPortal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Contracts_Contractors_ContractorId",
-                        column: x => x.ContractorId,
-                        principalTable: "Contractors",
+                        name: "FK_Contracts_Craftmans_CraftmanId",
+                        column: x => x.CraftmanId,
+                        principalTable: "Craftmans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -182,12 +182,12 @@ namespace ContractorskiPortal.Migrations
                 name: "ContractCategores",
                 columns: table => new
                 {
-                    ContractorId = table.Column<int>(nullable: false),
+                    CraftmanId = table.Column<int>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContractCategores", x => new { x.ContractorId, x.CategoryId });
+                    table.PrimaryKey("PK_ContractCategores", x => new { x.CraftmanId, x.CategoryId });
                     table.ForeignKey(
                         name: "FK_ContractCategores_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -195,9 +195,9 @@ namespace ContractorskiPortal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContractCategores_Contractors_ContractorId",
-                        column: x => x.ContractorId,
-                        principalTable: "Contractors",
+                        name: "FK_ContractCategores_Craftmans_CraftmanId",
+                        column: x => x.CraftmanId,
+                        principalTable: "Craftmans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -218,9 +218,9 @@ namespace ContractorskiPortal.Migrations
                 column: "CaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contracts_ContractorId",
+                name: "IX_Contracts_CraftmanId",
                 table: "Contracts",
-                column: "ContractorId");
+                column: "CraftmanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_StatusId",
@@ -283,17 +283,17 @@ namespace ContractorskiPortal.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "Street",
-                table: "Contractors",
+                table: "Craftmans",
                 newName: "Ulica");
 
             migrationBuilder.RenameColumn(
                 name: "Place",
-                table: "Contractors",
+                table: "Craftmans",
                 newName: "PrezFirstName");
 
             migrationBuilder.RenameColumn(
                 name: "LastName",
-                table: "Contractors",
+                table: "Craftmans",
                 newName: "Mesto");
 
             migrationBuilder.RenameColumn(
@@ -323,12 +323,12 @@ namespace ContractorskiPortal.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "CreationDate",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 newName: "datumKreiranja");
 
             migrationBuilder.RenameColumn(
-                name: "ContractorIdIndentity",
-                table: "CaseContractors",
+                name: "CraftmanIdIndentity",
+                table: "CaseCraftmans",
                 newName: "Odgovor");
 
             migrationBuilder.AddColumn<string>(
@@ -342,13 +342,13 @@ namespace ContractorskiPortal.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "ContractorIdStr",
-                table: "CaseContractors",
+                name: "CraftmanIdStr",
+                table: "CaseCraftmans",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "isReject",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
 
@@ -359,7 +359,7 @@ namespace ContractorskiPortal.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CaseId = table.Column<int>(nullable: false),
-                    ContractorId = table.Column<int>(nullable: false),
+                    CraftmanId = table.Column<int>(nullable: false),
                     IdenityId = table.Column<string>(nullable: true),
                     IzmenaCasea = table.Column<DateTime>(nullable: true),
                     PocetakRada = table.Column<DateTime>(nullable: true),
@@ -381,9 +381,9 @@ namespace ContractorskiPortal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cenovniks_Contractors_ContractorId",
-                        column: x => x.ContractorId,
-                        principalTable: "Contractors",
+                        name: "FK_Cenovniks_Craftmans_CraftmanId",
+                        column: x => x.CraftmanId,
+                        principalTable: "Craftmans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -416,23 +416,23 @@ namespace ContractorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContractorKategorijes",
+                name: "CraftmanKategorijes",
                 columns: table => new
                 {
-                    ContractorId = table.Column<int>(nullable: false),
+                    CraftmanId = table.Column<int>(nullable: false),
                     KategorijaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContractorKategorijes", x => new { x.ContractorId, x.KategorijaId });
+                    table.PrimaryKey("PK_CraftmanKategorijes", x => new { x.CraftmanId, x.KategorijaId });
                     table.ForeignKey(
-                        name: "FK_ContractorKategorijes_Contractors_ContractorId",
-                        column: x => x.ContractorId,
-                        principalTable: "Contractors",
+                        name: "FK_CraftmanKategorijes_Craftmans_CraftmanId",
+                        column: x => x.CraftmanId,
+                        principalTable: "Craftmans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContractorKategorijes_Kategorijas_KategorijaId",
+                        name: "FK_CraftmanKategorijes_Kategorijas_KategorijaId",
                         column: x => x.KategorijaId,
                         principalTable: "Kategorijas",
                         principalColumn: "Id",
@@ -445,9 +445,9 @@ namespace ContractorskiPortal.Migrations
                 column: "CaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cenovniks_ContractorId",
+                name: "IX_Cenovniks_CraftmanId",
                 table: "Cenovniks",
-                column: "ContractorId");
+                column: "CraftmanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cenovniks_StatusId",
@@ -455,8 +455,8 @@ namespace ContractorskiPortal.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContractorKategorijes_KategorijaId",
-                table: "ContractorKategorijes",
+                name: "IX_CraftmanKategorijes_KategorijaId",
+                table: "CraftmanKategorijes",
                 column: "KategorijaId");
 
             migrationBuilder.CreateIndex(

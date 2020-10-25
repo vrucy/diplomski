@@ -1,10 +1,10 @@
-import { UspesnoLogovanjeComponent } from './../snackBar/uspesno-logovanje/uspesno-logovanje.component';
+import { SuccessfullLoginComponent } from './../snackBar/successfull-login/successfull-login.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { UspesnaRegistracijaComponent } from '../snackBar/uspesna-registracija/uspesna-registracija.component';
+import { SuccessfullRegistrationComponent } from '../snackBar/successfull-registration/successfull-registration.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,44 +13,45 @@ export class AuthService {
   typeUserValue: string;
   isLogin: Boolean = false;
   type: string;
-  trenutniKorisnikKorisnikoIme;
+  currentUserName;
 
   constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
 
-  registration(korisnik) {
-    return this.http.post<any>('http://localhost:44345/api/Account/registration', korisnik).subscribe(res => {
+  Registration(user) {
+    return this.http.post<any>('http://localhost:44345/api/Account/registration', user).subscribe(res => {
       //localStorage.setItem('token', res);
       //this.autorization(res);
-      this._snackBar.openFromComponent(UspesnaRegistracijaComponent, {
+      this._snackBar.openFromComponent(SuccessfullRegistrationComponent, {
         duration: 2000
       });
-      this.router.navigate(['/login']);
+      this.router.navigate(['/Login']);
     });
   }
-  login(korisnik) {
-    this.http.post<any>('http://localhost:44345/api/Account/login', korisnik).subscribe(res => {
-      this._snackBar.openFromComponent(UspesnoLogovanjeComponent, {
+  Login(user) {
+    this.http.post<any>('http://localhost:44345/api/Account/Login', user).subscribe(res => {
+      this._snackBar.openFromComponent(SuccessfullLoginComponent, {
         duration: 2000
       });
-      this.trenutniKorisnikKorisnikoIme = res.user;
-      this.http.get(`http://localhost:44345/api/Account/getCurrentUser/${this.trenutniKorisnikKorisnikoIme}`).subscribe(res => {
-        localStorage.setItem('trenutniKorisnik', JSON.stringify(res));
+      this.currentUserName = res.user;
+      this.http.get(`http://localhost:44345/api/Account/getCurrentUser/${this.currentUserName}`).subscribe(res => {
+        localStorage.setItem('CurrentUser', JSON.stringify(res));
 
       })
-      localStorage.setItem('token', res);
+      localStorage.setItem('Token', res);
       //this.router.navigate(['/pocetnaKorisnik']);
       this.autorization(res);
     });
 
   }
-  getKorisnik(){
-    return this.http.get('http://localhost:44345/api/Account/getKorisnik')
+  //where I used this in app
+  getUser(){
+    return this.http.get('http://localhost:44345/api/Account/getUser')
   }
-  getMajstor(){
-    return this.http.get('http://localhost:44345/api/Account/getMajstor')
+  getCraftman(){
+    return this.http.get('http://localhost:44345/api/Account/getCraftman')
   }
   isLogged(): boolean {
-    const user = localStorage.getItem('token');
+    const user = localStorage.getItem('Token');
     if (user != null) {
       return true;
     } 
@@ -58,23 +59,24 @@ export class AuthService {
       return false;
     }
   }
-  registrationMajstor(majstor) {
-    return this.http.post<any>('http://localhost:44345/api/Account/registrationMajstor', majstor).subscribe(res => {
-      this._snackBar.openFromComponent(UspesnaRegistracijaComponent, {
+  registrationCraftman(craftman) {
+    return this.http.post<any>('http://localhost:44345/api/Account/RegistrationCraftman', craftman).subscribe(res => {
+      this._snackBar.openFromComponent(SuccessfullRegistrationComponent, {
         duration: 2000
       });
-      this.router.navigate(['/login']);
+      this.router.navigate(['/Login']);
     })
   }
-  editProfilKorisnik(korisnik) {
-    return this.http.put<any>('http://localhost:44345/api/Account/editKorisnik', korisnik).subscribe();
+  editProfilUser(user) {
+    return this.http.put<any>('http://localhost:44345/api/Account/EditUser', user).subscribe();
   }
-  editProfilMajstor(majstor) {
-    return this.http.put('http://localhost:44345/api/Account/editMajstor', majstor).subscribe();
+  editProfilCraftman(craftman) {
+    return this.http.put('http://localhost:44345/api/Account/EditCraftman', craftman).subscribe();
   }
+  //TODO refator!!!
   autorization(res) {
     let tokenValue = res['token'];
-    localStorage.setItem('userName', res['user']);
+    localStorage.setItem('UserName', res['user']);
     localStorage.setItem('token', tokenValue);
     this.typeUserValue = res["typeOfClaim"]
     localStorage.setItem('typeUser', this.typeUserValue);
@@ -82,15 +84,15 @@ export class AuthService {
     this.type = localStorage.getItem('typeUser');
 
     switch (this.type) {
-      case "AdminMajstor": {
-        this.router.navigate(['/pocetnaMajstor'])
+      case "AdminCraftman": {
+        this.router.navigate(['/ReviewContract'])
         return true;
       }
-      case "RegularMajstor": {
-            this.router.navigate(['/pocetnaMajstor']);
+      case "RegularCraftman": {
+            this.router.navigate(['/ReviewContract']);
         return true;
       } case "RegularUser": {
-            this.router.navigate(['/pocetnaKorisnik']);
+            this.router.navigate(['/TableCraftmans']);
         return true;
       } default: {
         break;
@@ -99,8 +101,8 @@ export class AuthService {
   }
 
   logout() {
-    this.router.navigate(['login']);
-    localStorage.removeItem('token');
+    this.router.navigate(['Login']);
+    localStorage.removeItem('Token');
     localStorage.removeItem('typeUser');
   }
 }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
     public partial class initial : Migration
     {
@@ -228,7 +228,7 @@ namespace ContractorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contractors",
+                name: "Craftmans",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -245,15 +245,15 @@ namespace ContractorskiPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contractors", x => x.Id);
+                    table.PrimaryKey("PK_Craftmans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contractors_AspNetUsers_IdenityId",
+                        name: "FK_Craftmans_AspNetUsers_IdenityId",
                         column: x => x.IdenityId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Contractors_Kategorijas_KategorijaId",
+                        name: "FK_Craftmans_Kategorijas_KategorijaId",
                         column: x => x.KategorijaId,
                         principalTable: "Kategorijas",
                         principalColumn: "Id",
@@ -294,25 +294,25 @@ namespace ContractorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContractorKategorijes",
+                name: "CraftmanKategorijes",
                 columns: table => new
                 {
-                    ContractorId = table.Column<int>(nullable: false),
+                    CraftmanId = table.Column<int>(nullable: false),
                     KategorijaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContractorKategorijes", x => new { x.ContractorId, x.KategorijaId });
+                    table.PrimaryKey("PK_CraftmanKategorijes", x => new { x.CraftmanId, x.KategorijaId });
                     table.ForeignKey(
-                        name: "FK_ContractorKategorijes_Kategorijas_KategorijaId",
+                        name: "FK_CraftmanKategorijes_Kategorijas_KategorijaId",
                         column: x => x.KategorijaId,
                         principalTable: "Kategorijas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContractorKategorijes_Contractors_ContractorId",
-                        column: x => x.ContractorId,
-                        principalTable: "Contractors",
+                        name: "FK_CraftmanKategorijes_Craftmans_CraftmanId",
+                        column: x => x.CraftmanId,
+                        principalTable: "Craftmans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -375,34 +375,34 @@ namespace ContractorskiPortal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CaseContractors",
+                name: "CaseCraftmans",
                 columns: table => new
                 {
                     datumKreiranja = table.Column<DateTime>(nullable: false),
                     prihvacno = table.Column<bool>(nullable: false),
                     Odgovor = table.Column<string>(nullable: true),
                     isRead = table.Column<bool>(nullable: false),
-                    ContractorId = table.Column<int>(nullable: false),
+                    CraftmanId = table.Column<int>(nullable: false),
                     CaseId = table.Column<int>(nullable: false),
                     CaseStatusId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CaseContractors", x => new { x.CaseId, x.ContractorId });
+                    table.PrimaryKey("PK_CaseCraftmans", x => new { x.CaseId, x.CraftmanId });
                     table.ForeignKey(
-                        name: "FK_CaseContractors_Contractors_ContractorId",
-                        column: x => x.ContractorId,
-                        principalTable: "Contractors",
+                        name: "FK_CaseCraftmans_Craftmans_CraftmanId",
+                        column: x => x.CraftmanId,
+                        principalTable: "Craftmans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CaseContractors_Cases_CaseId",
+                        name: "FK_CaseCraftmans_Cases_CaseId",
                         column: x => x.CaseId,
                         principalTable: "Cases",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CaseContractors_CaseStatuses_CaseStatusId",
+                        name: "FK_CaseCraftmans_CaseStatuses_CaseStatusId",
                         column: x => x.CaseStatusId,
                         principalTable: "CaseStatuses",
                         principalColumn: "Id",
@@ -493,18 +493,18 @@ namespace ContractorskiPortal.Migrations
                 column: "IdenityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContractorKategorijes_KategorijaId",
-                table: "ContractorKategorijes",
+                name: "IX_CraftmanKategorijes_KategorijaId",
+                table: "CraftmanKategorijes",
                 column: "KategorijaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contractors_IdenityId",
-                table: "Contractors",
+                name: "IX_Craftmans_IdenityId",
+                table: "Craftmans",
                 column: "IdenityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contractors_KategorijaId",
-                table: "Contractors",
+                name: "IX_Craftmans_KategorijaId",
+                table: "Craftmans",
                 column: "KategorijaId");
 
             migrationBuilder.CreateIndex(
@@ -513,13 +513,13 @@ namespace ContractorskiPortal.Migrations
                 column: "CaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CaseContractors_ContractorId",
-                table: "CaseContractors",
-                column: "ContractorId");
+                name: "IX_CaseCraftmans_CraftmanId",
+                table: "CaseCraftmans",
+                column: "CraftmanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CaseContractors_CaseStatusId",
-                table: "CaseContractors",
+                name: "IX_CaseCraftmans_CaseStatusId",
+                table: "CaseCraftmans",
                 column: "CaseStatusId");
 
             migrationBuilder.CreateIndex(
@@ -560,13 +560,13 @@ namespace ContractorskiPortal.Migrations
                 name: "Cenovniks");
 
             migrationBuilder.DropTable(
-                name: "ContractorKategorijes");
+                name: "CraftmanKategorijes");
 
             migrationBuilder.DropTable(
                 name: "Slika");
 
             migrationBuilder.DropTable(
-                name: "CaseContractors");
+                name: "CaseCraftmans");
 
             migrationBuilder.DropTable(
                 name: "Ugovors");
@@ -578,7 +578,7 @@ namespace ContractorskiPortal.Migrations
                 name: "Statuses");
 
             migrationBuilder.DropTable(
-                name: "Contractors");
+                name: "Craftmans");
 
             migrationBuilder.DropTable(
                 name: "CaseStatuses");

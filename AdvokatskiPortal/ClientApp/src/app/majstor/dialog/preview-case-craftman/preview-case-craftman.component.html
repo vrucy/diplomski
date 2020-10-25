@@ -1,0 +1,27 @@
+<div class="doubleflexbra">
+<div style="display: flex; justify-content: space-around;">
+  <div class="prikaz">
+
+    <mat-label>Name</mat-label>
+    <mat-form-field class="prikazLabele">
+      <input matInput [disabled]="true" [(ngModel)]="data.name" />
+    </mat-form-field>
+  </div>
+  <div class="prikaz">
+    <mat-label>Description</mat-label>
+    <mat-form-field class="prikazLabele">
+      <input matInput [disabled]="true" [(ngModel)]="data.description" />
+    </mat-form-field>
+  </div>
+</div>
+<slideshow *ngIf="images && images.length > 0; else context" [height]="'200px'" [minHeight]="'325px'" [showArrows]="true"
+           [imageUrls]="images" [lazyLoad]="images.length > 1" [autoPlayWaitForLazyLoad]="true" class="w100">
+</slideshow>
+<div mat-dialog-actions style="justify-content: center;">
+  <button mat-button (click)="close()">Close</button>
+</div>
+
+<ng-template #context>
+  No picture
+</ng-template>
+</div>

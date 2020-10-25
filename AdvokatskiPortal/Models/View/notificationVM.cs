@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ContractorskiPortal.Models.View
+namespace CraftmanPortal.Models.View
 {
     public class notificationVM
     {

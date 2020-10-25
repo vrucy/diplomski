@@ -1,6 +1,6 @@
-import { Cenovnik } from './Cenovnik';
+import { Contract } from './Contrct';
 export class Status{
-  id;
-  name: string;
-  cenovnik: Cenovnik;
+  Id;
+  Name: string;
+  Contract: Contract;
 }

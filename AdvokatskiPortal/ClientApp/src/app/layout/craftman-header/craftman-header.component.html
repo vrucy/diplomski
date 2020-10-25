@@ -1,0 +1,26 @@
+<div class="header">
+    <button routerLink="/RegistrationCraftman" mat-button *ngIf="_type === 'AdminMajstor'"> Registracija majstora</button>
+    <button routerLink="/AddCategory" mat-button *ngIf="_type === 'AdminMajstor'"> Dodaj Kategoriju</button>
+    <button routerLink="/AddSubCategory" mat-button *ngIf="_type === 'AdminMajstor'"> Dodaj Podkategoriju</button>
+    <button routerLink="/ReviewContract" mat-button> Pregled Slučaja</button>
+    <button mat-icon-button (click)="clearCount()" routerLink="/Notification">
+      <mat-icon class="material-icons" routerLink="/ReviewContract">add_alert</mat-icon>
+      <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+    </button>
+  
+    <div>
+    <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
+      (mouseenter)="menuTrigger.openMenu()"> {{loginUser}}</button>
+  
+    <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
+      <button mat-button routerLink="/editCraftman">
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="auth.logout()">
+        <span>Logout</span>
+      </button></mat-menu>
+    <button mat-button (click)="auth.logout()"></button>
+  
+    </div>
+  </div>
+  

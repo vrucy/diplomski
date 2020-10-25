@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ContractorskiPortal.Models
+namespace CraftmanPortal.Models
 {
     public class Case
     {
@@ -16,8 +16,8 @@ namespace ContractorskiPortal.Models
         public Category Category{ get; set; }
         public int UserId { get; set; }
         public User User{ get; set; }
-        public ICollection<Picture> Slike { get; set; }
-        public ICollection<CaseContractor> CaseContractors{ get; set; }
+        public ICollection<Picture> Pictures { get; set; }
+        public ICollection<CaseCraftman> CaseCraftmans{ get; set; }
         public ICollection<Contract> Contracts { get; set; }
         public ICollection<Notification> Notifications { get; set; }
     }

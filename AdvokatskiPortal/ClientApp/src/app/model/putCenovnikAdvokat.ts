@@ -1,13 +1,13 @@
-import { Majstor } from './Majstor';
-import { Cenovnik } from './Cenovnik';
-import { Slucaj } from './Slucaj';
+import { Craftman } from '././Craftman'
+import { Contract } from './Contrct';
+import { Case } from './Case';
 export class putCenovnikMajstor {
 
   id;
-  slucaj: Slucaj;
-  majstor: Majstor;
-  Cenovnik: Cenovnik;
-  KorisnikId;
-  Korisnik;
-  SlucajMajstor;
+  case: Case;
+  craftman: Craftman;
+  Contract: Contract;
+  UserId;
+  User;
+  CaseUser;
 }

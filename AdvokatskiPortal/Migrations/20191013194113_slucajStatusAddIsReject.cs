@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
     public partial class CaseStatusAddIsReject : Migration
     {
@@ -8,7 +8,7 @@ namespace ContractorskiPortal.Migrations
         {
             migrationBuilder.AddColumn<bool>(
                 name: "isReject",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
         }
@@ -17,7 +17,7 @@ namespace ContractorskiPortal.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "isReject",
-                table: "CaseContractors");
+                table: "CaseCraftmans");
         }
     }
 }

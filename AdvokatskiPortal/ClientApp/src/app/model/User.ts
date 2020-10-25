@@ -1,10 +1,10 @@
-export class Korisnik {
+export class User {
     id;
     FirstName: string;
     LastName: string;
-    userName: string;
-    password: string;
-    email: string;
+    UserName: string;
+    Password: string;
+    Email: string;
     Place: string;
     Street:string
   }

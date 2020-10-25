@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ContractorskiPortal.Models.View
+namespace CraftmanPortal.Models.View
 {
-    public class postContractor
+    public class postCraftman
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

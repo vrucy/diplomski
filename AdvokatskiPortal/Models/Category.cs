@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ContractorskiPortal.Models
+namespace CraftmanPortal.Models
 {
     public class Category
     {

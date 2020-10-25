@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace ContractorskiPortal.Models
+namespace CraftmanPortal.Models
 {
     public class ApplicationUser: IdentityUser
     {

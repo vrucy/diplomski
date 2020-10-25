@@ -1,10 +1,9 @@
-import { PrikazSlucajComponent } from './../../majstor/dialog/prikaz-slucaj/prikaz-slucaj.component';
-import { KorisnikService } from './../../service/korisnik.service';
-import { NotificationService } from './../../service/notification.service';
+import { ModificationOfferComponent } from './../../majstor/dialog/modificartion-offer/modificartion-offer.component';
+import { NotificationService } from '../../service/Notification.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { MajstorService } from '../../service/majstor.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
+import { PreviewCaseCraftmanComponent } from '../../majstor/dialog/preview-case-craftman/preview-case-craftman.component';
 
 @Component({
   selector: 'app-notification',
@@ -14,8 +13,7 @@ import { MatDialog } from '@angular/material';
 export class NotificationComponent implements OnInit {
 
 
-  constructor(private korisnikService: KorisnikService, public notificationService: NotificationService,
-              private majstorService: MajstorService, public dialog: MatDialog) { }
+  constructor( public notificationService: NotificationService, public dialog: MatDialog) { }
   ngOnInit() {
     this.setupCustomMomentLabels();
     if (localStorage.getItem('typeUser').endsWith('User')) {
@@ -24,43 +22,43 @@ export class NotificationComponent implements OnInit {
   private setupCustomMomentLabels() {
     moment.locale('en', {
       relativeTime: {
-        future: 'u %s',
+        future: 'in %s',
         past: 'pre %s',
-        s:  'par sekundi',
-        ss: '%d par sekundi',
-        m:  'minut',
-        mm: '%d minuta',
-        h:  'sat',
-        hh: '%d sati',
-        d:  'dan',
-        dd: '%d dana',
-        M:  'mesec',
-        MM: '%d meseci',
-        y:  'godina',
-        yy: '%d godina'
+        s:  'few second',
+        ss: '%d few seconds',
+        m:  'minute',
+        mm: '%d minute',
+        h:  'hour',
+        hh: '%d hours',
+        d:  'day',
+        dd: '%d days',
+        M:  'month',
+        MM: '%d months',
+        y:  'year',
+        yy: '%d years'
       }
     });
   }
   private remapImagesForDisplay(data) {
-    console.log(data);
-      const baseSlike = data.slike.map(s => {
-        console.log(s)
-        s.slikaProp = 'data:image/jpeg;base64,' + s.slikaProp;
+    console.log(data)
+      const baseSlike = data.pictures.map(s => {
+        s.pictureBytes = 'data:image/jpeg;base64,' + s.pictureBytes;
         return s;
     });
   }
-  openDialogPrikazSlucaja(element): void {
+  openDialogPreviewCase(element): void {
     console.log(element);
     this.remapImagesForDisplay(element);
-    const dialogRef = this.dialog.open(PrikazSlucajComponent, {
+    const dialogRef = this.dialog.open(PreviewCaseCraftmanComponent, {
       maxWidth: '40%',
       maxHeight: '70%',
-      data: { naziv: element.naziv, opis: element.opis, slike: element.slike }
+      data: { name: element.name, description: element.description, pictures: element.pictures }
     });
   }
   writeNotification(not): string {
-    if (not === null || not === undefined) {
-      return 'Nema obavestenja';
+    console.log(not)
+    if (not === null || not === undefined ) {
+      return 'Do not have notificaiton';
     }
 
     const name = not.notificationText;

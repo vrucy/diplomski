@@ -1,4 +1,4 @@
-import { NeUspesnoLogovanjeComponent } from './../snackBar/ne-uspesno-logovanje/ne-uspesno-logovanje.component';
+import { FaliedLoginComponent } from './../snackBar/failed-login/failed-login.component';
 import {
   HttpEvent,
   HttpInterceptor,
@@ -10,7 +10,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
-import { DodavanjeDuplogMajstoraComponent } from '../snackBar/dodavanje-duplog-majstora/dodavanje-duplog-majstora.component';
+import { AddDoubleCraftmanComponent } from '../snackBar/add-double-craftman/add-double-craftman.component';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(private _snackBar: MatSnackBar) { }
@@ -28,13 +28,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
           }
           if (error.status === 405 ) {
-            this._snackBar.openFromComponent(NeUspesnoLogovanjeComponent, {
+            this._snackBar.openFromComponent(FaliedLoginComponent, {
               duration: 3000
             });
           }
           if ( error.status === 404) {
             console.log(error);
-            this._snackBar.openFromComponent(DodavanjeDuplogMajstoraComponent, {
+            this._snackBar.openFromComponent(AddDoubleCraftmanComponent, {
               data: error.error.message,
               duration: 3000
             })

@@ -1,0 +1,17 @@
+<div class="categoryClass">
+      <mat-card class="category-card">
+            <form [formGroup]="form" (ngSubmit)="craftmanService.PostCategory(form.value)">
+                  <div>
+                        <mat-form-field>
+                              <input matInput type="text" placeholder="Enter name category" formControlName="Name">
+                        </mat-form-field>
+                  </div>
+                  <div>
+                        <mat-form-field>
+                              <input matInput type="text" placeholder="Enter descrition of category" formControlName="Descrition">
+                        </mat-form-field>
+                  </div>
+                  <button mat-button color="primary">Add category</button>
+            </form>
+      </mat-card>
+</div>

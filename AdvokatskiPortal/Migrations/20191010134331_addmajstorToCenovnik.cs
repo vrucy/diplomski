@@ -1,27 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
-    public partial class addContractorToCenovnik : Migration
+    public partial class addCraftmanToCenovnik : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "ContractorId",
+                name: "CraftmanId",
                 table: "Cenovniks",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cenovniks_ContractorId",
+                name: "IX_Cenovniks_CraftmanId",
                 table: "Cenovniks",
-                column: "ContractorId");
+                column: "CraftmanId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Cenovniks_Contractors_ContractorId",
+                name: "FK_Cenovniks_Craftmans_CraftmanId",
                 table: "Cenovniks",
-                column: "ContractorId",
-                principalTable: "Contractors",
+                column: "CraftmanId",
+                principalTable: "Craftmans",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -29,15 +29,15 @@ namespace ContractorskiPortal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Cenovniks_Contractors_ContractorId",
+                name: "FK_Cenovniks_Craftmans_CraftmanId",
                 table: "Cenovniks");
 
             migrationBuilder.DropIndex(
-                name: "IX_Cenovniks_ContractorId",
+                name: "IX_Cenovniks_CraftmanId",
                 table: "Cenovniks");
 
             migrationBuilder.DropColumn(
-                name: "ContractorId",
+                name: "CraftmanId",
                 table: "Cenovniks");
         }
     }

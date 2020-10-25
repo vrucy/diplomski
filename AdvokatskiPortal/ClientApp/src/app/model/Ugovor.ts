@@ -1,7 +1,7 @@
-import { Slucaj } from './Slucaj';
+import { Case } from './Case';
 
 export class Ugovor {
     id;
     slucajId;
-    Slucaj: Slucaj;
+    Slucaj: Case;
 }

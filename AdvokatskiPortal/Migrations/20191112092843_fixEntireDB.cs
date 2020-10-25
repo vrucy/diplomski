@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
     public partial class fixEntireDB : Migration
     {
@@ -20,19 +20,19 @@ namespace ContractorskiPortal.Migrations
 
             migrationBuilder.DropColumn(
                 name: "isRead",
-                table: "CaseContractors");
+                table: "CaseCraftmans");
 
             migrationBuilder.DropColumn(
-                name: "isReadOdbijenContractor",
-                table: "CaseContractors");
+                name: "isReadOdbijenCraftman",
+                table: "CaseCraftmans");
 
             migrationBuilder.DropColumn(
                 name: "isReadOdbijenUser",
-                table: "CaseContractors");
+                table: "CaseCraftmans");
 
             migrationBuilder.DropColumn(
                 name: "prihvacno",
-                table: "CaseContractors");
+                table: "CaseCraftmans");
 
             migrationBuilder.AlterColumn<string>(
                 name: "IdenityId",
@@ -46,25 +46,25 @@ namespace ContractorskiPortal.Migrations
         {
             migrationBuilder.AddColumn<bool>(
                 name: "isRead",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "isReadOdbijenContractor",
-                table: "CaseContractors",
+                name: "isReadOdbijenCraftman",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "isReadOdbijenUser",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "prihvacno",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 nullable: false,
                 defaultValue: false);
 

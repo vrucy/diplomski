@@ -1,0 +1,38 @@
+<div class="createC">
+  <mat-card class="mainCard">
+    <mat-form-field>
+      <input matInput [(ngModel)]="case.name" placeholder="Enter Name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="case.description" placeholder="Enter Description">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="case.deadLineForAnswer" [matDatepicker]="picker"
+        placeholder="Enter Deadline For Answer">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select (selectionChange)="onParentChanged($event)" placeholder="Enter Category">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{category.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select [(ngModel)]="case.CategoryId" placeholder="Enter subcategory">
+        <mat-option *ngFor="let subCategory of subCategories" [value]="subCategory.id">
+          {{subCategory.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Enter description" multiple>
+    <div class="showPicture">
+    <div *ngFor="let img of displayPicture" class="show-image" style="max-width: 90px;">
+      <img [src]="img.show" height="80" *ngIf="img.show ">
+      <mat-icon class="material-icons" (click)="deleteImage(img)">clear</mat-icon>
+    </div>
+  </div>
+    <button mat-button (click)="createCase()">Save</button>
+  </mat-card>
+</div>

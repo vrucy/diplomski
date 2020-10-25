@@ -1,0 +1,25 @@
+<div class="subCategoryClass">
+  <mat-card class="subCategory-card">
+    <form [formGroup]="form" (ngSubmit)="craftmanService.PostSubCategory(form.value)">
+      <mat-form-field>
+        <mat-select formControlName="ParentId" placeholder="Enter category">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{category.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Enter name of sub category" formControlName="Name">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Enter description of sub category" formControlName="Description">
+        </mat-form-field>
+      </div>
+      <button mat-button color="primary">Add sub category</button>
+
+    </form>
+  </mat-card>
+</div>

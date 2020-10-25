@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
-    public partial class relationNNkategorijaContractor : Migration
+    public partial class relationNNkategorijaCraftman : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

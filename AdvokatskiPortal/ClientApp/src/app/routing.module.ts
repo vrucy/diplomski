@@ -1,78 +1,73 @@
-import { DodajPodKategorijuComponent } from './majstor/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
-import { PregledSlucajaKorisnikComponent } from './korisnik/pregled-slucaja-korisnik/pregled-slucaja-korisnik.component';
+import { AddSubCategoryComponent } from './majstor/add-sub-category/add-sub-category.component';
+import { PreviewCaseComponent } from './user/preview-case/preview-case.component';
 import { AuthGuard } from './service/authGuard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { PocetnaStranicaKorisnikComponent } from './korisnik/pocetna-stranica-korisnik/pocetna-stranica-korisnik.component';
-import { PocetnaStranicaMajstorComponent } from './majstor/pocetna-stranica-majstor/pocetna-stranica-majstor.component';
-import { RegistarKorisnikComponent } from './register/registar-korisnik/registar-korisnik.component';
-import { RegistracijaMajstoraComponent } from './majstor/registracija-majstora/registracija-majstora.component';
-import { TabelaMajstoraComponent } from './korisnik/tabela-majstora/tabela-majstora.component';
-import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
-import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
-import { PregledUgovoraComponent } from './majstor/pregled-ugovora/pregled-ugovora.component';
-import { PrihvacenOdgovorComponent } from './majstor/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
-import { DodajKategorijuComponent } from './majstor/dodaj-kategoriju/dodaj-kategoriju.component';
+import { RegistarUserComponent } from './register/registar-user/registar-user.component';
+import { RegistrationCraftmanComponent } from './majstor/registration-craftman/registration-craftman.component';
+import { TableCraftmansComponent } from './user/table-craftmans/table-craftmans.component';
+import { CreateCaseComponent } from './user/create-case/create-case.component';
+import { SendCaseComponent } from './user/send-case/send-case.component';
+import { ReviewContractComponent } from './majstor/review-contract/review-contract.component';
+//import { PrihvacenOdgovorComponent } from './majstor/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
+import { AddCategoryComponent } from './majstor/add-category/add-category.component';
 import { NotificationComponent } from './layout/notification/notification.component';
-import { EditKorisnikComponent } from './korisnik/edit-korisnik/edit-korisnik.component';
-import { EditMajstorComponent } from './majstor/edit-majstor/edit-majstor.component';
-import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
+import { EditUserComponent } from './user/edit-user/edit-user.component';
+import { EditCraftmanComponent } from './majstor/edit-craftman/edit-craftman.component';
+import { EditCaseComponent } from './user/edit-case/edit-case.component';
 
 const router: Routes = [
   {
-    path: 'login', component: LoginComponent
+    path: 'Login', component: LoginComponent
   },
   {
-    path: 'registration', component: RegistarKorisnikComponent
+    path: 'Registration', component: RegistarUserComponent
  },
  {
-    path: 'registracijaMajstora', component: RegistracijaMajstoraComponent
+    path: 'RegistrationCraftman', component: RegistrationCraftmanComponent
  },
   {
-    path: 'pocetnaMajstor', component: PocetnaStranicaMajstorComponent, canActivate: [AuthGuard]
+    path: 'TableCraftmans', component: TableCraftmansComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'pocetnaKorisnik', component: PocetnaStranicaKorisnikComponent, canActivate: [AuthGuard]
+    path: 'CreateCase', component: CreateCaseComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'tabelaSaMajstorima', component: TabelaMajstoraComponent, canActivate: [AuthGuard]
+    path: 'SendCase', component: SendCaseComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'kreiranjeSlucaja', component: KreiranjeSlucajaComponent, canActivate: [AuthGuard]
+     path: '', redirectTo: '/Login', pathMatch: 'full'
   },
   {
-    path: 'slanjeSlucaja', component: SlanjeSlucajaComponent, canActivate: [AuthGuard]
+    path: 'ReviewContract', component: ReviewContractComponent
   },
   {
-     path: '', redirectTo: '/login', pathMatch: 'full'
+    path: 'PreviewCaseUser', component: PreviewCaseComponent
+  },
+  // {
+  //   path: 'prihvacenUgovor' , component: PrihvacenOdgovorComponent
+  // },
+  // {
+  //   path: 'pregledSlucajaKorisnik' , component: PregledSlucajaKorisnikComponent
+  // },
+  {
+    path: 'EditUser', component: EditUserComponent
   },
   {
-    path: 'pregledUgovora', component: PregledUgovoraComponent
+    path: 'EditCraftman', component: EditCraftmanComponent
   },
   {
-    path: 'prihvacenUgovor' , component: PrihvacenOdgovorComponent
+    path: 'EditCase/:id', component: EditCaseComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'pregledSlucajaKorisnik' , component: PregledSlucajaKorisnikComponent
+    path: 'AddCategory', component: AddCategoryComponent
   },
   {
-    path: 'editKorisnik', component: EditKorisnikComponent
+    path: 'AddSubCategory', component: AddSubCategoryComponent
   },
   {
-    path: 'editMajstor', component: EditMajstorComponent
-  },
-  {
-    path: 'editSlucaj/:id', component: EditSlucajComponent, canActivate: [AuthGuard]
-  },
-  {
-    path: 'dodajKategoriju', component: DodajKategorijuComponent
-  },
-  {
-    path: 'dodajPodkategoriju', component: DodajPodKategorijuComponent
-  },
-  {
-    path: 'notification' , component: NotificationComponent
+    path: 'Notification' , component: NotificationComponent
   }
 ];
 

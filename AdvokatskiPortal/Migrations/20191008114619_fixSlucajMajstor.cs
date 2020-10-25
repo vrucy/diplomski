@@ -1,22 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
-    public partial class fixCaseContractor : Migration
+    public partial class fixCaseCraftman : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ContractorIdStr",
-                table: "CaseContractors",
+                name: "CraftmanIdStr",
+                table: "CaseCraftmans",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ContractorIdStr",
-                table: "CaseContractors");
+                name: "CraftmanIdStr",
+                table: "CaseCraftmans");
         }
     }
 }

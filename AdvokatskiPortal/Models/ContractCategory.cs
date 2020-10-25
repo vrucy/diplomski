@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ContractorskiPortal.Models
+namespace CraftmanPortal.Models
 {
     public class ContractCategory
     {
-        [ForeignKey("Contractor")]
-        public int ContractorId { get; set; }
-        public Contractor Contractor { get; set; }
+        [ForeignKey("Craftman")]
+        public int CraftmanId { get; set; }
+        public Craftman Craftman { get; set; }
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }

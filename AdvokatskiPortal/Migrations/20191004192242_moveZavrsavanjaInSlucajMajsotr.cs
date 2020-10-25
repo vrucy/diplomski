@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContractorskiPortal.Migrations
+namespace CraftmanPortal.Migrations
 {
     public partial class moveZavrsavanjaInCaseMajsotr : Migration
     {
@@ -13,7 +13,7 @@ namespace ContractorskiPortal.Migrations
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "ZavrsetakRada",
-                table: "CaseContractors",
+                table: "CaseCraftmans",
                 nullable: true);
         }
 
@@ -21,7 +21,7 @@ namespace ContractorskiPortal.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "ZavrsetakRada",
-                table: "CaseContractors");
+                table: "CaseCraftmans");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "ZavrsetakRada",

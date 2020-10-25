@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ContractorskiPortal.Models.View
+namespace CraftmanPortal.Models.View
 {
     public class CaseVM
     {
@@ -24,7 +24,7 @@ namespace ContractorskiPortal.Models.View
         //public User User { get; set; }
         //public string imgSource { get; set; }
         //public ICollection<SlikeVM> Slike { get; set; }
-        //public ICollection<CaseContractor> CaseContractors { get; set; }
+        //public ICollection<CaseCraftman> CaseCraftmans { get; set; }
         //public ICollection<Cenovnik> Cenovniks { get; set; }
         //public byte[] getSource(string imgs)
         //{

@@ -1,6 +1,6 @@
-import { RegistracijaMajstoraComponent } from './majstor/registracija-majstora/registracija-majstora.component';
+import { RegistrationCraftmanComponent } from './majstor/registration-craftman/registration-craftman.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { KorisnikHeaderComponent } from './layout/korisnik-header/korisnik-header.component';
+import { UserHeaderComponent } from './layout/user-header/user-header.component';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -15,37 +15,34 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule} from './material.module';
-import { PocetnaStranicaKorisnikComponent } from './korisnik/pocetna-stranica-korisnik/pocetna-stranica-korisnik.component';
-import { PocetnaStranicaMajstorComponent } from './majstor/pocetna-stranica-majstor/pocetna-stranica-majstor.component'
 import { AuthInterceptor } from './service/authInterceptor';
 import { AuthService } from './service/auth.service';
-import { RegistarKorisnikComponent } from './register/registar-korisnik/registar-korisnik.component';
-import { TabelaMajstoraComponent } from './korisnik/tabela-majstora/tabela-majstora.component';
-import { MajstorHeaderComponent } from './layout/majstor-header/majstor-header.component';
-import { KreiranjeSlucajaComponent } from './korisnik/kreiranje-slucaja/kreiranje-slucaja.component';
-import { SlanjeSlucajaComponent } from './korisnik/slanje-slucaja/slanje-slucaja.component';
+import { RegistarUserComponent } from './register/registar-user/registar-user.component';
+import { TableCraftmansComponent } from './user/table-craftmans/table-craftmans.component';
+import { CraftmanHeaderComponent } from './layout/craftman-header/craftman-header.component';
+import { CreateCaseComponent } from './user/create-case/create-case.component';
+import { SendCaseComponent } from './user/send-case/send-case.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { PregledUgovoraComponent } from './majstor/pregled-ugovora/pregled-ugovora.component';
-import { PrihvacenOdgovorComponent } from './majstor/odgovoriNaPonude/prihvacen-odgovor/prihvacen-odgovor.component';
+import { ReviewContractComponent } from './majstor/review-contract/review-contract.component';
 import { AcceptComponent } from './majstor/dialog/accept/accept.component';
-import { PregledSlucajaKorisnikComponent } from './korisnik/pregled-slucaja-korisnik/pregled-slucaja-korisnik.component';
-import { PrepravitiPonuduComponent } from './majstor/dialog/prepraviti-ponudu/prepraviti-ponudu.component';
-import { UspesnoLogovanjeComponent } from './snackBar/uspesno-logovanje/uspesno-logovanje.component';
-import { NeUspesnoLogovanjeComponent } from './snackBar/ne-uspesno-logovanje/ne-uspesno-logovanje.component';
-import { PrikazSlucajComponent } from './majstor/dialog/prikaz-slucaj/prikaz-slucaj.component';
-import { DodavanjeDuplogMajstoraComponent } from './snackBar/dodavanje-duplog-majstora/dodavanje-duplog-majstora.component';
-import { DodajKategorijuComponent } from './majstor/dodaj-kategoriju/dodaj-kategoriju.component';
-import { DodajPodKategorijuComponent } from './majstor/dodaj-pod-kategoriju/dodaj-pod-kategoriju.component';
-import { PrikazSLucajaKorisnikComponent } from './korisnik/dialog/prikaz-slucaja-korisnik/prikaz-slucaja-korisnik.component';
+import { PreviewCaseComponent } from './user/preview-case/preview-case.component';
+import { ModificationOfferComponent } from './majstor/dialog/modificartion-offer/modificartion-offer.component';
+import { SuccessfullLoginComponent } from './snackBar/successfull-login/successfull-login.component';
+import { FaliedLoginComponent } from './snackBar/failed-login/failed-login.component';
+import { PreviewCaseCraftmanComponent } from './majstor/dialog/preview-case-craftman/preview-case-craftman.component';
+import { AddDoubleCraftmanComponent } from './snackBar/add-double-craftman/add-double-craftman.component';
+import { AddCategoryComponent } from './majstor/add-category/add-category.component';
+import { AddSubCategoryComponent } from './majstor/add-sub-category/add-sub-category.component';
+import { PreviewCaseUserComponent } from './user/dialog/preview-case-user/preview-case-user.component';
 import { NotificationComponent } from './layout/notification/notification.component';
 import { MatSortModule } from '@angular/material/sort';
-import { EditKorisnikComponent } from './korisnik/edit-korisnik/edit-korisnik.component';
-import { EditMajstorComponent } from './majstor/edit-majstor/edit-majstor.component';
-import { PrikazSlikaComponent } from './korisnik/dialog/prikaz-slika/prikaz-slika.component';
-import { EditSlucajComponent } from './korisnik/edit-slucaj/edit-slucaj.component';
-import { ObavestenjeKreirajSlucajComponent } from './snackBar/obavestenje-kreiraj-slucaj/obavestenje-kreiraj-slucaj.component';
-import { UspesnaRegistracijaComponent } from './snackBar/uspesna-registracija/uspesna-registracija.component';
-import { UspesnoStePoslaliSlucajComponent } from './snackBar/uspesno-ste-poslali-slucaj/uspesno-ste-poslali-slucaj.component';
+import { EditUserComponent } from './user/edit-user/edit-user.component';
+import { EditCraftmanComponent } from './majstor/edit-craftman/edit-craftman.component';
+import { ShowPicturesComponent } from './user/dialog/show-pictures/show-pictures.component';
+import { EditCaseComponent } from './user/edit-case/edit-case.component';
+import { SuccessfullCreateCaseComponent } from './snackBar/successfull-create-case/successfull-create-case.component';
+import { SuccessfullRegistrationComponent } from './snackBar/successfull-registration/successfull-registration.component';
+import { SuccessfullSendCaseComponent } from './snackBar/successfull-send-case/successfull-send-case.component';
 // import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
@@ -54,36 +51,35 @@ import { UspesnoStePoslaliSlucajComponent } from './snackBar/uspesno-ste-poslali
     AppComponent,
     NavMenuComponent,
     LoginComponent,
-    PocetnaStranicaKorisnikComponent,
-    PocetnaStranicaMajstorComponent,
-    RegistarKorisnikComponent,
-    KorisnikHeaderComponent,
+    RegistarUserComponent,
+    UserHeaderComponent,
     FooterComponent,
-    TabelaMajstoraComponent,
-    RegistracijaMajstoraComponent,
-    MajstorHeaderComponent,
-    KreiranjeSlucajaComponent,
-    SlanjeSlucajaComponent,
-    PregledUgovoraComponent,
-    PrihvacenOdgovorComponent,
+    TableCraftmansComponent,
+    RegistrationCraftmanComponent,
+    CraftmanHeaderComponent,
+    CreateCaseComponent,
+    SendCaseComponent,
+    PreviewCaseComponent,
+    ReviewContractComponent,
     AcceptComponent,
-    PregledSlucajaKorisnikComponent,
-    PrepravitiPonuduComponent,
-    UspesnoLogovanjeComponent,
-    NeUspesnoLogovanjeComponent,
-    PrikazSlucajComponent,
-    DodavanjeDuplogMajstoraComponent,
-    DodajKategorijuComponent,
-    DodajPodKategorijuComponent,
-    PrikazSLucajaKorisnikComponent,
+    PreviewCaseUserComponent,
+    ModificationOfferComponent,
+    SuccessfullLoginComponent,
+    FaliedLoginComponent,
+    PreviewCaseCraftmanComponent,
+    AddDoubleCraftmanComponent,
+    AddCategoryComponent,
+    AddSubCategoryComponent,
+    PreviewCaseUserComponent,
     NotificationComponent,
-    EditKorisnikComponent,
-    EditMajstorComponent,
-    PrikazSlikaComponent,
-    EditSlucajComponent,
-    ObavestenjeKreirajSlucajComponent,
-    UspesnaRegistracijaComponent,
-    UspesnoStePoslaliSlucajComponent
+    EditUserComponent,
+    EditCraftmanComponent,
+    ShowPicturesComponent,
+    SuccessfullCreateCaseComponent,
+    EditCaseComponent,
+    CreateCaseComponent,
+    SuccessfullRegistrationComponent,
+    SuccessfullSendCaseComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -98,9 +94,9 @@ import { UspesnoStePoslaliSlucajComponent } from './snackBar/uspesno-ste-poslali
     // PdfViewerModule,
     // NgxExtendedPdfViewerModule
 
-  ], entryComponents: [AcceptComponent, PrepravitiPonuduComponent , UspesnoLogovanjeComponent, NeUspesnoLogovanjeComponent,
-                      PrikazSlucajComponent, DodavanjeDuplogMajstoraComponent, PrikazSLucajaKorisnikComponent, PrikazSlikaComponent,
-                      ObavestenjeKreirajSlucajComponent,UspesnaRegistracijaComponent, UspesnoStePoslaliSlucajComponent],
+  ], entryComponents: [AcceptComponent, ModificationOfferComponent , SuccessfullLoginComponent, FaliedLoginComponent, PreviewCaseUserComponent,
+                       AddDoubleCraftmanComponent, ShowPicturesComponent, PreviewCaseComponent, SuccessfullCreateCaseComponent, PreviewCaseCraftmanComponent,
+                      CreateCaseComponent,SuccessfullRegistrationComponent, SuccessfullSendCaseComponent],
     providers: [AuthGuard, AuthService , {
     provide : HTTP_INTERCEPTORS,
     useClass : AuthInterceptor,

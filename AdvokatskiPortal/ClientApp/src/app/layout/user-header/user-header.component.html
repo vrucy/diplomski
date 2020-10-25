@@ -1,0 +1,27 @@
+<div class="iconsHeader">
+  <mat-menu></mat-menu>
+  <button routerLink="/TableCraftmans"  mat-button> Search craftman</button>
+  <button routerLink="/CreateCase" mat-button>Create case</button>
+  <button routerLink="/SendCase" mat-button>Send case</button>
+  <button routerLink="/PreviewCaseUser" mat-button>Review case</button>
+
+  <mat-menu #pretraga="matMenu"></mat-menu>
+
+  <button mat-icon-button (click)="clearCount()" routerLink="/Notification">
+    <mat-icon class="material-icons">add_alert</mat-icon>
+    <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+  </button>
+  <div>
+
+    <button mat-button [mat-menu-trigger-for]="profile" #menuTrigger="matMenuTrigger"
+            (mouseenter)="menuTrigger.openMenu()"> {{loginUser}}</button>
+    <mat-menu #profile="matMenu" (mouseleave)="menuTrigger.closeMenu()">
+      <button mat-menu-item routerLink="/EditUser">
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="auth.logout()">
+        <span>Logout</span>
+      </button></mat-menu>
+    <button mat-button (click)="auth.logout()"></button>
+  </div>
+</div>
