@@ -30,8 +30,8 @@ export class CraftmanService {
     return this.http.put(` http://localhost:44345/api/Craftman/AcceptCaseFromCraftman`, slucajMajstor);
   }
 
-  RejectCaseFromCraftman(slucajMajstor) {
-    return this.http.put(' http://localhost:44345/api/Craftman/RejectCaseFromCraftman', slucajMajstor);
+  RejectCaseFromCraftman(ids) {
+    return this.http.put(' http://localhost:44345/api/Craftman/RejectCaseFromCraftman', ids);
   }
 
   PostCategory(kategorija) {

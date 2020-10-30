@@ -1,0 +1,18 @@
+.prikaz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.prikazLabele{
+  text-align: center;
+}
+.doubleflexbra {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.w100 {
+  width: 100%;
+}

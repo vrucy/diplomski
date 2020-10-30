@@ -12,13 +12,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using CraftmanPortal.Models.View;
 using Microsoft.EntityFrameworkCore;
+using CraftmanPortal.Extensons;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace CraftmanPortal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize("AdminCraftman")]
-
     public class AccountController : ControllerBase
     {
         readonly UserManager<IdentityUser> userManager;
@@ -30,7 +30,7 @@ namespace CraftmanPortal.Controllers
             this.signInManager = signInManager;
             this._context = context;
         }
-        //[Authorize(Policy = "AdminCraftman")]
+        [Authorize(Policy = "AdminCraftman")]
         [HttpPost("RegistrationCraftman")]
         public async Task<IActionResult> RegistrationCraftman([FromBody] postCraftman Craftman)
         {
@@ -47,11 +47,11 @@ namespace CraftmanPortal.Controllers
             };
             _context.Craftmans.Add(newCraftman);
             
-            foreach (var item in Craftman.Categories)
+            foreach (var item in Craftman.CategoriesId)
             {
                 var newMajtorKategorije = new ContractCategory
                 {
-                    CategoryId = item.Id,
+                    CategoryId = item,
                     CraftmanId = newCraftman.Id,
                 };
                 _context.ContractCategores.Add(newMajtorKategorije);
@@ -63,10 +63,8 @@ namespace CraftmanPortal.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            await signInManager.SignInAsync(appUser, isPersistent: false);
             newCraftman.Idenity = appUser;
 
-            var user = await userManager.FindByNameAsync(Craftman.UserName);
 
             await userManager.AddClaimAsync(appUser, new Claim("RegularCraftman", appUser.Id));
             await userManager.AddClaimAsync(appUser, new Claim("AdminCraftman", appUser.Id));
@@ -74,7 +72,7 @@ namespace CraftmanPortal.Controllers
             
             return Ok();
         }
-
+        [AllowAnonymous]
         [HttpPost("Registration")]
         public async Task<IActionResult> Registration([FromBody] User User)
         {
@@ -97,8 +95,6 @@ namespace CraftmanPortal.Controllers
             await signInManager.SignInAsync(appUser, isPersistent: false);
             User.Idenity = appUser;
 
-            var user = await userManager.FindByNameAsync(User.UserName);
-
             await userManager.AddClaimAsync(appUser, new Claim("RegularUser", appUser.Id));
 
             _context.Users.Add(User);
@@ -107,6 +103,7 @@ namespace CraftmanPortal.Controllers
 
             return Ok();
         }
+        [Authorize]
         [HttpGet("GetUser")]
         public IActionResult GetUser()
         {
@@ -115,6 +112,7 @@ namespace CraftmanPortal.Controllers
 
             return Ok(loginUser);
         }
+        [Authorize]
         [HttpGet("GetCraftman")]
         public IActionResult GetCraftman()
         {
@@ -123,8 +121,9 @@ namespace CraftmanPortal.Controllers
 
             return Ok(Craftman);
         }
+        [Authorize]
         [HttpGet("GetCurrentUser/{userName}")]
-        public async Task<IActionResult> GetCurrentUser([FromRoute] string userName)
+        public IActionResult GetCurrentUser([FromRoute] string userName)
         {
             var User = _context.Users.Where(x => x.UserName == userName);
             var Craftman = _context.Craftmans.Where(x => x.UserName == userName);
@@ -136,8 +135,6 @@ namespace CraftmanPortal.Controllers
             {
                 return Ok(Craftman);
             }
-
-
         }
 
         [AllowAnonymous]
@@ -148,7 +145,7 @@ namespace CraftmanPortal.Controllers
             var result = await signInManager.PasswordSignInAsync(loginUser.UserName, loginUser.Password, false, false);
             if (!result.Succeeded)
             {
-                return StatusCode(405);
+                return BadRequest(new {message = "Bad user name or password!" }) ;
             }
             var user = await userManager.FindByNameAsync(loginUser.UserName);
 
@@ -176,32 +173,24 @@ namespace CraftmanPortal.Controllers
 
             return Ok(new { Token = Token, typeOfClaim = i, user = user.UserName });
         }
+        [Authorize]
         [HttpPut("EditUser")]
         public IActionResult EditUser(User user)
         {
             var selectedUser = _context.Users.Single(k => k.Id == user.Id);
-            selectedUser.FirstName = user.FirstName;
-            selectedUser.LastName = user.LastName;
-            selectedUser.UserName = user.UserName;
-            selectedUser.Password = user.Password;
-            selectedUser.Email = user.Email;
-            selectedUser.Place = user.Place;
-            selectedUser.Street = user.Street;
+            selectedUser.EditUser(user);
+
             _context.Entry(selectedUser).State = EntityState.Modified;
             _context.SaveChanges();
             return Ok();
         }
+        [Authorize]
         [HttpPut("EditCraftman")]
         public IActionResult EditCraftman(Craftman Craftman)
         {
             var user = _context.Craftmans.Single(k => k.Id == Craftman.Id);
-            user.FirstName = Craftman.FirstName;
-            user.LastName = Craftman.LastName;
-            user.UserName = Craftman.UserName;
-            user.Password = Craftman.Password;
-            user.Email = Craftman.Email;
-            user.Place = Craftman.Place;
-            user.Street = Craftman.Street;
+            user.EditCraftman(Craftman);
+
             _context.Entry(user).State = EntityState.Modified;
             _context.SaveChanges();
             return Ok();

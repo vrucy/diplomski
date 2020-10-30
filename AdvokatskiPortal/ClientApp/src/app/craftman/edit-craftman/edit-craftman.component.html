@@ -1,0 +1,28 @@
+<div class="div-editMajstor" *ngIf="currentUser">
+        <mat-card class="card-editMajstor">
+                <mat-form-field>
+                    <input matInput [(ngModel)]="currentUser.firstName" placeholder="First Name">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="currentUser.lastName" placeholder="Last Name">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="currentUser.userName" placeholder="User Name">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="currentUser.password" placeholder="Password">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="currentUser.email" placeholder="Email">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="currentUser.place" placeholder="Place">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="currentUser.street" placeholder="Street">
+
+                </mat-form-field>
+                <button mat-button (click)="Submit()">edit</button>
+
+            </mat-card>
+            </div>

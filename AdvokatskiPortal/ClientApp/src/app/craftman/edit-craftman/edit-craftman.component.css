@@ -1,0 +1,13 @@
+.div-editMajstor{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
+.card-editCraftman{
+    display: flex;
+    justify-content: center;
+    box-shadow: 1px 5px 15px #888;
+    padding: 1% 3% 3% 2%;
+    flex-direction: column;
+}

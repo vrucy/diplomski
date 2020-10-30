@@ -12,6 +12,10 @@
         <textarea matInput [(ngModel)]="Case.descriptions" placeholder="descriptions"></textarea>
       </mat-form-field>
     </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+      <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Unesite Opis"
+             multiple>
+            </div>
     <div class="pictures">
       <div *ngFor="let img of Case.pictures" class="show-image">
         <img [src]="img.pictureBytes" height="80" *ngIf="img.pictureBytes">
@@ -20,8 +24,7 @@
       <!-- <button mat-button type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" multiple>
                         <mat-icon class="material-icons" >add</mat-icon>
                     </button> -->
-      <input type="file" accept=".png, .jpg, .jpeg" (change)="onUploadChange($event)" placeholder="Unesite Opis"
-             multiple>
+                    
     </div>
     <div class="div-button">
       <button mat-button (click)="editCase()">Edit</button>

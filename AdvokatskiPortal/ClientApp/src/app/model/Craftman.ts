@@ -8,5 +8,5 @@ export class Craftman{
   Password: string;
   Place: string;
   Street: string;
-  Categories: Category [];
+  CategoriesId: number [];
 }

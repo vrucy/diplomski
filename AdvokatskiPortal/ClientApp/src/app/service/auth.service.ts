@@ -11,14 +11,13 @@ import { SuccessfullRegistrationComponent } from '../snackBar/successfull-regist
 })
 export class AuthService {
   typeUserValue: string;
-  isLogin: Boolean = false;
   type: string;
   currentUserName;
 
   constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
 
   Registration(user) {
-    return this.http.post<any>('http://localhost:44345/api/Account/registration', user).subscribe(res => {
+    return this.http.post<any>('http://localhost:44345/api/Account/Registration', user).subscribe(res => {
       //localStorage.setItem('token', res);
       //this.autorization(res);
       this._snackBar.openFromComponent(SuccessfullRegistrationComponent, {
@@ -29,29 +28,31 @@ export class AuthService {
   }
   Login(user) {
     this.http.post<any>('http://localhost:44345/api/Account/Login', user).subscribe(res => {
-      this._snackBar.openFromComponent(SuccessfullLoginComponent, {
-        duration: 2000
-      });
       this.currentUserName = res.user;
-      this.http.get(`http://localhost:44345/api/Account/getCurrentUser/${this.currentUserName}`).subscribe(res => {
-        localStorage.setItem('CurrentUser', JSON.stringify(res));
-
-      })
-      localStorage.setItem('Token', res);
-      //this.router.navigate(['/pocetnaKorisnik']);
+      //localStorage.setItem('token', res.token);
       this.autorization(res);
+      this.http.get(`http://localhost:44345/api/Account/GetCurrentUser/${this.currentUserName}`).subscribe(res => {
+        localStorage.setItem('CurrentUser', JSON.stringify(res));
+        
+      })
+      //this.router.navigate(['/pocetnaKorisnik']);
+                this._snackBar.openFromComponent(SuccessfullLoginComponent, {
+                  duration: 2000
+                });
     });
 
   }
-  //where I used this in app
+
   getUser(){
     return this.http.get('http://localhost:44345/api/Account/getUser')
   }
+
   getCraftman(){
     return this.http.get('http://localhost:44345/api/Account/getCraftman')
   }
+
   isLogged(): boolean {
-    const user = localStorage.getItem('Token');
+    const user = localStorage.getItem('token');
     if (user != null) {
       return true;
     } 
@@ -75,12 +76,11 @@ export class AuthService {
   }
   //TODO refator!!!
   autorization(res) {
-    let tokenValue = res['token'];
+    let tokenValue = res.token;
+    this.typeUserValue = res["typeOfClaim"]
     localStorage.setItem('UserName', res['user']);
     localStorage.setItem('token', tokenValue);
-    this.typeUserValue = res["typeOfClaim"]
     localStorage.setItem('typeUser', this.typeUserValue);
-    this.isLogin = true;
     this.type = localStorage.getItem('typeUser');
 
     switch (this.type) {

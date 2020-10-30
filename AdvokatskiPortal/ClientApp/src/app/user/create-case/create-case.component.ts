@@ -13,7 +13,6 @@ import { MatSnackBar } from '@angular/material';
 })
 export class CreateCaseComponent implements OnInit {
   case = new Case();
-  fileData: File = null;
   pictures : Picture[] = [];
   base64textString = [];
   sirina;
@@ -68,7 +67,6 @@ export class CreateCaseComponent implements OnInit {
   }
   displayPicture;
   handleReaderLoaded(e) {
-    // console.log(e.target.result)
     const base64 = e.target.result.toString().split(',')[1];
     const prikaz = e.target.result;
     let type ;

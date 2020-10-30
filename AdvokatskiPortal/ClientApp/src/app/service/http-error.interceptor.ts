@@ -1,4 +1,3 @@
-import { FaliedLoginComponent } from './../snackBar/failed-login/failed-login.component';
 import {
   HttpEvent,
   HttpInterceptor,
@@ -7,10 +6,10 @@ import {
   HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs'; 
 import { retry, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
-import { AddDoubleCraftmanComponent } from '../snackBar/add-double-craftman/add-double-craftman.component';
+import { ErrorWriterComponent } from '../snackBar/error-writer/error-writer.component';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(private _snackBar: MatSnackBar) { }
@@ -27,20 +26,24 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             // server-side error
             errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
           }
-          if (error.status === 405 ) {
-            this._snackBar.openFromComponent(FaliedLoginComponent, {
+          
+          if (error.url.endsWith("PostCaseCraftmanima") || error.url.endsWith("Login")){
+            this._snackBar.openFromComponent(ErrorWriterComponent, {
+              data: error.error.message,
               duration: 3000
             });
           }
-          if ( error.status === 404) {
-            console.log(error);
-            this._snackBar.openFromComponent(AddDoubleCraftmanComponent, {
-              data: error.error.message,
-              duration: 3000
-            })
+          if (error.status === 401){
+            this.handleAuthError();
           }
+
           return throwError(errorMessage);
         })
       );
+  }
+  private handleAuthError() {
+    localStorage.clear();
+    console.log('na pocetnu stranu')
+    //this.router.navigateByUrl('signIn');
   }
 }

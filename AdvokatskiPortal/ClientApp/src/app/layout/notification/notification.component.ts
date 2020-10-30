@@ -1,9 +1,8 @@
-import { ModificationOfferComponent } from './../../majstor/dialog/modificartion-offer/modificartion-offer.component';
 import { NotificationService } from '../../service/Notification.service';
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
-import { PreviewCaseCraftmanComponent } from '../../majstor/dialog/preview-case-craftman/preview-case-craftman.component';
+import { PreviewCaseCraftmanComponent } from '../../craftman/dialog/preview-case-craftman/preview-case-craftman.component';
 
 @Component({
   selector: 'app-notification',

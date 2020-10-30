@@ -21,8 +21,15 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="CraftmanskiPortal\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="CraftmanskiPortal\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="CraftmanskiPortal\**" />
+    <None Remove="CraftmanskiPortal\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,11 +48,6 @@
     <Compile Remove="Migrations\20191013155806_CaseAddZavrsetak.cs" />
     <Compile Remove="Migrations\20191013155806_CaseAddZavrsetak.Designer.cs" />
     <Compile Remove="Migrations\PortalAdvokataDbContextModelSnapshot.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CraftmanskiPortal\Migrations\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

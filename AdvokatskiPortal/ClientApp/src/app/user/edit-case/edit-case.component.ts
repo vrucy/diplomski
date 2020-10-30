@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { UserService } from '../../service/User.service';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Picture } from '../../model/Picture';
-import { delay } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 @Component({
   selector: 'app-edit-Case',
   templateUrl: './edit-Case.component.html',

@@ -12,13 +12,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class TableCraftmansComponent implements OnInit {
 
   displayedColumns: string[] = [ 'FirstName', 'LastName', 'Place', 'Street', 'Email'];
-  //advokati;
   categories;
   public dataSource = new MatTableDataSource<Craftman>();
   selection = new SelectionModel<Craftman>(true, []);
   originalData;
   subCategories;
-  // selectedId;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -26,11 +24,11 @@ export class TableCraftmansComponent implements OnInit {
   private cachedData: any[];
   private filteredData: any[];
   private _categoryValue: any;
-  public set kategorijaValue(val: any) {
+  public set categoryValue(val: any) {
     this._categoryValue = val;
     this.filterData();
   }
-  public get kategorijaValue() {
+  public get categoryValue() {
     return this._categoryValue;
   }
   private _subCategoryValue: any;
@@ -70,7 +68,7 @@ export class TableCraftmansComponent implements OnInit {
   }
   resetFilters(){
     this.filterInputValue = null;
-    this.kategorijaValue = null;
+    this.categoryValue = null;
     this.subCategoryValue = null;
   }
   filterData() {
@@ -80,14 +78,15 @@ export class TableCraftmansComponent implements OnInit {
     let filteredData = [...this.cachedData];
     // filter by name first
     if (this.filterInputValue) {
-      filteredData = filteredData.filter(cd => cd.ime.includes(this.filterInputValue) || cd.prezime.includes(this.filterInputValue));
+      filteredData = filteredData.filter(cd => cd.firstName.includes(this.filterInputValue) || cd.lastName.includes(this.filterInputValue));
     }
-
-    if (this.kategorijaValue) {
-      filteredData = filteredData.filter(fd => fd.kategorije.find(k => k.kategorija.parentId === this.kategorijaValue.id));
+    
+    if (this.categoryValue) {
+      filteredData = filteredData.filter(fd => fd.categories.find(k => k.category.parentId === this.categoryValue.id));
     }
+    
     if (this.subCategoryValue) {
-      filteredData = filteredData.filter(fd => fd.kategorije.find(k => k.kategorijaId === this.subCategoryValue.id));
+      filteredData = filteredData.filter(fd => fd.categories.find(k => k.categoryId === this.subCategoryValue.id));
     }
 
     this.filteredData = filteredData;

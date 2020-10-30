@@ -1,8 +1,6 @@
-import { element } from 'protractor';
-import { PreviewCaseCraftmanComponent } from '../../majstor/dialog/preview-case-craftman/preview-case-craftman.component';
-import { ModificationOfferComponent } from '../../majstor/dialog/modificartion-offer/modificartion-offer.component';
+import { PreviewCaseCraftmanComponent } from '../../craftman/dialog/preview-case-craftman/preview-case-craftman.component';
+import { ModificationOfferComponent } from '../../craftman/dialog/modificartion-offer/modificartion-offer.component';
 import { MatDialog } from '@angular/material/dialog';
-import { pregledSlucajaVM } from '../../model/pregledSlucajaVM';
 import { UserService } from '../../service/User.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatPaginator, Sort } from '@angular/material';
@@ -23,10 +21,8 @@ export class PreviewCaseComponent implements OnInit, AfterViewInit {
   public dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  nameFilter = new FormControl('');
 
   allCases: any;
-  selectedCases;
   allCasesSelected;
   private _filterInputValue: string;
   public set filterInputValue(val: any) {
@@ -124,7 +120,8 @@ export class PreviewCaseComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(PreviewCaseCraftmanComponent, {
       maxWidth: '40%',
       maxHeight: '70%',
-      data: { name: element.case.name, description: element.case.description, pictures: element.case.pictures }
+      data: { name: element.case.name, description: element.case.description, pictures: element.case.pictures,
+             comment: element.contracts.comment }
     });
     dialogRef.afterClosed().subscribe(result => {
       //ne treba, proveriti jos

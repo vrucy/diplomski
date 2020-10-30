@@ -1,0 +1,94 @@
+<mat-tab-group (selectedTabChange)="handleTabChange($event.index)">
+  <mat-tab label="All">
+  </mat-tab>
+  <mat-tab label="Accepted">
+  </mat-tab>
+  <mat-tab label="In procces">
+  </mat-tab>
+  <mat-tab label="Rejected">
+  </mat-tab>
+  <mat-tab label="Rejected from usera">
+  </mat-tab>
+</mat-tab-group>
+<div class="search">
+  <mat-form-field class="field-search">
+    <mat-label>Search</mat-label>
+    <input matInput [(ngModel)]="filterInputValue">
+  </mat-form-field>
+</div>
+<div class="select">
+  <mat-form-field>
+    <mat-label>Select case</mat-label>
+    <mat-select [(ngModel)]="caseValue">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let case of allCasesSelected" [value]="case">{{case.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<mat-card>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef> First name </th>
+      <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef> Last name </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Offered price </th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          {{element.price}}
+        </div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Case </th>
+      <td mat-cell *matCellDef="let element"> <a (click)="openDialogReviewCase(element)">{{element.case.name}}</a></td>
+    </ng-container>
+    <ng-container matColumnDef="lastDate">
+      <th mat-header-cell *matHeaderCellDef> Lastet date for answer </th>
+      <td mat-cell *matCellDef="let element"> {{element.deadLineForAnswer | date: 'mediumDate'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef> Start date</th>
+      <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'mediumDate'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="finishDate">
+      <th mat-header-cell *matHeaderCellDef> Finished date </th>
+      <td mat-cell *matCellDef="let element"> {{element.finishDate | date: 'mediumDate'}} </td>
+    </ng-container><ng-container matColumnDef="lastetAnswer">
+      <th mat-header-cell *matHeaderCellDef> Last change </th>
+      <td mat-cell *matCellDef="let element"> {{element.changeCaseDate | date: 'mediumDate'}} </td>
+    </ng-container><ng-container matColumnDef="dateRecive">
+      <th mat-header-cell *matHeaderCellDef> Date recive </th>
+      <td mat-cell *matCellDef="let element"> {{element.reciveCase | date: 'mediumDate'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="button">
+      <th mat-header-cell *matHeaderCellDef> Accept/Reject </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.caseStatusId === 6 || element.caseStatusId === 1 ; else content">
+          <button mat-icon-button (click)="redirectToAccept(element)" *ngIf="element.caseStatusId !== 1">
+            <mat-icon class="material-icons">done </mat-icon>
+          </button>
+          <button mat-icon-button (click)="openDialogEdit(element)">
+            <mat-icon class="material-icons">edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="redirectToReject(element)">
+            <mat-icon class="material-icons">delete</mat-icon>
+          </button>
+          </div>
+        <ng-template #timeIsOver>
+            Time for answer is over.
+          </ng-template>
+        <ng-template #content>
+          {{handleButton(element)}}
+        </ng-template>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-card>
